@@ -8,7 +8,6 @@ import { SIGN_IN_PATH, TASKS_PATH, CONNECT_PATH } from 'src/config';
 // Components
 import App from './app/app';
 import SignIn from './sign-in/sign-in';
-import Tasks from './tasks/tasks';
 import Connect from './connect/connect';
 
 export function Root({history, onEnter, store}) {
