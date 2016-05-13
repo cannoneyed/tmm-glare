@@ -1,20 +1,20 @@
 {
-  "name": "todo-react-redux",
-  "version": "0.4.1",
-  "description": "Todo app with React, Redux, and Firebase",
-  "homepage": "https://github.com/r-park/todo-react-redux",
+  "name": "tmm-glare",
+  "version": "0.1.0",
+  "description": "The M Machine | Glare",
+  "homepage": "https://github.com/cannoneyed/tmm-glare.git",
   "repository": {
     "type": "git",
     "url": "https://github.com/r-park/todo-react-redux.git"
   },
   "author": {
-    "name": "Richard Park",
-    "email": "objectiv@gmail.com"
+    "name": "Andy Coenen",
+    "email": "andrew.coenen@gmail.com"
   },
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=5.2"
+    "node": ">=4.1.1"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --display-chunks --display-modules --progress",
@@ -62,8 +62,8 @@
     "nodemon": "~1.9.2",
     "npm-run-all": "~1.8.0",
     "postcss-loader": "~0.9.1",
-    "react": "~15.0.2",
     "react-addons-test-utils": "~15.0.2",
+    "react": "~15.0.2",
     "react-dom": "~15.0.2",
     "react-redux": "~4.4.5",
     "react-router": "~2.4.0",
