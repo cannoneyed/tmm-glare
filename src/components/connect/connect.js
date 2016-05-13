@@ -4,10 +4,6 @@ import _ from 'lodash'
 
 import { connectActions } from 'src/core/connect'
 
-const getConnections = (user) => {
-  return _.keys(_.get(user, 'connections')).length > 0
-}
-
 export class Connect extends Component {
 
   static propTypes = {
@@ -48,22 +44,30 @@ export class Connect extends Component {
       user,
     } = this.props
 
-    const isConnected = getConnections(user)
+    const hasAccess = user && user.hasAccess
+
+    // Decide what to display on the 'connect' button
+    let connectMessage
+    if (hasAccess) {
+      connectMessage = 'Share'
+    } else {
+      connectMessage = 'Connect'
+    }
 
     return (
       <div className="g-row sign-in">
         <div className="g-col">
           <button
             className="sign-in__button"
-            onClick={isConnected ? () => { /* Go to content */ } : null}
+            onClick={hasAccess ? () => { /* Go to content */ } : null}
             type="button">
-            {isConnected ? 'GO' : '...'}
+            {hasAccess ? 'GLARE' : '...'}
           </button>
           <button
             className="sign-in__button"
             onClick={isConnecting ? cancelConnecting : beginConnecting}
             type="button">
-            {isConnecting ? 'Cancel' : 'Connect'}
+            {isConnecting ? 'Cancel' : connectMessage}
           </button>
           {isConnecting ? this.renderBeacons(beacons) : null}
         </div>

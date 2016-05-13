@@ -39,9 +39,10 @@ function removeBeacon(state, userId) {
 }
 
 function setNewBeacon(state, user) {
+  const newBeacons = _.uniqBy(state.beacons.concat(user), 'key')
   return {
     ...state,
-    beacons: _.uniq(state.beacons.concat(user), user => user.key),
+    beacons: newBeacons,
   }
 }
 
@@ -67,7 +68,11 @@ export function connectReducer(state = initialState, action) {
     case CONNECT_SUCCESS:
       return setIsConnecting(state, false)
     case CONNECT_CANCELED:
-      return setIsConnecting(state, false)
+      return {
+        ...state,
+        beacons: [],
+        isConnecting: false,
+      }
     default:
       return state
   }

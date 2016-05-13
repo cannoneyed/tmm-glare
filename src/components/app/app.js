@@ -39,6 +39,25 @@ export class App extends Component {
     window.location.replace('/')
   }
 
+  renderLogout() {
+    const { user } = this.props
+    const displayName = user && user.displayName
+
+    return (
+      <ul className="header__links">
+        <li className="header__link">{displayName}</li>
+        <li>
+          <a
+            className="header__link"
+            onClick={this.signOut}
+            href="#">
+            Sign out
+          </a>
+        </li>
+      </ul>
+    )
+  }
+
   render() {
     const {
       auth,
@@ -68,9 +87,7 @@ export class App extends Component {
           <div className="g-row">
             <div className="g-col">
               <h1 className="header__title">{headerTitle}</h1>
-              <ul className="header__links">
-                {auth.authenticated ? <li><a className="header__link" onClick={this.signOut} href="#">Sign out</a></li> : null}
-              </ul>
+                {auth.authenticated ? this.renderLogout() : null}
             </div>
           </div>
         </header>
