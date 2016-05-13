@@ -1,40 +1,22 @@
-[![Build Status](https://travis-ci.org/r-park/todo-react-redux.svg?branch=master)](https://travis-ci.org/r-park/todo-react-redux)
-
-
-# Todo app with React, Redux, and Firebase
-A simple Todo app example with `undelete` capability — built with React, Redux, and Firebase.
-
-Try the demo at <a href="https://todo-react-redux.firebaseapp.com" target="_blank">todo-react-redux.firebaseapp.com</a>.
-
-- React
-- React-Redux
-- React-Router
-- Redux
-- Redux-Devtools-Extension for Chrome
-- Redux-Simple-Router
-- Babel
-- Firebase
-  - JSON Datastore
-  - OAuth authentication with GitHub, Google, and Twitter
-  - Hosting
-- SASS
-- Webpack
-  - Webpack dev server
-  - Hot-reloading
-  - Compile SASS
-  - Inject css and js dependencies into html
-
+# The M Machine | Glare
+Built with React, Redux, and Firebase.
 
 Quick Start
 -----------
 
 ```shell
-$ git clone https://github.com/r-park/todo-react-redux.git
-$ cd todo-react-redux
+$ git clone https://github.com/cannoneyed/tmm-glare
+$ cd tmm-glare
 $ npm install
 $ npm start
 ```
 
+Learn
+-----
+
+- [React](https://facebook.github.io/react/docs/getting-started.html)
+- [Redux](http://redux.js.org/index.html)
+- [Firebase](https://www.firebase.com/docs/web/guide/)
 
 Commands
 --------
