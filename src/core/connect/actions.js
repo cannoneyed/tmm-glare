@@ -3,7 +3,7 @@ import _ from 'lodash'
 import * as util from 'src/util'
 
 import {
-  CREATE_BEACON,
+  CREATE_OWN_BEACON,
   REMOVE_BEACON,
   FOUND_BEACON,
   CONNECT_SUCCESS,
@@ -132,7 +132,7 @@ function createBeacon({ coords, timestamp }) {
         .then(() => firebase.child(`beacons/${auth.id}`).onDisconnect().remove())
     })
     .then(() => {
-      dispatch({ type: CREATE_BEACON })
+      dispatch({ type: CREATE_OWN_BEACON })
     })
   }
 }

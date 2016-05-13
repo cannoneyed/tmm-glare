@@ -5,9 +5,9 @@ import {
 } from 'src/core/auth'
 
 import {
-  CREATE_BEACON,
+  CREATE_OWN_BEACON,
   REMOVE_BEACON,
-  CREATE_BEACON_ERROR,
+  CREATE_OWN_BEACON_ERROR,
   BEGIN_CONNECTING,
   CONNECT_SUCCESS,
   CONNECT_CANCELED,
@@ -51,11 +51,11 @@ export function connectReducer(state = initialState, action) {
 
     case SIGN_OUT_SUCCESS:
       return setIsConnecting(state, false)
-    case CREATE_BEACON:
+    case CREATE_OWN_BEACON:
       return state
     case REMOVE_BEACON:
       return removeBeacon(state, action.payload)
-    case CREATE_BEACON_ERROR:
+    case CREATE_OWN_BEACON_ERROR:
       return setIsConnecting(state, false)
     case BEGIN_CONNECTING:
       return setIsConnecting(state, true)
