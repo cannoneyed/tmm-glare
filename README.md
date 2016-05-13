@@ -1,5 +1,5 @@
 # The M Machine | Glare
-Built with React, Redux, and Firebase.
+Built with React, Redux, and Firebase. Based on fanatastic work by [r-park](https://github.com/r-park/todo-react-redux)
 
 Quick Start
 -----------
