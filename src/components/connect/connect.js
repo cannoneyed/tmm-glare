@@ -17,6 +17,7 @@ export class Connect extends Component {
 
   renderBeacons(beacons) {
     const { connectWithUser, user } = this.props
+    const hasAccess = user && user.hasAccess
 
     return beacons.filter(beacon => {
       const isConnected = _.get(user, ['connections', beacon.key])
@@ -28,7 +29,9 @@ export class Connect extends Component {
           className="sign-in__button"
           key={index}
           type="button"
-          onClick={() => connectWithUser(beacon.key)}>
+          onClick={() => {
+            return hasAccess ? connectWithUser(beacon.key) : null
+          }}>
           {beacon.displayName}
         </button>
       )
