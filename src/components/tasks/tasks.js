@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-import { notificationActions } from 'src/core/notification';
-import { tasksActions } from 'src/core/tasks';
-import { Notification } from './notification';
-import { TaskFilters } from './task-filters';
-import { TaskForm } from './task-form';
-import { TaskList } from './task-list';
+import { notificationActions } from 'src/core/notification'
+import { tasksActions } from 'src/core/tasks'
+import { Notification } from './notification'
+import { TaskFilters } from './task-filters'
+import { TaskForm } from './task-form'
+import { TaskList } from './task-list'
 
 
 export class Tasks extends Component {
@@ -20,10 +20,10 @@ export class Tasks extends Component {
     tasks: PropTypes.array.isRequired,
     undeleteTask: PropTypes.func.isRequired,
     updateTask: PropTypes.func.isRequired
-  };
+  }
 
   componentWillMount() {
-    this.props.registerListeners();
+    this.props.registerListeners()
   }
 
   renderNotification() {
@@ -31,7 +31,7 @@ export class Tasks extends Component {
       dismissNotification,
       notification,
       undeleteTask
-    } = this.props;
+    } = this.props
 
     return (
       <Notification
@@ -39,7 +39,7 @@ export class Tasks extends Component {
         dismiss={dismissNotification}
         {...notification}
       />
-    );
+    )
   }
 
   render() {
@@ -50,9 +50,9 @@ export class Tasks extends Component {
       notification,
       tasks,
       updateTask
-    } = this.props;
+    } = this.props
 
-    const { filter } = location.query;
+    const { filter } = location.query
 
     return (
       <div className="g-row">
@@ -72,11 +72,11 @@ export class Tasks extends Component {
 
         {notification.display ? this.renderNotification() : null}
       </div>
-    );
+    )
   }
 }
 
 export default connect(state => ({
   notification: state.notification,
   tasks: state.tasks.list
-}), Object.assign({}, tasksActions, notificationActions))(Tasks);
+}), Object.assign({}, tasksActions, notificationActions))(Tasks)

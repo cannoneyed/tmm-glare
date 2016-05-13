@@ -24,15 +24,14 @@ rules:
   array-bracket-spacing: 0
   array-callback-return: 0
   arrow-body-style: 0
-  arrow-parens: [2, "as-needed"]
   arrow-spacing: [2, {before: true, after: true}]
   accessor-pairs: 0
   block-scoped-var: 0
   block-spacing: 2
-  brace-style: [2, "stroustrup", {allowSingleLine: true}]
+  brace-style: [2, "1tbs", {allowSingleLine: true}]
   callback-return: 0
   camelcase: [2, {properties: "always"}]
-  comma-dangle: 2
+  comma-dangle: 0
   comma-spacing: 2
   comma-style: [2, "last"]
   complexity: [0, 10]
@@ -212,7 +211,7 @@ rules:
   radix: 0
   require-jsdoc: 0
   require-yield: 0
-  semi: 2
+  semi: [2, "never"]
   semi-spacing: [2, {before: false, after: true}]
   sort-imports: 0
   sort-vars: 0
