@@ -11,7 +11,7 @@ import {
   BEGIN_CONNECTING,
   CONNECT_SUCCESS,
   CONNECT_CANCELED,
-  FIND_BEACON,
+  FOUND_BEACON,
   GEOLOCATION_DENIED,
   GEOLOCATION_ERROR,
 } from './action-types'
@@ -62,7 +62,7 @@ export function connectReducer(state = initialState, action) {
       return setIsConnecting(state, false)
     case GEOLOCATION_ERROR:
       return setIsConnecting(state, false)
-    case FIND_BEACON:
+    case FOUND_BEACON:
       return setNewBeacon(state, action.payload)
     case CONNECT_SUCCESS:
       return setIsConnecting(state, false)

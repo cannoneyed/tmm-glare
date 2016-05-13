@@ -5,7 +5,7 @@ import * as util from 'src/util'
 import {
   CREATE_BEACON,
   REMOVE_BEACON,
-  FIND_BEACON,
+  FOUND_BEACON,
   CONNECT_SUCCESS,
   CONNECT_CANCELED,
   // CONNECT_ERROR,
@@ -56,23 +56,46 @@ function registerListeners({ geoQuery }) {
   return (dispatch, getState) => {
     const { auth, firebase, user } = getState()
 
+    // Register event listener for finding a beacon by the geoquery
     geoQuery.on('key_entered', (key) => {
       const isConnected = _.get(user, ['connections', key])
-      if (key !== auth.id && !isConnected) {
-        firebase.child(`users/${key}`).once('value', snapshot => {
-          const user = util.recordFromSnapshot(snapshot)
-          dispatch({ type: FIND_BEACON, payload: user })
-        })
+
+      // Ignore the user's beacon and any beacons of users the user is already
+      // connected to
+      if (key === auth.id || isConnected) {
+        return
       }
+
+      // Get the user record corresponding to the geokey
+      firebase.child(`users/${key}`).once('value', snapshot => {
+        const otherUser = util.recordFromSnapshot(snapshot)
+
+        // If the current user has access, add this beacon to the list of available
+        // users to connect with
+        if (user.hasAccess) {
+          return dispatch({ type: FOUND_BEACON, payload: otherUser})
+        }
+
+        // Otherwise, only add the beacon to the list if the other user has access
+        if (otherUser && otherUser.hasAccess) {
+          return dispatch({ type: FOUND_BEACON, payload: otherUser })
+        }
+      })
     })
 
+    // Register event listeners for the beacon being removed
     geoQuery.on('key_exited', (key) => {
-      if (key !== auth.id) {
-        firebase.child(`users/${key}`).once('value', snapshot => {
-          const user = util.recordFromSnapshot(snapshot)
-          dispatch({ type: REMOVE_BEACON, payload: user.id })
-        })
+      // Ignore the removed beacon if it's the users (this is handled in app)
+      if (key === auth.id) {
+        return
       }
+
+      // Otherwise, get the user record corresponding to the removed beacon to remove
+      // from the beacons list
+      firebase.child(`users/${key}`).once('value', snapshot => {
+        const user = util.recordFromSnapshot(snapshot)
+        dispatch({ type: REMOVE_BEACON, payload: user.id })
+      })
     })
   }
 }
@@ -97,18 +120,6 @@ function createBeacon({ coords, timestamp }) {
     })
   }
 }
-
-// function removeBeacon() {
-//   return (dispatch, getState) => {
-//     const { auth, firebase, geofire } = getState()
-//
-//     return P.props({
-//       beaconlocation: geofire.beaconLocations.remove(auth.id),
-//       beacon: firebase.child(`beacons/${auth.id}`)
-//         .set(null)
-//     })
-//   }
-// }
 
 export function beginConnecting() {
   return (dispatch) => {
@@ -174,7 +185,7 @@ export function connectWithUser(otherId) {
 }
 
 export function cancelConnecting() {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch({ type: CONNECT_CANCELED })
   }
 }
