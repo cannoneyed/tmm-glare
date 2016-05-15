@@ -1,4 +1,4 @@
-export const FIREBASE_URL = 'https://dazzling-fire-3850.firebaseio.com'
+export const FIREBASE_URL = process.env.FIREBASE_TMM_GLARE
 
 // Route paths
 export const SIGN_IN_PATH = '/sign-in'
