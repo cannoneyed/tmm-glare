@@ -1,21 +1,22 @@
-const autoprefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const webpack = require('webpack');
+const autoprefixer = require('autoprefixer')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path')
+const webpack = require('webpack')
 
 
 //=========================================================
 //  ENVIRONMENT VARS
 //---------------------------------------------------------
-const NODE_ENV = process.env.NODE_ENV;
+const NODE_ENV = process.env.NODE_ENV
+const FIREBASE_TMM_GLARE = process.env.FIREBASE_TMM_GLARE
 
-const ENV_DEVELOPMENT = NODE_ENV === 'development';
-const ENV_PRODUCTION = NODE_ENV === 'production';
-const ENV_TEST = NODE_ENV === 'test';
+const ENV_DEVELOPMENT = NODE_ENV === 'development'
+const ENV_PRODUCTION = NODE_ENV === 'production'
+const ENV_TEST = NODE_ENV === 'test'
 
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || 'localhost'
+const PORT = process.env.PORT || 3000
 
 
 //=========================================================
@@ -24,44 +25,45 @@ const PORT = process.env.PORT || 3000;
 const loaders = {
   js: {test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
   scss: {test: /\.scss$/, loader: 'style!css!postcss-loader!sass'}
-};
+}
 
 
 //=========================================================
 //  CONFIG
 //---------------------------------------------------------
-const config = {};
-module.exports = config;
+const config = {}
+module.exports = config
 
 
 config.resolve = {
   extensions: ['', '.ts', '.js'],
   modulesDirectories: ['node_modules'],
   root: path.resolve('.')
-};
+}
 
 config.plugins = [
   new webpack.DefinePlugin({
-    'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
+    'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+    'process.env.FIREBASE_TMM_GLARE': JSON.stringify(FIREBASE_TMM_GLARE),
   })
-];
+]
 
 config.postcss = [
   autoprefixer({ browsers: ['last 3 versions', 'Firefox ESR'] })
-];
+]
 
 config.sassLoader = {
   outputStyle: 'compressed',
   precision: 10,
   sourceComments: false
-};
+}
 
 
 //=====================================
 //  DEVELOPMENT or PRODUCTION
 //-------------------------------------
 if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
-  config.devtool = 'source-map';
+  config.devtool = 'source-map'
 
   config.entry = {
     main: [
@@ -79,13 +81,13 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
       'redux',
       'redux-thunk'
     ]
-  };
+  }
 
   config.output = {
     filename: '[name].js',
     path: path.resolve('./target'),
     publicPath: '/'
-  };
+  }
 
   config.plugins.push(
     new webpack.optimize.CommonsChunkPlugin('vendor', '[name].js'),
@@ -95,7 +97,7 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
       inject: 'body',
       template: './src/index.html'
     })
-  );
+  )
 }
 
 
@@ -106,7 +108,7 @@ if (ENV_DEVELOPMENT) {
   config.entry.main.unshift(
     `webpack-dev-server/client?http://${HOST}:${PORT}`,
     'webpack/hot/dev-server'
-  );
+  )
 
   config.module = {
     loaders: [
@@ -120,11 +122,11 @@ if (ENV_DEVELOPMENT) {
         ]
       }}
     ]
-  };
+  }
 
   config.plugins.push(
     new webpack.HotModuleReplacementPlugin()
-  );
+  )
 
   config.devServer = {
     contentBase: './src',
@@ -144,7 +146,7 @@ if (ENV_DEVELOPMENT) {
       timings: true,
       version: false
     }
-  };
+  }
 }
 
 
@@ -157,7 +159,7 @@ if (ENV_PRODUCTION) {
       loaders.js,
       {test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss-loader!sass')}
     ]
-  };
+  }
 
   config.plugins.push(
     new ExtractTextPlugin('styles.css'),
@@ -171,7 +173,7 @@ if (ENV_PRODUCTION) {
         warnings: false
       }
     })
-  );
+  )
 }
 
 
@@ -179,12 +181,12 @@ if (ENV_PRODUCTION) {
 //  TEST
 //-------------------------------------
 if (ENV_TEST) {
-  config.devtool = 'inline-source-map';
+  config.devtool = 'inline-source-map'
 
   config.module = {
     loaders: [
       loaders.js,
       loaders.scss
     ]
-  };
+  }
 }
