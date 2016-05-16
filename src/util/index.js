@@ -1,8 +1,8 @@
 export function recordFromSnapshot(snapshot) {
   let record = snapshot.val()
 
-  if (record === null) {
-    return null
+  if (record === null || typeof record !== 'object') {
+    return record
   }
 
   record.key = snapshot.key()

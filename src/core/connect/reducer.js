@@ -5,6 +5,8 @@ import {
 } from 'src/core/auth'
 
 import {
+  REGISTER_GEOQUERY,
+  REMOVE_GEOQUERY,
   CREATE_OWN_BEACON,
   REMOVE_BEACON,
   CREATE_OWN_BEACON_ERROR,
@@ -20,6 +22,7 @@ import {
 export const initialState = {
   isConnecting: false,
   beacons: [],
+  geoquery: null,
 }
 
 function setIsConnecting(state, bool) {
@@ -73,6 +76,10 @@ export function connectReducer(state = initialState, action) {
         beacons: [],
         isConnecting: false,
       }
+    case REGISTER_GEOQUERY:
+      return { ...state, geoquery: action.payload }
+    case REMOVE_GEOQUERY:
+      return { ...state, geoquery: null }
     default:
       return state
   }

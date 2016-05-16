@@ -10,18 +10,16 @@ import * as util from 'src/util'
 export function initAuth() {
   return (dispatch, getState) => {
     const { firebase } = getState()
+
     dispatch({
       type: INIT_AUTH,
       payload: firebase.getAuth(),
-      meta: {
-        timestamp: Date.now()
-      }
     })
 
-    // If the user is in fact logged in already, register the user listener
+    // If the user is logged in, get the user data and register the user listeners
     const { auth } = getState()
     if (auth.id) {
-      return dispatch(userActions.registerUserListener())
+      return dispatch(userActions.getUserData(auth.id))
     }
   }
 }
@@ -45,6 +43,7 @@ export function signInWithFacebook() {
           return firebase.child(`users/${authData.uid}`).set({
             connections: {},
             id: authData.facebook.id,
+            hasAccess: false,
             displayName: authData.facebook.displayName,
             profileImageURL: authData.facebook.profileImageURL,
             email: authData.facebook.email,
@@ -54,12 +53,10 @@ export function signInWithFacebook() {
           dispatch({
             type: SIGN_IN_SUCCESS,
             payload: authData,
-            meta: {
-              timestamp: Date.now()
-            }
           })
 
-          return dispatch(userActions.registerUserListener())
+          // Now that the user is logged in, get the user data and register the user listeners
+          return dispatch(userActions.getUserData(authData.uid))
         })
       })
   }

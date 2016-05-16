@@ -3,6 +3,8 @@ import _ from 'lodash'
 import * as util from 'src/util'
 
 import {
+  REGISTER_GEOQUERY,
+  REMOVE_GEOQUERY,
   CREATE_OWN_BEACON,
   REMOVE_BEACON,
   FOUND_BEACON,
@@ -41,22 +43,24 @@ function handleGeolocationError(err) {
 function findBeacons({ coords }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
-    const { geofire } = getState()
+    const { geofire, connection } = getState()
 
-    const geoQuery = geofire.beaconLocations.query({
+    // Check to ensure the connection action has not been canceled
+    if (!connection.isConnecting) {
+      return
+    }
+
+    const geoquery = geofire.beaconLocations.query({
       center: [latitude, longitude],
       radius: 100,
     })
 
-    return dispatch(registerListeners({ geoQuery }))
-  }
-}
+    // Store the geoquery object so that we can cancel it on connect success or cancel
+    dispatch({ type: REGISTER_GEOQUERY, payload: geoquery })
 
-function registerListeners({ geoQuery }) {
-  return (dispatch, getState) => {
     // Register event listener for finding a beacon by the geoquery
-    geoQuery.on('key_entered', (key) => {
-      const { auth, firebase, user, connection } = getState()
+    geoquery.on('key_entered', (key) => {
+      const { auth, firebase, user } = getState()
       const isConnected = _.get(user, ['connections', key])
 
       // Ignore the user's beacon and any beacons of users the user is already
@@ -68,7 +72,7 @@ function registerListeners({ geoQuery }) {
       // Get the user record corresponding to the geokey
       firebase.child(`users/${key}`).once('value', snapshot => {
         const otherUser = util.recordFromSnapshot(snapshot)
-        const { user } = getState()
+        const { user, connection } = getState()
 
         // Ignore found beacons that are already in the list
         const beaconUserIds = connection.beacons.map(user => user.id)
@@ -80,46 +84,41 @@ function registerListeners({ geoQuery }) {
         }
 
         // If the current user has access, add this beacon to the list of available
-        // users to connect with
-        if (user.hasAccess) {
+        // users to connect with only if the other user does not
+        if (user.hasAccess && !otherUser.hasAccess) {
           return dispatch({ type: FOUND_BEACON, payload: otherUser})
         }
 
         // Otherwise, only add the beacon to the list if the other user has access
-        if (otherUser && otherUser.hasAccess) {
+        if (!user.hasAccess && otherUser.hasAccess) {
           return dispatch({ type: FOUND_BEACON, payload: otherUser })
         }
       })
     })
 
     // Register event listeners for the beacon being removed
-    geoQuery.on('key_exited', (key) => {
-      const { auth, firebase, user } = getState()
+    geoquery.on('key_exited', (key) => {
+      const { auth } = getState()
       // Ignore the removed beacon if it's the users (this is handled in app)
       if (key === auth.id) {
         return
       }
 
-      // If the key being removed is on the user object, meaning a connection has occurred,
-      // dispatch a succesful connection
-      if (user.connections[key]) {
-        dispatch({ type: CONNECT_SUCCESS, payload: key })
-      }
-
-      // Otherwise, get the user record corresponding to the removed beacon to remove
-      // from the beacons list
-      firebase.child(`users/${key}`).once('value', snapshot => {
-        const toRemove = util.recordFromSnapshot(snapshot)
-        dispatch({ type: REMOVE_BEACON, payload: toRemove.id })
-      })
+      // Remove the beacon from the list
+      dispatch({ type: REMOVE_BEACON, payload: key })
     })
   }
 }
 
-function createBeacon({ coords, timestamp }) {
+function createOwnBeacon({ coords, timestamp }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
-    const { auth, firebase, geofire } = getState()
+    const { auth, firebase, geofire, connection } = getState()
+
+    // Check to ensure the connection action has not been canceled
+    if (!connection.isConnecting) {
+      return
+    }
 
     return P.props({
       // Set the beacon location and the corresponding listener for removing on disconnect
@@ -138,29 +137,26 @@ function createBeacon({ coords, timestamp }) {
 }
 
 export function beginConnecting() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({ type: BEGIN_CONNECTING })
 
     return getGeolocation()
       .catch(err => dispatch(handleGeolocationError(err)))
       .then(location => {
-        const { coords } = location
+        const { connection } = getState()
 
-        dispatch({
-          type: GEOLOCATION_SUCCESS,
-          payload: coords,
-        })
+        // Check to ensure the connection action has not been canceled
+        if (!connection.isConnecting) {
+          return
+        }
+
+        const { coords } = location
+        dispatch({ type: GEOLOCATION_SUCCESS, payload: coords })
 
         return P.props({
-          createBeacon: dispatch(createBeacon(location)),
+          createOwnBeacon: dispatch(createOwnBeacon(location)),
           findBeacons: dispatch(findBeacons(location)),
         })
-      })
-      .then(() => {
-        // return dispatch(removeBeacon())
-      })
-      .then(() => {
-        // console.log('Beacon was removed!')
       })
   }
 }
@@ -181,12 +177,12 @@ export function connectWithUser(otherId) {
       .then(() => {
         // Set the connection and set hasAccess true on both user objects
         const selfToUpdate = {
-          [`connections/${otherId}`]: true,
+          [`connections/${otherId}`]: otherId,
           hasAccess: true,
         }
 
         const otherToUpdate = {
-          [`connections/${auth.id}`]: true,
+          [`connections/${auth.id}`]: auth.id,
           hasAccess: true,
         }
 
@@ -214,7 +210,14 @@ export function cancelConnecting() {
   return (dispatch, getState) => {
     dispatch({ type: CONNECT_CANCELED })
 
-    const { firebase, auth } = getState()
+    const { firebase, auth, connection } = getState()
+
+    // If a firebase geoquery exists, cancel it
+    if (connection.geoquery) {
+      connection.geoquery.cancel()
+      dispatch({ type: REMOVE_GEOQUERY })
+    }
+
 
     // Set up a transaction function to ensure that the beacon is erased when connecting is
     // cancelled
