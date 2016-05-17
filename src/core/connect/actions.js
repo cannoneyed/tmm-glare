@@ -52,7 +52,7 @@ function findBeacons({ coords }) {
 
     const geoquery = geofire.beaconLocations.query({
       center: [latitude, longitude],
-      radius: 100,
+      radius: 300,
     })
 
     // Store the geoquery object so that we can cancel it on connect success or cancel
