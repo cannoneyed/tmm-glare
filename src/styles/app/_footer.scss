@@ -1,8 +1,8 @@
 //===================================================================
-//  HEADER
+//  FOOTER
 //===================================================================
 
-.header {
+.footer {
   padding: 10px 0;
   height: 60px;
   overflow: hidden;
@@ -10,8 +10,7 @@
 }
 
 
-.header__title {
-  float: left;
+.footer__title {
   font-size: rem(14px);
   font-weight: 400;
   text-rendering: auto;
@@ -19,7 +18,7 @@
 }
 
 
-.header__links {
+.footer__links {
   @include clearfix;
   float: right;
   padding: 8px 0;
@@ -42,7 +41,7 @@
 }
 
 
-.header__link {
+.footer__link {
   display: block;
   color: inherit;
   font-size: rem(14px);

@@ -36,7 +36,7 @@ function removeBeacon(state, userId) {
   return {
     ...state,
     beacons: state.beacons.filter(beacon => {
-      return beacon.id !== userId
+      return beacon.key !== userId
     })
   }
 }

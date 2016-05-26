@@ -82,6 +82,8 @@
     "bluebird": "^3.3.5",
     "geofire": "^4.0.0",
     "lodash": "^4.12.0",
+    "react-ripple-effect": "^1.0.4",
+    "react-soundplayer": "^0.3.5",
     "redux-logger": "^2.6.1"
   }
 }

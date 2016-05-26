@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import _ from 'lodash'
 
 import RippleButton from '../shared/ripple-button'
 
 import { connectActions } from 'src/core/connect'
 
-export class Connect extends Component {
+export class Listen extends Component {
 
   static propTypes = {
     beacons: PropTypes.array.isRequired,
@@ -41,40 +40,19 @@ export class Connect extends Component {
 
   render() {
     const {
-      beacons,
-      beginConnecting,
-      cancelConnecting,
-      isConnecting,
       user,
     } = this.props
 
     const hasAccess = user && user.hasAccess
 
-    // Decide what to display on the 'connect' button
-    let connectMessage
-    if (hasAccess) {
-      connectMessage = 'Share'
-    } else {
-      connectMessage = 'Connect'
-    }
-
     return (
       <div className="actionButtons">
         <div className="g-row sign-in">
           <div className="g-col">
-            {isConnecting ? this.renderBeacons(beacons) : null}
             <RippleButton
-              onClick={isConnecting ? cancelConnecting : beginConnecting}>
-              {isConnecting ? 'Cancel' : connectMessage}
+              onClick={() => {}}>
+              {hasAccess ? 'FUCK YOU!' : '...'}
             </RippleButton>
-            <Link to={'/listen'}>
-            <RippleButton
-              onClick={() => {
-                // browserHistory.push('/listen')
-              }}>
-              {hasAccess ? 'Listen' : '...'}
-            </RippleButton>
-            </Link>
           </div>
         </div>
       </div>
@@ -86,4 +64,4 @@ export default connect(state => ({
   isConnecting: state.connection.isConnecting,
   beacons: state.connection.beacons,
   user: state.user,
-}), connectActions)(Connect)
+}), connectActions)(Listen)

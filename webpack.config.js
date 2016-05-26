@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 3000
 //  LOADERS
 //---------------------------------------------------------
 const loaders = {
-  js: {test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
+  js: {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
   scss: {test: /\.scss$/, loader: 'style!css!postcss-loader!sass'}
 }
 
@@ -113,7 +113,7 @@ if (ENV_DEVELOPMENT) {
   config.module = {
     loaders: [
       loaders.scss,
-      {test: /\.js$/, exclude: /node_modules/, loader: 'babel', query: {
+      {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: {
         plugins: [
           [
             'react-transform',

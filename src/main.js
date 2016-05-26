@@ -30,7 +30,6 @@ const syncedHistory = syncHistoryWithStore(history, store)
 
 store.dispatch(authActions.initAuth())
 
-
 ReactDOM.render((
   <Root history={syncedHistory} onEnter={authRouteResolver(store.getState)} store={store} />
 ), document.querySelector('.app-root'))

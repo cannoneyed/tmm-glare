@@ -11,18 +11,11 @@
 @import
 "grid",
 "app/header",
+"app/footer",
 "app/main",
 "sign-in/sign-in",
-"tasks/notification",
-"tasks/task-filters",
-"tasks/task-form",
-"tasks/task-item",
-"tasks/task-list";
+"ripple/ripple";
 
 .hide {
   display: none !important;
-}
-
-::selection {
-  background: rgba(200,200,255,.1);
 }
