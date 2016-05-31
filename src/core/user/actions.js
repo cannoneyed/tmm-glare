@@ -9,8 +9,40 @@ import {
 } from './action-types'
 
 import {
+  SIGN_IN_SUCCESS,
+} from '../auth/action-types'
+
+import {
   CONNECT_SUCCESS,
 } from '../connect/action-types'
+
+export function loadOrCreateUser(authUser) {
+  return (dispatch, getState) => {
+    const { firebase } = getState()
+
+    // Lookup existing user object
+    return firebase.database().ref().child(`users/${authUser.uid}`).once('value', snapshot => {
+      const user = util.recordFromSnapshot(snapshot)
+
+      // If the user exists, no need to create a new user record
+      if (user) {
+        return user
+      }
+
+      // Otherwise, create a new user record
+      const facebook = authUser.providers[0]
+
+      return firebase.database().ref().child(`users/${authUser.uid}`).set({
+        connections: {},
+        id: facebook.id,
+        hasAccess: false,
+        displayName: facebook.displayName,
+        profileImageURL: facebook.profileImageURL,
+        email: facebook.email,
+      })
+    })
+  }
+}
 
 export function getUserData(userId) {
   return (dispatch) => {
@@ -28,7 +60,7 @@ export function loadUser(userId) {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
-    return firebase.child(`users/${userId}`).once('value', snapshot => {
+    return firebase.database().ref().child(`users/${userId}`).once('value', snapshot => {
       const user = util.recordFromSnapshot(snapshot)
 
       dispatch({ type: LOAD_USER, payload: user })
@@ -41,7 +73,7 @@ export function registerUserListeners(userId) {
     const { firebase } = getState()
 
     // Register the user access listener
-    firebase.child(`users/${userId}/hasAccess`).on('value', snapshot => {
+    firebase.database().ref().child(`users/${userId}/hasAccess`).on('value', snapshot => {
       const { user } = getState()
       const access = util.recordFromSnapshot(snapshot)
 
@@ -57,7 +89,7 @@ export function registerUserListeners(userId) {
     })
 
     // Register the user connection listener
-    firebase.child(`users/${userId}/connections`).on('child_added', snapshot => {
+    firebase.database().ref().child(`users/${userId}/connections`).on('child_added', snapshot => {
       const { user } = getState()
       const id = util.recordFromSnapshot(snapshot)
 

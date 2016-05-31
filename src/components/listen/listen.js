@@ -1,67 +1,34 @@
-import React, { Component, PropTypes } from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import { SoundPlayerContainer } from 'react-soundplayer/addons'
+import Player from './player'
 
-import RippleButton from '../shared/ripple-button'
+import { listenActions } from 'src/core/listen'
 
-import { connectActions } from 'src/core/connect'
-
-export class Listen extends Component {
-
-  static propTypes = {
-    beacons: PropTypes.array.isRequired,
-    beginConnecting: PropTypes.func.isRequired,
-    cancelConnecting: PropTypes.func.isRequired,
-    connectWithUser: PropTypes.func.isRequired,
-    isConnecting: PropTypes.bool.isRequired,
-    user: PropTypes.object,
+export function Listen({ isInfoLoaded, listenInfo, loadPlaylistInfo}) {
+  if (!isInfoLoaded) {
+    loadPlaylistInfo()
+    return <div></div>
   }
 
-  renderBeacons(beacons) {
-    const { connectWithUser, user } = this.props
-    const hasAccess = user && user.hasAccess
+  const { clientId, resolveUrl } = listenInfo
 
-    return beacons.reverse().filter(beacon => {
-      const isConnected = _.get(user, ['connections', beacon.key])
-      return !isConnected
-    })
-    .map((beacon, index) => {
-      return (
-        <RippleButton
-          key={index}
-          onClick={() => {
-            return hasAccess ? connectWithUser(beacon.key) : null
-          }}>
-          {beacon.displayName}
-        </RippleButton>
-      )
-    })
-  }
+  return (
+    <div className="g-col">
+      <SoundPlayerContainer {...{ clientId, resolveUrl }}>
+        <Player />
+      </SoundPlayerContainer>
+    </div>
+  )
+}
 
-  render() {
-    const {
-      user,
-    } = this.props
-
-    const hasAccess = user && user.hasAccess
-
-    return (
-      <div className="actionButtons">
-        <div className="g-row sign-in">
-          <div className="g-col">
-            <RippleButton
-              onClick={() => {}}>
-              {hasAccess ? 'FUCK YOU!' : '...'}
-            </RippleButton>
-          </div>
-        </div>
-      </div>
-    )
-  }
+Listen.propTypes = {
+  isInfoLoaded: PropTypes.bool.isRequired,
+  listenInfo: PropTypes.object,
+  loadPlaylistInfo: PropTypes.func.isRequired,
 }
 
 export default connect(state => ({
-  isConnecting: state.connection.isConnecting,
-  beacons: state.connection.beacons,
-  user: state.user,
-}), connectActions)(Listen)
+  isInfoLoaded: state.listen.isLoaded,
+  listenInfo: state.listen.info,
+}), listenActions)(Listen)

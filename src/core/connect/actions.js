@@ -70,7 +70,7 @@ function findBeacons({ coords }) {
       }
 
       // Get the user record corresponding to the geokey
-      firebase.child(`users/${key}`).once('value', snapshot => {
+      firebase.database().ref().child(`users/${key}`).once('value', snapshot => {
         const otherUser = util.recordFromSnapshot(snapshot)
         const { user, connection } = getState()
 
@@ -123,12 +123,12 @@ function createOwnBeacon({ coords, timestamp }) {
     return P.props({
       // Set the beacon location and the corresponding listener for removing on disconnect
       beaconlocation: geofire.beaconLocations.set(auth.id, [latitude, longitude])
-        .then(() => firebase.child(`beaconLocations/${auth.id}`).onDisconnect().remove()),
+        .then(() => firebase.database().ref().child(`beaconLocations/${auth.id}`).onDisconnect().remove()),
 
       // Set the beacon data and the corresponding listener for removing on disconnect
-      beacon: firebase.child(`beacons/${auth.id}`)
+      beacon: firebase.database().ref().child(`beacons/${auth.id}`)
         .set({ latitude, longitude, timestamp })
-        .then(() => firebase.child(`beacons/${auth.id}`).onDisconnect().remove())
+        .then(() => firebase.database().ref().child(`beacons/${auth.id}`).onDisconnect().remove())
     })
     .then(() => {
       dispatch({ type: CREATE_OWN_BEACON })
@@ -168,7 +168,7 @@ export function connectWithUser(otherId) {
     const connectionKey = [auth.id, otherId].sort().join('')
 
     // Create the connection object
-    return firebase.child(`connections/${connectionKey}`)
+    return firebase.database().ref().child(`connections/${connectionKey}`)
       .set({
         latitude: location.latitude,
         longitude: location.longitude,
@@ -187,17 +187,17 @@ export function connectWithUser(otherId) {
         }
 
         return P.props({
-          setConnectionSelf: firebase.child(`users/${auth.id}`).update(selfToUpdate),
-          setConnectionOther: firebase.child(`users/${otherId}`).update(otherToUpdate),
+          setConnectionSelf: firebase.database().ref().child(`users/${auth.id}`).update(selfToUpdate),
+          setConnectionOther: firebase.database().ref().child(`users/${otherId}`).update(otherToUpdate),
         })
       })
       .then(() => {
         // Remove the beacon and beaconLocation for both users
         return P.props({
-          removeBeaconSelf: firebase.child(`beacons/${auth.id}`).set(null),
-          removeBeaconLocationSelf: firebase.child(`beaconLocations/${auth.id}`).set(null),
-          removeBeaconOther: firebase.child(`beacons/${otherId}`).set(null),
-          removeBeaconLocationOther: firebase.child(`beaconLocations/${otherId}`).set(null),
+          removeBeaconSelf: firebase.database().ref().child(`beacons/${auth.id}`).set(null),
+          removeBeaconLocationSelf: firebase.database().ref().child(`beaconLocations/${auth.id}`).set(null),
+          removeBeaconOther: firebase.database().ref().child(`beacons/${otherId}`).set(null),
+          removeBeaconLocationOther: firebase.database().ref().child(`beaconLocations/${otherId}`).set(null),
         })
       })
       .then(() => {
@@ -222,8 +222,8 @@ export function cancelConnecting() {
     // Set up a transaction function to ensure that the beacon is erased when connecting is
     // cancelled
     return P.props({
-      removeBeacon: firebase.child(`beacons/${auth.id}`).transaction(() => null),
-      removeBeaconLocation: firebase.child(`beaconLocations/${auth.id}`).transaction(() => null)
+      removeBeacon: firebase.database().ref().child(`beacons/${auth.id}`).transaction(() => null),
+      removeBeaconLocation: firebase.database().ref().child(`beaconLocations/${auth.id}`).transaction(() => null)
     })
   }
 }

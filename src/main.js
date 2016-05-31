@@ -11,16 +11,17 @@ import { createHistory } from 'history'
 import { Root } from './components/root'
 import { authActions, authRouteResolver } from './core/auth'
 import configureStore from './core/store'
-import { FIREBASE_URL } from './config'
+import { firebaseConfig } from './config'
 
 
 const history = useRouterHistory(createHistory)({basename: '/'})
 
 // Initialize firebase and geofire
-const firebase = new Firebase(FIREBASE_URL)
+const firebase = Firebase.initializeApp(firebaseConfig)
+
 const geofire = {
-  beaconLocations: new GeoFire(firebase.child('beaconLocations')),
-  connectionLocations: new GeoFire(firebase.child('connectionLocations'))
+  beaconLocations: new GeoFire(firebase.database().ref().child('beaconLocations')),
+  connectionLocations: new GeoFire(firebase.database().ref().child('connectionLocations'))
 }
 
 const store = configureStore({ firebase, geofire })

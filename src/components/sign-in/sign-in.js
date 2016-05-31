@@ -3,20 +3,24 @@ import RippleButton from '../shared/ripple-button'
 import { connect } from 'react-redux'
 import { authActions } from 'src/core/auth'
 
+export function SignIn({ signInWithFacebook, isAuthenticating }) {
+  const signInButton = (
+    <RippleButton
+      className="glare_button"
+      onClick={() => {
+        setTimeout(() => {
+          signInWithFacebook()
+        }, 200)
+      }}>
+      {'Sign In'}
+    </RippleButton>
+  )
 
-export function SignIn({ signInWithFacebook }) {
   return (
     <div className="actionButtons">
       <div className="g-row sign-in">
         <div className="g-col">
-          <RippleButton
-            onClick={() => {
-              setTimeout(() => {
-                signInWithFacebook()
-              }, 200)
-            }}>
-            {'Sign In'}
-          </RippleButton>
+         {isAuthenticating ? null : signInButton}
         </div>
       </div>
     </div>
@@ -24,7 +28,10 @@ export function SignIn({ signInWithFacebook }) {
 }
 
 SignIn.propTypes = {
+  isAuthenticating: PropTypes.bool.isRequired,
   signInWithFacebook: PropTypes.func.isRequired,
 }
 
-export default connect(null, authActions)(SignIn)
+export default connect(state => ({
+  isAuthenticating: state.auth.isAuthenticating,
+}), authActions)(SignIn)

@@ -5,6 +5,6 @@ export function recordFromSnapshot(snapshot) {
     return record
   }
 
-  record.key = snapshot.key()
+  record.key = snapshot.key
   return record
 }

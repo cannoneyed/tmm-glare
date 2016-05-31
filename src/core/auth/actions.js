@@ -1,26 +1,53 @@
 import {
   INIT_AUTH,
   SIGN_IN_SUCCESS,
-  SIGN_OUT_SUCCESS
+  SIGN_OUT_SUCCESS,
+  SET_AUTHENTICATING,
 } from './action-types'
 
 import { userActions } from 'src/core/user'
-import * as util from 'src/util'
+import Firebase from 'firebase'
+import * as helpers from './helpers'
 
 export function initAuth() {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
-    dispatch({
-      type: INIT_AUTH,
-      payload: firebase.getAuth(),
-    })
+    const isAuthenticating = helpers.getAuthenticatingState()
+    dispatch({ type: SET_AUTHENTICATING, payload: isAuthenticating })
 
-    // If the user is logged in, get the user data and register the user listeners
-    const { auth } = getState()
-    if (auth.id) {
-      return dispatch(userActions.getUserData(auth.id))
+    firebase.auth().onAuthStateChanged(user => {
+      dispatch({ type: INIT_AUTH, payload: user })
+
+      if (user) {
+        // User signed in, fetch the user data
+        return dispatch(userActions.getUserData(user.uid))
+      } else {
+        // Otherwise, get the result of the redirect
+        firebase.auth().getRedirectResult().then(result => {
+          const authUser = result.user
+          return dispatch(handleRedirectResult(authUser))
+        })
+      }
+    })
+  }
+}
+
+function handleRedirectResult(authUser) {
+  return (dispatch) => {
+    if (!authUser) {
+      return
     }
+    return dispatch(userActions.loadOrCreateUser(authUser))
+      .then(() => {
+        dispatch({ type: SIGN_IN_SUCCESS, payload: authUser })
+
+        helpers.setAuthenticatingStateToken(false)
+        dispatch({ type: SET_AUTHENTICATING, payload: false })
+
+        // Now that the user is logged in, get the user data and register the user listeners
+        return dispatch(userActions.getUserData(authUser.uid))
+      })
   }
 }
 
@@ -28,46 +55,21 @@ export function signInWithFacebook() {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
-    firebase.authWithOAuthPopup('facebook', { scope: 'email' })
-      .then((authData) => {
-        // Lookup existing user object
-        return firebase.child(`users/${authData.uid}`).once('value', snapshot => {
-          const user = util.recordFromSnapshot(snapshot)
+    const provider = new Firebase.auth.FacebookAuthProvider()
+    provider.addScope('email')
 
-          // If the user exists, no need to create a new user record
-          if (user) {
-            return user
-          }
-
-          // Otherwise, create a new user record
-          return firebase.child(`users/${authData.uid}`).set({
-            connections: {},
-            id: authData.facebook.id,
-            hasAccess: false,
-            displayName: authData.facebook.displayName,
-            profileImageURL: authData.facebook.profileImageURL,
-            email: authData.facebook.email,
-          })
-        })
-        .then(() => {
-          dispatch({
-            type: SIGN_IN_SUCCESS,
-            payload: authData,
-          })
-
-          // Now that the user is logged in, get the user data and register the user listeners
-          return dispatch(userActions.getUserData(authData.uid))
-        })
-      })
+    firebase.auth().signInWithRedirect(provider)
+    helpers.setAuthenticatingStateToken(true)
   }
 }
 
 export function signOut() {
   return (dispatch, getState) => {
     const { firebase } = getState()
-    firebase.unauth()
-    dispatch({
-      type: SIGN_OUT_SUCCESS
+    firebase.auth().signOut().then(() => {
+      dispatch({
+        type: SIGN_OUT_SUCCESS
+      })
     })
   }
 }

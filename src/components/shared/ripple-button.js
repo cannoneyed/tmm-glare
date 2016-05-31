@@ -5,9 +5,11 @@ class RippleButton extends Component {
 
   static propTypes = {
     children: PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.element,
+      PropTypes.string,
+      PropTypes.element,
+      PropTypes.arrayOf(PropTypes.element),
     ]).isRequired,
+    className: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     text: PropTypes.string,
   }
@@ -31,9 +33,11 @@ class RippleButton extends Component {
   }
 
   render() {
+    const { className } = this.props || 'glare_button'
+
     return (
       <button
-        className="glare_button Ripple-parent"
+        className={`${className} Ripple-parent`}
         onMouseUp={(e) => {
           this.handleClick(e)
           this.props.onClick()

@@ -1,4 +1,9 @@
-export const FIREBASE_URL = process.env.FIREBASE_TMM_GLARE
+export const firebaseConfig = {
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATA_URL,
+  storageBucket: process.env.FIRABASE_STORAGE_BUCKET,
+}
 
 // Route paths
 export const SIGN_IN_PATH = '/sign-in'

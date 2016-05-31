@@ -1,3 +1,4 @@
+require('dotenv').config()
 const autoprefixer = require('autoprefixer')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -9,7 +10,10 @@ const webpack = require('webpack')
 //  ENVIRONMENT VARS
 //---------------------------------------------------------
 const NODE_ENV = process.env.NODE_ENV
-const FIREBASE_TMM_GLARE = process.env.FIREBASE_TMM_GLARE
+const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY
+const FIREBASE_AUTH_DOMAIN = process.env.FIREBASE_AUTH_DOMAIN
+const FIREBASE_DATA_URL = process.env.FIREBASE_DATA_URL
+const FIREBASE_STORAGE_BUCKET = process.env.FIREBASE_STORAGE_BUCKET
 
 const ENV_DEVELOPMENT = NODE_ENV === 'development'
 const ENV_PRODUCTION = NODE_ENV === 'production'
@@ -34,17 +38,19 @@ const loaders = {
 const config = {}
 module.exports = config
 
-
 config.resolve = {
   extensions: ['', '.ts', '.js'],
-  modulesDirectories: ['node_modules'],
+  modulesDirectories: ['node_modules', 'web_modules'],
   root: path.resolve('.')
 }
 
 config.plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-    'process.env.FIREBASE_TMM_GLARE': JSON.stringify(FIREBASE_TMM_GLARE),
+    'process.env.FIREBASE_API_KEY': JSON.stringify(FIREBASE_API_KEY),
+    'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(FIREBASE_AUTH_DOMAIN),
+    'process.env.FIREBASE_DATA_URL': JSON.stringify(FIREBASE_DATA_URL),
+    'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(FIREBASE_STORAGE_BUCKET),
   })
 ]
 

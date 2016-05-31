@@ -5,6 +5,8 @@ import { firebaseReducer, geofireReducer } from './firebase'
 import { connectReducer } from './connect'
 import { userReducer } from './user'
 import { locationReducer } from './location'
+import { listenReducer } from './listen'
+import { loadingReducer } from './loading'
 
 export default combineReducers({
   auth: authReducer,
@@ -14,4 +16,6 @@ export default combineReducers({
   connection: connectReducer,
   user: userReducer,
   location: locationReducer,
+  listen: listenReducer,
+  loading: loadingReducer,
 })

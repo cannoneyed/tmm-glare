@@ -29,6 +29,7 @@ export class Connect extends Component {
     .map((beacon, index) => {
       return (
         <RippleButton
+          className="glare_button"
           key={index}
           onClick={() => {
             return hasAccess ? connectWithUser(beacon.key) : null
@@ -64,11 +65,13 @@ export class Connect extends Component {
           <div className="g-col">
             {isConnecting ? this.renderBeacons(beacons) : null}
             <RippleButton
+              className="glare_button"
               onClick={isConnecting ? cancelConnecting : beginConnecting}>
               {isConnecting ? 'Cancel' : connectMessage}
             </RippleButton>
             <Link to={'/listen'}>
             <RippleButton
+              className="glare_button"
               onClick={() => {
                 // browserHistory.push('/listen')
               }}>

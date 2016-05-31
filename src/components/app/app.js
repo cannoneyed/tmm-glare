@@ -4,6 +4,7 @@ import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
 
 import Header from './header'
 import Footer from './footer'
+import Loading from '../loaders/loading'
 
 
 export class App extends Component {
@@ -14,6 +15,7 @@ export class App extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
   }
 
   constructor(props, context) {
@@ -31,13 +33,25 @@ export class App extends Component {
     }
   }
 
+  renderLoading() {
+    return (
+      <main className="container">
+        <Loading />
+      </main>
+    )
+  }
+
   render() {
-    const { children } = this.props
+    const { children, loading } = this.props
+    const toHide = loading ? { display: 'none' } : {}
 
     return (
       <div className="container">
         <Header />
-        <main className="main">{children}</main>
+        {loading ? this.renderLoading() : null}
+        <main className="main" style={toHide}>
+          {children}
+        </main>
         <Footer />
       </div>
     )
@@ -46,4 +60,5 @@ export class App extends Component {
 
 export default connect(state => ({
   auth: state.auth,
+  loading: state.loading,
 }), null)(App)
