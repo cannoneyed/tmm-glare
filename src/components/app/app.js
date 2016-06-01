@@ -5,7 +5,7 @@ import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
 import Header from './header'
 import Footer from './footer'
 import Loading from '../loaders/loading'
-
+import Connecting from '../loaders/connecting'
 
 export class App extends Component {
   static contextTypes = {
@@ -15,7 +15,8 @@ export class App extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
+    isConnecting: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   }
 
   constructor(props, context) {
@@ -41,14 +42,23 @@ export class App extends Component {
     )
   }
 
+  renderConnecting() {
+    return (
+      <main className="container">
+        <Connecting />
+      </main>
+    )
+  }
+
   render() {
-    const { children, loading } = this.props
-    const toHide = loading ? { display: 'none' } : {}
+    const { children, isLoading, isConnecting } = this.props
+    const toHide = isLoading ? { display: 'none' } : {}
 
     return (
       <div className="container">
         <Header />
-        {loading ? this.renderLoading() : null}
+        {isLoading ? this.renderLoading() : null}
+        {/*{isConnecting ? this.renderConnecting() : null}*/}
         <main className="main" style={toHide}>
           {children}
         </main>
@@ -60,5 +70,6 @@ export class App extends Component {
 
 export default connect(state => ({
   auth: state.auth,
-  loading: state.loading,
+  isLoading: state.loading,
+  isConnecting: state.connection.isConnecting,
 }), null)(App)
