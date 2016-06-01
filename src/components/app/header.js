@@ -25,11 +25,11 @@ export class Header extends Component {
     const displayName = user && user.displayName
 
     return (
-      <ul className="header__links">
-        <li className="header__link">{displayName}</li>
+      <ul className="header-links">
+        <li className="header-link">{displayName}</li>
         <li>
           <a
-            className="header__link"
+            className="header-link"
             onClick={this.signOut}
             href="#">
             Sign out
@@ -65,7 +65,7 @@ export class Header extends Component {
       <header className="header">
         <div className="g-row">
           <div className="g-col">
-            <h1 className="header__title">{headerTitle}</h1>
+            <h1 className="header-title">{headerTitle}</h1>
               {auth.authenticated ? this.renderSignOut() : null}
           </div>
         </div>

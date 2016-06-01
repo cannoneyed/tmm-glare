@@ -10,7 +10,7 @@
 }
 
 
-.footer__title {
+.footer-title {
   font-size: rem(14px);
   font-weight: 400;
   text-rendering: auto;
@@ -18,7 +18,7 @@
 }
 
 
-.footer__links {
+.footer-links {
   @include clearfix;
   float: right;
   padding: 8px 0;
@@ -41,7 +41,7 @@
 }
 
 
-.footer__link {
+.footer-link {
   display: block;
   color: inherit;
   font-size: rem(14px);

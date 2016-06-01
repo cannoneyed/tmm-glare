@@ -6,7 +6,7 @@ import { authActions } from 'src/core/auth'
 export function SignIn({ signInWithFacebook, isAuthenticating }) {
   const signInButton = (
     <RippleButton
-      className="glare_button"
+      className="glare-button"
       onClick={() => {
         setTimeout(() => {
           signInWithFacebook()
@@ -17,7 +17,7 @@ export function SignIn({ signInWithFacebook, isAuthenticating }) {
   )
 
   return (
-    <div className="actionButtons">
+    <div className="action-buttons">
       <div className="g-row sign-in">
         <div className="g-col">
          {isAuthenticating ? null : signInButton}

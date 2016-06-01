@@ -73,7 +73,7 @@ class Player extends Component {
     let { playlist } = this.props
 
     let tracks = playlist.tracks.map((track, i) => {
-      let names = classnames('playlist_row', {
+      let names = classnames('playlist-row', {
         'is-active': this.state.activeIndex === i
       })
 
@@ -109,19 +109,19 @@ class Player extends Component {
 
     return (
       <div className="player">
-        <div className="player_header">
-          <div className="player_controls">
+        <div className="player-header">
+          <div className="player-controls">
             <PrevButton
-              className="player_button"
+              className="player-button"
               onPrevClick={this.prevIndex.bind(this)}
               {...this.props}
             />
             <PlayButton
-              className="player_button"
+              className="player-button"
               {...this.props}
             />
             <NextButton
-              className="player_button"
+              className="player-button"
               onNextClick={this.nextIndex.bind(this)}
               {...this.props}
             />
@@ -130,7 +130,7 @@ class Player extends Component {
             <Timer duration={duration || 0} {..._.omit(this.props, 'duration')} />
           </div>
         </div>
-        <div className="player_timer">
+        <div className="player-timer">
           <Progress
             value={currentTime / duration * 100 || 0}
             {...this.props}

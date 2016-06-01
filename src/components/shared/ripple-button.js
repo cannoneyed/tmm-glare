@@ -33,7 +33,7 @@ class RippleButton extends Component {
   }
 
   render() {
-    const { className } = this.props || 'glare_button'
+    const { className } = this.props || 'glare-button'
 
     return (
       <button

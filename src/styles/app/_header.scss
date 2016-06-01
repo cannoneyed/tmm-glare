@@ -10,7 +10,7 @@
 }
 
 
-.header__title {
+.header-title {
   float: left;
   font-size: rem(14px);
   font-weight: 400;
@@ -19,7 +19,7 @@
 }
 
 
-.header__links {
+.header-links {
   @include clearfix;
   float: right;
   padding: 8px 0;
@@ -42,7 +42,7 @@
 }
 
 
-.header__link {
+.header-link {
   display: block;
   color: inherit;
   font-size: rem(14px);

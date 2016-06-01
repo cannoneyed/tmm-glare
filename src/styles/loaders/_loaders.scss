@@ -1,6 +1,6 @@
-$loading_height: 100px !default;
+$loading-height: 100px !default;
 
-.loader_overlay {
+.loader-overlay {
   z-index: 100;
   -webkit-transform: translate3d(0,0,10px);
   transform: translate3d(0,0,1px);
@@ -8,7 +8,7 @@ $loading_height: 100px !default;
   min-height: 100%;
 }
 
-.loader_underlay {
+.loader-underlay {
   z-index: 1;
   background-color: transparent;
   -webkit-transform: translate3d(0,0,0px);
@@ -24,7 +24,7 @@ $loading_height: 100px !default;
   > div {
     float: left;
     background: $purple;
-    height: $loading_height;
+    height: $loading-height;
     width: 5px;
     margin-right: 1px;
     display: inline-block;

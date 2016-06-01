@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Loading() {
   return (
-    <div className="loader_overlay">
+    <div className="loader-overlay">
       <div className="shaft-load4">
         <div className="shaft1"></div>
         <div className="shaft2"></div>

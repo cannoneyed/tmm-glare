@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="g-row">
         <div className="g-col">
           <h1
-            className="footer__title"
+            className="footer-title"
             onClick={() => {
               console.log('FUCK YOU!')
             }}>About</h1>

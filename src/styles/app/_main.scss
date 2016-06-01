@@ -23,14 +23,14 @@ html, body {
   -webkit-transform: translate3d(0,0,0);
 }
 
-.actionButtons {
+.action-buttons {
   z-index: 10;
   min-width: 100%;
   margin-bottom: 50px;
   align-self: flex-end;
 }
 
-.glare_button {
+.glare-button {
   // @include button-base;
   margin-bottom: 10px;
   outline: none;

@@ -29,7 +29,7 @@ export class Connect extends Component {
     .map((beacon, index) => {
       return (
         <RippleButton
-          className="glare_button"
+          className="glare-button"
           key={index}
           onClick={() => {
             return hasAccess ? connectWithUser(beacon.key) : null
@@ -60,18 +60,18 @@ export class Connect extends Component {
     }
 
     return (
-      <div className="actionButtons">
+      <div className="action-buttons">
         <div className="g-row sign-in">
           <div className="g-col">
             {isConnecting ? this.renderBeacons(beacons) : null}
             <RippleButton
-              className="glare_button"
+              className="glare-button"
               onClick={isConnecting ? cancelConnecting : beginConnecting}>
               {isConnecting ? 'Cancel' : connectMessage}
             </RippleButton>
             <Link to={'/listen'}>
             <RippleButton
-              className="glare_button"
+              className="glare-button"
               onClick={() => {
                 // browserHistory.push('/listen')
               }}>
