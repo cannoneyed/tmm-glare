@@ -20,14 +20,20 @@ html, body {
 .main {
   display: flex;
   flex: 1;
+  z-index: 0;
+  transform: translate3d(0,0,0px);
   -webkit-transform: translate3d(0,0,0);
 }
 
 .action-buttons {
+  position: absolute;
+  bottom: 0px;
   z-index: 10;
   min-width: 100%;
-  margin-bottom: 50px;
-  align-self: flex-end;
+  margin-bottom: 20px;
+  z-index: 1;
+  transform: translate3d(0,0,1px);
+  -webkit-transform: translate3d(0,0,1px);
 }
 
 .glare-button {

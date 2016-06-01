@@ -2,8 +2,8 @@ $loading-height: 100px !default;
 
 .loader-overlay {
   z-index: 100;
-  -webkit-transform: translate3d(0,0,10px);
-  transform: translate3d(0,0,1px);
+  -webkit-transform: translate3d(0,0,100px);
+  transform: translate3d(0,0,100px);
   min-width: 100%;
   min-height: 100%;
 }
@@ -11,10 +11,11 @@ $loading-height: 100px !default;
 .loader-underlay {
   z-index: 1;
   background-color: transparent;
-  -webkit-transform: translate3d(0,0,0px);
-  transform: translate3d(0,0,0px);
+  -webkit-transform: translate3d(0,0,1px);
+  transform: translate3d(0,0,1px);
+  position: absolute;
+  top: 20%;
   min-width: 100%;
-  min-height: 100%;
 }
 
 /* Universal styling */
@@ -66,26 +67,27 @@ $loading-height: 100px !default;
 /* Shaft 11 */
 .shaft-load11 {
   position: relative;
+  opacity: 0.5;
   @include square(100px);
   > div {
     background: transparent;
-    border: 8px solid transparent;
+    border: 16px solid transparent;
     border-color: rgba($purple, 1) transparent;
     @include border-radius(100%);
     @include centerer;
     @include transform( translate(-50%, -50%) rotate(0));
     @include animation(loading11 2s infinite ease-in-out);
   }
-  .shaft1 { @include animation-delay(0.1s); @include square(20px); }
-  .shaft2 { @include animation-delay(0.2s); @include square(25px); }
-  .shaft3 { @include animation-delay(0.3s); @include square(35px); }
-  .shaft4 { @include animation-delay(0.4s); @include square(45px); }
-  .shaft5 { @include animation-delay(0.5s); @include square(55px); }
-  .shaft6 { @include animation-delay(0.6s); @include square(65px); }
-  .shaft7 { @include animation-delay(0.7s); @include square(75px); }
-  .shaft8 { @include animation-delay(0.8s); @include square(80px); }
-  .shaft9 { @include animation-delay(0.9s); @include square(85px); }
-  .shaft10 { @include animation-delay(1.0s); @include square(90px); }
+  .shaft1 { @include animation-delay(0.1s); @include square(40px); }
+  .shaft2 { @include animation-delay(0.2s); @include square(50px); }
+  .shaft3 { @include animation-delay(0.3s); @include square(70px); }
+  .shaft4 { @include animation-delay(0.4s); @include square(90px); }
+  .shaft5 { @include animation-delay(0.5s); @include square(110px); }
+  .shaft6 { @include animation-delay(0.6s); @include square(130px); }
+  .shaft7 { @include animation-delay(0.7s); @include square(150px); }
+  .shaft8 { @include animation-delay(0.8s); @include square(160px); }
+  .shaft9 { @include animation-delay(0.9s); @include square(170px); }
+  .shaft10 { @include animation-delay(1.0s); @include square(180px); }
 }
 
 @include keyframes(loading11) {

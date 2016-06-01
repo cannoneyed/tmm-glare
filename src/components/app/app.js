@@ -15,7 +15,6 @@ export class App extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
-    isConnecting: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }
 
@@ -51,14 +50,13 @@ export class App extends Component {
   }
 
   render() {
-    const { children, isLoading, isConnecting } = this.props
+    const { children, isLoading } = this.props
     const toHide = isLoading ? { display: 'none' } : {}
 
     return (
       <div className="container">
         <Header />
         {isLoading ? this.renderLoading() : null}
-        {/*{isConnecting ? this.renderConnecting() : null}*/}
         <main className="main" style={toHide}>
           {children}
         </main>
@@ -71,5 +69,4 @@ export class App extends Component {
 export default connect(state => ({
   auth: state.auth,
   isLoading: state.loading,
-  isConnecting: state.connection.isConnecting,
 }), null)(App)

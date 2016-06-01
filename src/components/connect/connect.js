@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import _ from 'lodash'
 
 import RippleButton from '../shared/ripple-button'
+import Container from '../loaders/connecting'
 
 import { connectActions } from 'src/core/connect'
 
@@ -40,6 +41,14 @@ export class Connect extends Component {
     })
   }
 
+  renderConnecting() {
+    return (
+      <div className="loading-underlay">
+        <Container />
+      </div>
+    )
+  }
+
   render() {
     const {
       beacons,
@@ -60,24 +69,27 @@ export class Connect extends Component {
     }
 
     return (
-      <div className="action-buttons">
-        <div className="g-row sign-in">
-          <div className="g-col">
-            {isConnecting ? this.renderBeacons(beacons) : null}
-            <RippleButton
-              className="glare-button"
-              onClick={isConnecting ? cancelConnecting : beginConnecting}>
-              {isConnecting ? 'Cancel' : connectMessage}
-            </RippleButton>
-            <Link to={'/listen'}>
-            <RippleButton
-              className="glare-button"
-              onClick={() => {
-                // browserHistory.push('/listen')
-              }}>
-              {hasAccess ? 'Listen' : '...'}
-            </RippleButton>
-            </Link>
+      <div className="connect-container">
+        {isConnecting ? this.renderConnecting() : null}
+        <div className="action-buttons">
+          <div className="g-row sign-in">
+            <div className="g-col">
+              {this.renderBeacons(beacons)}
+              <RippleButton
+                className="glare-button"
+                onClick={isConnecting ? cancelConnecting : beginConnecting}>
+                {isConnecting ? 'Cancel' : connectMessage}
+              </RippleButton>
+              <Link to={'/listen'}>
+              <RippleButton
+                className="glare-button"
+                onClick={() => {
+                  // browserHistory.push('/listen')
+                }}>
+                {hasAccess ? 'Listen' : '...'}
+              </RippleButton>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
