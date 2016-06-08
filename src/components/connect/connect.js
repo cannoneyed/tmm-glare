@@ -19,6 +19,7 @@ export class Connect extends Component {
     user: PropTypes.object,
   }
 
+
   renderBeacons(beacons) {
     const { connectWithUser, user } = this.props
     const hasAccess = user && user.hasAccess
@@ -81,13 +82,13 @@ export class Connect extends Component {
                 {isConnecting ? 'Cancel' : connectMessage}
               </RippleButton>
               <Link to={'/listen'}>
-              <RippleButton
-                className="glare-button"
-                onClick={() => {
-                  // browserHistory.push('/listen')
-                }}>
-                {hasAccess ? 'Listen' : '...'}
-              </RippleButton>
+                <RippleButton
+                  className="glare-button"
+                  onClick={() => {
+                    // browserHistory.push('/listen')
+                  }}>
+                  {hasAccess ? 'Listen' : '...'}
+                </RippleButton>
               </Link>
             </div>
           </div>
