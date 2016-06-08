@@ -39,9 +39,11 @@ export function initAuth() {
   }
 }
 
+// General handler for firebase oauth redirect result
 function handleRedirectResult(result) {
   return (dispatch) => {
     const authUser = result.user
+
     if (authUser) {
       return dispatch(handleSuccesfulRedirect(authUser))
     } else {
@@ -51,13 +53,15 @@ function handleRedirectResult(result) {
   }
 }
 
+// Success handler for firebase oauth redirect result
 function handleSuccesfulRedirect(authUser) {
   return (dispatch) => {
-    if (!authUser) {
-      return
-    }
+    // Since we've succesfully fetched an authenticated user from the fireabase oauth redirect,
+    // we'll need to first trigger the logic to load or create a user object in firebase (from the
+    // facebook scope data we've fetched), then trigger our login success logic
     return dispatch(userActions.loadOrCreateUser(authUser))
       .then(() => {
+        // Dispatch a sign in success action, then set local storage authenticating to false
         dispatch({ type: SIGN_IN_SUCCESS, payload: authUser })
         helpers.setAuthenticatingStateToken(false)
 
@@ -67,6 +71,7 @@ function handleSuccesfulRedirect(authUser) {
   }
 }
 
+// Manage the sign in with facebook flow (sign in button handler)
 export function signInWithFacebook() {
   return (dispatch, getState) => {
     const { firebase } = getState()
@@ -74,18 +79,18 @@ export function signInWithFacebook() {
     const provider = new Firebase.auth.FacebookAuthProvider()
     provider.addScope('email')
 
-    firebase.auth().signInWithRedirect(provider)
+    // Set the local storage token, then trigger the redirect oauth flow
     helpers.setAuthenticatingStateToken(true)
+    firebase.auth().signInWithRedirect(provider)
   }
 }
 
+// Manage signing out of the application
 export function signOut() {
   return (dispatch, getState) => {
     const { firebase } = getState()
     firebase.auth().signOut().then(() => {
-      dispatch({
-        type: SIGN_OUT_SUCCESS
-      })
+      dispatch({ type: SIGN_OUT_SUCCESS })
     })
   }
 }
