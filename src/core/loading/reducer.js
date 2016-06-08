@@ -5,6 +5,8 @@ import {
 
 import {
   SET_AUTHENTICATING,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAILURE,
 } from '../auth/action-types.js'
 
 export const initialState = false
@@ -17,6 +19,10 @@ export function loadingReducer(state = initialState, action) {
       return false
     case SET_AUTHENTICATING:
       return !!action.payload
+    case SIGN_IN_SUCCESS:
+      return false
+    case SIGN_IN_FAILURE:
+      return false
     default:
       return state
   }

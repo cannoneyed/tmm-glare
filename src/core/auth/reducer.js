@@ -1,8 +1,8 @@
 /* eslint-disable no-case-declarations */
 import {
-  INIT_AUTH,
   SIGN_IN_SUCCESS,
   SIGN_OUT_SUCCESS,
+  SIGN_IN_FAILURE,
   SET_AUTHENTICATING,
 } from './action-types'
 
@@ -22,21 +22,18 @@ export function authReducer(state = initialState, action) {
         ...state,
         isAuthenticating: payload,
       }
-    case INIT_AUTH:
-      let authenticated = payload !== null /* && (payload.expires * 1000) > Date.now() */
-      return {
-        ...state,
-        authenticated,
-        id: authenticated ? payload.uid : null,
-      }
-
     case SIGN_IN_SUCCESS:
       return {
         authenticated: true,
         id: payload.uid,
         isAuthenticating: false,
       }
-
+    case SIGN_IN_FAILURE:
+      return {
+        authenticated: false,
+        isAuthenticating: false,
+        id: null,
+      }
     case SIGN_OUT_SUCCESS:
       return {
         authenticated: false,
