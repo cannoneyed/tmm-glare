@@ -20,10 +20,20 @@ export class App extends Component {
     isLoading: PropTypes.bool.isRequired,
   }
 
+  static childContextTypes = {
+    setNotification: React.PropTypes.func,
+  }
+
   constructor(props, context) {
     super(props, context)
     this.notificationSystem = null
     this.setNotification = this.setNotification.bind(this)
+  }
+
+  getChildContext() {
+    return {
+      setNotification: this.setNotification,
+    }
   }
 
   componentWillReceiveProps(nextProps) {

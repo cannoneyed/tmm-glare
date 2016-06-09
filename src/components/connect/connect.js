@@ -19,9 +19,32 @@ export class Connect extends Component {
     user: PropTypes.object,
   }
 
+  // That's the only thing you need to add
+  static contextTypes = {
+    setNotification: React.PropTypes.func,
+  }
+
+  renderConnectMessage(displayName) {
+    return (
+      <span>
+        {'Succesfully connected with '}
+        <strong>{displayName}</strong>
+      </span>
+    )
+  }
+
+  handleBeaconClick(beacon) {
+    const { connectWithUser } = this.props
+    const { setNotification } = this.context
+
+    connectWithUser(beacon.key).then(() => {
+      const message = this.renderConnectMessage(beacon.displayName)
+      setNotification(message)
+    })
+  }
 
   renderBeacons(beacons) {
-    const { connectWithUser, user } = this.props
+    const { user } = this.props
     const hasAccess = user && user.hasAccess
 
     return beacons.reverse().filter(beacon => {
@@ -34,7 +57,7 @@ export class Connect extends Component {
           className="glare-button"
           key={index}
           onClick={() => {
-            return hasAccess ? connectWithUser(beacon.key) : null
+            return hasAccess ? this.handleBeaconClick(beacon) : null
           }}>
           {beacon.displayName}
         </RippleButton>
