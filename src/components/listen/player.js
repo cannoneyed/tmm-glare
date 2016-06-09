@@ -7,8 +7,8 @@ import {
   PrevButton,
   NextButton,
   Progress,
-} from 'react-soundplayer/components'
-import Timer from './timer'
+  Timer,
+} from './components'
 
 import RippleButton from '../shared/rippleButton'
 import { loadingActions } from 'src/core/loading'
@@ -17,6 +17,7 @@ class Player extends Component {
   static propTypes = {
     currentTime: PropTypes.number,
     duration: PropTypes.number,
+    playing: PropTypes.bool.isRequired,
     playlist: PropTypes.object,
     setLoading: PropTypes.func.isRequired,
     soundCloudAudio: PropTypes.object,
@@ -42,6 +43,19 @@ class Player extends Component {
     }
   }
 
+  onPlayClick() {
+    const { playing, soundCloudAudio } = this.props
+    if (!soundCloudAudio) {
+      return
+    }
+
+    if (!playing) {
+      soundCloudAudio.play({ playlistIndex: soundCloudAudio._playlistIndex })
+    } else {
+      soundCloudAudio.pause()
+    }
+  }
+
   playTrackAtIndex(playlistIndex) {
     let { soundCloudAudio } = this.props
     this.setState({activeIndex: playlistIndex})
@@ -50,22 +64,25 @@ class Player extends Component {
 
   nextIndex() {
     let { activeIndex } = this.state
-    let { playlist } = this.props
+    let { playlist, soundCloudAudio } = this.props
     if (activeIndex >= playlist.tracks.length - 1) {
       return
     }
     if (activeIndex || activeIndex === 0) {
       this.setState({activeIndex: ++activeIndex})
+      soundCloudAudio.next()
     }
   }
 
   prevIndex() {
     let { activeIndex } = this.state
+    const { soundCloudAudio } = this.props
     if (activeIndex <= 0) {
       return
     }
     if (activeIndex || activeIndex === 0) {
       this.setState({activeIndex: --activeIndex})
+      soundCloudAudio.previous()
     }
   }
 
@@ -113,16 +130,17 @@ class Player extends Component {
           <div className="player-controls">
             <PrevButton
               className="player-button"
-              onPrevClick={this.prevIndex.bind(this)}
+              onClick={this.prevIndex.bind(this)}
               {...this.props}
             />
             <PlayButton
               className="player-button"
+              onClick={this.onPlayClick.bind(this)}
               {...this.props}
             />
             <NextButton
               className="player-button"
-              onNextClick={this.nextIndex.bind(this)}
+              onClick={this.nextIndex.bind(this)}
               {...this.props}
             />
           </div>
@@ -142,4 +160,9 @@ class Player extends Component {
   }
 }
 
-export default connect(null, loadingActions)(Player)
+export default connect(state => ({
+  playing: state.listen.playing,
+  soundCloudAudio: state.listen.soundCloudAudio,
+  currentTime: state.listen.currentTime,
+  duration: state.listen.duration,
+}), loadingActions)(Player)
