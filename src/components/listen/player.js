@@ -32,8 +32,10 @@ class Player extends Component {
   }
 
   componentWillMount() {
-    const { setLoading } = this.props
-    setLoading(true)
+    const { playlist, setLoading } = this.props
+    if (!playlist) {
+      setLoading(true)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,6 +85,16 @@ class Player extends Component {
     if (activeIndex || activeIndex === 0) {
       this.setState({activeIndex: --activeIndex})
       soundCloudAudio.previous()
+    }
+  }
+
+  handleSeekTrack(e) {
+    let { soundCloudAudio } = this.props
+    const xPos = (e.pageX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.offsetWidth
+
+
+    if (soundCloudAudio && !isNaN(soundCloudAudio.audio.duration)) {
+      soundCloudAudio.audio.currentTime = (xPos * soundCloudAudio.audio.duration)
     }
   }
 
@@ -151,6 +163,7 @@ class Player extends Component {
         <div className="player-timer">
           <Progress
             value={currentTime / duration * 100 || 0}
+            onClick={this.handleSeekTrack.bind(this)}
             {...this.props}
           />
         </div>

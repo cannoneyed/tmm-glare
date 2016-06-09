@@ -5,20 +5,7 @@ import classNames from 'classnames'
 let { PropTypes } = React
 
 const Progress = (props) => {
-  // handleSeekTrack(e) {
-  //   let { onSeekTrack, soundCloudAudio } = this.props
-  //   const xPos = (e.pageX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.offsetWidth
-  //
-  //
-  //   if (soundCloudAudio && !isNaN(soundCloudAudio.audio.duration)) {
-  //     soundCloudAudio.audio.currentTime = (xPos * soundCloudAudio.audio.duration)
-  //   }
-  //
-  //   onSeekTrack && onSeekTrack.call(this, xPos, e)
-  // }
-
   const {
-    value,
     className,
     innerClassName,
     style,
@@ -28,23 +15,24 @@ const Progress = (props) => {
     onClick,
   } = props
 
-  let displayValue
+  let { value } = props
+
   if (!value && currentTime && duration) {
-    displayValue = currentTime / duration * 100 || 0
+    value = currentTime / duration * 100 || 0
   }
 
   if (value < 0) {
-    displayValue = 0
+    value = 0
   }
 
   if (value > 100) {
-    displayValue = 100
+    value = 100
   }
 
   let names = classNames('sb-soundplayer-progress-container', className)
   let innerNames = classNames('sb-soundplayer-progress-inner', innerClassName)
 
-  Object.assign(innerStyle, {width: `${displayValue}%`})
+  Object.assign(innerStyle, {width: `${value}%`})
 
   return (
     <div className={names} style={style} onClick={onClick}>

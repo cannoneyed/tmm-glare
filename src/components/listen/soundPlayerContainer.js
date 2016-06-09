@@ -89,6 +89,7 @@ class SoundPlayerContainer extends Component {
   }
 
   onAudioEnded() {
+    console.log('HEY!')
     const { setPlaying } = this.props
     setPlaying(false)
   }
