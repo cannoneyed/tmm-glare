@@ -10,7 +10,7 @@ import {
 } from 'react-soundplayer/components'
 import Timer from './timer'
 
-import RippleButton from '../shared/ripple-button'
+import RippleButton from '../shared/rippleButton'
 import { loadingActions } from 'src/core/loading'
 
 class Player extends Component {

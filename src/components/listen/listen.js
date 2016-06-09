@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { SoundPlayerContainer } from 'react-soundplayer/addons'
+import SoundPlayerContainer from './soundPlayerContainer'
 import Player from './player'
 
 import { listenActions } from 'src/core/listen'
