@@ -27,13 +27,12 @@ export function loadOrCreateUser(authUser) {
 
       // Otherwise, create a new user record
       const facebook = authUser.providerData[0]
-
       return firebase.database().ref().child(`users/${authUser.uid}`).set({
         connections: {},
-        id: facebook.id,
+        id: facebook.uid,
         hasAccess: false,
         displayName: facebook.displayName,
-        profileImageURL: facebook.profileImageURL,
+        profileImageURL: facebook.photoURL,
         email: facebook.email,
       })
     })

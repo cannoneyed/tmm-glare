@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import RippleButton from '../shared/ripple-button'
+import RippleButton from '../shared/rippleButton'
 import { connect } from 'react-redux'
 import { authActions } from 'src/core/auth'
 

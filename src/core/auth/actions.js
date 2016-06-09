@@ -24,12 +24,15 @@ export function initAuth() {
     // Set up a firebase auth state listener to get the currently logged in user (this will succeed)
     // if the user is logged in and a session token exists, otherwise we'll have to look for the
     // result of the oauth redirect)
-    firebase.auth().onAuthStateChanged(user => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      unsubscribe()
       if (user) {
+        console.log('authStateChanged user found')
         // User signed in, dispatch a success action and fetch the user data
         dispatch({ type: SIGN_IN_SUCCESS, payload: user })
         return dispatch(userActions.getUserData(user.uid))
       } else {
+        console.log('authStateChanged user not found')
         // Otherwise, get the result of the redirect
         firebase.auth().getRedirectResult().then(result => {
           dispatch(handleRedirectResult(result))
@@ -45,8 +48,10 @@ function handleRedirectResult(result) {
     const authUser = result.user
 
     if (authUser) {
+      console.log('redirect returned user')
       return dispatch(handleSuccesfulRedirect(authUser))
     } else {
+      console.log('redirect did not return user')
       helpers.setAuthenticatingStateToken(false)
       dispatch({ type: SIGN_IN_FAILURE })
     }
@@ -61,6 +66,7 @@ function handleSuccesfulRedirect(authUser) {
     // facebook scope data we've fetched), then trigger our login success logic
     return dispatch(userActions.loadOrCreateUser(authUser))
       .then(() => {
+        console.log('USER LOADED!')
         // Dispatch a sign in success action, then set local storage authenticating to false
         dispatch({ type: SIGN_IN_SUCCESS, payload: authUser })
         helpers.setAuthenticatingStateToken(false)

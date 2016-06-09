@@ -1,1 +1,6 @@
-export const LOAD_PLAYLIST_INFO = 'LOAD_PLAYLIST_INFO'
+export const LOAD_PLAYER = 'LOAD_PLAYER'
+export const SET_SEEKING = 'SET_SEEKING'
+export const SET_PLAYING = 'SET_PLAYING'
+export const SET_TIME = 'SET_TIME'
+export const SET_DURATION = 'SET_DURATION'
+export const SET_PLAYLIST = 'SET_PLAYLIST'
