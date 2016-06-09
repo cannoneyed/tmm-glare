@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import _ from 'lodash'
 
-import RippleButton from '../shared/ripple-button'
+import RippleButton from '../shared/rippleButton'
 import Container from '../loaders/connecting'
 
 import { connectActions } from 'src/core/connect'
@@ -113,7 +113,7 @@ export class Connect extends Component {
                 )
                 : (
                   <RippleButton className="glare-button">
-                    ...
+                    {'...'}
                   </RippleButton>
                 )}
             </div>
