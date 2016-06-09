@@ -103,15 +103,19 @@ export class Connect extends Component {
                 onClick={isConnecting ? cancelConnecting : beginConnecting}>
                 {isConnecting ? 'Cancel' : connectMessage}
               </RippleButton>
-              <Link to={'/listen'}>
-                <RippleButton
-                  className="glare-button"
-                  onClick={() => {
-                    // browserHistory.push('/listen')
-                  }}>
-                  {hasAccess ? 'Listen' : '...'}
-                </RippleButton>
-              </Link>
+              {hasAccess
+                ? (
+                  <Link to="/listen">
+                    <RippleButton className="glare-button">
+                      Listen
+                    </RippleButton>
+                  </Link>
+                )
+                : (
+                  <RippleButton className="glare-button">
+                    ...
+                  </RippleButton>
+                )}
             </div>
           </div>
         </div>
