@@ -10,8 +10,14 @@ class RippleButton extends Component {
       PropTypes.arrayOf(PropTypes.element),
     ]).isRequired,
     className: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     text: PropTypes.string,
+  }
+
+  static defaultProps = {
+    onClick: () => {},
+    className: '',
+    text: '',
   }
 
   constructor() {
