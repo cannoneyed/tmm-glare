@@ -9,10 +9,6 @@ import {
 } from './action-types'
 
 import {
-  SIGN_IN_SUCCESS,
-} from '../auth/action-types'
-
-import {
   CONNECT_SUCCESS,
 } from '../connect/action-types'
 
@@ -30,7 +26,7 @@ export function loadOrCreateUser(authUser) {
       }
 
       // Otherwise, create a new user record
-      const facebook = authUser.providers[0]
+      const facebook = authUser.providerData[0]
 
       return firebase.database().ref().child(`users/${authUser.uid}`).set({
         connections: {},
