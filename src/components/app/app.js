@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
+import NotificationSystem from 'react-notification-system'
 
 import Header from './header'
 import Footer from './footer'
 import Loading from '../loaders/loading'
-import Connecting from '../loaders/connecting'
+
+import { style as notificationStyle } from './notifications'
 
 export class App extends Component {
   static contextTypes = {
@@ -18,8 +20,20 @@ export class App extends Component {
     isLoading: PropTypes.bool.isRequired,
   }
 
+  static childContextTypes = {
+    setNotification: React.PropTypes.func,
+  }
+
   constructor(props, context) {
     super(props, context)
+    this.notificationSystem = null
+    this.setNotification = this.setNotification.bind(this)
+  }
+
+  getChildContext() {
+    return {
+      setNotification: this.setNotification,
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,12 +55,12 @@ export class App extends Component {
     )
   }
 
-  renderConnecting() {
-    return (
-      <main className="container">
-        <Connecting />
-      </main>
-    )
+  setNotification(content) {
+    this.notificationSystem.addNotification({
+      message: content,
+      level: 'info',
+      position: 'tc',
+    })
   }
 
   render() {
@@ -59,8 +73,12 @@ export class App extends Component {
         {isLoading ? this.renderLoading() : null}
         <main className="main" style={toHide}>
           {children}
+          <NotificationSystem
+            ref={(ref) => this.notificationSystem = ref}
+            style={notificationStyle}
+          />
         </main>
-        <Footer />
+        <Footer setNotification={this.setNotification} />
       </div>
     )
   }

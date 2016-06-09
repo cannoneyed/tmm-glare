@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Footer() {
+export default function Footer({ setNotification }) {
   return (
     <footer className="footer">
       <div className="g-row">
@@ -8,7 +8,7 @@ export default function Footer() {
           <h1
             className="footer-title"
             onClick={() => {
-              console.log('FUCK YOU!')
+              setNotification(<h1>FUCK YOU</h1>)
             }}>About</h1>
         </div>
       </div>
