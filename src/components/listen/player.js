@@ -35,9 +35,9 @@ class Player extends Component {
     setLoading(true)
   }
 
-  componentWillReceiveProps(props) {
-    const { playlist, setLoading } = props
-    if (playlist) {
+  componentWillReceiveProps(nextProps) {
+    const { playlist, setLoading } = nextProps
+    if (!this.props.playlist && playlist) {
       setLoading(false)
     }
   }

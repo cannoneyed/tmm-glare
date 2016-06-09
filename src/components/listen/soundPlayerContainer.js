@@ -1,48 +1,30 @@
 import React from 'react'
-import SoundCloudAudio from 'soundcloud-audio'
-import assign from 'object-assign'
-
 import { stopAllOther, addToPlayedStore } from './utils/audioStore.js'
+import { connect } from 'react-redux'
+
+import { listenActions } from 'src/core/listen'
 
 let { PropTypes, Component } = React
 
 class SoundPlayerContainer extends Component {
   constructor(props, context) {
     super(props, context)
-
-    if (!props.clientId) {
-      throw new Error(
-        `You need to get clientId from SoundCloud
-        https://github.com/soundblogs/react-soundplayer#usage`
-      )
-    }
-
-    // Don't create a SoundCloudAudio instance
-    // if there is no `window`
-    if (typeof window !== 'undefined') {
-      this.soundCloudAudio = new SoundCloudAudio(props.clientId)
-    }
-
-    this.state = {
-      duration: 0,
-      currentTime: 0,
-      seeking: false,
-      playing: false
-    }
     this.wrapChild = this.wrapChild.bind(this)
   }
 
   componentDidMount() {
-    const { soundCloudAudio } = this
-    const { resolveUrl, streamUrl } = this.props
+    const {
+      setPlaylist,
+      resolveUrl,
+      soundCloudAudio,
+      streamUrl,
+    } = this.props
 
     if (streamUrl) {
       soundCloudAudio.preload(streamUrl)
     } else if (resolveUrl) {
       soundCloudAudio.resolve(resolveUrl, (data) => {
-        this.setState({
-          [data.tracks ? 'playlist' : 'track']: data
-        })
+        setPlaylist(data)
       })
     }
 
@@ -57,9 +39,12 @@ class SoundPlayerContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { soundCloudAudio } = this
-    const { streamUrl, resolveUrl } = this.props
-    const playedBefore = this.state.playing
+    const {
+      resolveUrl,
+      setPlaylist,
+      soundCloudAudio,
+    } = this.props
+    const playedBefore = this.props.playing
 
     function restartIfPlayed() {
       if (playedBefore) {
@@ -67,75 +52,62 @@ class SoundPlayerContainer extends Component {
       }
     }
 
-    if (streamUrl !== nextProps.streamUrl) {
-      soundCloudAudio.stop()
-      soundCloudAudio.preload(nextProps.streamUrl)
-      restartIfPlayed()
-    } else if (resolveUrl !== nextProps.resolveUrl) {
+    if (resolveUrl !== nextProps.resolveUrl) {
       soundCloudAudio.stop()
       soundCloudAudio.resolve(nextProps.resolveUrl, (data) => {
-        this.setState({
-          [data.tracks ? 'playlist' : 'track']: data
-        })
+        setPlaylist(data)
         restartIfPlayed()
       })
     }
   }
 
   componentWillUnmount() {
-    this.soundCloudAudio.unbindAll()
+    this.props.soundCloudAudio.unbindAll()
   }
 
   onSeekingTrack() {
-    this.setState({seeking: true})
+    const { setSeeking } = this.props
+    setSeeking(true)
   }
 
   onSeekedTrack() {
-    this.setState({seeking: false})
+    const { setSeeking } = this.props
+    setSeeking(false)
   }
 
   onAudioStarted() {
-    const { soundCloudAudio } = this
-    const { onStartTrack } = this.props
+    const { soundCloudAudio, setPlaying } = this.props
 
-    this.setState({playing: true})
-
+    setPlaying(true)
     stopAllOther(soundCloudAudio.playing)
     addToPlayedStore(soundCloudAudio)
-
-    if (onStartTrack) {
-      onStartTrack(soundCloudAudio, soundCloudAudio.playing)
-    }
   }
 
   onAudioPaused() {
-    const { onPauseTrack } = this.props
-    this.setState({playing: false})
-
-    if (onPauseTrack) {
-      onPauseTrack(this.soundCloudAudio)
-    }
+    const { setPlaying } = this.props
+    setPlaying(false)
   }
 
   onAudioEnded() {
-    const { onStopTrack } = this.props
-    this.setState({playing: false})
-
-    if (onStopTrack) {
-      onStopTrack(this.soundCloudAudio)
-    }
+    const { setPlaying } = this.props
+    setPlaying(false)
   }
 
   getCurrentTime() {
-    this.setState({currentTime: this.soundCloudAudio.audio.currentTime})
+    const { soundCloudAudio, setTime } = this.props
+    setTime(soundCloudAudio.audio.currentTime)
   }
 
   getDuration() {
-    this.setState({duration: this.soundCloudAudio.audio.duration})
+    const { soundCloudAudio, setDuration } = this.props
+    setDuration(soundCloudAudio.audio.duration)
   }
 
   wrapChild(child) {
-    const newProps = assign({}, { soundCloudAudio: this.soundCloudAudio }, this.state)
+    const { soundCloudAudio } = this.props
+    const newProps = Object.assign({}, {
+      soundCloudAudio,
+    }, this.props)
     return React.cloneElement(child, newProps)
   }
 
@@ -161,12 +133,29 @@ class SoundPlayerContainer extends Component {
 
 SoundPlayerContainer.propTypes = {
   children: PropTypes.node,
-  clientId: PropTypes.string.isRequired,
-  onPauseTrack: PropTypes.func,
-  onStartTrack: PropTypes.func,
-  onStopTrack: PropTypes.func,
+  clientId: PropTypes.string,
+  currentTime: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
+  playing: PropTypes.bool.isRequired,
+  playlist: PropTypes.object,
   resolveUrl: PropTypes.string,
+  seeking: PropTypes.bool.isRequired,
+  setDuration: PropTypes.func.isRequired,
+  setPlaying: PropTypes.func.isRequired,
+  setPlaylist: PropTypes.func.isRequired,
+  setSeeking: PropTypes.func.isRequired,
+  setTime: PropTypes.func.isRequired,
+  soundCloudAudio: PropTypes.object,
   streamUrl: PropTypes.string,
 }
 
-export default SoundPlayerContainer
+export default connect(state => ({
+  soundCloudAudio: state.listen.soundCloudAudio,
+  clientId: state.listen.clientId,
+  resolveUrl: state.listen.resolveUrl,
+  duration: state.listen.duration,
+  currentTime: state.listen.currentTime,
+  seeking: state.listen.seeking,
+  playing: state.listen.playing,
+  playlist: state.listen.playlist,
+}), listenActions)(SoundPlayerContainer)
