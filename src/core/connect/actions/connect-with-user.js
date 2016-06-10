@@ -8,7 +8,7 @@ export default function connectWithUser(otherId) {
   return (dispatch, getState) => {
     const { auth, firebase, location } = getState()
 
-    const connectionKey = [auth.id, otherId].sort().join('')
+    const connectionKey = [auth.id, otherId].join('::::')
 
     // Create the connection object
     return firebase.database().ref().child(`connections/${connectionKey}`)
