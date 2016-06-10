@@ -14,9 +14,9 @@ export const initialState = {
 }
 
 export function authReducer(state = initialState, action) {
-  const { payload } = action
+  const { payload, type } = action
 
-  switch (action.type) {
+  switch (type) {
     case SET_AUTHENTICATING:
       return {
         ...state,

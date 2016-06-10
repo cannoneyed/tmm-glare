@@ -7,6 +7,7 @@ import { userReducer } from './user'
 import { locationReducer } from './location'
 import { listenReducer } from './listen'
 import { loadingReducer } from './loading'
+import { notificationsReducer } from './notifications'
 
 export default combineReducers({
   auth: authReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   location: locationReducer,
   listen: listenReducer,
   loading: loadingReducer,
+  notifications: notificationsReducer,
 })

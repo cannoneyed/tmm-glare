@@ -19,10 +19,6 @@ export class Connect extends Component {
     user: PropTypes.object,
   }
 
-  static contextTypes = {
-    setNotification: React.PropTypes.func,
-  }
-
   renderConnectMessage(displayName) {
     return (
       <span>
@@ -34,11 +30,10 @@ export class Connect extends Component {
 
   handleBeaconClick(beacon) {
     const { connectWithUser } = this.props
-    const { setNotification } = this.context
 
     connectWithUser(beacon.key).then(() => {
       const message = this.renderConnectMessage(beacon.displayName)
-      setNotification(message)
+      // setNotification(message)
     })
   }
 

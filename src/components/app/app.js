@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
-import NotificationSystem from 'react-notification-system'
+import Notifications from '../notifications/notifications'
 
 import Header from './header'
 import Footer from './footer'
 import Loading from '../loaders/loading'
 
-import { style as notificationStyle } from './notifications'
+import { notificationActions } from 'src/core/notifications'
 
 export class App extends Component {
   static contextTypes = {
@@ -15,25 +15,15 @@ export class App extends Component {
   }
 
   static propTypes = {
+    addNotification: PropTypes.func,
     auth: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
   }
 
-  static childContextTypes = {
-    setNotification: React.PropTypes.func,
-  }
-
   constructor(props, context) {
     super(props, context)
-    this.notificationSystem = null
-    this.setNotification = this.setNotification.bind(this)
-  }
-
-  getChildContext() {
-    return {
-      setNotification: this.setNotification,
-    }
+    this.onClick = this.onClick.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,11 +45,13 @@ export class App extends Component {
     )
   }
 
-  setNotification(content) {
-    this.notificationSystem.addNotification({
-      message: content,
-      level: 'info',
-      position: 'tc',
+  onClick() {
+    const { addNotification } = this.props
+
+    addNotification({
+      message: 'FUCK YOU!',
+      kind: 'info',
+      dismissAfter: 1000,
     })
   }
 
@@ -73,12 +65,9 @@ export class App extends Component {
         {isLoading ? this.renderLoading() : null}
         <main className="main" style={toHide}>
           {children}
-          <NotificationSystem
-            ref={(ref) => this.notificationSystem = ref}
-            style={notificationStyle}
-          />
+          <Notifications />
         </main>
-        <Footer setNotification={this.setNotification} />
+        <Footer setNotification={this.onClick} />
       </div>
     )
   }
@@ -87,4 +76,4 @@ export class App extends Component {
 export default connect(state => ({
   auth: state.auth,
   isLoading: state.loading,
-}), null)(App)
+}), notificationActions)(App)
