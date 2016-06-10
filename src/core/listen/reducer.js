@@ -5,6 +5,7 @@ import {
   SET_TIME,
   SET_DURATION,
   SET_PLAYLIST,
+  SET_ACTIVE_INDEX,
 } from './action-types'
 
 export const initialState = {
@@ -18,6 +19,7 @@ export const initialState = {
   seeking: false,
   playing: false,
   playlist: null,
+  activeIndex: 0,
 }
 
 export function listenReducer(state = initialState, action) {
@@ -36,6 +38,8 @@ export function listenReducer(state = initialState, action) {
       return { ...state, duration: action.payload }
     case SET_PLAYLIST:
       return { ...state, playlist: action.payload }
+    case SET_ACTIVE_INDEX:
+      return { ...state, activeIndex: action.payload }
     default:
       return state
   }

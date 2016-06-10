@@ -12,23 +12,22 @@ import {
 
 import RippleButton from '../shared/rippleButton'
 import { loadingActions } from 'src/core/loading'
+import { listenActions } from 'src/core/listen'
 
 class Player extends Component {
   static propTypes = {
+    activeIndex: PropTypes.number,
     currentTime: PropTypes.number,
     duration: PropTypes.number,
     playing: PropTypes.bool.isRequired,
     playlist: PropTypes.object,
+    setActiveIndex: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     soundCloudAudio: PropTypes.object,
   }
 
   constructor() {
     super()
-
-    this.state = {
-      activeIndex: 0
-    }
   }
 
   componentWillMount() {
@@ -59,31 +58,29 @@ class Player extends Component {
   }
 
   playTrackAtIndex(playlistIndex) {
-    let { soundCloudAudio } = this.props
-    this.setState({activeIndex: playlistIndex})
+    let { soundCloudAudio, setActiveIndex } = this.props
+    setActiveIndex(playlistIndex)
     soundCloudAudio.play({ playlistIndex })
   }
 
   nextIndex() {
-    let { activeIndex } = this.state
-    let { playlist, soundCloudAudio } = this.props
+    let { playlist, soundCloudAudio, activeIndex, setActiveIndex } = this.props
     if (activeIndex >= playlist.tracks.length - 1) {
       return
     }
     if (activeIndex || activeIndex === 0) {
-      this.setState({activeIndex: ++activeIndex})
+      setActiveIndex(++activeIndex)
       soundCloudAudio.next()
     }
   }
 
   prevIndex() {
-    let { activeIndex } = this.state
-    const { soundCloudAudio } = this.props
+    let { soundCloudAudio, activeIndex, setActiveIndex } = this.props
     if (activeIndex <= 0) {
       return
     }
     if (activeIndex || activeIndex === 0) {
-      this.setState({activeIndex: --activeIndex})
+      setActiveIndex(--activeIndex)
       soundCloudAudio.previous()
     }
   }
@@ -92,18 +89,17 @@ class Player extends Component {
     let { soundCloudAudio } = this.props
     const xPos = (e.pageX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.offsetWidth
 
-
     if (soundCloudAudio && !isNaN(soundCloudAudio.audio.duration)) {
       soundCloudAudio.audio.currentTime = (xPos * soundCloudAudio.audio.duration)
     }
   }
 
   renderTrackList() {
-    let { playlist } = this.props
+    let { playlist, activeIndex } = this.props
 
     let tracks = playlist.tracks.map((track, i) => {
       let names = classnames('playlist-row', {
-        'is-active': this.state.activeIndex === i
+        'is-active': activeIndex === i
       })
 
       const title = track.title.replace('The M Machine - ', '')
@@ -126,8 +122,8 @@ class Player extends Component {
   }
 
   render() {
-    let { currentTime, duration, playlist } = this.props
-    let { activeIndex } = this.state
+    let { currentTime, duration, playlist, activeIndex } = this.props
+
     if (!duration && playlist) {
       duration = playlist.tracks[activeIndex].duration / 1000
     }
@@ -178,4 +174,5 @@ export default connect(state => ({
   soundCloudAudio: state.listen.soundCloudAudio,
   currentTime: state.listen.currentTime,
   duration: state.listen.duration,
-}), loadingActions)(Player)
+  activeIndex: state.listen.activeIndex,
+}), { ...loadingActions, ...listenActions })(Player)

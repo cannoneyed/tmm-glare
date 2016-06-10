@@ -8,6 +8,7 @@ import {
   SET_TIME,
   SET_DURATION,
   SET_PLAYLIST,
+  SET_ACTIVE_INDEX,
 } from './action-types'
 
 export function loadPlayerData() {
@@ -45,4 +46,8 @@ export function setDuration(duration) {
 
 export function setPlaylist(playlist) {
   return { type: SET_PLAYLIST, payload: playlist }
+}
+
+export function setActiveIndex(index) {
+  return { type: SET_ACTIVE_INDEX, payload: index }
 }

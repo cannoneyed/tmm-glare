@@ -89,9 +89,22 @@ class SoundPlayerContainer extends Component {
   }
 
   onAudioEnded() {
-    console.log('HEY!')
-    const { setPlaying } = this.props
-    setPlaying(false)
+    let {
+      activeIndex,
+      playlist,
+      setActiveIndex,
+      setPlaying,
+      soundCloudAudio,
+    } = this.props
+
+    if (activeIndex >= playlist.tracks.length - 1) {
+      setPlaying(false)
+    }
+    if (activeIndex || activeIndex === 0) {
+      setActiveIndex(++activeIndex)
+      soundCloudAudio.next()
+    }
+
   }
 
   getCurrentTime() {
@@ -133,6 +146,7 @@ class SoundPlayerContainer extends Component {
 }
 
 SoundPlayerContainer.propTypes = {
+  activeIndex: PropTypes.number.isRequired,
   children: PropTypes.node,
   clientId: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
@@ -141,6 +155,7 @@ SoundPlayerContainer.propTypes = {
   playlist: PropTypes.object,
   resolveUrl: PropTypes.string,
   seeking: PropTypes.bool.isRequired,
+  setActiveIndex: PropTypes.func.isRequired,
   setDuration: PropTypes.func.isRequired,
   setPlaying: PropTypes.func.isRequired,
   setPlaylist: PropTypes.func.isRequired,
@@ -151,12 +166,5 @@ SoundPlayerContainer.propTypes = {
 }
 
 export default connect(state => ({
-  soundCloudAudio: state.listen.soundCloudAudio,
-  clientId: state.listen.clientId,
-  resolveUrl: state.listen.resolveUrl,
-  duration: state.listen.duration,
-  currentTime: state.listen.currentTime,
-  seeking: state.listen.seeking,
-  playing: state.listen.playing,
-  playlist: state.listen.playlist,
+  ...state.listen,
 }), listenActions)(SoundPlayerContainer)
