@@ -10,7 +10,7 @@ const Beacons = ({ user, beacons, connectWithUser }) => {
   const hasAccess = user && user.hasAccess
 
   // Don't render the beacons if the user is not connected
-  if (!user.hasAccess || beacons.length === 0) {
+  if (!user.hasAccess) {
     return null
   }
 
@@ -18,7 +18,7 @@ const Beacons = ({ user, beacons, connectWithUser }) => {
     connectWithUser(beacon.key)
   }
 
-  return beacons.reverse().filter(beacon => {
+  const toRender = beacons.reverse().filter(beacon => {
     const isConnected = _.get(user, ['connections', beacon.key])
     return !isConnected
   })
@@ -34,6 +34,13 @@ const Beacons = ({ user, beacons, connectWithUser }) => {
       </RippleButton>
     )
   })
+
+  return (
+    <div className="connect-beacons">
+      {toRender}
+      {beacons.length ? <div className="beacon-divider" /> : null }
+    </div>
+  )
 }
 
 Beacons.propTypes = {
