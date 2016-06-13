@@ -70,6 +70,30 @@ export class Connect extends Component {
     )
   }
 
+  renderListenButton() {
+    const { user } = this.props
+    const { router } = this.context
+
+    const hasAccess = user && user.hasAccess
+
+    // Set defaults
+    let content = '...'
+    let onClick = () => {}
+
+    if (hasAccess) {
+      content = 'Listen'
+      onClick = () => setTimeout(() => router.push('/listen'), 200)
+    }
+
+    return (
+      <RippleButton
+        className="glare-button"
+        onClick={onClick}>
+        {content}
+      </RippleButton>
+    )
+  }
+
   render() {
     const {
       beacons,
@@ -78,8 +102,6 @@ export class Connect extends Component {
       isConnecting,
       user,
     } = this.props
-
-    const { router } = this.context
 
     const hasAccess = user && user.hasAccess
 
@@ -101,21 +123,7 @@ export class Connect extends Component {
             onClick={isConnecting ? cancelConnecting : beginConnecting}>
             {isConnecting ? 'Cancel' : connectMessage}
           </RippleButton>
-          {hasAccess
-            ? (
-              <RippleButton
-                className="glare-button"
-                onClick={() => {
-                  setTimeout(() => router.push('/listen'), 200)
-                }}>
-                Listen
-              </RippleButton>
-            )
-            : (
-              <RippleButton className="glare-button">
-                {'...'}
-              </RippleButton>
-            )}
+          {this.renderListenButton()}
         </div>
       </div>
     )
