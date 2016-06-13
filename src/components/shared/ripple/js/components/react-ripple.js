@@ -25,7 +25,7 @@ class Ripple extends React.Component {
 
   render () {
     return (
-      <div className={"Ripple " + (this.state.animate ? "is-reppling" : "")} ref="ripple" style={{
+      <div className={"Ripple " + (this.state.animate ? "is-rippling" : "")} ref="ripple" style={{
           top: this.state.top+"px",
           left: this.state.left+"px",
           width: this.state.width+"px",

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
 import _ from 'lodash'
 
 import RippleButton from '../shared/rippleButton'
@@ -9,6 +8,10 @@ import Container from '../loaders/connecting'
 import { connectActions } from 'src/core/connect'
 
 export class Connect extends Component {
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
 
   static propTypes = {
     beacons: PropTypes.array.isRequired,
@@ -32,7 +35,7 @@ export class Connect extends Component {
     const { connectWithUser } = this.props
 
     connectWithUser(beacon.key).then(() => {
-      const message = this.renderConnectMessage(beacon.displayName)
+      // const message = this.renderConnectMessage(beacon.displayName)
       // setNotification(message)
     })
   }
@@ -76,6 +79,8 @@ export class Connect extends Component {
       user,
     } = this.props
 
+    const { router } = this.context
+
     const hasAccess = user && user.hasAccess
 
     // Decide what to display on the 'connect' button
@@ -90,29 +95,27 @@ export class Connect extends Component {
       <div className="connect-container">
         {isConnecting ? this.renderConnecting() : null}
         <div className="action-buttons">
-          <div className="g-row sign-in">
-            <div className="g-col">
-              {this.renderBeacons(beacons)}
+          {this.renderBeacons(beacons)}
+          <RippleButton
+            className="glare-button"
+            onClick={isConnecting ? cancelConnecting : beginConnecting}>
+            {isConnecting ? 'Cancel' : connectMessage}
+          </RippleButton>
+          {hasAccess
+            ? (
               <RippleButton
                 className="glare-button"
-                onClick={isConnecting ? cancelConnecting : beginConnecting}>
-                {isConnecting ? 'Cancel' : connectMessage}
+                onClick={() => {
+                  setTimeout(() => router.push('/listen'), 200)
+                }}>
+                Listen
               </RippleButton>
-              {hasAccess
-                ? (
-                  <Link to="/listen">
-                    <RippleButton className="glare-button">
-                      Listen
-                    </RippleButton>
-                  </Link>
-                )
-                : (
-                  <RippleButton className="glare-button">
-                    {'...'}
-                  </RippleButton>
-                )}
-            </div>
-          </div>
+            )
+            : (
+              <RippleButton className="glare-button">
+                {'...'}
+              </RippleButton>
+            )}
         </div>
       </div>
     )

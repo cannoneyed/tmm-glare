@@ -18,11 +18,7 @@ export function SignIn({ signInWithFacebook, isAuthenticating }) {
 
   return (
     <div className="action-buttons">
-      <div className="g-row sign-in">
-        <div className="g-col">
-         {isAuthenticating ? null : signInButton}
-        </div>
-      </div>
+     {isAuthenticating ? null : signInButton}
     </div>
   )
 }

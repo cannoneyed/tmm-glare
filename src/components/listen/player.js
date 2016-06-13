@@ -30,20 +30,6 @@ class Player extends Component {
     super()
   }
 
-  componentWillMount() {
-    const { playlist, setLoading } = this.props
-    if (!playlist) {
-      setLoading(true)
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { playlist, setLoading } = nextProps
-    if (!this.props.playlist && playlist) {
-      setLoading(false)
-    }
-  }
-
   onPlayClick() {
     const { playing, soundCloudAudio } = this.props
     if (!soundCloudAudio) {

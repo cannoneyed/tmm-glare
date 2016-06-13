@@ -13,20 +13,7 @@ class SoundPlayerContainer extends Component {
   }
 
   componentDidMount() {
-    const {
-      setPlaylist,
-      resolveUrl,
-      soundCloudAudio,
-      streamUrl,
-    } = this.props
-
-    if (streamUrl) {
-      soundCloudAudio.preload(streamUrl)
-    } else if (resolveUrl) {
-      soundCloudAudio.resolve(resolveUrl, (data) => {
-        setPlaylist(data)
-      })
-    }
+    const { soundCloudAudio } = this.props
 
     // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
     soundCloudAudio.on('playing', this.onAudioStarted.bind(this))

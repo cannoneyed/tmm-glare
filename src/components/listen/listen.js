@@ -1,28 +1,38 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import SoundPlayerContainer from './soundPlayerContainer'
 import Player from './player'
 
 import { listenActions } from 'src/core/listen'
 
-export function Listen({ isPlayerLoaded, loadPlayerData }) {
-  if (!isPlayerLoaded) {
-    loadPlayerData()
-    return <div></div>
+class Listen extends Component {
+
+  static propTypes = {
+    isPlayerLoaded: PropTypes.bool.isRequired,
+    loadPlayerData: PropTypes.func.isRequired,
   }
 
-  return (
-    <div className="g-col">
-      <SoundPlayerContainer>
-        <Player />
-      </SoundPlayerContainer>
-    </div>
-  )
-}
+  componentWillMount() {
+    const { isPlayerLoaded, loadPlayerData } = this.props
+    if (!isPlayerLoaded) {
+      loadPlayerData()
+    }
+  }
 
-Listen.propTypes = {
-  isPlayerLoaded: PropTypes.bool.isRequired,
-  loadPlayerData: PropTypes.func.isRequired,
+  render() {
+    const { isPlayerLoaded } = this.props
+    if (!isPlayerLoaded) {
+      return <div></div>
+    }
+
+    return (
+      <div className="g-col">
+        <SoundPlayerContainer>
+          <Player />
+        </SoundPlayerContainer>
+      </div>
+    )
+  }
 }
 
 export default connect(state => ({
