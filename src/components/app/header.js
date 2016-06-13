@@ -40,10 +40,11 @@ export class Header extends Component {
   }
 
   render() {
-    const {
-      auth,
-      user,
-    } = this.props
+    const { auth, user } = this.props
+
+    if (!user) {
+      return null
+    }
 
     const isLoggedIn = auth.authenticated
 
@@ -76,4 +77,5 @@ export default connect(state => ({
   auth: state.auth,
   user: state.user,
   isConnecting: state.connection.isConnecting,
+
 }), authActions)(Header)
