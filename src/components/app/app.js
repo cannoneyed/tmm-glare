@@ -39,8 +39,18 @@ export class App extends Component {
 
   renderLoading() {
     return (
-      <main className="container">
+      <main className="main">
         <Loading />
+      </main>
+    )
+  }
+
+  renderMain() {
+    const { children } = this.props
+    return (
+      <main className="main">
+        {children}
+        <Notifications />
       </main>
     )
   }
@@ -56,17 +66,12 @@ export class App extends Component {
   }
 
   render() {
-    const { children, isLoading } = this.props
-    const toHide = isLoading ? { display: 'none' } : {}
+    const { isLoading } = this.props
 
     return (
       <div className="container">
         <Header />
-        {isLoading ? this.renderLoading() : null}
-        <main className="main" style={toHide}>
-          {children}
-          <Notifications />
-        </main>
+        {isLoading ? this.renderLoading() : this.renderMain()}
         <Footer setNotification={this.onClick} />
       </div>
     )
