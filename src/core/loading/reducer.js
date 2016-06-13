@@ -9,7 +9,7 @@ import {
   SIGN_IN_FAILURE,
 } from '../auth/action-types.js'
 
-export const initialState = false
+export const initialState = true
 
 export function loadingReducer(state = initialState, action) {
   switch (action.type) {

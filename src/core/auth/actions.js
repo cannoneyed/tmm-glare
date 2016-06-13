@@ -19,7 +19,6 @@ export function initAuth() {
     // is reloaded upon redirect completion, we'll need to look to find whether this token was
     // set to indicate the app is loading
     const isAuthenticating = helpers.getAuthenticatingState()
-    dispatch({ type: SET_AUTHENTICATING, payload: isAuthenticating })
 
     // Set up a firebase auth state listener to get the currently logged in user (this will succeed)
     // if the user is logged in and a session token exists, otherwise we'll have to look for the
