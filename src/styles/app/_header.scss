@@ -3,28 +3,16 @@
 //===================================================================
 
 .header {
-  padding: 10px 0;
+  display: flex;
+  padding: 10px;
   height: 60px;
   overflow: hidden;
   line-height: 40px;
-}
-
-
-.header-title {
-  float: left;
   font-size: rem(14px);
-  font-weight: 400;
-  text-rendering: auto;
-  transform: translate(0,0);
+  justify-content: space-between;
 }
 
-
-.header-links {
-  @include clearfix;
-  float: right;
-  padding: 8px 0;
-  line-height: 24px;
-
+.user-pieces {
   li {
     float: left;
     list-style: none;
@@ -42,11 +30,8 @@
 }
 
 
-.header-link {
-  display: block;
+.user-piece a {
   color: inherit;
-  font-size: rem(14px);
-  text-decoration: none;
+  text-decoration: underline;
   text-rendering: auto;
-  transform: translate(0,0);
 }

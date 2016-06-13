@@ -3,49 +3,11 @@
 //===================================================================
 
 .footer {
-  padding: 10px 0;
+  display: flex;
+  padding: 10px;
   height: 60px;
   overflow: hidden;
   line-height: 40px;
-}
-
-
-.footer-title {
   font-size: rem(14px);
-  font-weight: 400;
-  text-rendering: auto;
-  transform: translate(0,0);
-}
-
-
-.footer-links {
-  @include clearfix;
-  float: right;
-  padding: 8px 0;
-  line-height: 24px;
-
-  li {
-    float: left;
-    list-style: none;
-
-    &:last-child {
-      margin-left: 12px;
-      padding-left: 12px;
-      border-left: 1px solid #333;
-    }
-
-    &:first-child {
-      border: none;
-    }
-  }
-}
-
-
-.footer-link {
-  display: block;
-  color: inherit;
-  font-size: rem(14px);
-  text-decoration: none;
-  text-rendering: auto;
-  transform: translate(0,0);
+  justify-content: space-between;
 }
