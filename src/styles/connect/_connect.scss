@@ -2,3 +2,17 @@
   min-width: 100%;
   position: relative;
 }
+
+.connect-beacons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100%;
+}
+
+.beacon-divider {
+  height: 10px;
+  margin-bottom: 20px;
+  width: 60%;
+  border-bottom: 1px solid #555;
+}

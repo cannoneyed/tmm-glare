@@ -1,17 +1,20 @@
 .notif-enter {
+  margin-top: -30px;
   opacity: 0.01;
-  transition: opacity .2s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 .notif-enter.notif-enter-active {
+  margin-top: 0px;
   opacity: 1;
 }
 
 .notif-leave {
   opacity: 1;
-  transition: opacity .2s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 .notif-leave.notif-leave-active {
+  margin-top: -30px;
   opacity: 0.01;
 }

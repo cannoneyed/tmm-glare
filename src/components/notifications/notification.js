@@ -66,29 +66,30 @@ const stylesNotification = {
     position: 'relative',
     font: '1rem normal Helvetica, sans-serif',
     overflow: 'hidden',
-    'borderRadius': 4,
-    'marginBottom': 2,
-    'maxHeight': 400,
+    borderRadius: 4,
+    marginBottom: 2,
+    maxHeight: 400,
     boxSizing: 'border-box',
     boxShadow: '0 0 1px 1px rgba(10, 10, 11, .125)',
-    padding: '0.5rem',
-    color: '#fff'
+    padding: '1rem',
+    textAlign: 'center',
   },
 
   success: {
-    backgroundColor: '#64ce83'
+    backgroundColor: 'rgba(34, 84, 78, .650)'
   },
 
   info: {
-    backgroundColor: '#3ea2ff'
+    backgroundColor: 'rgba(73, 42, 100, .650)'
+
   },
 
   warning: {
-    backgroundColor: '#ff7f48'
+    backgroundColor: 'rgba(100, 50, 28, .650)'
   },
 
   danger: {
-    backgroundColor: '#e74c3c'
+    backgroundColor: 'rgba(91, 30, 24, .650)'
   }
 }
 
