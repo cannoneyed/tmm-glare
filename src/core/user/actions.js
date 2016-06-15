@@ -115,7 +115,7 @@ function displayConnectionNotification(id) {
 
       dispatch(notificationActions.addNotification({
         message: `${message} with ${connectedUser.displayName}`,
-        kind: 'info',
+        kind: 'success',
         dismissAfter: 5000,
       }))
     })

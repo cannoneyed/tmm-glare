@@ -16,6 +16,8 @@ import {
   GEOLOCATION_DENIED,
 } from '../../location/action-types'
 
+import { notificationActions } from 'src/core/notifications'
+
 // The main exported function for
 export default function beginConnecting() {
   return (dispatch, getState) => {
@@ -24,6 +26,10 @@ export default function beginConnecting() {
     return getGeolocation()
       .catch(err => dispatch(handleGeolocationError(err)))
       .then(location => {
+        if (!location) {
+          return
+        }
+
         const { connection } = getState()
 
         // Check to ensure the connection action has not been canceled
@@ -54,6 +60,12 @@ function getGeolocation() {
 
 function handleGeolocationError(err) {
   return (dispatch) => {
+    dispatch(notificationActions.addNotification({
+      message: 'You must enable geolocation to use the GLARE app',
+      kind: 'danger',
+      dismissAfter: 5000,
+    }))
+
     if (err.code === 1 || err.message === 'User denied Geolocation') {
       dispatch({ type: GEOLOCATION_DENIED })
     } else {

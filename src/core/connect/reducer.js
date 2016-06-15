@@ -14,9 +14,12 @@ import {
   CONNECT_SUCCESS,
   CONNECT_CANCELED,
   FOUND_BEACON,
+} from './action-types'
+
+import {
   GEOLOCATION_DENIED,
   GEOLOCATION_ERROR,
-} from './action-types'
+} from '../location/action-types'
 
 
 export const initialState = {
@@ -26,10 +29,7 @@ export const initialState = {
 }
 
 function setIsConnecting(state, bool) {
-  return {
-    ...state,
-    isConnecting: bool,
-  }
+  return { ...state, isConnecting: bool }
 }
 
 function removeBeacon(state, userId) {
@@ -43,10 +43,7 @@ function removeBeacon(state, userId) {
 
 function setNewBeacon(state, user) {
   const newBeacons = _.uniqBy(state.beacons.concat(user), 'key')
-  return {
-    ...state,
-    beacons: newBeacons,
-  }
+  return { ...state, beacons: newBeacons }
 }
 
 export function connectReducer(state = initialState, action) {
