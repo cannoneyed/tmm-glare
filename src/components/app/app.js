@@ -61,7 +61,7 @@ export class App extends Component {
     addNotification({
       message: 'FUCK YOU!',
       kind: 'info',
-      dismissAfter: 1000,
+      dismissAfter: 5000,
     })
   }
 

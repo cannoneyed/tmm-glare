@@ -12,6 +12,8 @@ import {
   CONNECT_SUCCESS,
 } from '../connect/action-types'
 
+import { notificationActions } from 'src/core/notifications'
+
 export function loadOrCreateUser(authUser) {
   return (dispatch, getState) => {
     const { firebase } = getState()
@@ -96,6 +98,26 @@ export function registerUserListeners(userId) {
 
       dispatch({ type: ADD_CONNECTION, payload: id })
       dispatch({ type: CONNECT_SUCCESS })
+      dispatch(displayConnectionNotification(id))
+    })
+  }
+}
+
+function displayConnectionNotification(id) {
+  return (dispatch, getState) => {
+    const { firebase } = getState()
+
+    firebase.database().ref().child(`users/${id}`).once('value', snapshot => {
+      const connectedUser = util.recordFromSnapshot(snapshot)
+
+      const didShare = Object.keys(connectedUser.connections).length <= 1
+      const message = didShare ? 'Shared' : 'Connected'
+
+      dispatch(notificationActions.addNotification({
+        message: `${message} with ${connectedUser.displayName}`,
+        kind: 'info',
+        dismissAfter: 5000,
+      }))
     })
   }
 }
