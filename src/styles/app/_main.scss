@@ -54,6 +54,14 @@ html, body {
   line-height: 48px;
   color: #999;
   background: transparent;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  >svg {
+    margin-right: 10px;
+  }
 
   &:hover {
     border: 2px solid #aaa;

@@ -39,7 +39,7 @@ export class Connect extends Component {
     // Decide what to display on the 'connect' button
     let connectMessage
     if (hasAccess) {
-      connectMessage = 'Share'
+      connectMessage = 'Give'
     } else {
       connectMessage = 'Connect'
     }

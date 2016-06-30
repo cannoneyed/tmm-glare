@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import RippleButton from '../shared/rippleButton'
+import { Icon, RippleButton } from '../shared'
 import { connect } from 'react-redux'
 import { authActions } from 'src/core/auth'
 
@@ -12,7 +12,8 @@ export function SignIn({ signInWithFacebook, isAuthenticating }) {
           signInWithFacebook()
         }, 200)
       }}>
-      {'Sign In'}
+      <Icon icon="facebook" />
+      <span>{'Sign In'}</span>
     </RippleButton>
   )
 
