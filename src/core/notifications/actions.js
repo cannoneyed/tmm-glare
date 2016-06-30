@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import {
   ADD_NOTIFICATION,
   DISMISS_NOTIFICATION,
@@ -10,12 +12,18 @@ export function addNotification(notification) {
     notification.id = new Date().getTime()
   }
 
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({ type: ADD_NOTIFICATION, payload: notification })
 
     if (dismissAfter) {
       setTimeout(() => {
-        dispatch({ type: DISMISS_NOTIFICATION, payload: notification.id })
+        const { notifications } = getState()
+        const found = _.find(notifications, lookup => {
+          return lookup.id === notification.id
+        })
+        if (found) {
+          dispatch({ type: DISMISS_NOTIFICATION, payload: notification.id })
+        }
       }, dismissAfter)
     }
   }

@@ -11,21 +11,17 @@ class Notification extends Component {
 
   constructor() {
     super()
-    this._id = new Date().getTime()
-    this._onActionClick = this._onActionClick.bind(this)
+    this.onClick = this.onClick.bind(this)
   }
 
-  _onActionClick(event) {
+  onClick(event) {
+    const { dismissNotification, id } = this.props
     event.preventDefault()
-    if (this.props.onClick) {
-      this.props.onActionClick()
-    } else {
-      return
-    }
+    dismissNotification(id)
   }
 
   render() {
-    const { theme, kind, CustomComponent, action } = this.props
+    const { theme, kind, CustomComponent } = this.props
 
     let classes
     let styles = {}
@@ -40,18 +36,12 @@ class Notification extends Component {
     }
 
     const component = !CustomComponent ?
-      <div className={classes} style={styles}>
+      <div className={classes} style={styles} onClick={this.onClick}>
         <div>
           <div className="notif-icon" />
           <div className="notif-content">
             <span className="notif-message">{this.props.message}</span>
           </div>
-          { action &&
-            <span className="notif-action">
-              <button onClick={this._onActionClick}>{this.props.action}</button>
-            </span>
-          }
-          <div className="notif-close" />
         </div>
       </div>
       :
@@ -96,6 +86,8 @@ Notification.propTypes = {
   CustomComponent: PropTypes.func,
   action: PropTypes.string,
   dismissAfter: PropTypes.number,
+  dismissNotification: PropTypes.func,
+  id: PropTypes.number,
   kind: React.PropTypes.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
   message: PropTypes.string.isRequired,
   onActionClick: PropTypes.func,

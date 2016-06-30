@@ -25,6 +25,7 @@ const Notifications = (props) => {
     theme,
     className,
     CustomComponent,
+    dismissNotification,
     forceNotifsStyles
   } = props
 
@@ -32,6 +33,8 @@ const Notifications = (props) => {
     return (
       <Notification
         key={notification.id}
+        id={notification.id}
+        dismissNotification={dismissNotification}
         message={notification.message}
         kind={notification.kind}
         theme={theme}
@@ -56,6 +59,7 @@ const Notifications = (props) => {
 Notifications.propTypes = {
   CustomComponent: PropTypes.func,
   className: PropTypes.string,
+  dismissNotification: PropTypes.func,
   forceNotifsStyles: PropTypes.bool,
   notifications: PropTypes.array.isRequired,
   theme: PropTypes.object,
