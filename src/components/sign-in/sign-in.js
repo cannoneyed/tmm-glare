@@ -3,23 +3,19 @@ import { Icon, RippleButton } from '../shared'
 import { connect } from 'react-redux'
 import { authActions } from 'src/core/auth'
 
-export function SignIn({ signInWithFacebook, isAuthenticating }) {
-  const signInButton = (
-    <RippleButton
-      className="glare-button"
-      onClick={() => {
-        setTimeout(() => {
-          signInWithFacebook()
-        }, 200)
-      }}>
-      <Icon icon="facebook" />
-      {'Sign In'}
-    </RippleButton>
-  )
-
+export function SignIn({ signInWithFacebook }) {
   return (
     <div className="action-buttons">
-     {isAuthenticating ? null : signInButton}
+      <RippleButton
+        className="glare-button"
+        onClick={() => {
+          setTimeout(() => {
+            signInWithFacebook()
+          }, 200)
+        }}>
+        <Icon icon="facebook" />
+        {'Sign In'}
+      </RippleButton>
     </div>
   )
 }

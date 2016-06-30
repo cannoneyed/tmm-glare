@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-import RippleButton from '../shared/rippleButton'
+import { Icon, RippleButton } from '../shared'
 
 export default class ListenButton extends Component { // eslint-disable-line
 
@@ -29,6 +29,7 @@ export default class ListenButton extends Component { // eslint-disable-line
       <RippleButton
         className="glare-button"
         onClick={onClick}>
+        <Icon icon="listen" />
         {content}
       </RippleButton>
     )
