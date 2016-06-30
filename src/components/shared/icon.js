@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react'
 
 class Icon extends Component {
   static propTypes = {
-    icon: PropTypes.string.isRequired,
     size: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
     ]),
-    style: PropTypes.object
+    style: PropTypes.object,
+    type: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -20,7 +20,7 @@ class Icon extends Component {
   }
 
   renderGraphic() {
-    switch (this.props.icon) {
+    switch (this.props.type) {
       case 'facebook':
         return (
           <g><path d="M20 2h-16c-1.1 0-1.99.9-1.99 2l-.01 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-16c0-1.1-.9-2-2-2zm-1 2v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v7h-3v-7h-2v-3h2v-2.5c0-1.93 1.57-3.5 3.5-3.5h2.5z"></path></g>

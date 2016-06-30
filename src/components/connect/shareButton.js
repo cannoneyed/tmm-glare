@@ -33,7 +33,7 @@ class ShareButton extends Component { // eslint-disable-line
       <RippleButton
         className="glare-button"
         onClick={isConnecting ? cancelConnecting : beginConnecting}>
-        <Icon icon={connectIcon} />
+        <Icon type={connectIcon} />
         {isConnecting ? 'Cancel' : connectMessage}
       </RippleButton>
     )

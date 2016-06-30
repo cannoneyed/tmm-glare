@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react'
 import { Icon, RippleButton } from '../shared'
 import { connect } from 'react-redux'
 import { authActions } from 'src/core/auth'
+import { Link } from 'react-router'
+
 
 export function SignIn({ signInWithFacebook }) {
   return (
@@ -13,9 +15,14 @@ export function SignIn({ signInWithFacebook }) {
             signInWithFacebook()
           }, 200)
         }}>
-        <Icon icon="facebook" />
+        <Icon type="facebook" />
         {'Sign In'}
       </RippleButton>
+      <Link
+        className="aside"
+        to={'/email'}>
+        {'Sign in with email'}
+      </Link>
     </div>
   )
 }
