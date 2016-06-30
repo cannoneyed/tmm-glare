@@ -13,7 +13,7 @@ export function SignIn({ signInWithFacebook, isAuthenticating }) {
         }, 200)
       }}>
       <Icon icon="facebook" />
-      <span>{'Sign In'}</span>
+      {'Sign In'}
     </RippleButton>
   )
 
