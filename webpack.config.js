@@ -27,8 +27,20 @@ const PORT = process.env.PORT || 3000
 //  LOADERS
 //---------------------------------------------------------
 const loaders = {
-  js: {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
-  scss: {test: /\.scss$/, loader: 'style!css!postcss-loader!sass'}
+  js: {
+    test: /\.js$/,
+    exclude: /node_modules/,
+    loader: 'babel-loader',
+  },
+  scss: {
+    test: /\.scss$/,
+    loader: 'style!css!resolve-url!postcss-loader!sass',
+  },
+  img: {
+    test: /\.(png|jpg)$/,
+    loader: 'url-loader?limit=8192',
+  }, // inline base64 URLs for <=8k images, direct URLs for the rest
+
 }
 
 
@@ -118,6 +130,7 @@ if (ENV_DEVELOPMENT) {
 
   config.module = {
     loaders: [
+      loaders.img,
       loaders.scss,
       {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader', query: {
         plugins: [

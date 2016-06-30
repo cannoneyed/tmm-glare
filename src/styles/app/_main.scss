@@ -15,6 +15,11 @@ html, body {
   display: flex;
   flex-direction: column;
   align-content: center;
+
+  // background-image: url("../img/glare.png");
+  background-repeat: no-repeat;
+  background-position: 0% 30%;
+  background-size: 100%;
 }
 
 .main {
