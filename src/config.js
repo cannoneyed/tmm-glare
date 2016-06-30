@@ -7,6 +7,7 @@ export const firebaseConfig = {
 
 // Route paths
 export const SIGN_IN_PATH = '/sign-in'
+export const EMAIL_PATH = '/email'
 export const CONNECT_PATH = '/connect'
 export const LISTEN_PATH = '/listen'
 export const POST_SIGN_IN_PATH = CONNECT_PATH
