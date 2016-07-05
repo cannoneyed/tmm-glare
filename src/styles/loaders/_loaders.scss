@@ -18,6 +18,28 @@ $loading-height: 100px !default;
   min-width: 100%;
 }
 
+.loader-transition-enter {
+  opacity: 0.01;
+  filter: blur(20px);
+}
+
+.loader-transition-enter.loader-transition-enter-active {
+  opacity: 1;
+  filter: blur(0px);
+  transition: all 750ms ease-in;
+}
+
+.loader-transition-leave {
+  opacity: 1;
+  filter: blur(3px);
+}
+
+.loader-transition-leave.loader-transition-leave-active {
+  opacity: 0.01;
+  filter: blur(20px);
+  transition: all 750ms ease-in;
+}
+
 /* Universal styling */
 [class^="shaft-load"] {
   margin: 50px auto;
@@ -37,9 +59,9 @@ $loading-height: 100px !default;
   margin-top: 50%;
   width: 48%;
   > div {
-    margin-right: 0;
+    margin-right: 8%;
     @include animation(loading4 2.5s infinite ease-in-out);
-    width: 10%;
+    width: 2%;
     @include opacity(0);
     @include transform(scaleY(0.1));
   }
@@ -71,7 +93,7 @@ $loading-height: 100px !default;
   @include square(100px);
   > div {
     background: transparent;
-    border: 16px solid transparent;
+    border: 3px solid transparent;
     border-color: rgba($purple, 1) transparent;
     @include border-radius(100%);
     @include centerer;

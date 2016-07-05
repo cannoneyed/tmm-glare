@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
 
 import ConnectingLoaderContainer from '../loaders/connecting'
@@ -32,7 +33,12 @@ export class Connect extends Component {
 
     return (
       <div className="connect-container">
-        {isConnecting ? this.renderConnectingLoader() : null}
+        <ReactCSSTransitionGroup
+          transitionName="loader-transition"
+          transitionEnterTimeout={7500}
+          transitionLeaveTimeout={750}>
+          {isConnecting ? this.renderConnectingLoader() : null}
+        </ReactCSSTransitionGroup>
         <div className="action-buttons">
           <Beacons />
           <ShareButton hasAccess={hasAccess} />
