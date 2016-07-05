@@ -1,0 +1,1 @@
+export const LOAD_GLOBE_DATA = 'LOAD_GLOBE_DATA'

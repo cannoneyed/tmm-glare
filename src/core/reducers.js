@@ -8,6 +8,7 @@ import { locationReducer } from './location'
 import { listenReducer } from './listen'
 import { loadingReducer } from './loading'
 import { notificationsReducer } from './notifications'
+import { globeReducer } from './globe'
 
 export default combineReducers({
   auth: authReducer,
@@ -20,4 +21,5 @@ export default combineReducers({
   listen: listenReducer,
   loading: loadingReducer,
   notifications: notificationsReducer,
+  globe: globeReducer,
 })

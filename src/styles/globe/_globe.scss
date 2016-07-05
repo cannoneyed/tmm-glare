@@ -1,0 +1,30 @@
+.globe-underlay {
+  z-index: 1;
+  background-color: transparent;
+  -webkit-transform: translate3d(0,0,1px);
+  transform: translate3d(0,0,1px);
+  position: absolute;
+  min-width: 100%;
+}
+
+.globe-transition-enter {
+  opacity: 0.01;
+  filter: blur(20px);
+}
+
+.globe-transition-enter.globe-transition-enter-active {
+  opacity: 1;
+  filter: blur(0px);
+  transition: all 750ms ease-in;
+}
+
+.globe-transition-leave {
+  opacity: 1;
+  filter: blur(3px);
+}
+
+.globe-transition-leave.globe-transition-leave-active {
+  opacity: 0.01;
+  filter: blur(20px);
+  transition: all 750ms ease-in;
+}
