@@ -35,7 +35,7 @@ export class Connect extends Component {
       <div className="connect-container">
         <ReactCSSTransitionGroup
           transitionName="loader-transition"
-          transitionEnterTimeout={7500}
+          transitionEnterTimeout={750}
           transitionLeaveTimeout={750}>
           {isConnecting ? this.renderConnectingLoader() : null}
         </ReactCSSTransitionGroup>
