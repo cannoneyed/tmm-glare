@@ -9,6 +9,7 @@ class WebGlGlobe extends Component {
 
   static propTypes = {
     data: PropTypes.array.isRequired,
+    isConnecting: PropTypes.bool.isRequired,
   }
 
   componentDidMount() {
@@ -21,20 +22,23 @@ class WebGlGlobe extends Component {
       const opts = { imgDir: 'img/' }
       const globe = new DAT.Globe(container, opts)
 
-      globe.addData(data, {format: 'magnitude', name: 'test' })
+      globe.addData(data, { name: 'globe' })
       globe.createPoints()
       globe.animate()
     }
   }
 
-  shouldComponentUpdate() {
-    return false
-  }
+  // shouldComponentUpdate() {
+  //   return false
+  // }
 
   render() {
+    const { isConnecting } = this.props
+    const className = isConnecting ? 'globe-container connecting' : 'globe-container'
+
     return (
       <div
-        className="container"
+        className={className}
         ref={ref => this._container = ref}>
       </div>
     )
@@ -44,4 +48,5 @@ class WebGlGlobe extends Component {
 export default connect(state => ({
   data: state.globe.data,
   isLoaded: state.globe.isLoaded,
+  isConnecting: state.connection.isConnecting,
 }), null)(WebGlGlobe)

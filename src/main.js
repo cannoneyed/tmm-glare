@@ -10,7 +10,6 @@ import { createHistory } from 'history'
 
 import { Root } from './components/root'
 import { authActions, authRouteResolver } from './core/auth'
-import { globeActions } from './core/globe'
 import configureStore from './core/store'
 import { firebaseConfig } from './config'
 
@@ -29,7 +28,6 @@ const store = configureStore({ firebase, geofire })
 const syncedHistory = syncHistoryWithStore(history, store)
 
 store.dispatch(authActions.initAuth())
-store.dispatch(globeActions.loadData())
 
 ReactDOM.render((
   <Root history={syncedHistory} onEnter={authRouteResolver(store.getState)} store={store} />

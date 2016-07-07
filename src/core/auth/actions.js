@@ -39,7 +39,7 @@ function handleRedirectResult(result) {
     if (authUser) {
       return dispatch(handleSuccesfulRedirect(authUser))
     } else {
-      dispatch({ type: SIGN_IN_FAILURE })
+      return dispatch({ type: SIGN_IN_FAILURE })
     }
   }
 }

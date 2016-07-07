@@ -36,17 +36,15 @@ DAT.Globe = function Globe(container, opts = {}) {
   const rotation = { x: 0, y: 0 }
 
   let distance = 100000
-  let distanceTarget = 100000
+  let distanceTarget = 700
 
   // Initialization function
   function init() {
 
     rotation.x = Math.PI
 
-    container.style.color = '#fff'
-    container.style.font = '13px/20px Arial, sans-serif'
-
     let shader, uniforms, material
+
     w = container.offsetWidth || window.innerWidth
     h = container.offsetHeight || window.innerHeight
 
@@ -55,7 +53,8 @@ DAT.Globe = function Globe(container, opts = {}) {
 
     scene = new THREE.Scene()
 
-    let geometry = new THREE.SphereGeometry(EARTH_RADIUS, 40, 30)
+    // Create / add the earth geometry
+    let geometry = new THREE.SphereGeometry(EARTH_RADIUS, 20, 15)
 
     shader = Shaders['earth']
     uniforms = THREE.UniformsUtils.clone(shader.uniforms)
@@ -72,6 +71,7 @@ DAT.Globe = function Globe(container, opts = {}) {
     mesh.rotation.y = Math.PI
     scene.add(mesh)
 
+    // Add the atmosphere
     shader = Shaders['atmosphere']
     uniforms = THREE.UniformsUtils.clone(shader.uniforms)
 
@@ -88,6 +88,7 @@ DAT.Globe = function Globe(container, opts = {}) {
     mesh.scale.set( 1.1, 1.1, 1.1 )
     scene.add(mesh)
 
+    // Add the point cloud
     geometry = new THREE.CubeGeometry(0.75, 0.75, 1)
     geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, -0.5))
 
@@ -98,7 +99,6 @@ DAT.Globe = function Globe(container, opts = {}) {
       antialias: true,
     })
     renderer.setClearColor( 0xffffff, 0 )
-    console.log('🐸', 'POOOP!')
     renderer.setSize(w, h)
 
     renderer.domElement.style.position = 'absolute'
@@ -111,38 +111,25 @@ DAT.Globe = function Globe(container, opts = {}) {
   function addData(data, opts) {
     let lat, lng, size, color, i, step, colorFnWrapper
 
-    opts.animated = opts.animated || false
-    this.isAnimated = opts.animated
+    step = 3
+    colorFnWrapper = (data, i) => colorFn(data[i + 2])
 
-    opts.format = opts.format || 'magnitude' // other option is 'legend'
-    if (opts.format === 'magnitude') {
-      step = 3
-      colorFnWrapper = (data, i) => colorFn(data[i + 2])
-    } else if (opts.format === 'legend') {
-      step = 4
-      colorFnWrapper = (data, i) => colorFn(data[i + 3])
+    if (this._baseGeometry === undefined) {
+      this._baseGeometry = new THREE.Geometry()
+      for (i = 0; i < data.length; i += step) {
+        lat = data[i]
+        lng = data[i + 1]
+        color = colorFnWrapper(data, i)
+        size = 0
+        addPoint(lat, lng, size, color, this._baseGeometry)
+      }
+    }
+    if (this._morphTargetId === undefined) {
+      this._morphTargetId = 0
     } else {
-      throw ('error: format not supported: ' + opts.format)
+      this._morphTargetId += 1
     }
-
-    if (opts.animated) {
-      if (this._baseGeometry === undefined) {
-        this._baseGeometry = new THREE.Geometry()
-        for (i = 0; i < data.length; i += step) {
-          lat = data[i]
-          lng = data[i + 1]
-          color = colorFnWrapper(data, i)
-          size = 0
-          addPoint(lat, lng, size, color, this._baseGeometry)
-        }
-      }
-      if (this._morphTargetId === undefined) {
-        this._morphTargetId = 0
-      } else {
-        this._morphTargetId += 1
-      }
-      opts.name = opts.name || 'morphTarget' + this._morphTargetId
-    }
+    opts.name = opts.name || 'morphTarget' + this._morphTargetId
 
     const subgeo = new THREE.Geometry()
     for (i = 0; i < data.length; i += step) {
@@ -165,30 +152,22 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   function createPoints() {
     if (this._baseGeometry !== undefined) {
-      if (this.isAnimated === false) {
-        this.points = new THREE.Mesh(this._baseGeometry, new THREE.MeshBasicMaterial({
-          color: 0xffffff,
-          vertexColors: THREE.FaceColors,
-          morphTargets: false
-        }))
-      } else {
-        if (this._baseGeometry.morphTargets.length < 8) {
-          var padding = 8 - this._baseGeometry.morphTargets.length
-          for (var i = 0; i <= padding; i++) {
-            this._baseGeometry.morphTargets.push({
-              name: 'morphPadding' + i,
-              vertices: this._baseGeometry.vertices
-            })
-          }
+      if (this._baseGeometry.morphTargets.length < 8) {
+        var padding = 8 - this._baseGeometry.morphTargets.length
+        for (var i = 0; i <= padding; i++) {
+          this._baseGeometry.morphTargets.push({
+            name: 'morphPadding' + i,
+            vertices: this._baseGeometry.vertices
+          })
         }
-        this.points = new THREE.Mesh(this._baseGeometry, new THREE.MeshBasicMaterial({
-          color: 0xffffff,
-          vertexColors: THREE.FaceColors,
-          morphTargets: true
-        }))
       }
-      scene.add(this.points)
+      this.points = new THREE.Mesh(this._baseGeometry, new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        vertexColors: THREE.FaceColors,
+        morphTargets: true
+      }))
     }
+    scene.add(this.points)
   }
 
   function addPoint(lat, lng, size, color, subgeo) {
@@ -230,8 +209,6 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   function render() {
     zoom(curZoomSpeed)
-
-    // console.log(Math.abs(rotation.x) / Math.PI)
 
     rotation.x -= 0.005
     distance += (distanceTarget - distance) * 0.3

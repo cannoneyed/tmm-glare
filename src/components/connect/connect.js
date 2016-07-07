@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
 
+import { globeActions } from 'src/core/globe'
+
 import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'
 
@@ -14,7 +16,15 @@ export class Connect extends Component {
   static propTypes = {
     isConnecting: PropTypes.bool.isRequired,
     isGlobeLoaded: PropTypes.bool.isRequired,
+    loadGlobeData: PropTypes.func.isRequired,
     user: PropTypes.object,
+  }
+
+  componentWillMount() {
+    const { isGlobeLoaded, loadGlobeData } = this.props
+    if (!isGlobeLoaded) {
+      loadGlobeData()
+    }
   }
 
   renderConnectingLoader() {
@@ -51,12 +61,7 @@ export class Connect extends Component {
           transitionLeaveTimeout={750}>
           {isConnecting ? this.renderConnectingLoader() : null}
         </ReactCSSTransitionGroup>
-        <ReactCSSTransitionGroup
-          transitionName="globe-transition"
-          transitionEnterTimeout={750}
-          transitionLeaveTimeout={750}>
-          {isGlobeLoaded ? this.renderGlobe() : null}
-        </ReactCSSTransitionGroup>
+        {isGlobeLoaded ? this.renderGlobe() : null}
         <div className="action-buttons">
           <Beacons />
           <ShareButton hasAccess={hasAccess} />
@@ -72,4 +77,4 @@ export default connect(state => ({
   isGlobeLoaded: state.globe.isLoaded,
   beacons: state.connection.beacons,
   user: state.user,
-}), null)(Connect)
+}), globeActions)(Connect)

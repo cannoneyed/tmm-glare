@@ -10,7 +10,7 @@ import * as util from 'src/util'
 const PRECISION = 3
 const MAX_VALUE = 0.5
 
-export function loadData() {
+export function loadGlobeData() {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
