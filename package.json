@@ -81,6 +81,7 @@
     "react": "~15.0.2",
     "react-addons-css-transition-group": "^15.2.0",
     "react-dom": "~15.0.2",
+    "react-hammerjs": "^0.4.6",
     "react-notification-system": "^0.2.7",
     "react-redux": "~4.4.5",
     "react-ripple-effect": "^1.0.4",
@@ -88,6 +89,7 @@
     "react-router-redux": "~4.0.4",
     "react-soundplayer": "^0.3.5",
     "redux": "~3.5.2",
-    "redux-thunk": "~2.0.1"
+    "redux-thunk": "~2.0.1",
+    "rxjs": "^5.0.0-beta.10"
   }
 }

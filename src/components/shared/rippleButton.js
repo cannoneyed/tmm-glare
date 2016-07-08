@@ -4,14 +4,7 @@ import { Ripple } from './ripple'
 class RippleButton extends Component {
 
   static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.element,
-      PropTypes.arrayOf(PropTypes.oneOfType([
-        PropTypes.element,
-        PropTypes.string,
-      ])),
-    ]).isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
     onClick: PropTypes.func,
     text: PropTypes.string,

@@ -31,12 +31,15 @@ DAT.Globe = function Globe(container, opts = {}) {
   let camera, scene, renderer, w, h
   let mesh, point
 
+  let distance = 100000
+  let distanceTarget = opts.distanceTarget || 700
+  const MAX_DISTANCE = opts.maxDistance || 1000
+  const MIN_DISTANCE = opts.minDistance || 350
+  const setDistanceTarget = opts.setDistanceTarget || (() => {})
+
   const curZoomSpeed = 0
 
   const rotation = { x: 0, y: 0 }
-
-  let distance = 100000
-  let distanceTarget = 700
 
   // Initialization function
   function init() {
@@ -197,9 +200,16 @@ DAT.Globe = function Globe(container, opts = {}) {
   }
 
   function zoom(delta) {
-    distanceTarget -= delta
-    distanceTarget = distanceTarget > 1000 ? 1000 : distanceTarget
-    distanceTarget = distanceTarget < 350 ? 350 : distanceTarget
+    const result = distanceTarget -= delta
+    if (result > MAX_DISTANCE) {
+      distanceTarget = MAX_DISTANCE
+    } else if (distanceTarget < MIN_DISTANCE) {
+      distanceTarget = MIN_DISTANCE
+    } else {
+      distanceTarget = result
+    }
+
+    setDistanceTarget(distanceTarget)
   }
 
   function animate() {
@@ -229,6 +239,9 @@ DAT.Globe = function Globe(container, opts = {}) {
   this.createPoints = createPoints
   this.renderer = renderer
   this.scene = scene
+  this.zoom = (delta) => {
+    zoom(delta)
+  }
 
   return this
 }
