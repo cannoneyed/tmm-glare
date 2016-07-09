@@ -1,7 +1,7 @@
 .globe-container {
   position: absolute;
   min-width: 100%;
-  min-height: 80%;
+  min-height: 100%;
   filter: blur(0px);
   transition: all 750ms ease-in-out;
   &.connecting {

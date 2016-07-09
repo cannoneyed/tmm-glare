@@ -93,7 +93,7 @@ $connecting-delay: 0.08s;
 .shaft-load11 {
   position: absolute;
   min-width: 100%;
-  min-height: 80%;
+  min-height: 100%;
   opacity: 0.5;
   @include square(100px);
   > div {

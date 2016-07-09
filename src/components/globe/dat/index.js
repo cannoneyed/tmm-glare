@@ -14,6 +14,8 @@
 
 import THREE from 'three'
 import Shaders from './shaders'
+import helpers from './helpers'
+import stars from './stars'
 
 const DAT = {}
 const EARTH_RADIUS = 100
@@ -29,11 +31,12 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   // Declare "global" variables
   let camera, scene, renderer, w, h
+  let starCamera, starScene
   let mesh, point
 
   let distance = 100000
-  let distanceTarget = opts.distanceTarget || 700
-  const MAX_DISTANCE = opts.maxDistance || 1000
+  let distanceTarget = opts.distanceTarget || 900
+  const MAX_DISTANCE = opts.maxDistance || 1300
   const MIN_DISTANCE = opts.minDistance || 150
   const setDistanceTarget = opts.setDistanceTarget || (() => {})
 
@@ -58,11 +61,15 @@ DAT.Globe = function Globe(container, opts = {}) {
     w = container.offsetWidth || window.innerWidth
     h = container.offsetHeight || window.innerHeight
 
+    scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(30, w / h, 1, 10000)
     camera.position.z = distance
     camera.up.set(0, 1, 0)
 
-    scene = new THREE.Scene()
+    starScene = new THREE.Scene()
+    starCamera = new THREE.PerspectiveCamera(75, w / h, 1, 1000)
+    starCamera.position.z = distance
+    starCamera.up.set(0, 1, 0)
 
     // Create / add the earth geometry
     let geometry = new THREE.SphereGeometry(EARTH_RADIUS, 20, 15)
@@ -105,10 +112,23 @@ DAT.Globe = function Globe(container, opts = {}) {
 
     point = new THREE.Mesh(geometry)
 
-    renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-    })
+    // check for browser Support
+    if (helpers.webGLSupport()) {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+      })
+
+    } else {
+      renderer = new THREE.CanvasRenderer({
+        alpha: true,
+        antialias: true,
+      })
+    }
+
+    stars.init(starScene)
+
+    renderer.autoClear = false
     renderer.setClearColor( 0xffffff, 0 )
     renderer.setSize(w, h)
 
@@ -263,6 +283,10 @@ DAT.Globe = function Globe(container, opts = {}) {
     camera.position.y = distance * Math.sin(rotation.y)
     camera.position.z = distance * Math.cos(rotation.x) * Math.cos(rotation.y)
 
+    starCamera.position.x = camera.position.x * 0.01
+    starCamera.position.y = camera.position.y * 0.01
+    starCamera.position.z = distance
+
     const yRotations = Math.floor(rotation.y / (Math.PI / 2))
     if (yRotations % 4 === 1 || yRotations % 4 === 2) {
       camera.up.set(0, -1, 0)
@@ -271,7 +295,14 @@ DAT.Globe = function Globe(container, opts = {}) {
     }
 
     camera.lookAt(mesh.position)
+    starCamera.lookAt(mesh.position)
 
+
+    // renderer.render(scene, camera)
+    renderer.clear()
+    renderer.render(starScene, starCamera)
+
+    renderer.clearDepth()
     renderer.render(scene, camera)
   }
 

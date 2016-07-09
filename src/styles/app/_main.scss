@@ -31,6 +31,7 @@ html, body {
 
 .action-buttons {
   position: absolute;
+  margin-bottom: $footer-height;
   bottom: 0px;
   z-index: 10;
   min-width: 100%;

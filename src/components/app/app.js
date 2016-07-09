@@ -4,7 +4,6 @@ import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
 import Notifications from '../notifications/notifications'
 
 import Header from './header'
-import Footer from './footer'
 import Loading from '../loaders/loading'
 
 import { notificationActions } from 'src/core/notifications'
@@ -72,7 +71,6 @@ export class App extends Component {
       <div className="container">
         <Header />
         {isLoading ? this.renderLoading() : this.renderMain()}
-        <Footer setNotification={this.onClick} />
       </div>
     )
   }

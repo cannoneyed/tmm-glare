@@ -3,9 +3,14 @@
 //===================================================================
 
 .footer {
+  z-index: 2;
+  position: relative;
+  bottom: 0px;
+  min-width: 100%;
+
   display: flex;
   padding: 10px;
-  height: 60px;
+  height: $footer-height;
   overflow: hidden;
   line-height: 40px;
   font-size: rem(14px);

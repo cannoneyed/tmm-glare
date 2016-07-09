@@ -22,11 +22,6 @@ class WebGlGlobe extends Component {
 
   constructor() {
     super()
-    this.state = {
-      maxDistance: 1000,
-      minDistance: 350,
-      distanceTarget: 700,
-    }
 
     const events = [
       'pinchStart', 'pinchMove', 'pinchEnd',
@@ -42,7 +37,6 @@ class WebGlGlobe extends Component {
     this.onPanStart = this.onPanStart.bind(this)
     this.onPanEnd = this.onPanEnd.bind(this)
     this.onPanMove = this.onPanMove.bind(this)
-    this.setDistanceTarget = this.setDistanceTarget.bind(this)
 
     this.handlePinch = this.handlePinch.bind(this)
     this.handlePan = this.handlePan.bind(this)
@@ -65,10 +59,6 @@ class WebGlGlobe extends Component {
     } else {
       const opts = {
         imgDir: 'img/',
-        maxDistance: this.state.maxDistance,
-        minDistance: this.state.minDistance,
-        distanceTarget: this.state.distanceTarget,
-        setDistanceTarget: this.setDistanceTarget,
       }
       const globe = new DAT.Globe(container, opts)
 
@@ -85,10 +75,6 @@ class WebGlGlobe extends Component {
       this.pinchSubscription.dispose()
       this.panSubscription.dispose()
     }
-  }
-
-  setDistanceTarget(distanceTarget) {
-    this.setState({ distanceTarget })
   }
 
   handlePinch() {
