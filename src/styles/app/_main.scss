@@ -60,10 +60,11 @@ html, body {
   font-size: rem(18px);
   line-height: 48px;
   color: #999;
-  background: transparent;
+  background: $base-background-color;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  touch-action: none;
 
   >svg {
     margin-right: 10px;

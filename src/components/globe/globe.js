@@ -28,7 +28,10 @@ class WebGlGlobe extends Component {
       distanceTarget: 700,
     }
 
-    const events = ['pinchStart', 'pinchMove', 'pinchEnd']
+    const events = [
+      'pinchStart', 'pinchMove', 'pinchEnd',
+      'panStart', 'panMove', 'panEnd',
+    ]
     events.forEach((event) => {
       this[event] = new Rx.Subject()
     })
@@ -36,11 +39,21 @@ class WebGlGlobe extends Component {
     this.onPinchStart = this.onPinchStart.bind(this)
     this.onPinchEnd = this.onPinchEnd.bind(this)
     this.onPinchMove = this.onPinchMove.bind(this)
+    this.onPanStart = this.onPanStart.bind(this)
+    this.onPanEnd = this.onPanEnd.bind(this)
+    this.onPanMove = this.onPanMove.bind(this)
     this.setDistanceTarget = this.setDistanceTarget.bind(this)
+
+    this.handlePinch = this.handlePinch.bind(this)
+    this.handlePan = this.handlePan.bind(this)
+
+    this.onTouchStart = this.onTouchStart.bind(this)
+    this.onTouchEnd = this.onTouchEnd.bind(this)
   }
 
   componentWillMount() {
     this.handlePinch()
+    this.handlePan()
   }
 
   componentDidMount() {
@@ -70,6 +83,7 @@ class WebGlGlobe extends Component {
   componentWillUnmount() {
     if (this.pinchSubscription) {
       this.pinchSubscription.dispose()
+      this.panSubscription.dispose()
     }
   }
 
@@ -89,22 +103,56 @@ class WebGlGlobe extends Component {
           .pluck('scale')
           .pairwise()
           .map(([a, b]) => {
-            const { distanceTarget, maxDistance, minDistance } = this.state
-            const difference = maxDistance - minDistance
-            const targetDifference = distanceTarget - minDistance
-            const scaleFactor = (targetDifference / difference)
-
             const delta = b - a
-            return delta >= 1 ? delta : delta * 3
+            return delta >= 1 ? delta : delta * 7
           })
           .map(delta => delta * 100)
           .takeUntil(pinchEnd)
       })
-      .tap(delta => {
-        this.globe.zoom(delta)
+
+    this.pinchSubscription = pinch.subscribe(delta => {
+      this.globe.zoom(delta)
+    })
+  }
+
+  handlePan() {
+    let panStart = this.panStart
+    let panMove = this.panMove
+    let panEnd = this.panEnd
+
+    let pan = panStart
+      .tap(eventPreventDefault)
+      .flatMap(() => {
+        return panMove
+          .pairwise()
+          .map(([a, b]) => {
+            const deltaX = b.deltaX - a.deltaX
+            const deltaY = b.deltaY - a.deltaY
+            return { deltaX, deltaY }
+          })
+          .map(({ deltaX, deltaY }) => {
+            const dx = deltaX / this._container.offsetWidth
+            const dy = deltaY / this._container.offsetHeight
+            return { dx, dy }
+          })
+          .takeUntil(panEnd)
       })
 
-    this.pinchSubscription = pinch.subscribe(scale => this.setState({ scale: scale }))
+    panEnd.subscribe(({ velocityX, velocityY }) => {
+      this.globe.panRelease(velocityX, velocityY)
+    })
+
+    this.panSubscription = pan.subscribe(({ dx, dy }) => {
+      this.globe.pan(dx, dy)
+    })
+  }
+
+  onTouchStart() {
+    this.globe.touch(true)
+  }
+
+  onTouchEnd() {
+    this.globe.touch(false)
   }
 
   onPinchStart(e) {
@@ -119,6 +167,18 @@ class WebGlGlobe extends Component {
     this.pinchMove.onNext(e)
   }
 
+  onPanStart(e) {
+    this.panStart.onNext(e)
+  }
+
+  onPanEnd(e) {
+    this.panEnd.onNext(e)
+  }
+
+  onPanMove(e) {
+    this.panMove.onNext(e)
+  }
+
   render() {
     const { isConnecting } = this.props
     const className = isConnecting ? 'globe-container connecting' : 'globe-container'
@@ -126,7 +186,8 @@ class WebGlGlobe extends Component {
     const options = {
       recognizers: {
         pinch: { enable: true }
-      }
+      },
+      threshold: 0,
     }
 
     return (
@@ -134,8 +195,14 @@ class WebGlGlobe extends Component {
         options={options}
         onPinchStart={this.onPinchStart}
         onPinchEnd={this.onPinchEnd}
-        onPinch={this.onPinchMove}>
+        onPinch={this.onPinchMove}
+        onPanStart={this.onPanStart}
+        onPanEnd={this.onPanEnd}
+        onPan={this.onPanMove}
+        vertical={true}>
         <div
+          onTouchStart={this.onTouchStart}
+          onTouchEnd={this.onTouchEnd}
           className={className}
           ref={ref => this._container = ref}>
         </div>

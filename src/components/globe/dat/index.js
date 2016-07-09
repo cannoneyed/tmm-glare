@@ -34,12 +34,19 @@ DAT.Globe = function Globe(container, opts = {}) {
   let distance = 100000
   let distanceTarget = opts.distanceTarget || 700
   const MAX_DISTANCE = opts.maxDistance || 1000
-  const MIN_DISTANCE = opts.minDistance || 350
+  const MIN_DISTANCE = opts.minDistance || 150
   const setDistanceTarget = opts.setDistanceTarget || (() => {})
 
   const curZoomSpeed = 0
 
+  const MAX_ROTATION_VELOCITY = opts.maxRotation || 0.005
+  const ROTATION_ACCELERATION = opts.rotationAcceleration || 0.0002
+  let rotationVelocity = MAX_ROTATION_VELOCITY
+
   const rotation = { x: 0, y: 0 }
+  let rotationRelease = { x: 0, y: 0 }
+
+  let paused = false
 
   // Initialization function
   function init() {
@@ -53,6 +60,7 @@ DAT.Globe = function Globe(container, opts = {}) {
 
     camera = new THREE.PerspectiveCamera(30, w / h, 1, 10000)
     camera.position.z = distance
+    camera.up.set(0, 1, 0)
 
     scene = new THREE.Scene()
 
@@ -212,6 +220,20 @@ DAT.Globe = function Globe(container, opts = {}) {
     setDistanceTarget(distanceTarget)
   }
 
+  function touch(isTouched) {
+    paused = isTouched
+  }
+
+  function pan(dx, dy) {
+    rotation.y += dy * 2
+    rotation.x -= dx * 2
+  }
+
+  function panRelease(velocityX, velocityY) {
+    rotationRelease.x += velocityX * 0.05
+    rotationRelease.y += velocityY * 0.05
+  }
+
   function animate() {
     requestAnimationFrame(animate)
     render()
@@ -220,12 +242,33 @@ DAT.Globe = function Globe(container, opts = {}) {
   function render() {
     zoom(curZoomSpeed)
 
-    rotation.x -= 0.005
+    const dRotation = paused ? -1 * ROTATION_ACCELERATION : ROTATION_ACCELERATION
+
+    if (rotationVelocity > 0 && dRotation < 0) {
+      rotationVelocity += dRotation
+    }
+    if (rotationVelocity < MAX_ROTATION_VELOCITY && dRotation > 0) {
+      rotationVelocity += dRotation
+    }
+
+    rotation.x -= (rotationVelocity + rotationRelease.x)
+    rotation.y += rotationRelease.y
+
     distance += (distanceTarget - distance) * 0.3
+
+    rotationRelease.x *= 0.95
+    rotationRelease.y *= 0.95
 
     camera.position.x = distance * Math.sin(rotation.x) * Math.cos(rotation.y)
     camera.position.y = distance * Math.sin(rotation.y)
     camera.position.z = distance * Math.cos(rotation.x) * Math.cos(rotation.y)
+
+    const yRotations = Math.floor(rotation.y / (Math.PI / 2))
+    if (yRotations % 4 === 1 || yRotations % 4 === 2) {
+      camera.up.set(0, -1, 0)
+    } else if (yRotations % 4 === 3 || yRotations % 4 === 0) {
+      camera.up.set(0, 1, 0)
+    }
 
     camera.lookAt(mesh.position)
 
@@ -239,9 +282,10 @@ DAT.Globe = function Globe(container, opts = {}) {
   this.createPoints = createPoints
   this.renderer = renderer
   this.scene = scene
-  this.zoom = (delta) => {
-    zoom(delta)
-  }
+  this.zoom = zoom
+  this.pan = pan
+  this.panRelease = panRelease
+  this.touch = touch
 
   return this
 }
