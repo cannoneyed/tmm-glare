@@ -4,6 +4,7 @@ import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
 import Notifications from '../notifications/notifications'
 
 import Header from './header'
+
 import Loading from '../loaders/loading'
 
 import { notificationActions } from 'src/core/notifications'

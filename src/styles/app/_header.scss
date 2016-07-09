@@ -7,10 +7,10 @@
   position: absolute;
   top: 0px;
   min-width: 100%;
-  
+
   display: flex;
   padding: 10px;
-  height: 60px;
+  height: $header-height;
   overflow: hidden;
   line-height: 40px;
   font-size: rem(14px);

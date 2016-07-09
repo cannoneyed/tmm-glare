@@ -26,7 +26,7 @@ class Listen extends Component {
     }
 
     return (
-      <div className="g-col">
+      <div className="listen-container">
         <SoundPlayerContainer>
           <Player />
         </SoundPlayerContainer>

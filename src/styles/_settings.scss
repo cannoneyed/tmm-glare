@@ -2,9 +2,9 @@
 //  SETTINGS
 //===================================================================
 
-$teal:     #56D7C6 !default;
-$purple:   #B96CFF !default;
-$darkBlue:     #222232 !default;
+$teal: #56D7C6 !default;
+$purple: #B96CFF !default;
+$darkBlue: #222232 !default;
 
 $base-background-color: $darkBlue;
 $base-font-color: #999 !default;
@@ -17,4 +17,5 @@ $base-line-height: 30px !default;
 //  ALIGNMENT
 //===============================================
 $grid-max-width: 810px !default;
+$header-height: 60px;
 $footer-height: 60px;

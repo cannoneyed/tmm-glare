@@ -1,3 +1,9 @@
+.listen-container {
+  padding: $header-height 20px $footer-height 20px;
+  min-width: 100%;
+  position: relative;
+}
+
 .playlist-row {
   // @include button-base;
   margin-bottom: 5px;
