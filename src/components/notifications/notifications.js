@@ -7,18 +7,6 @@ import { notificationActions } from 'src/core/notifications'
 
 import Notification from './notification'
 
-
-const styles = {
-  position: 'fixed',
-  top: '10px',
-  right: 0,
-  left: 0,
-  zIndex: 1000,
-  width: '80%',
-  maxWidth: 400,
-  margin: 'auto'
-}
-
 const Notifications = (props) => {
   const {
     notifications,
@@ -26,7 +14,6 @@ const Notifications = (props) => {
     className,
     CustomComponent,
     dismissNotification,
-    forceNotifsStyles
   } = props
 
   const items = notifications.map((notification) => {
@@ -43,9 +30,8 @@ const Notifications = (props) => {
     )
   })
 
-  const componentStyles = forceNotifsStyles || !theme ? styles : {}
   return (
-    <div className={classnames('notif-container', className)} style={componentStyles}>
+    <div className={classnames('notif-container', className)} >
       <TransitionGroup
         transitionName="notif"
         transitionEnterTimeout={500}
