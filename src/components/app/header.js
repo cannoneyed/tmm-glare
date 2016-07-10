@@ -12,10 +12,9 @@ export class Header extends Component {
 
   constructor(props, context) {
     super(props, context)
-    this.signOut = this.signOut.bind(this)
   }
 
-  signOut() {
+  signOut = () => {
     this.props.signOut()
     window.location.replace('/')
   }

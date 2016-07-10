@@ -1,9 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 
-/**
- * A single notification component
- */
 class Notification extends Component {
   static defaultProps = {
     kind: 'info',
@@ -11,10 +8,9 @@ class Notification extends Component {
 
   constructor() {
     super()
-    this.onClick = this.onClick.bind(this)
   }
 
-  onClick(event) {
+  onClick = (event) => {
     const { dismissNotification, id } = this.props
     event.preventDefault()
     dismissNotification(id)

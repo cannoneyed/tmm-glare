@@ -13,17 +13,9 @@ class Email extends Component {
       confirmPassword: null,
       forbiddenWords: ['password', 'user', 'username']
     }
-    this.handlePasswordInput = this.handlePasswordInput.bind(this)
-    this.handleConfirmPasswordInput = this.handleConfirmPasswordInput.bind(this)
-    this.saveAndContinue = this.saveAndContinue.bind(this)
-    this.isConfirmedPassword = this.isConfirmedPassword.bind(this)
-    this.handleNameInput = this.handleNameInput.bind(this)
-    this.validateEmail = this.validateEmail.bind(this)
-    this.isEmpty = this.isEmpty.bind(this)
-    this.updateStatesValue = this.updateStatesValue.bind(this)
   }
 
-  handlePasswordInput(event) {
+  handlePasswordInput = (event) => {
     if (!_.isEmpty(this.state.confirmPassword)) {
       this.passwordConfirmInput.isValid()
     }
@@ -33,13 +25,13 @@ class Email extends Component {
     })
   }
 
-  handleConfirmPasswordInput(event) {
+  handleConfirmPasswordInput = (event) => {
     this.setState({
       confirmPassword: event.target.value
     })
   }
 
-  saveAndContinue(e) {
+  saveAndContinue = (e) => {
     e.preventDefault()
 
     var canProceed = this.validateEmail(this.state.email)
@@ -55,33 +47,33 @@ class Email extends Component {
     }
   }
 
-  isConfirmedPassword(event) {
+  isConfirmedPassword = (event) => {
     return (event === this.state.password)
   }
 
-  handleNameInput(event) {
+  handleNameInput = (event) => {
     this.setState({
       name: event.target.value
     })
   }
 
-  handleEmailInput(event) {
+  handleEmailInput = (event) => {
     this.setState({
       email: event.target.value
     })
   }
 
-  validateEmail(event) {
+  validateEmail = (event) => {
     // regex from http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
     const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(event)
   }
 
-  isEmpty(value) {
+  isEmpty = (value) => {
     return !_.isEmpty(value)
   }
 
-  updateStatesValue(value) {
+  updateStatesValue = (value) => {
     this.setState({
       statesValue: value
     })

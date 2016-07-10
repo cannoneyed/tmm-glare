@@ -52,20 +52,6 @@ class Input extends Component {
       },
       allValidatorValid: false
     }
-
-    this.handleChange = this.handleChange.bind(this)
-    this.validateInput = this.validateInput.bind(this)
-    this.isValid = this.isValid.bind(this)
-    this.handleFocus = this.handleFocus.bind(this)
-    this.handleBlur = this.handleBlur.bind(this)
-    this.mouseEnterError = this.mouseEnterError.bind(this)
-    this.hideError = this.hideError.bind(this)
-    this.checkRules = this.checkRules.bind(this)
-    this.countCapitals = this.countCapitals.bind(this)
-    this.countNumbers = this.countNumbers.bind(this)
-    this.checkWords = this.checkWords.bind(this)
-
-
   }
 
   componentWillReceiveProps(newProps) {
@@ -83,7 +69,7 @@ class Input extends Component {
     }
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       value: event.target.value,
       empty: _.isEmpty(event.target.value)
@@ -104,7 +90,7 @@ class Input extends Component {
     }
   }
 
-  validateInput(value) {
+  validateInput = (value) => {
     // trigger custom validation method in the parent component
     if (this.props.validate && this.props.validate(value)) {
       this.setState({
@@ -119,7 +105,7 @@ class Input extends Component {
     }
   }
 
-  isValid() {
+  isValid = () => {
     if (this.props.validate) {
       if (_.isEmpty(this.state.value) || !this.props.validate(this.state.value)) {
         this.setState({
@@ -132,7 +118,7 @@ class Input extends Component {
     return this.state.valid
   }
 
-  handleFocus() {
+  handleFocus = () => {
     this.setState({
       focus: true,
       validatorVisible: true
@@ -146,7 +132,7 @@ class Input extends Component {
     }
   }
 
-  handleBlur() {
+  handleBlur = () => {
     this.setState({
       focus: false,
       errorVisible: !this.state.valid,
@@ -154,13 +140,13 @@ class Input extends Component {
     })
   }
 
-  mouseEnterError() {
+  mouseEnterError = () => {
     this.setState({
       errorVisible: true
     })
   }
 
-  hideError() {
+  hideError = () => {
     this.setState({
       errorVisible: false,
       validatorVisible: false
@@ -168,7 +154,7 @@ class Input extends Component {
   }
 
   // validator function
-  checkRules(value) {
+  checkRules = (value) => {
     var validData = {
       minChars: !_.isEmpty(value) ? value.length >= parseInt(this.state.minCharacters) : false,
       capitalLetters: !_.isEmpty(value) ? this.countCapitals(value) : false,
@@ -184,16 +170,16 @@ class Input extends Component {
     })
   }
 
-  countCapitals(value) {
+  countCapitals = (value) => {
     const str = value
     return str.replace(/[^A-Z]/g, '').length
   }
 
-  countNumbers(value) {
+  countNumbers = (value) => {
     return /\d/.test(value)
   }
 
-  checkWords(value) {
+  checkWords = (value) => {
     return _.some(this.state.forbiddenWords, (word) => {
       var matched = (word === value) ? true : ''
       return matched
@@ -201,7 +187,6 @@ class Input extends Component {
   }
 
   render() {
-
     var inputGroupClasses = classnames({
       'input_group': true,
       'input_valid': this.state.valid,

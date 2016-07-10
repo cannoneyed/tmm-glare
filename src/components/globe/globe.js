@@ -30,19 +30,6 @@ class WebGlGlobe extends Component {
     events.forEach((event) => {
       this[event] = new Rx.Subject()
     })
-
-    this.onPinchStart = this.onPinchStart.bind(this)
-    this.onPinchEnd = this.onPinchEnd.bind(this)
-    this.onPinchMove = this.onPinchMove.bind(this)
-    this.onPanStart = this.onPanStart.bind(this)
-    this.onPanEnd = this.onPanEnd.bind(this)
-    this.onPanMove = this.onPanMove.bind(this)
-
-    this.handlePinch = this.handlePinch.bind(this)
-    this.handlePan = this.handlePan.bind(this)
-
-    this.onTouchStart = this.onTouchStart.bind(this)
-    this.onTouchEnd = this.onTouchEnd.bind(this)
   }
 
   componentWillMount() {
@@ -77,7 +64,7 @@ class WebGlGlobe extends Component {
     }
   }
 
-  handlePinch() {
+  handlePinch = () => {
     let pinchStart = this.pinchStart
     let pinchMove = this.pinchMove
     let pinchEnd = this.pinchEnd
@@ -101,7 +88,7 @@ class WebGlGlobe extends Component {
     })
   }
 
-  handlePan() {
+  handlePan = () => {
     let panStart = this.panStart
     let panMove = this.panMove
     let panEnd = this.panEnd
@@ -133,35 +120,35 @@ class WebGlGlobe extends Component {
     })
   }
 
-  onTouchStart() {
+  onTouchStart = () => {
     this.globe.touch(true)
   }
 
-  onTouchEnd() {
+  onTouchEnd = () => {
     this.globe.touch(false)
   }
 
-  onPinchStart(e) {
+  onPinchStart = (e) => {
     this.pinchStart.onNext(e)
   }
 
-  onPinchEnd(e) {
+  onPinchEnd = (e) => {
     this.pinchEnd.onNext(e)
   }
 
-  onPinchMove(e) {
+  onPinchMove = (e) => {
     this.pinchMove.onNext(e)
   }
 
-  onPanStart(e) {
+  onPanStart = (e) => {
     this.panStart.onNext(e)
   }
 
-  onPanEnd(e) {
+  onPanEnd = (e) => {
     this.panEnd.onNext(e)
   }
 
-  onPanMove(e) {
+  onPanMove = (e) => {
     this.panMove.onNext(e)
   }
 

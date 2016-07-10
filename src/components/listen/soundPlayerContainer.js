@@ -9,7 +9,6 @@ let { PropTypes, Component } = React
 class SoundPlayerContainer extends Component {
   constructor(props, context) {
     super(props, context)
-    this.wrapChild = this.wrapChild.bind(this)
   }
 
   componentDidMount() {
@@ -104,7 +103,7 @@ class SoundPlayerContainer extends Component {
     setDuration(soundCloudAudio.audio.duration)
   }
 
-  wrapChild(child) {
+  wrapChild = (child) => {
     const { soundCloudAudio } = this.props
     const newProps = Object.assign({}, {
       soundCloudAudio,
