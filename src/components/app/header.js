@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { authActions } from 'src/core/auth'
+import { toggleSidebar } from 'src/core/app'
+
+import Icon from '../shared/icon'
 
 export class Header extends Component {
 
@@ -39,31 +42,17 @@ export class Header extends Component {
   }
 
   render() {
-    const { auth, user } = this.props
+    const { auth, user, toggleSidebar } = this.props
 
     if (!user) {
       return null
     }
 
-    const isLoggedIn = auth.authenticated
-
-    const connectionsCount = user && user.connections ?
-      Object.keys(user.connections).length : 0
-
-    let connectionsString
-    if (connectionsCount === 0) {
-      connectionsString = 'No Connections'
-    } else if (connectionsCount === 1) {
-      connectionsString = '1 Connection'
-    } else {
-      connectionsString = `${connectionsCount} Connections`
-    }
-
-    const headerTitle = isLoggedIn ? connectionsString : null
-
     return (
       <header className="header">
-        <span className="header-connections">{headerTitle}</span>
+        <span className="header-connections" onClick={() => toggleSidebar()}>
+          <Icon type={'menu'} />
+        </span>
         <span className="header-user">
           {auth.authenticated ? this.renderSignOut() : null}
         </span>
@@ -75,6 +64,7 @@ export class Header extends Component {
 export default connect(state => ({
   auth: state.auth,
   user: state.user,
-  isConnecting: state.connection.isConnecting,
-
-}), authActions)(Header)
+}), {
+  signOut: authActions.signOut,
+  toggleSidebar,
+})(Header)

@@ -81,6 +81,8 @@ export class App extends Component {
       <Sidebar
         sidebar={<Menu />}
         open={isSidebarOpen}
+        sidebarClassName="sidebar-container"
+        styles={{ sidebar: { zIndex: 100 } }}
         onSetOpen={this.onSetSidebarOpen}>
         <div className="container">
           <Header />
