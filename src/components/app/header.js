@@ -1,61 +1,39 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import * as authActions from 'src/core/auth'
 import { toggleSidebar } from 'src/core/app'
+import { browserHistory } from 'react-router'
+
+import { canGoBack } from 'src/core/history/selectors'
 
 import Icon from '../shared/icon'
 
 export class Header extends Component {
 
   static propTypes = {
-    auth: PropTypes.object.isRequired,
-    signOut: PropTypes.func.isRequired,
+    canGoBack: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
-    user: PropTypes.object,
   }
 
   constructor(props, context) {
     super(props, context)
   }
 
-  signOut = () => {
-    this.props.signOut()
-    window.location.replace('/')
-  }
-
-  renderSignOut() {
-    const { user } = this.props
-    const displayName = user && user.displayName
-
-    return (
-      <ul className="user-pieces">
-        <li className="user-piece">{displayName}</li>
-        <li className="user-piece">
-          <a
-            className="user-piece"
-            onClick={this.signOut}
-            href="#">
-            Sign out
-          </a>
-        </li>
-      </ul>
-    )
+  goBack = () => {
+    if (this.props.canGoBack) {
+      browserHistory.goBack()
+    }
   }
 
   render() {
-    const { auth, user, toggleSidebar } = this.props
-
-    if (!user) {
-      return null
-    }
+    const { canGoBack, toggleSidebar } = this.props
 
     return (
       <header className="header">
-        <span className="header-connections" onClick={() => toggleSidebar()}>
-          <Icon type={'menu'} />
+        <span className="header-back" onClick={() => this.goBack()}>
+          { canGoBack ? <Icon type={'arrow-back'} /> : null }
         </span>
-        <span className="header-user">
-          {auth.authenticated ? this.renderSignOut() : null}
+        <span className="header-menu" onClick={() => toggleSidebar()}>
+          <Icon type={'menu'} />
         </span>
       </header>
     )
@@ -63,9 +41,7 @@ export class Header extends Component {
 }
 
 export default connect(state => ({
-  auth: state.auth,
-  user: state.user,
+  canGoBack: canGoBack(state.history),
 }), {
-  signOut: authActions.signOut,
   toggleSidebar,
 })(Header)

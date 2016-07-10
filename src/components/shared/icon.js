@@ -41,6 +41,10 @@ class Icon extends Component {
         return (
           <g><path d="M3 18h18v-2h-18v2zm0-5h18v-2h-18v2zm0-7v2h18v-2h-18z"></path></g>
         )
+      case 'arrow-back':
+        return (
+          <g><path d="M20 11h-12.17l5.59-5.59-1.42-1.41-8 8 8 8 1.41-1.41-5.58-5.59h12.17v-2z"></path></g>
+        )
       default:
         return null
     }

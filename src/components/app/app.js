@@ -5,7 +5,6 @@ import Notifications from '../notifications/notifications'
 
 import Sidebar from 'react-sidebar'
 import Header from './header'
-import Footer from './footer'
 import Menu from './menu'
 
 import Loading from '../loaders/loading'
@@ -64,18 +63,8 @@ export class App extends Component {
     )
   }
 
-  onClick = () => {
-    const { addNotification } = this.props
-
-    addNotification({
-      message: 'FUCK YOU!',
-      kind: 'success',
-      dismissAfter: 5000,
-    })
-  }
-
   render() {
-    const { isLoading, isSidebarOpen, toggleSidebar } = this.props
+    const { isLoading, isSidebarOpen } = this.props
 
     return (
       <Sidebar
@@ -83,16 +72,11 @@ export class App extends Component {
         open={isSidebarOpen}
         sidebarClassName="sidebar-container"
         styles={{ sidebar: { zIndex: 100 } }}
+        pullRight={true}
         onSetOpen={this.onSetSidebarOpen}>
         <div className="container">
           <Header />
           {isLoading ? this.renderLoading() : this.renderMain()}
-          <Footer
-            setNotification={() => {
-              this.onClick()
-              toggleSidebar()
-            }}
-          />
         </div>
       </Sidebar>
     )

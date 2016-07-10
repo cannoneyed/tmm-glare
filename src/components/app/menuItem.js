@@ -5,10 +5,10 @@ import { Icon, RippleButton } from '../shared'
 export default function MenuItem({ onClick, content }) { // eslint-disable-line
   return (
     <RippleButton
-      className="glare-button"
+      className='menu-item'
       onClick={onClick}>
       <Icon type="listen" />
-      {content}
+      FUCK YOU
     </RippleButton>
   )
 }
