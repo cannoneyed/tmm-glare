@@ -43,7 +43,7 @@ export class App extends Component {
   }
 
   onSetSidebarOpen = (open) => {
-    this.setState({ sidebarOpen: open })
+    this.props.toggleSidebar(open)
   }
 
   renderLoading = () => {

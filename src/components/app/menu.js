@@ -1,7 +1,11 @@
 import React from 'react'
 
+import MenuItem from './menuItem'
+
 export default function Menu() {
   return (
-    <h1>FUCK YOU!</h1>
+    <MenuItem>
+      FUCK YOU
+    </MenuItem>
   )
 }
