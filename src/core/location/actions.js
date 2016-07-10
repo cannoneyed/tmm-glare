@@ -1,5 +1,0 @@
-import {
-  GEOLOCATION_SUCCESS,
-  GEOLOCATION_DENIED,
-  GEOLOCATION_ERROR,
-} from './action-types'

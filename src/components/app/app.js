@@ -3,11 +3,15 @@ import { connect } from 'react-redux'
 import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
 import Notifications from '../notifications/notifications'
 
+import Sidebar from 'react-sidebar'
 import Header from './header'
+import Footer from './footer'
+import Menu from './menu'
 
 import Loading from '../loaders/loading'
 
-import { notificationActions } from 'src/core/notifications'
+import { addNotification } from 'src/core/notifications'
+import { toggleSidebar } from 'src/core/app'
 
 export class App extends Component {
   static contextTypes = {
@@ -19,11 +23,12 @@ export class App extends Component {
     auth: PropTypes.object.isRequired,
     children: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    isSidebarOpen: PropTypes.bool.isRequired,
+    toggleSidebar: PropTypes.func.isRequired,
   }
 
   constructor(props, context) {
     super(props, context)
-    this.onClick = this.onClick.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,7 +42,11 @@ export class App extends Component {
     }
   }
 
-  renderLoading() {
+  onSetSidebarOpen = (open) => {
+    this.setState({ sidebarOpen: open })
+  }
+
+  renderLoading = () => {
     return (
       <main className="main">
         <Loading />
@@ -45,7 +54,7 @@ export class App extends Component {
     )
   }
 
-  renderMain() {
+  renderMain = () => {
     const { children } = this.props
     return (
       <main className="main">
@@ -55,7 +64,7 @@ export class App extends Component {
     )
   }
 
-  onClick() {
+  onClick = () => {
     const { addNotification } = this.props
 
     addNotification({
@@ -66,13 +75,24 @@ export class App extends Component {
   }
 
   render() {
-    const { isLoading } = this.props
+    const { isLoading, isSidebarOpen, toggleSidebar } = this.props
 
     return (
-      <div className="container">
-        <Header />
-        {isLoading ? this.renderLoading() : this.renderMain()}
-      </div>
+      <Sidebar
+        sidebar={<Menu />}
+        open={isSidebarOpen}
+        onSetOpen={this.onSetSidebarOpen}>
+        <div className="container">
+          <Header />
+          {isLoading ? this.renderLoading() : this.renderMain()}
+          <Footer
+            setNotification={() => {
+              this.onClick()
+              toggleSidebar()
+            }}
+          />
+        </div>
+      </Sidebar>
     )
   }
 }
@@ -80,4 +100,8 @@ export class App extends Component {
 export default connect(state => ({
   auth: state.auth,
   isLoading: state.loading,
-}), notificationActions)(App)
+  isSidebarOpen: state.app.isSidebarOpen
+}), {
+  addNotification,
+  toggleSidebar,
+})(App)

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import SoundPlayerContainer from './soundPlayerContainer'
 import Player from './player'
 
-import { listenActions } from 'src/core/listen'
+import * as listenActions from 'src/core/listen'
 
 class Listen extends Component {
 

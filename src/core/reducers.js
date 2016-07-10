@@ -1,25 +1,28 @@
 import { routerReducer } from 'react-router-redux'
 import { combineReducers } from 'redux'
+
+import appReducer from './app'
 import { authReducer } from './auth'
-import { firebaseReducer, geofireReducer } from './firebase'
 import { connectReducer } from './connect'
-import { userReducer } from './user'
-import { locationReducer } from './location'
-import { listenReducer } from './listen'
-import { loadingReducer } from './loading'
-import { notificationsReducer } from './notifications'
+import { firebaseReducer, geofireReducer } from './firebase'
 import { globeReducer } from './globe'
+import listenReducer from './listen'
+import loadingReducer from './loading'
+import locationReducer from './location'
+import notificationsReducer from './notifications'
+import { userReducer } from './user'
 
 export default combineReducers({
+  app: appReducer,
   auth: authReducer,
+  connection: connectReducer,
   firebase: firebaseReducer,
   geofire: geofireReducer,
+  globe: globeReducer,
   routing: routerReducer,
-  connection: connectReducer,
-  user: userReducer,
-  location: locationReducer,
   listen: listenReducer,
+  location: locationReducer,
   loading: loadingReducer,
   notifications: notificationsReducer,
-  globe: globeReducer,
+  user: userReducer,
 })

@@ -19,7 +19,7 @@ import {
 import {
   GEOLOCATION_DENIED,
   GEOLOCATION_ERROR,
-} from '../location/action-types'
+} from '../location'
 
 
 export const initialState = {

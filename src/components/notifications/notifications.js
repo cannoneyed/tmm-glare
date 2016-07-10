@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import TransitionGroup from 'react/lib/ReactCSSTransitionGroup'
 import classnames from 'classnames'
 
-import { notificationActions } from 'src/core/notifications'
+import * as notificationActions from 'src/core/notifications'
 
 import Notification from './notification'
 

@@ -14,7 +14,7 @@ import {
   GEOLOCATION_SUCCESS,
   GEOLOCATION_ERROR,
   GEOLOCATION_DENIED,
-} from '../../location/action-types'
+} from '../../location'
 
 import { notificationActions } from 'src/core/notifications'
 

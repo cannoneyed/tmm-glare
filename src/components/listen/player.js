@@ -11,8 +11,8 @@ import {
 } from './components'
 
 import RippleButton from '../shared/rippleButton'
-import { loadingActions } from 'src/core/loading'
-import { listenActions } from 'src/core/listen'
+import * as loadingActions from 'src/core/loading'
+import * as listenActions from 'src/core/listen'
 
 class Player extends Component {
   static propTypes = {

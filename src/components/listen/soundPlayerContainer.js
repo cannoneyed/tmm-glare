@@ -2,7 +2,7 @@ import React from 'react'
 import { stopAllOther, addToPlayedStore } from './utils/audioStore.js'
 import { connect } from 'react-redux'
 
-import { listenActions } from 'src/core/listen'
+import * as listenActions from 'src/core/listen'
 
 let { PropTypes, Component } = React
 
