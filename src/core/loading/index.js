@@ -5,11 +5,11 @@ export const END_CONNECTING = 'loading/END_CONNECTING'
 
 import {
   SIGN_IN_FAILURE,
-} from '../auth/action-types'
+} from '../auth'
 
 import {
   LOAD_USER,
-} from '../user/action-types'
+} from '../user'
 
 export const initialState = true
 export default function reducer(state = initialState, action) {

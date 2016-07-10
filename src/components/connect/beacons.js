@@ -4,7 +4,7 @@ import _ from 'lodash'
 
 import RippleButton from '../shared/rippleButton'
 
-import { connectActions } from 'src/core/connect'
+import * as connectActions from 'src/core/connect'
 
 const Beacons = ({ user, beacons, connectWithUser }) => {
   const hasAccess = user && user.hasAccess

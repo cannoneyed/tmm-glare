@@ -1,8 +1,8 @@
 import P from 'bluebird'
 
 import {
-  CONNECT_SUCCESS,
-} from '../action-types'
+  connectSuccess,
+} from '../index'
 
 export default function connectWithUser(otherId) {
   return (dispatch, getState) => {
@@ -46,7 +46,7 @@ export default function connectWithUser(otherId) {
         })
       })
       .then(() => {
-        dispatch({ type: CONNECT_SUCCESS, payload: otherId })
+        dispatch(connectSuccess(otherId))
       })
   }
 }

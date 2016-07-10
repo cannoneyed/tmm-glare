@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
 
-import { globeActions } from 'src/core/globe'
+import * as globeActions from 'src/core/globe'
 
 import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'

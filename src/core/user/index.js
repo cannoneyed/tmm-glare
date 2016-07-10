@@ -1,5 +1,42 @@
-import * as userActions from './actions'
-export { userActions }
+// Action types
+export const LOAD_USER = 'user/LOAD_USER'
+export const UPDATE_ACCESS = 'user/UPDATE_ACCESS'
+export const ADD_CONNECTION = 'user/ADD_CONNECTION'
 
-export * from './action-types'
-export * from './reducer'
+// Reducer
+export const initialState = null
+
+export default function reducer(state = initialState, action) {
+  switch (action.type) {
+    case LOAD_USER:
+      return action.payload
+    case UPDATE_ACCESS:
+      return { ...state, hasAccess: action.payload }
+    case ADD_CONNECTION: {
+      const connection = action.payload
+      return {
+        ...state,
+        connections: {
+          ...state.connections,
+          [connection]: connection,
+        }
+      }
+    }
+    default:
+      return state
+  }
+}
+
+export function loadUser(user) {
+  return { type: LOAD_USER, payload: user }
+}
+
+export function updateAccess(access) {
+  return { type: UPDATE_ACCESS, payload: access }
+}
+
+export function addConnection(id) {
+  return { type: ADD_CONNECTION, payload: id }
+}
+
+export * from './async'

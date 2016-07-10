@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { Icon, RippleButton } from '../shared'
 
-import { connectActions } from 'src/core/connect'
+import * as connectActions from 'src/core/connect'
 
 class ShareButton extends Component { // eslint-disable-line
 

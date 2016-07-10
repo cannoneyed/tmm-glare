@@ -3,17 +3,16 @@ import _ from 'lodash'
 import * as util from 'src/util'
 
 import {
-  REGISTER_GEOQUERY,
-  CREATE_OWN_BEACON,
-  REMOVE_BEACON,
-  FOUND_BEACON,
-  BEGIN_CONNECTING,
-} from '../action-types'
+  registerGeoquery,
+  removeBeacon,
+  foundBeacon,
+  setConnecting,
+} from '../index'
 
 import {
-  GEOLOCATION_SUCCESS,
-  GEOLOCATION_ERROR,
-  GEOLOCATION_DENIED,
+  geolocationSuccess,
+  geolocationError,
+  geolocationDenied,
 } from '../../location'
 
 import { notificationActions } from 'src/core/notifications'
@@ -21,7 +20,7 @@ import { notificationActions } from 'src/core/notifications'
 // The main exported function for
 export default function beginConnecting() {
   return (dispatch, getState) => {
-    dispatch({ type: BEGIN_CONNECTING })
+    dispatch(setConnecting(true))
 
     return getGeolocation()
       .catch(err => dispatch(handleGeolocationError(err)))
@@ -38,7 +37,7 @@ export default function beginConnecting() {
         }
 
         const { coords } = location
-        dispatch({ type: GEOLOCATION_SUCCESS, payload: coords })
+        dispatch(geolocationSuccess(coords))
 
         return P.props({
           createOwnBeacon: dispatch(createOwnBeacon(location)),
@@ -67,9 +66,9 @@ function handleGeolocationError(err) {
     }))
 
     if (err.code === 1 || err.message === 'User denied Geolocation') {
-      dispatch({ type: GEOLOCATION_DENIED })
+      dispatch(geolocationDenied())
     } else {
-      dispatch({ type: GEOLOCATION_ERROR, err })
+      dispatch(geolocationError(err))
     }
   }
 }
@@ -94,9 +93,6 @@ function createOwnBeacon({ coords, timestamp }) {
         .set({ latitude, longitude, timestamp })
         .then(() => firebase.database().ref().child(`beacons/${auth.id}`).onDisconnect().remove())
     })
-    .then(() => {
-      dispatch({ type: CREATE_OWN_BEACON })
-    })
   }
 }
 
@@ -116,7 +112,7 @@ function findBeacons({ coords }) {
     })
 
     // Store the geoquery object so that we can cancel it on connect success or cancel
-    dispatch({ type: REGISTER_GEOQUERY, payload: geoquery })
+    dispatch(registerGeoquery(geoquery))
 
     // Register event listener for finding a beacon by the geoquery
     geoquery.on('key_entered', (key) => {
@@ -146,12 +142,12 @@ function findBeacons({ coords }) {
         // If the current user has access, add this beacon to the list of available
         // users to connect with only if the other user does not
         if (user.hasAccess && !otherUser.hasAccess) {
-          return dispatch({ type: FOUND_BEACON, payload: otherUser})
+          return dispatch(foundBeacon(otherUser))
         }
 
         // Otherwise, only add the beacon to the list if the other user has access
         if (!user.hasAccess && otherUser.hasAccess) {
-          return dispatch({ type: FOUND_BEACON, payload: otherUser })
+          return dispatch(foundBeacon(otherUser))
         }
       })
     })
@@ -165,7 +161,7 @@ function findBeacons({ coords }) {
       }
 
       // Remove the beacon from the list
-      dispatch({ type: REMOVE_BEACON, payload: key })
+      dispatch(removeBeacon(key))
     })
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { authActions } from 'src/core/auth'
+import * as authActions from 'src/core/auth'
 import { toggleSidebar } from 'src/core/app'
 
 import Icon from '../shared/icon'
@@ -10,6 +10,7 @@ export class Header extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     signOut: PropTypes.func.isRequired,
+    toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
 

@@ -4,7 +4,7 @@ import {
 } from 'src/config'
 
 
-export function authRouteResolver(getState) {
+export default function authRouteResolver(getState) {
   return (nextState, replace) => {
     const { auth, user } = getState()
     const { pathname } = nextState.location

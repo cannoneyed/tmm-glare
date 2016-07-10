@@ -1,14 +1,12 @@
 import {
-  SIGN_IN_SUCCESS,
-  SIGN_IN_FAILURE,
-  SIGN_OUT_SUCCESS,
-} from './action-types'
+  signInSuccess,
+  signInFailure,
+} from '../index'
 
-import { userActions } from 'src/core/user'
-import Firebase from 'firebase'
+import * as userActions from 'src/core/user'
 
 // Called when the page loads, manages the facebook oauth redirect / login flow
-export function initAuth() {
+export default function initAuth() {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
@@ -19,7 +17,7 @@ export function initAuth() {
       unsubscribe()
       if (user) {
         // User signed in, dispatch a success action and fetch the user data
-        dispatch({ type: SIGN_IN_SUCCESS, payload: user })
+        dispatch(signInSuccess(user))
         return dispatch(userActions.getUserData(user.uid))
       } else {
         // Otherwise, get the result of the redirect
@@ -39,7 +37,7 @@ function handleRedirectResult(result) {
     if (authUser) {
       return dispatch(handleSuccesfulRedirect(authUser))
     } else {
-      return dispatch({ type: SIGN_IN_FAILURE })
+      return dispatch(signInFailure())
     }
   }
 }
@@ -53,33 +51,10 @@ function handleSuccesfulRedirect(authUser) {
     return dispatch(userActions.loadOrCreateUser(authUser))
       .then(() => {
         // Dispatch a sign in success action, then set local storage authenticating to false
-        dispatch({ type: SIGN_IN_SUCCESS, payload: authUser })
+        dispatch(signInSuccess(authUser))
 
         // Now that the user is logged in, get the user data and register the user listeners
         return dispatch(userActions.getUserData(authUser.uid))
       })
-  }
-}
-
-// Manage the sign in with facebook flow (sign in button handler)
-export function signInWithFacebook() {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
-
-    const provider = new Firebase.auth.FacebookAuthProvider()
-    provider.addScope('email')
-
-    // Set the local storage token, then trigger the redirect oauth flow
-    firebase.auth().signInWithRedirect(provider)
-  }
-}
-
-// Manage signing out of the application
-export function signOut() {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
-    firebase.auth().signOut().then(() => {
-      dispatch({ type: SIGN_OUT_SUCCESS })
-    })
   }
 }

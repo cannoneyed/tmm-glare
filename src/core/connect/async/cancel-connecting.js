@@ -1,20 +1,20 @@
 import P from 'bluebird'
 
 import {
-  REMOVE_GEOQUERY,
-  CONNECT_CANCELED,
-} from '../action-types'
+  removeGeoquery,
+  connectCancelled,
+} from '../index'
 
 export default function cancelConnecting() {
   return (dispatch, getState) => {
-    dispatch({ type: CONNECT_CANCELED })
+    dispatch(connectCancelled())
 
     const { firebase, auth, connection } = getState()
 
     // If a firebase geoquery exists, cancel it
     if (connection.geoquery) {
       connection.geoquery.cancel()
-      dispatch({ type: REMOVE_GEOQUERY })
+      dispatch(removeGeoquery())
     }
 
 

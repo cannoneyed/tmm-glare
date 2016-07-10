@@ -3,49 +3,28 @@ import P from 'bluebird'
 import * as util from 'src/util'
 
 import {
-  LOAD_USER,
-  UPDATE_ACCESS,
-  ADD_CONNECTION,
-} from './action-types'
+  loadUser,
+  updateAccess,
+  addConnection,
+} from '../index'
 
 import {
-  CONNECT_SUCCESS,
-} from '../connect/action-types'
+  connectSuccess,
+} from '../../connect/index'
 
 import { notificationActions } from 'src/core/notifications'
 
-export function loadOrCreateUser(authUser) {
+export default function getUserData(userId) {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
-    // Lookup existing user object
-    return firebase.database().ref().child(`users/${authUser.uid}`).once('value', snapshot => {
-      const user = util.recordFromSnapshot(snapshot)
-
-      // If the user exists, no need to create a new user record
-      if (user) {
-        return user
-      }
-
-      // Otherwise, create a new user record
-      const facebook = authUser.providerData[0]
-      return firebase.database().ref().child(`users/${authUser.uid}`).set({
-        connections: {},
-        id: facebook.uid,
-        hasAccess: false,
-        displayName: facebook.displayName,
-        profileImageURL: facebook.photoURL,
-        email: facebook.email,
-      })
-    })
-  }
-}
-
-export function getUserData(userId) {
-  return (dispatch) => {
     return P.resolve()
     .then(() => {
-      return dispatch(loadUser(userId))
+      // Load user Data
+      return firebase.database().ref().child(`users/${userId}`).once('value', snapshot => {
+        const user = util.recordFromSnapshot(snapshot)
+        dispatch(loadUser(user))
+      })
     })
     .then(() => {
       return dispatch(registerUserListeners(userId))
@@ -53,19 +32,7 @@ export function getUserData(userId) {
   }
 }
 
-export function loadUser(userId) {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
-
-    return firebase.database().ref().child(`users/${userId}`).once('value', snapshot => {
-      const user = util.recordFromSnapshot(snapshot)
-
-      dispatch({ type: LOAD_USER, payload: user })
-    })
-  }
-}
-
-export function registerUserListeners(userId) {
+function registerUserListeners(userId) {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
@@ -79,10 +46,7 @@ export function registerUserListeners(userId) {
         return
       }
 
-      dispatch({
-        type: UPDATE_ACCESS,
-        payload: access,
-      })
+      dispatch(updateAccess(access))
     })
 
     // Register the user connection listener
@@ -96,8 +60,8 @@ export function registerUserListeners(userId) {
         return
       }
 
-      dispatch({ type: ADD_CONNECTION, payload: id })
-      dispatch({ type: CONNECT_SUCCESS })
+      dispatch(addConnection(id))
+      dispatch(connectSuccess())
       dispatch(displayConnectionNotification(id))
     })
   }

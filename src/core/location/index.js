@@ -1,7 +1,7 @@
 // Actions
-export const GEOLOCATION_SUCCESS = 'GEOLOCATION_SUCCESS'
-export const GEOLOCATION_ERROR = 'GEOLOCATION_ERROR'
-export const GEOLOCATION_DENIED = 'GEOLOCATION_DENIED'
+export const GEOLOCATION_SUCCESS = 'location/GEOLOCATION_SUCCESS'
+export const GEOLOCATION_ERROR = 'location/GEOLOCATION_ERROR'
+export const GEOLOCATION_DENIED = 'location/GEOLOCATION_DENIED'
 
 // Reducer
 export const initialState = null
@@ -15,4 +15,14 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-// Action Creators
+export function geolocationSuccess(location) {
+  return { type: GEOLOCATION_SUCCESS, payload: location }
+}
+
+export function geolocationError() {
+  return { type: GEOLOCATION_ERROR }
+}
+
+export function geolocationDenied() {
+  return { type: GEOLOCATION_DENIED }
+}

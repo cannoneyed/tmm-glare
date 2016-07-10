@@ -1,8 +1,8 @@
 import _ from 'lodash'
 
 import {
-  LOAD_GLOBE_DATA,
-} from './action-types'
+  setGlobeData,
+} from '../index'
 
 import * as util from 'src/util'
 
@@ -10,7 +10,7 @@ import * as util from 'src/util'
 const PRECISION = 3
 const MAX_VALUE = 0.5
 
-export function loadGlobeData() {
+export default function loadGlobeData() {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
@@ -19,8 +19,7 @@ export function loadGlobeData() {
 
       // Omit the 'key' key from the firebase returned object
       const payload = processConnections(_.omit(data, 'key'))
-
-      dispatch({ type: LOAD_GLOBE_DATA, payload })
+      dispatch(setGlobeData(payload))
     })
   }
 
