@@ -37,7 +37,7 @@ DAT.Globe = function Globe(container, opts = {}) {
   let distance = 100000
   let distanceTarget = opts.distanceTarget || 900
   const MAX_DISTANCE = opts.maxDistance || 1300
-  const MIN_DISTANCE = opts.minDistance || 150
+  const MIN_DISTANCE = opts.minDistance || 300
   const setDistanceTarget = opts.setDistanceTarget || (() => {})
 
   const curZoomSpeed = 0
