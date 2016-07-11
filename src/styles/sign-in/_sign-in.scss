@@ -2,7 +2,18 @@
 //  SIGN-IN
 //===================================================================
 
-.sign-in {
-  margin-top: 90px;
-  max-width: 300px;
+.sign-in-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.splash-logo {
+  width: 80%;
+  height: 80%;
+  background-image: url('img/glare_dark.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }

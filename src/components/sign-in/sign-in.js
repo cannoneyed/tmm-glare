@@ -7,22 +7,25 @@ import { Link } from 'react-router'
 
 export function SignIn({ signInWithFacebook }) {
   return (
-    <div className="action-buttons">
-      <RippleButton
-        className="glare-button"
-        onClick={() => {
-          setTimeout(() => {
-            signInWithFacebook()
-          }, 200)
-        }}>
-        <Icon type="facebook" />
-        {'Sign In'}
-      </RippleButton>
-      <Link
-        className="aside"
-        to={'/email'}>
-        {'Sign in with email'}
-      </Link>
+    <div className="sign-in-container">
+      <div className="splash-logo" />
+      <div className="action-buttons">
+        <RippleButton
+          className="glare-button"
+          onClick={() => {
+            setTimeout(() => {
+              signInWithFacebook()
+            }, 200)
+          }}>
+          <Icon type="facebook" />
+          {'Sign In'}
+        </RippleButton>
+        <Link
+          className="aside"
+          to={'/email'}>
+          {'Sign in with email'}
+        </Link>
+      </div>
     </div>
   )
 }
