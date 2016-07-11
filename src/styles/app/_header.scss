@@ -17,6 +17,22 @@
   justify-content: space-between;
 }
 
+.header-back {
+  flex-basis: 20px;
+}
+
+.header-menu {
+  flex-basis: 20px;
+}
+
+.header-logo {
+  height: 50px;
+  width: 100px;
+  background-image: url('img/glare_dark.png');
+  background-size: cover;
+  background-position: center;
+}
+
 .user-pieces {
   li {
     float: left;

@@ -24,6 +24,7 @@ export class App extends Component {
     isLoading: PropTypes.bool.isRequired,
     isSidebarOpen: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
+    user: PropTypes.object,
   }
 
   constructor(props, context) {
@@ -64,7 +65,7 @@ export class App extends Component {
   }
 
   render() {
-    const { isLoading, isSidebarOpen } = this.props
+    const { isLoading, isSidebarOpen, user } = this.props
 
     return (
       <Sidebar
@@ -75,7 +76,7 @@ export class App extends Component {
         pullRight={true}
         onSetOpen={this.onSetSidebarOpen}>
         <div className="container">
-          <Header />
+          { user ? <Header /> : null }
           {isLoading ? this.renderLoading() : this.renderMain()}
         </div>
       </Sidebar>
@@ -86,7 +87,8 @@ export class App extends Component {
 export default connect(state => ({
   auth: state.auth,
   isLoading: state.loading,
-  isSidebarOpen: state.app.isSidebarOpen
+  isSidebarOpen: state.app.isSidebarOpen,
+  user: state.user,
 }), {
   addNotification,
   toggleSidebar,
