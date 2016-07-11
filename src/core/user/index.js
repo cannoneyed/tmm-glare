@@ -3,6 +3,10 @@ export const LOAD_USER = 'user/LOAD_USER'
 export const UPDATE_ACCESS = 'user/UPDATE_ACCESS'
 export const ADD_CONNECTION = 'user/ADD_CONNECTION'
 
+import {
+  SIGN_OUT_SUCCESS,
+} from '../auth'
+
 // Reducer
 export const initialState = null
 
@@ -22,6 +26,8 @@ export default function reducer(state = initialState, action) {
         }
       }
     }
+    case SIGN_OUT_SUCCESS:
+      return null
     default:
       return state
   }

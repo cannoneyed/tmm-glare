@@ -1,3 +1,5 @@
 export function canGoBack(history) {
-  return history.length > 2
+  return history.filter(item => {
+    return item !== 'sign-in'
+  }).length >= 2
 }

@@ -12,6 +12,7 @@ export class Header extends Component {
   static propTypes = {
     canGoBack: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
+    user: PropTypes.object,
   }
 
   constructor(props, context) {
@@ -25,16 +26,19 @@ export class Header extends Component {
   }
 
   render() {
-    const { canGoBack, toggleSidebar } = this.props
+    const { canGoBack, toggleSidebar, user } = this.props
 
     return (
       <header className="header">
         <span className="header-back" onClick={() => this.goBack()}>
           { canGoBack ? <Icon type={'arrow-back'} /> : null }
         </span>
-        <span className="header-menu" onClick={() => toggleSidebar()}>
-          <Icon type={'menu'} />
-        </span>
+        <span className="header-logo" />
+        { user ?
+          <span className="header-menu" onClick={() => toggleSidebar()}>
+            <Icon type={'menu'} />
+          </span>
+        : null }
       </header>
     )
   }
@@ -42,6 +46,7 @@ export class Header extends Component {
 
 export default connect(state => ({
   canGoBack: canGoBack(state.history),
+  user: state.user,
 }), {
   toggleSidebar,
 })(Header)
