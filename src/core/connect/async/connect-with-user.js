@@ -4,7 +4,7 @@ import {
   connectSuccess,
 } from '../index'
 
-export default function connectWithUser(otherId) {
+export default function connectWithUserAsync(otherId) {
   return (dispatch, getState) => {
     const { auth, firebase, location } = getState()
 

@@ -1,9 +1,9 @@
-import initAuth from './initAuth'
-import signInWithFacebook from './signInWithFacebook'
-import signOut from './signOut'
+import initAuthAsync from './initAuth'
+import signInWithFacebookAsync from './signInWithFacebook'
+import signOutAsync from './signOut'
 
 export {
-  initAuth,
-  signInWithFacebook,
-  signOut,
+  initAuthAsync,
+  signInWithFacebookAsync,
+  signOutAsync,
 }

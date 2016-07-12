@@ -1,6 +1,6 @@
 import * as util from 'src/util'
 
-export default function loadOrCreateUser(authUser) {
+export default function loadOrCreateUserAsync(authUser) {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
@@ -8,9 +8,15 @@ export default function loadOrCreateUser(authUser) {
     return firebase.database().ref().child(`users/${authUser.uid}`).once('value', snapshot => {
       const user = util.recordFromSnapshot(snapshot)
 
-      // If the user exists, no need to create a new user record
+      // If the user exists, track the visit
       if (user) {
-        return user
+        console.log('🐸', visits)
+        const visits = user.visits || 0
+        return firebase.database().ref().child(`users/${authUser.uid}/visits`)
+          .set(visits + 1)
+          .then(() => {
+            return user
+          })
       }
 
       // Otherwise, create a new user record
@@ -19,6 +25,7 @@ export default function loadOrCreateUser(authUser) {
         connections: {},
         id: facebook.uid,
         hasAccess: false,
+        visits: 0,
         displayName: facebook.displayName,
         profileImageURL: facebook.photoURL,
         email: facebook.email,

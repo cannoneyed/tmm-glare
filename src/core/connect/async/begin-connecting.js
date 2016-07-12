@@ -18,7 +18,7 @@ import {
 import * as notificationActions from 'src/core/notifications'
 
 // The main exported function for
-export default function beginConnecting() {
+export default function beginConnectingAsync() {
   return (dispatch, getState) => {
     dispatch(setConnecting(true))
 

@@ -1,7 +1,7 @@
-import loadOrCreateUser from './loadOrCreateUser'
-import getUserData from './getUserData'
+import loadOrCreateUserAsync from './loadOrCreateUser'
+import getUserDataAsync from './getUserData'
 
 export {
-  loadOrCreateUser,
-  getUserData,
+  loadOrCreateUserAsync,
+  getUserDataAsync,
 }

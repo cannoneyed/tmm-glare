@@ -6,7 +6,7 @@ import RippleButton from '../shared/rippleButton'
 
 import * as connectActions from 'src/core/connect'
 
-const Beacons = ({ user, beacons, connectWithUser }) => {
+const Beacons = ({ user, beacons, connectWithUserAsync }) => {
   const hasAccess = user && user.hasAccess
 
   // Don't render the beacons if the user is not connected
@@ -15,7 +15,7 @@ const Beacons = ({ user, beacons, connectWithUser }) => {
   }
 
   const handleBeaconClick = (beacon) => {
-    connectWithUser(beacon.key)
+    connectWithUserAsync(beacon.key)
   }
 
   const toRender = beacons.reverse().filter(beacon => {
@@ -45,7 +45,7 @@ const Beacons = ({ user, beacons, connectWithUser }) => {
 
 Beacons.propTypes = {
   beacons: PropTypes.array.isRequired,
-  connectWithUser: PropTypes.func.isRequired,
+  connectWithUserAsync: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 }
 

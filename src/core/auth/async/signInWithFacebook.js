@@ -1,7 +1,7 @@
 import Firebase from 'firebase'
 
 // Manage the sign in with facebook flow (sign in button handler)
-export default function signInWithFacebook() {
+export default function signInWithFacebookAsync() {
   return (dispatch, getState) => {
     const { firebase } = getState()
 

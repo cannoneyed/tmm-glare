@@ -1,9 +1,9 @@
-import beginConnecting from './begin-connecting'
-import cancelConnecting from './cancel-connecting'
-import connectWithUser from './connect-with-user'
+import beginConnectingAsync from './begin-connecting'
+import cancelConnectingAsync from './cancel-connecting'
+import connectWithUserAsync from './connect-with-user'
 
 export {
-  beginConnecting,
-  cancelConnecting,
-  connectWithUser,
+  beginConnectingAsync,
+  cancelConnectingAsync,
+  connectWithUserAsync,
 }

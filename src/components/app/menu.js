@@ -6,7 +6,7 @@ import { Icon, RippleButton } from '../shared'
 import UserCard from './userCard'
 
 import { toggleSidebar } from 'src/core/app'
-import { signOut } from 'src/core/auth'
+import { signOutAsync } from 'src/core/auth'
 
 const onClick = () => console.log('fuck you')
 
@@ -18,7 +18,7 @@ class Menu extends Component {
 
   static propTypes = {
     history: PropTypes.array,
-    signOut: PropTypes.func.isRequired,
+    signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
@@ -42,10 +42,10 @@ class Menu extends Component {
     setTimeout(() => toggleSidebar(false), 300)
   }
 
-  signOut = () => {
-    const { signOut, toggleSidebar } = this.props
+  signOutAsync = () => {
+    const { signOutAsync, toggleSidebar } = this.props
     setTimeout(() => {
-      signOut()
+      signOutAsync()
       toggleSidebar(false)
     }, 300)
   }
@@ -106,7 +106,7 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={this.signOut}>
+          onClick={this.signOutAsync}>
           Sign Out
           <Icon type={'sign-out'} />
         </RippleButton>
@@ -120,6 +120,6 @@ export default connect(state => ({
   history: state.history,
   user: state.user,
 }), {
-  signOut,
+  signOutAsync,
   toggleSidebar,
 })(Menu)

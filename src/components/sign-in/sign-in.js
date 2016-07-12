@@ -5,7 +5,7 @@ import * as authActions from 'src/core/auth'
 import { Link } from 'react-router'
 
 
-export function SignIn({ signInWithFacebook }) {
+export function SignIn({ signInWithFacebookAsync }) {
   return (
     <div className="sign-in-container">
       <div className="splash-logo" />
@@ -14,7 +14,7 @@ export function SignIn({ signInWithFacebook }) {
           className="glare-button"
           onClick={() => {
             setTimeout(() => {
-              signInWithFacebook()
+              signInWithFacebookAsync()
             }, 200)
           }}>
           <Icon type="facebook" />
@@ -32,7 +32,7 @@ export function SignIn({ signInWithFacebook }) {
 
 SignIn.propTypes = {
   isAuthenticating: PropTypes.bool.isRequired,
-  signInWithFacebook: PropTypes.func.isRequired,
+  signInWithFacebookAsync: PropTypes.func.isRequired,
 }
 
 export default connect(state => ({

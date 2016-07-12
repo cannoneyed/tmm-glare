@@ -5,7 +5,7 @@ import {
   connectCancelled,
 } from '../index'
 
-export default function cancelConnecting() {
+export default function cancelConnectingAsync() {
   return (dispatch, getState) => {
     dispatch(connectCancelled())
 

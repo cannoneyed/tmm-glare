@@ -12,16 +12,16 @@ class ShareButton extends Component { // eslint-disable-line
   }
 
   static propTypes = {
-    beginConnecting: PropTypes.func.isRequired,
-    cancelConnecting: PropTypes.func.isRequired,
+    beginConnectingAsync: PropTypes.func.isRequired,
+    cancelConnectingAsync: PropTypes.func.isRequired,
     hasAccess: PropTypes.bool.isRequired,
     isConnecting: PropTypes.bool.isRequired,
   }
 
   render() {
     const {
-      beginConnecting,
-      cancelConnecting,
+      beginConnectingAsync,
+      cancelConnectingAsync,
       hasAccess,
       isConnecting,
     } = this.props
@@ -32,7 +32,7 @@ class ShareButton extends Component { // eslint-disable-line
     return (
       <RippleButton
         className="glare-button"
-        onClick={isConnecting ? cancelConnecting : beginConnecting}>
+        onClick={isConnecting ? cancelConnectingAsync : beginConnectingAsync}>
         <Icon type={connectIcon} />
         {isConnecting ? 'Cancel' : connectMessage}
       </RippleButton>

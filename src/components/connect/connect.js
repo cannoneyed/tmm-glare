@@ -16,14 +16,14 @@ export class Connect extends Component {
   static propTypes = {
     isConnecting: PropTypes.bool.isRequired,
     isGlobeLoaded: PropTypes.bool.isRequired,
-    loadGlobeData: PropTypes.func.isRequired,
+    loadGlobeDataAsync: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
 
   componentWillMount() {
-    const { isGlobeLoaded, loadGlobeData } = this.props
+    const { isGlobeLoaded, loadGlobeDataAsync } = this.props
     if (!isGlobeLoaded) {
-      loadGlobeData()
+      loadGlobeDataAsync()
     }
   }
 

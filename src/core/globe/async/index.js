@@ -1,5 +1,5 @@
-import loadGlobeData from './loadGlobeData'
+import loadGlobeDataAsync from './loadGlobeData'
 
 export {
-  loadGlobeData
+  loadGlobeDataAsync
 }

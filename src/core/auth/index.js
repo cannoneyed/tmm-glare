@@ -47,7 +47,7 @@ export function signInFailure() {
   return { type: SIGN_IN_FAILURE }
 }
 
-export function signOutSuccess() {
+export function signOutAsyncSuccess() {
   return { type: SIGN_OUT_SUCCESS }
 }
 

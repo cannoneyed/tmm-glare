@@ -1,13 +1,13 @@
 import {
-  signOutSuccess,
+  signOutAsyncSuccess,
 } from '../index'
 
 // Manage signing out of the application
-export default function signOut() {
+export default function signOutAsync() {
   return (dispatch, getState) => {
     const { firebase } = getState()
-    firebase.auth().signOut().then(() => {
-      dispatch(signOutSuccess())
+    firebase.auth().signOutAsync().then(() => {
+      dispatch(signOutAsyncSuccess())
     })
   }
 }

@@ -27,7 +27,7 @@ const geofire = {
 const store = configureStore({ firebase, geofire })
 const syncedHistory = syncHistoryWithStore(history, store)
 
-store.dispatch(authActions.initAuth())
+store.dispatch(authActions.initAuthAsync())
 
 ReactDOM.render((
   <Root history={syncedHistory} onEnter={authRouteResolver(store.getState)} store={store} />

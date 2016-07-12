@@ -14,7 +14,7 @@ import {
 
 import { notificationActions } from 'src/core/notifications'
 
-export default function getUserData(userId) {
+export default function getUserDataAsync(userId) {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
