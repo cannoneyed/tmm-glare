@@ -55,9 +55,9 @@ class Menu extends Component {
     const hasAccess = user && user.hasAccess
 
     return (
-      <div className="menu-container">
+      <div className="sidebar-menu-container">
         <RippleButton
-          className="menu-item menu-close"
+          className="sidebar-menu-item menu-close"
           onClick={this.hideSidebar}>
           <Icon type={'close'} />
         </RippleButton>
@@ -67,7 +67,7 @@ class Menu extends Component {
         : null }
 
         <RippleButton
-          className="menu-item"
+          className="sidebar-menu-item"
           onClick={this.linkTo('connect')}>
           {hasAccess ? 'Give' : 'Connect'}
           <Icon type={'give'} />
@@ -75,7 +75,7 @@ class Menu extends Component {
 
 
         <RippleButton
-          className="menu-item"
+          className="sidebar-menu-item"
           onClick={onClick}>
           Connections
           <Icon type={'connections'} />
@@ -83,7 +83,7 @@ class Menu extends Component {
 
         { hasAccess ?
           <RippleButton
-            className="menu-item"
+            className="sidebar-menu-item"
             onClick={this.linkTo('listen')}>
             Listen
             <Icon type={'listen'} />
@@ -91,21 +91,21 @@ class Menu extends Component {
         : null }
 
         <RippleButton
-          className="menu-item"
+          className="sidebar-menu-item"
           onClick={onClick}>
           About
           <Icon type={'about'} />
         </RippleButton>
 
         <RippleButton
-          className="menu-item"
+          className="sidebar-menu-item"
           onClick={onClick}>
           Share
           <Icon type={'share'} />
         </RippleButton>
 
         <RippleButton
-          className="menu-item"
+          className="sidebar-menu-item"
           onClick={this.signOut}>
           Sign Out
           <Icon type={'sign-out'} />

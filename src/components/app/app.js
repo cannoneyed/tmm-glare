@@ -66,13 +66,17 @@ export class App extends Component {
 
   render() {
     const { isLoading, isSidebarOpen, user } = this.props
+    const sidebarStyles = {
+      zIndex: 100,
+    }
 
     return (
       <Sidebar
         sidebar={<Menu />}
         open={isSidebarOpen}
         sidebarClassName="sidebar-container"
-        styles={{ sidebar: { zIndex: 100 } }}
+        styles={{ sidebar: sidebarStyles }}
+        shadow={false}
         pullRight={true}
         onSetOpen={this.onSetSidebarOpen}>
         <div className="container">
