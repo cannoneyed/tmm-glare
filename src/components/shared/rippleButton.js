@@ -43,14 +43,6 @@ class RippleButton extends Component {
         onClick={(e) => {
           this.handleClick(e)
           this.props.onClick()
-        }}
-        onMouseUp={(e) => {
-          this.handleClick(e)
-          this.props.onClick()
-        }}
-        onTouchend={(e) => {
-          this.handleClick(e)
-          this.props.onClick()
         }}>
         {this.props.children}
         <Ripple cursorPos={this.state.cursorPos} />

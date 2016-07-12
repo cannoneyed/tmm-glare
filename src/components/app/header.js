@@ -31,12 +31,12 @@ export class Header extends Component {
     return (
       <header className="header">
         <span className="header-back" onClick={() => this.goBack()}>
-          { canGoBack ? <Icon type={'arrow-back'} /> : null }
+          { canGoBack ? <Icon type={'arrow-back'} size={50} /> : null }
         </span>
         <span className="header-logo" />
         { user ?
           <span className="header-menu" onClick={() => toggleSidebar()}>
-            <Icon type={'menu'} />
+            <Icon type={'menu'} size={50} />
           </span>
         : null }
       </header>

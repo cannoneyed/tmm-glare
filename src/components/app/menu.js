@@ -59,7 +59,7 @@ class Menu extends Component {
         <RippleButton
           className="sidebar-menu-item menu-close"
           onClick={this.hideSidebar}>
-          <Icon type={'close'} />
+          <Icon type={'close'} size={35} />
         </RippleButton>
 
         { user ?

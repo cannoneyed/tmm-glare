@@ -15,7 +15,7 @@ import {
   geolocationDenied,
 } from '../../location'
 
-import { notificationActions } from 'src/core/notifications'
+import * as notificationActions from 'src/core/notifications'
 
 // The main exported function for
 export default function beginConnecting() {
