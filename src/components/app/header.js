@@ -11,6 +11,7 @@ export class Header extends Component {
 
   static propTypes = {
     canGoBack: PropTypes.bool.isRequired,
+    hasViewedIntro: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
@@ -26,7 +27,11 @@ export class Header extends Component {
   }
 
   render() {
-    const { canGoBack, toggleSidebar, user } = this.props
+    const { canGoBack, toggleSidebar, hasViewedIntro, user } = this.props
+
+    if (!hasViewedIntro) {
+      return <header className="header" />
+    }
 
     return (
       <header className="header">
@@ -46,6 +51,7 @@ export class Header extends Component {
 
 export default connect(state => ({
   canGoBack: canGoBack(state.history),
+  hasViewedIntro: state.app.hasViewedIntro,
   user: state.user,
 }), {
   toggleSidebar,

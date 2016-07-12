@@ -1,6 +1,10 @@
 .connect-container {
   min-width: 100%;
   position: relative;
+  transition: all 750ms ease-in-out;
+  &.blurred {
+    filter: blur(10px);
+  }
 }
 
 .connect-beacons {

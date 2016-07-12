@@ -1,6 +1,6 @@
 // Actions
 const TOGGLE_SIDEBAR = 'app/TOGGLE_SIDEBAR'
-const VIEWED_INTRO = 'app/VIEWED_INTRO'
+const FINISH_INTRO = 'app/FINISH_INTRO'
 
 // Reducer
 const initialState = {
@@ -14,7 +14,7 @@ export default function reducer(state = initialState, action = {}) {
       const isSidebarOpen = action.payload === undefined ? !state.isSidebarOpen : !!action.payload
       return { ...state, isSidebarOpen }
     }
-    case VIEWED_INTRO: {
+    case FINISH_INTRO: {
       return { ...state, hasViewedIntro: true }
     }
     default:
@@ -25,4 +25,8 @@ export default function reducer(state = initialState, action = {}) {
 // Action Creators
 export function toggleSidebar(isOpen) {
   return { type: TOGGLE_SIDEBAR, payload: isOpen }
+}
+
+export function finishIntro() {
+  return { type: FINISH_INTRO }
 }

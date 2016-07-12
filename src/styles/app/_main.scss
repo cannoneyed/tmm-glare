@@ -20,9 +20,12 @@ html, body {
   background-repeat: no-repeat;
   background-position: 0% 30%;
   background-size: 100%;
+
+  padding-bottom: 44px;
 }
 
 .main {
+  height: 100vh;
   display: flex;
   flex: 1;
   z-index: 1;

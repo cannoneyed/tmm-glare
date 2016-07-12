@@ -69,20 +69,25 @@ export class App extends Component {
       zIndex: 100,
     }
 
+    const fixedWindowStyle = {
+      height: `${window.innerHeight}px - 44px`,
+      width: `${window.innerWidth}px`,
+    }
+
     return (
-      <Sidebar
-        sidebar={<Menu />}
-        open={isSidebarOpen}
-        sidebarClassName="sidebar-container"
-        styles={{ sidebar: sidebarStyles }}
-        shadow={false}
-        pullRight={true}
-        onSetOpen={this.onSetSidebarOpen}>
-        <div className="container">
-          { user ? <Header /> : null }
-          {isLoading ? this.renderLoading() : this.renderMain()}
+        <div className="container" style={fixedWindowStyle}>
+        <Sidebar
+          sidebar={<Menu />}
+          open={isSidebarOpen}
+          sidebarClassName="sidebar-container"
+          styles={{ sidebar: sidebarStyles }}
+          shadow={false}
+          pullRight={true}
+          onSetOpen={this.onSetSidebarOpen}>
+            { user ? <Header /> : null }
+            {isLoading ? this.renderLoading() : this.renderMain()}
+          </Sidebar>
         </div>
-      </Sidebar>
     )
   }
 }

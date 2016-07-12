@@ -40,9 +40,9 @@ export class Connect extends Component {
     )
   }
 
-  renderGlobe() {
+  renderGlobe(blurred) {
     return (
-      <div className="globe-underlay">
+      <div className={`globe-underlay ${blurred ? 'blurred' : null}`}>
         <GlobeContainer />
       </div>
     )
@@ -62,6 +62,7 @@ export class Connect extends Component {
     // If the user has not seen the intro page and is on her first visit, then the user
     // must be redirected to the intro page
     const shouldDisplayIntro = !!user && !user.visits && !hasViewedIntro
+    const blurred = !!shouldDisplayIntro
 
     return (
       <div className="connect-container">
@@ -71,7 +72,7 @@ export class Connect extends Component {
           transitionLeaveTimeout={750}>
           {isConnecting ? this.renderConnectingLoader() : null}
         </ReactCSSTransitionGroup>
-        {isGlobeLoaded ? this.renderGlobe() : null}
+        {isGlobeLoaded ? this.renderGlobe(blurred) : null}
         { shouldDisplayIntro ? <Intro /> :
           <div className="action-buttons">
             <Beacons />

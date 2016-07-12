@@ -1,8 +1,6 @@
 export default function trackUserVisitAsync(user) {
   return (dispatch, getState) => {
 
-    console.log('🍕')
-
     const { firebase } = getState()
     const { visits = 0 } = user
 
