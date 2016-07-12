@@ -8,8 +8,6 @@ import UserCard from './userCard'
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
 
-const onClick = () => console.log('fuck you')
-
 class Menu extends Component {
 
   static contextTypes = {
@@ -76,7 +74,7 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={onClick}>
+          onClick={this.linkTo('connections')}>
           Connections
           <Icon type={'connections'} />
         </RippleButton>
@@ -92,14 +90,14 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={onClick}>
+          onClick={this.linkTo('about')}>
           About
           <Icon type={'about'} />
         </RippleButton>
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={onClick}>
+          onClick={this.linkTo('share')}>
           Share
           <Icon type={'share'} />
         </RippleButton>

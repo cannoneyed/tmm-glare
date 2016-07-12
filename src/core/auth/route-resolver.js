@@ -1,22 +1,26 @@
-import {
-  POST_SIGN_IN_PATH,
-  SIGN_IN_PATH
-} from 'src/config'
-
-
 export default function authRouteResolver(getState) {
   return (nextState, replace) => {
     const { auth, user } = getState()
     const { pathname } = nextState.location
 
-    const hasAccess = user && user.hasAccess
+    const hasAccess = !!user && user.hasAccess
+    const authenticated = auth.authenticated
+    let target = `/${pathname}`
 
-    if (!auth.authenticated && `/${pathname}` !== SIGN_IN_PATH) {
-      replace({pathname: SIGN_IN_PATH})
+    if (!authenticated && target !== '/sign-in') {
+      return replace({ pathname: '/sign-in' })
     }
 
-    if (auth.authenticated && !hasAccess && `/${pathname}` !== POST_SIGN_IN_PATH) {
-      replace({pathname: POST_SIGN_IN_PATH})
+    if (target === '/sign-in') {
+      return
+    }
+
+    if (authenticated && !hasAccess) {
+      if (target === '/intro') {
+        return replace({ pathname: '/intro' })
+      } else if (target !== '/connect') {
+        replace({ pathname: '/connect' })
+      }
     }
   }
 }

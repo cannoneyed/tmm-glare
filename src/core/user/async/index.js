@@ -1,7 +1,9 @@
-import loadOrCreateUserAsync from './loadOrCreateUser'
+import trackUserVisitAsync from './trackUserVisit'
 import getUserDataAsync from './getUserData'
+import loadOrCreateUserAsync from './loadOrCreateUser'
 
 export {
-  loadOrCreateUserAsync,
+  trackUserVisitAsync,
   getUserDataAsync,
+  loadOrCreateUserAsync,
 }

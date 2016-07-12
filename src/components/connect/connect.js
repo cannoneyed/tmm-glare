@@ -7,13 +7,18 @@ import * as globeActions from 'src/core/globe'
 import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'
 
+import Intro from '../about/intro'
 import ListenButton from './listenButton'
 import ShareButton from './shareButton'
 import Beacons from './beacons'
 
 export class Connect extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
 
   static propTypes = {
+    hasViewedIntro: PropTypes.bool.isRequired,
     isConnecting: PropTypes.bool.isRequired,
     isGlobeLoaded: PropTypes.bool.isRequired,
     loadGlobeDataAsync: PropTypes.func.isRequired,
@@ -46,12 +51,17 @@ export class Connect extends Component {
 
   render() {
     const {
+      hasViewedIntro,
       isConnecting,
       isGlobeLoaded,
       user,
     } = this.props
 
     const hasAccess = user && user.hasAccess
+
+    // If the user has not seen the intro page and is on her first visit, then the user
+    // must be redirected to the intro page
+    const shouldDisplayIntro = !!user && !user.visits && !hasViewedIntro
 
     return (
       <div className="connect-container">
@@ -62,11 +72,13 @@ export class Connect extends Component {
           {isConnecting ? this.renderConnectingLoader() : null}
         </ReactCSSTransitionGroup>
         {isGlobeLoaded ? this.renderGlobe() : null}
-        <div className="action-buttons">
-          <Beacons />
-          <ShareButton hasAccess={hasAccess} />
-          <ListenButton hasAccess={hasAccess} />
-        </div>
+        { shouldDisplayIntro ? <Intro /> :
+          <div className="action-buttons">
+            <Beacons />
+            <ShareButton hasAccess={hasAccess} />
+            <ListenButton hasAccess={hasAccess} />
+          </div>
+        }
       </div>
     )
   }
@@ -77,4 +89,5 @@ export default connect(state => ({
   isGlobeLoaded: state.globe.isLoaded,
   beacons: state.connection.beacons,
   user: state.user,
+  hasViewedIntro: state.app.hasViewedIntro,
 }), globeActions)(Connect)

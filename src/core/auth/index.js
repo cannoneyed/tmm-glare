@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
     case SIGN_IN_SUCCESS:
       return {
         authenticated: true,
-        id: payload.uid,
+        id: payload,
         isAuthenticating: false,
       }
     case SIGN_IN_FAILURE:
@@ -32,22 +32,21 @@ export default function reducer(state = initialState, action) {
         id: null,
         isAuthenticating: false,
       }
-
     default:
       return state
   }
 }
 
 // Action Creators
-export function signInSuccess(user) {
-  return { type: SIGN_IN_SUCCESS, payload: user }
+export function signInSuccess(uid) {
+  return { type: SIGN_IN_SUCCESS, payload: uid }
 }
 
 export function signInFailure() {
   return { type: SIGN_IN_FAILURE }
 }
 
-export function signOutAsyncSuccess() {
+export function signOutSuccess() {
   return { type: SIGN_OUT_SUCCESS }
 }
 

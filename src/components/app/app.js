@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { POST_SIGN_IN_PATH, POST_SIGN_OUT_PATH } from 'src/config'
 import Notifications from '../notifications/notifications'
 
 import Sidebar from 'react-sidebar'
@@ -36,9 +35,9 @@ export class App extends Component {
     const { auth } = this.props
 
     if (auth.authenticated && !nextProps.auth.authenticated) {
-      router.replace(POST_SIGN_OUT_PATH)
+      router.replace('/sign-in')
     } else if (!auth.authenticated && nextProps.auth.authenticated) {
-      router.replace(POST_SIGN_IN_PATH)
+      router.replace('/connect')
     }
   }
 

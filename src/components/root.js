@@ -2,30 +2,26 @@ import React, { PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { Route, Router } from 'react-router'
 
-// Config
-import {
-  CONNECT_PATH,
-  EMAIL_PATH,
-  LISTEN_PATH,
-  SIGN_IN_PATH,
-} from 'src/config'
-
 // Components
 import App from './app/app'
 import SignIn from './sign-in/sign-in'
 import Email from './sign-in/email'
 import Connect from './connect/connect'
 import Listen from './listen/listen'
+import Intro from './about/intro'
+import About from './about/about'
 
 export function Root({history, onEnter, store}) {
   return (
     <Provider store={store}>
       <Router history={history}>
         <Route component={App} onEnter={onEnter} path="/">
-          <Route component={SignIn} path={SIGN_IN_PATH} />
-          <Route component={Email} path={EMAIL_PATH} />
-          <Route component={Connect} path={CONNECT_PATH} />
-          <Route component={Listen} path={LISTEN_PATH} />
+          <Route component={SignIn} onEnter={onEnter} path={'/sign-in'} />
+          <Route component={Email} path={'/email'} />
+          <Route component={Connect} onEnter={onEnter} path={'/connect'} />
+          <Route component={Listen} path={'/listen'} />
+          <Route component={Intro} path={'/intro'} />
+          <Route component={About} path={'/about'} />
         </Route>
       </Router>
     </Provider>

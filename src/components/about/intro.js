@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 
 const Intro = () => {
   return (
-    <h1>FUCK YOU</h1>
+    <div className="intro-container">
+      <h1>FUCK YOU</h1>
+    </div>
   )
 }
 

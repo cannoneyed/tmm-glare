@@ -6,6 +6,7 @@ import {
   loadUser,
   updateAccess,
   addConnection,
+  trackUserVisitAsync,
 } from '../index'
 
 import {
@@ -24,15 +25,18 @@ export default function getUserDataAsync(userId) {
       return firebase.database().ref().child(`users/${userId}`).once('value', snapshot => {
         const user = util.recordFromSnapshot(snapshot)
         dispatch(loadUser(user))
+
+        // Now track the visit to the user
+        return dispatch(trackUserVisitAsync(user))
       })
     })
     .then(() => {
-      return dispatch(registerUserListeners(userId))
+      return dispatch(registerUserListenersAsync(userId))
     })
   }
 }
 
-function registerUserListeners(userId) {
+function registerUserListenersAsync(userId) {
   return (dispatch, getState) => {
     const { firebase } = getState()
 
@@ -62,12 +66,12 @@ function registerUserListeners(userId) {
 
       dispatch(addConnection(id))
       dispatch(connectSuccess())
-      dispatch(displayConnectionNotification(id))
+      dispatch(displayConnectionNotificationAsync(id))
     })
   }
 }
 
-function displayConnectionNotification(id) {
+function displayConnectionNotificationAsync(id) {
   return (dispatch, getState) => {
     const { firebase } = getState()
 

@@ -17,12 +17,12 @@ export default function initAuthAsync() {
       unsubscribe()
       if (user) {
         // User signed in, dispatch a success action and fetch the user data
-        dispatch(signInSuccess(user))
+        dispatch(signInSuccess(user.uid))
         return dispatch(userActions.getUserDataAsync(user.uid))
       } else {
         // Otherwise, get the result of the redirect
         firebase.auth().getRedirectResult().then(result => {
-          dispatch(handleRedirectResult(result))
+          dispatch(handleRedirectResultAsync(result))
         })
       }
     })
@@ -30,12 +30,12 @@ export default function initAuthAsync() {
 }
 
 // General handler for firebase oauth redirect result
-function handleRedirectResult(result) {
+function handleRedirectResultAsync(result) {
   return (dispatch) => {
     const authUser = result.user
 
     if (authUser) {
-      return dispatch(handleSuccesfulRedirect(authUser))
+      return dispatch(handleSuccesfulRedirectAsync(authUser))
     } else {
       return dispatch(signInFailure())
     }
@@ -43,7 +43,7 @@ function handleRedirectResult(result) {
 }
 
 // Success handler for firebase oauth redirect result
-function handleSuccesfulRedirect(authUser) {
+function handleSuccesfulRedirectAsync(authUser) {
   return (dispatch) => {
     // Since we've succesfully fetched an authenticated user from the fireabase oauth redirect,
     // we'll need to first trigger the logic to load or create a user object in firebase (from the
@@ -51,7 +51,7 @@ function handleSuccesfulRedirect(authUser) {
     return dispatch(userActions.loadOrCreateUserAsync(authUser))
       .then(() => {
         // Dispatch a sign in success action, then set local storage authenticating to false
-        dispatch(signInSuccess(authUser))
+        dispatch(signInSuccess(authUser.uid))
 
         // Now that the user is logged in, get the user data and register the user listeners
         return dispatch(userActions.getUserDataAsync(authUser.uid))

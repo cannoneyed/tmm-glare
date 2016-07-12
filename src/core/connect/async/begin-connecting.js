@@ -23,7 +23,7 @@ export default function beginConnectingAsync() {
     dispatch(setConnecting(true))
 
     return getGeolocation()
-      .catch(err => dispatch(handleGeolocationError(err)))
+      .catch(err => dispatch(handleGeolocationErrorAsync(err)))
       .then(location => {
         if (!location) {
           return
@@ -40,8 +40,8 @@ export default function beginConnectingAsync() {
         dispatch(geolocationSuccess(coords))
 
         return P.props({
-          createOwnBeacon: dispatch(createOwnBeacon(location)),
-          findBeacons: dispatch(findBeacons(location)),
+          createOwnBeacon: dispatch(createOwnBeaconAsync(location)),
+          findBeacons: dispatch(findBeaconsAsync(location)),
         })
       })
   }
@@ -57,7 +57,7 @@ function getGeolocation() {
   }
 }
 
-function handleGeolocationError(err) {
+function handleGeolocationErrorAsync(err) {
   return (dispatch) => {
     dispatch(notificationActions.addNotification({
       message: 'You must enable geolocation to use the GLARE app',
@@ -73,7 +73,7 @@ function handleGeolocationError(err) {
   }
 }
 
-function createOwnBeacon({ coords, timestamp }) {
+function createOwnBeaconAsync({ coords, timestamp }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
     const { auth, firebase, geofire, connection } = getState()
@@ -96,7 +96,7 @@ function createOwnBeacon({ coords, timestamp }) {
   }
 }
 
-function findBeacons({ coords }) {
+function findBeaconsAsync({ coords }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
     const { geofire, connection } = getState()

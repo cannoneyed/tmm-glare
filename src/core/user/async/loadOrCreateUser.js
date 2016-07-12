@@ -10,13 +10,7 @@ export default function loadOrCreateUserAsync(authUser) {
 
       // If the user exists, track the visit
       if (user) {
-        console.log('🐸', visits)
-        const visits = user.visits || 0
-        return firebase.database().ref().child(`users/${authUser.uid}/visits`)
-          .set(visits + 1)
-          .then(() => {
-            return user
-          })
+        return user
       }
 
       // Otherwise, create a new user record
