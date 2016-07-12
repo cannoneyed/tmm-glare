@@ -72,9 +72,16 @@
   height: 100%;
 }
 
+.player-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 150px;
+}
+
 .player-button {
   margin-top: 7px;
-  width: 40px;
+  width: 25px;
   color: #999;
 
   &:hover {

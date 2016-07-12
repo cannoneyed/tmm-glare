@@ -38,8 +38,12 @@ class RippleButton extends Component {
     const { className } = this.props || 'glare-button'
 
     return (
-      <button
+      <div
         className={`${className} Ripple-parent`}
+        onClick={(e) => {
+          this.handleClick(e)
+          this.props.onClick()
+        }}
         onMouseUp={(e) => {
           this.handleClick(e)
           this.props.onClick()
@@ -50,7 +54,7 @@ class RippleButton extends Component {
         }}>
         {this.props.children}
         <Ripple cursorPos={this.state.cursorPos} />
-      </button>
+      </div>
     )
   }
 }

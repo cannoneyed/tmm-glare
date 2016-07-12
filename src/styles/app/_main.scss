@@ -62,6 +62,8 @@ html, body {
   line-height: 48px;
   color: #999;
   background: $base-background-color;
+
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;

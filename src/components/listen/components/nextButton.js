@@ -14,9 +14,9 @@ class NextButton extends Component {
     let names = classNames('sb-soundplayer-play-btn', className)
 
     return (
-      <button type="button" className={names} style={style} onClick={onClick}>
+      <span className={names} style={style} onClick={onClick}>
         <NextIconSVG />
-      </button>
+      </span>
     )
   }
 }
