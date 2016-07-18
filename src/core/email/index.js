@@ -9,6 +9,6 @@ const initialState = {
 }
 
 export default combineReducers({
-  user: modelReducer('email.user', initialState),
-  userForm: formReducer('email.user', initialState),
+  login: modelReducer('email.login', initialState),
+  loginForm: formReducer('email.login', initialState),
 })

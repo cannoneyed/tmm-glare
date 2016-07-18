@@ -40,15 +40,15 @@ export class Email extends Component {
   }
 
   renderFullName = () => {
-    const { userForm } = this.props
-    const error = userForm.fields.fullName.touched && _.some([
-      userForm.fields.fullName.errors.isRequired,
+    const { loginForm } = this.props
+    const error = loginForm.fields.fullName.touched && _.some([
+      loginForm.fields.fullName.errors.isRequired,
     ])
 
     return (
       <Field
         className="email-sigin-field"
-        model="email.user.fullName"
+        model="email.login.fullName"
         validators={{
           isRequired,
         }}
@@ -60,16 +60,16 @@ export class Email extends Component {
   }
 
   renderEmail = () => {
-    const { userForm } = this.props
-    const error = userForm.fields.email.touched && _.some([
-      userForm.fields.email.errors.isRequired,
-      userForm.fields.email.errors.isEmail,
+    const { loginForm } = this.props
+    const error = loginForm.fields.email.touched && _.some([
+      loginForm.fields.email.errors.isRequired,
+      loginForm.fields.email.errors.isEmail,
     ])
 
     return (
       <Field
         className="email-sigin-field"
-        model="email.user.email"
+        model="email.login.email"
         validators={{
           isRequired,
           isEmail,
@@ -82,16 +82,16 @@ export class Email extends Component {
   }
 
   renderPassword = () => {
-    const { userForm } = this.props
-    const error = userForm.fields.password.touched && _.some([
-      userForm.fields.password.errors.isRequired,
-      userForm.fields.password.errors.isLongEnough,
+    const { loginForm } = this.props
+    const error = loginForm.fields.password.touched && _.some([
+      loginForm.fields.password.errors.isRequired,
+      loginForm.fields.password.errors.isLongEnough,
     ])
 
     return (
       <Field
         className="email-sigin-field"
-        model={'email.user.password'}
+        model={'email.login.password'}
         validators={{
           isRequired,
           isLongEnough,
@@ -105,10 +105,15 @@ export class Email extends Component {
 
   render() {
     const { type } = this.state
+    const { login, signInWithEmailAsync, signUpWithEmailAsync } = this.props
 
     const submitMessage = type === 'signin' ? 'Sign in' : 'Sign up'
     const asideMessage = type === 'signin' ?
       'Or create a new account' : 'Or sign in with existing account'
+
+    let submitAction = type === 'signup' ?
+      () => signUpWithEmailAsync(login.email, login.password) :
+      () => signInWithEmailAsync(login.email, login.password)
 
     return (
       <div className="sign-in-container">
@@ -123,9 +128,7 @@ export class Email extends Component {
           <RippleButton
             className="glare-button"
             onClick={() => {
-              setTimeout(() => {
-                this.context.router.replace('/connect')
-              }, 300)
+              setTimeout(submitAction, 300)
             }}>
             <Icon type="email" />
             {submitMessage}
@@ -140,11 +143,13 @@ export class Email extends Component {
 }
 
 Email.propTypes = {
-  user: PropTypes.object.isRequired,
-  userForm: PropTypes.object.isRequired,
+  login: PropTypes.object.isRequired,
+  loginForm: PropTypes.object.isRequired,
+  signInWithEmailAsync: PropTypes.func.isRequired,
+  signUpWithEmailAsync: PropTypes.func.isRequired,
 }
 
 export default connect(state => {
-  const { email: { user, userForm } } = state
-  return { user, userForm }
+  const { email: { login, loginForm } } = state
+  return { login, loginForm }
 }, authActions)(Email)
