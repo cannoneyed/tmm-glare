@@ -187,5 +187,5 @@ class WebGlGlobe extends Component {
 export default connect(state => ({
   data: state.globe.data,
   isLoaded: state.globe.isLoaded,
-  isConnecting: state.connection.isConnecting,
+  isConnecting: state.connect.isConnecting,
 }), null)(WebGlGlobe)

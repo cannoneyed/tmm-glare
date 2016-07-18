@@ -102,7 +102,7 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={this.linkTo('share')}>
+          onClick={() => {}}>
           Share
           <Icon type={'share'} />
         </RippleButton>

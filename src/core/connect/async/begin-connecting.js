@@ -29,10 +29,10 @@ export default function beginConnectingAsync() {
           return
         }
 
-        const { connection } = getState()
+        const { connect } = getState()
 
-        // Check to ensure the connection action has not been canceled
-        if (!connection.isConnecting) {
+        // Check to ensure the connect action has not been canceled
+        if (!connect.isConnecting) {
           return
         }
 
@@ -76,10 +76,10 @@ function handleGeolocationErrorAsync(err) {
 function createOwnBeaconAsync({ coords, timestamp }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
-    const { auth, firebase, geofire, connection } = getState()
+    const { auth, firebase, geofire, connect } = getState()
 
-    // Check to ensure the connection action has not been canceled
-    if (!connection.isConnecting) {
+    // Check to ensure the connect action has not been canceled
+    if (!connect.isConnecting) {
       return
     }
 
@@ -99,10 +99,10 @@ function createOwnBeaconAsync({ coords, timestamp }) {
 function findBeaconsAsync({ coords }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
-    const { geofire, connection } = getState()
+    const { geofire, connect } = getState()
 
-    // Check to ensure the connection action has not been canceled
-    if (!connection.isConnecting) {
+    // Check to ensure the connect action has not been canceled
+    if (!connect.isConnecting) {
       return
     }
 
@@ -128,10 +128,10 @@ function findBeaconsAsync({ coords }) {
       // Get the user record corresponding to the geokey
       firebase.database().ref().child(`users/${key}`).once('value', snapshot => {
         const otherUser = util.recordFromSnapshot(snapshot)
-        const { user, connection } = getState()
+        const { user, connect } = getState()
 
         // Ignore found beacons that are already in the list
-        const beaconUserIds = connection.beacons.map(user => user.id)
+        const beaconUserIds = connect.beacons.map(user => user.id)
         const existsInBeacons = _.find(beaconUserIds, otherUser.id)
         // Ignore found beacons that the user is already connected to
         const existsInConnections = _.get(user, ['connections', otherUser.id])

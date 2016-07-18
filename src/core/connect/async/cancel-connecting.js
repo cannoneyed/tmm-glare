@@ -9,14 +9,13 @@ export default function cancelConnectingAsync() {
   return (dispatch, getState) => {
     dispatch(connectCancelled())
 
-    const { firebase, auth, connection } = getState()
+    const { firebase, auth, connect } = getState()
 
     // If a firebase geoquery exists, cancel it
-    if (connection.geoquery) {
-      connection.geoquery.cancel()
+    if (connect.geoquery) {
+      connect.geoquery.cancel()
       dispatch(removeGeoquery())
     }
-
 
     // Set up a transaction function to ensure that the beacon is erased when connecting is
     // cancelled

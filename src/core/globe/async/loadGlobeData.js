@@ -4,6 +4,10 @@ import {
   setGlobeData,
 } from '../index'
 
+import {
+  setRawData,
+} from '../../connections'
+
 import * as util from 'src/util'
 
 // Number of decimal points to trim lat / lng for grouping
@@ -16,6 +20,9 @@ export default function loadGlobeDataAsync() {
 
     return firebase.database().ref().child('connections').once('value', snapshot => {
       const data = util.recordFromSnapshot(snapshot)
+
+      // Set the raw data for processing by the connections app
+      dispatch(setRawData(data))
 
       // Omit the 'key' key from the firebase returned object
       const payload = processConnections(_.omit(data, 'key'))

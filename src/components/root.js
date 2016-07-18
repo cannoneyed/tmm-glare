@@ -10,6 +10,7 @@ import Connect from './connect/connect'
 import Listen from './listen/listen'
 import Intro from './about/intro'
 import About from './about/about'
+import Connections from './connections/connections'
 
 export function Root({history, onEnter, store}) {
   return (
@@ -17,11 +18,12 @@ export function Root({history, onEnter, store}) {
       <Router history={history}>
         <Route component={App} onEnter={onEnter} path="/">
           <Route component={SignIn} onEnter={onEnter} path={'/sign-in'} />
-          <Route component={Email} path={'/email'} />
+          <Route component={Email} onEnter={onEnter} path={'/email'} />
           <Route component={Connect} onEnter={onEnter} path={'/connect'} />
-          <Route component={Listen} path={'/listen'} />
-          <Route component={Intro} path={'/intro'} />
-          <Route component={About} path={'/about'} />
+          <Route component={Connections} onEnter={onEnter} path={'/connections'} />
+          <Route component={Listen} onEnter={onEnter} path={'/listen'} />
+          <Route component={Intro} onEnter={onEnter} path={'/intro'} />
+          <Route component={About} onEnter={onEnter} path={'/about'} />
         </Route>
       </Router>
     </Provider>

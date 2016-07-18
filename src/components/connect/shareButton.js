@@ -41,7 +41,7 @@ class ShareButton extends Component { // eslint-disable-line
 }
 
 export default connect(state => ({
-  isConnecting: state.connection.isConnecting,
-  beacons: state.connection.beacons,
+  isConnecting: state.connect.isConnecting,
+  beacons: state.connect.beacons,
   user: state.user,
 }), connectActions)(ShareButton)

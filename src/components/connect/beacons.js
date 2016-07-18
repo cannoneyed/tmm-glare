@@ -50,6 +50,6 @@ Beacons.propTypes = {
 }
 
 export default connect(state => ({
-  beacons: state.connection.beacons,
+  beacons: state.connect.beacons,
   user: state.user,
 }), connectActions)(Beacons)

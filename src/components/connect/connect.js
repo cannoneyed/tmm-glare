@@ -86,9 +86,9 @@ export class Connect extends Component {
 }
 
 export default connect(state => ({
-  isConnecting: state.connection.isConnecting,
+  isConnecting: state.connect.isConnecting,
   isGlobeLoaded: state.globe.isLoaded,
-  beacons: state.connection.beacons,
+  beacons: state.connect.beacons,
   user: state.user,
   hasViewedIntro: state.app.hasViewedIntro,
 }), globeActions)(Connect)
