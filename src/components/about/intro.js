@@ -9,6 +9,7 @@ class Intro extends Component {
 
   static propTypes = {
     finishIntro: PropTypes.func.isRequired,
+    onComplete: PropTypes.func,
   }
 
   constructor() {
@@ -58,9 +59,9 @@ class Intro extends Component {
   }
 
   advancePage = () => {
-    const { finishIntro } = this.props
+    const { finishIntro, onComplete } = this.props
     if (this.state.index === this.pages.length - 1) {
-      return finishIntro()
+      return onComplete ? onComplete() : finishIntro()
     }
 
     this.setState({

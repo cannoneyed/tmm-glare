@@ -1,15 +1,18 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import Intro from './intro'
+import { browserHistory } from 'react-router'
 
-const Intro = () => {
+const About = () => {
   return (
-    <h1>FUCK YOU</h1>
+    <Intro
+      onComplete={() => {
+        setTimeout(() => {
+          browserHistory.goBack()
+        }, 300)
+      }}
+    />
   )
 }
 
-export default connect(state => ({
-  isConnecting: state.connection.isConnecting,
-  isGlobeLoaded: state.globe.isLoaded,
-  beacons: state.connection.beacons,
-  user: state.user,
-}), null)(Intro)
+
+export default About

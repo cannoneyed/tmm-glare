@@ -10,5 +10,10 @@ export function hideHeader(state) {
     return false
   }
 
+  // Don't show the header on the sign-in page
+  if (getCurrentPage(history) === 'sign-in') {
+    return true
+  }
+
   return !hasViewedIntro
 }

@@ -4,6 +4,6 @@ export default function trackUserVisitAsync(user) {
     const { firebase } = getState()
     const { visits = 0 } = user
 
-    return firebase.database().ref().child(`users/${user.key}/visits`).set(visits)
+    return firebase.database().ref().child(`users/${user.key}/visits`).set(visits + 1)
   }
 }
