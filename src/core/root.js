@@ -12,6 +12,7 @@ import loadingReducer from './loading'
 import locationReducer from './location'
 import notificationsReducer from './notifications'
 import userReducer from './user'
+import emailReducer from './email'
 
 export const rootReducer = combineReducers({
   app: appReducer,
@@ -27,4 +28,7 @@ export const rootReducer = combineReducers({
   loading: loadingReducer,
   notifications: notificationsReducer,
   user: userReducer,
+
+  // The email  form reducer
+  email: emailReducer,
 })

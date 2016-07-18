@@ -4,6 +4,7 @@ import { toggleSidebar } from 'src/core/app'
 import { browserHistory } from 'react-router'
 
 import { canGoBack } from 'src/core/history/selectors'
+import { hideHeader } from 'src/core/app/selectors'
 
 import Icon from '../shared/icon'
 
@@ -11,7 +12,7 @@ export class Header extends Component {
 
   static propTypes = {
     canGoBack: PropTypes.bool.isRequired,
-    hasViewedIntro: PropTypes.bool.isRequired,
+    hideHeader: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
@@ -26,24 +27,34 @@ export class Header extends Component {
     }
   }
 
-  render() {
-    const { canGoBack, toggleSidebar, hasViewedIntro, user } = this.props
+  // When we just want to render an empty block to keep the header aligned properly
+  // but not show the menu
+  renderDummyMenu() {
+    return (
+      <span>
+        <Icon type={'empty'} size={50} />
+      </span>
+    )
+  }
 
-    if (!hasViewedIntro) {
+  render() {
+    const { canGoBack, toggleSidebar, hideHeader, user } = this.props
+
+    if (hideHeader) {
       return <header className="header" />
     }
 
     return (
       <header className="header">
         <span className="header-back" onClick={() => this.goBack()}>
-          { canGoBack ? <Icon type={'arrow-back'} size={50} /> : null }
+          { canGoBack ? <Icon type={'arrow-back'} size={50} /> : <span /> }
         </span>
         <span className="header-logo" />
         { user ?
           <span className="header-menu" onClick={() => toggleSidebar()}>
             <Icon type={'menu'} size={50} />
           </span>
-        : null }
+        : this.renderDummyMenu() }
       </header>
     )
   }
@@ -51,7 +62,7 @@ export class Header extends Component {
 
 export default connect(state => ({
   canGoBack: canGoBack(state.history),
-  hasViewedIntro: state.app.hasViewedIntro,
+  hideHeader: hideHeader(state),
   user: state.user,
 }), {
   toggleSidebar,

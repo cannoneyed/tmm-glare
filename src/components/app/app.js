@@ -64,7 +64,7 @@ export class App extends Component {
   }
 
   render() {
-    const { isLoading, isSidebarOpen, user } = this.props
+    const { isLoading, isSidebarOpen } = this.props
     const sidebarStyles = {
       zIndex: 100,
     }
@@ -75,7 +75,7 @@ export class App extends Component {
     }
 
     return (
-        <div className="container" style={fixedWindowStyle}>
+      <div className="container" style={fixedWindowStyle}>
         <Sidebar
           sidebar={<Menu />}
           open={isSidebarOpen}
@@ -84,10 +84,10 @@ export class App extends Component {
           shadow={false}
           pullRight={true}
           onSetOpen={this.onSetSidebarOpen}>
-            { user ? <Header /> : null }
-            {isLoading ? this.renderLoading() : this.renderMain()}
-          </Sidebar>
-        </div>
+          <Header />
+          {isLoading ? this.renderLoading() : this.renderMain()}
+        </Sidebar>
+      </div>
     )
   }
 }

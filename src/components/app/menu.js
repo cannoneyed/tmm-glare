@@ -16,6 +16,7 @@ class Menu extends Component {
 
   static propTypes = {
     history: PropTypes.array,
+    isSidebarOpen: PropTypes.bool.isRequired,
     signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
@@ -49,8 +50,12 @@ class Menu extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { isSidebarOpen, user } = this.props
     const hasAccess = user && user.hasAccess
+
+    if (!isSidebarOpen) {
+      return <div className="sidebar-menu-container" />
+    }
 
     return (
       <div className="sidebar-menu-container">
@@ -116,6 +121,7 @@ class Menu extends Component {
 export default connect(state => ({
   auth: state.auth,
   history: state.history,
+  isSidebarOpen: state.app.isSidebarOpen,
   user: state.user,
 }), {
   signOutAsync,

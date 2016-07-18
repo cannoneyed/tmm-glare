@@ -86,6 +86,7 @@
     "react-hammerjs": "^0.4.6",
     "react-notification-system": "^0.2.7",
     "react-redux": "~4.4.5",
+    "react-redux-form": "^0.14.1",
     "react-responsive-carousel": "^3.0.12",
     "react-ripple-effect": "^1.0.4",
     "react-router": "~2.4.0",
@@ -95,6 +96,7 @@
     "redux": "~3.5.2",
     "redux-observable": "^0.6.2",
     "redux-thunk": "~2.0.1",
-    "rxjs": "^5.0.0-beta.10"
+    "rxjs": "^5.0.0-beta.10",
+    "validator": "^5.4.0"
   }
 }

@@ -19,12 +19,62 @@
   background-repeat: no-repeat;
 }
 
-
-.email-signin-container {
-  width: 100%;
-  padding-top: $header-height;
-
+.email-signin-form {
+  position: absolute;
+  margin-bottom: $footer-height;
+  bottom: 0px;
+  z-index: 10;
+  min-width: 100%;
+  z-index: 10;
+  transform: translate3d(0,0,1px);
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  >.aside {
+    text-decoration: none;
+    color: #999;
+    margin-top: 10px;
+    font-size: rem(15px);
+  }
+
+  >.email-sigin-field {
+    margin-bottom: 15px;
+    outline: none;
+    padding: 0;
+    width: 80%;
+    font-family: inherit;
+    font-size: rem(18px);
+    color: #999;
+    background: $base-background-color;
+
+    input {
+      padding: .5em;
+      outline: 0;
+      margin: 0;
+      font-size: 1em;
+      font-weight: 400;
+      font-family: inherit;
+      color: #999;
+      background-color: $base-background-color;
+      border: 1px solid #999;
+      border-radius: 4px;
+      resize: vertical;
+      width: 100%;
+
+      &.error {
+        border: 1px solid #A22;
+      }
+    }
+  }
+
+  >.form-spacer {
+    min-height: 20px;
+  }
+
+  label {
+    display: block;
+    width: 100%;
+    font-size: rem(15px);
+  }
 }
