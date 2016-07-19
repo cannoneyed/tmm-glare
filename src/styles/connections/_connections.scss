@@ -1,4 +1,59 @@
 .connections-container {
+  position: relative;
   min-height: 100%;
   min-width: 100%;
+  z-index: 11;
+  background-color: red;
+}
+
+.connections-graph {
+  position: absolute;
+  top: 0px;
+  min-height: 100%;
+  min-width: 100%;
+  z-index: 12;
+  background-color: blue;
+}
+
+.connections-overlay {
+  position: absolute;
+  bottom: 0px;
+  min-height: 20%;
+  min-width: 100%;
+  padding-bottom: $footer-height;
+  z-index: 13;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connections-statistic {
+  // @include button-base;
+  margin-bottom: 10px;
+  outline: none;
+  padding: 0;
+  width: 80%;
+  height: 28px;
+  font-family: inherit;
+  font-size: rem(15px);
+  line-height: 28px;
+  color: #999;
+  background: $base-background-color;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  touch-action: none;
+
+  >svg {
+    align-self: flex-start;
+    margin-right: 10px;
+  }
+
+  >.connections-statistic-number {
+    margin-left: 7px;
+    font-size: rem(16px);
+    font-weight: 1000;
+  }
 }

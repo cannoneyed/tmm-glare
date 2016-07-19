@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import * as vis from 'vis'
 
 import * as connectionsActions from 'src/core/connections'
-import generateImageUrl from './icons'
+import generateImageUrl from './helpers'
+import Stats from './stats'
 
 class Connections extends Component {
   static propTypes = {
@@ -42,6 +43,10 @@ class Connections extends Component {
     return graph
   }
 
+  selectNode = () => {
+
+  }
+
   updateGraph = () => {
     const container = this._container
     const graph = this.processGraph()
@@ -68,15 +73,18 @@ class Connections extends Component {
       layout: {},
     }
 
-    new vis.Network(container, graph, options) // eslint-disable-line no-new
+    this.network = new vis.Network(container, graph, options) // eslint-disable-line no-new
+    this.network.on('selectNode', this.selectNode)
   }
 
   render() {
     return (
-      <div
-        className="connections-container"
-        ref={(ref) => this._container = ref}
-      />
+
+      <div className="connections-container">
+        <div className="connections-graph" ref={(ref) => this._container = ref} />
+        <Stats {...this.props.graph} />
+      </div>
+
     )
   }
 }

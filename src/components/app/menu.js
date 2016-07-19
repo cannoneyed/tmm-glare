@@ -76,13 +76,14 @@ class Menu extends Component {
           <Icon type={'give'} />
         </RippleButton>
 
-
-        <RippleButton
-          className="sidebar-menu-item"
-          onClick={this.linkTo('connections')}>
-          Connections
-          <Icon type={'connections'} />
-        </RippleButton>
+        { hasAccess ?
+          <RippleButton
+            className="sidebar-menu-item"
+            onClick={this.linkTo('connections')}>
+            Connections
+            <Icon type={'connections'} />
+          </RippleButton>
+        : null }
 
         { hasAccess ?
           <RippleButton

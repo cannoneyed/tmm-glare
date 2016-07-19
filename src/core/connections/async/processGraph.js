@@ -34,7 +34,10 @@ export default function processGraphAsync() {
 
     const graph = {
       nodes: processNodes(g, id),
-      edges: processEdges(g)
+      edges: processEdges(g),
+      maximumDistance: '0.25mi',
+      sharedWith: g.neighbors(id).length,
+      graphSize: g.nodes().length - 1,
     }
 
     dispatch(setProcessedGraph(graph))
