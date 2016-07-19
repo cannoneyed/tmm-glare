@@ -1,13 +1,11 @@
 import initAuthAsync from './initAuth'
-import signInWithEmailAsync from './signInWithEmail'
-import signUpWithEmailAsync from './signUpWithEmail'
 import signInWithFacebookAsync from './signInWithFacebook'
+import signInWithGoogleAsync from './signInWithGoogle'
 import signOutAsync from './signOut'
 
 export {
   initAuthAsync,
-  signInWithEmailAsync,
-  signUpWithEmailAsync,
   signInWithFacebookAsync,
+  signInWithGoogleAsync,
   signOutAsync,
 }

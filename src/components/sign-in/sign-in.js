@@ -2,14 +2,15 @@ import React, { PropTypes } from 'react'
 import { Icon, RippleButton } from '../shared'
 import { connect } from 'react-redux'
 import * as authActions from 'src/core/auth'
-import { Link } from 'react-router'
 
-
-export function SignIn({ signInWithFacebookAsync }) {
+export function SignIn({ signInWithFacebookAsync, signInWithGoogleAsync }) {
   return (
     <div className="sign-in-container">
       <div className="splash-logo" />
       <div className="action-buttons">
+        <div className="aside">
+          {'Sign in with'}
+        </div>
         <RippleButton
           className="glare-button"
           onClick={() => {
@@ -18,13 +19,18 @@ export function SignIn({ signInWithFacebookAsync }) {
             }, 200)
           }}>
           <Icon type="facebook" />
-          {'Sign In'}
+          {'Facebook'}
         </RippleButton>
-        <Link
-          className="aside"
-          to={'/email'}>
-          {'Sign in with email'}
-        </Link>
+        <RippleButton
+          className="glare-button"
+          onClick={() => {
+            setTimeout(() => {
+              signInWithGoogleAsync()
+            }, 200)
+          }}>
+          <Icon type="google" />
+          {'Google'}
+        </RippleButton>
       </div>
     </div>
   )
@@ -33,6 +39,7 @@ export function SignIn({ signInWithFacebookAsync }) {
 SignIn.propTypes = {
   isAuthenticating: PropTypes.bool.isRequired,
   signInWithFacebookAsync: PropTypes.func.isRequired,
+  signInWithGoogleAsync: PropTypes.func.isRequired,
 }
 
 export default connect(state => ({

@@ -5,7 +5,6 @@ import { Route, Router } from 'react-router'
 // Components
 import App from './app/app'
 import SignIn from './sign-in/sign-in'
-import Email from './sign-in/email'
 import Connect from './connect/connect'
 import Listen from './listen/listen'
 import Intro from './about/intro'
@@ -18,7 +17,6 @@ export function Root({history, onEnter, store}) {
       <Router history={history}>
         <Route component={App} onEnter={onEnter} path="/">
           <Route component={SignIn} onEnter={onEnter} path={'/sign-in'} />
-          <Route component={Email} onEnter={onEnter} path={'/email'} />
           <Route component={Connect} onEnter={onEnter} path={'/connect'} />
           <Route component={Connections} onEnter={onEnter} path={'/connections'} />
           <Route component={Listen} onEnter={onEnter} path={'/listen'} />
