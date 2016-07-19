@@ -70,13 +70,15 @@
     "style-loader": "~0.13.1",
     "webpack": "~1.13.0",
     "webpack-dev-server": "~1.14.1",
-    "winston": "~2.2.0"
+    "winston": "~2.2.0",
+    "worker-loader": "^0.7.1"
   },
   "dependencies": {
     "bluebird": "^3.3.5",
     "classnames": "^2.2.5",
     "firebase": "^3.0.3",
     "geofire": "^4.1.1",
+    "graphlib": "^2.1.1",
     "lodash": "^4.12.0",
     "moment": "~2.13.0",
     "nuka-carousel": "^2.0.2",
@@ -96,6 +98,8 @@
     "redux-observable": "^0.6.2",
     "redux-thunk": "~2.0.1",
     "rxjs": "^5.0.0-beta.10",
-    "validator": "^5.4.0"
+    "uuid": "^2.0.2",
+    "validator": "^5.4.0",
+    "vis": "^4.16.1"
   }
 }

@@ -16,8 +16,8 @@ export default function connectWithUserAsync(otherId) {
         latitude: location.latitude,
         longitude: location.longitude,
         timestamp: Date.now(),
-        shared: auth.id,
-        received: otherId,
+        from: auth.id,
+        to: otherId,
       })
       .then(() => {
         // Set the connection and set hasAccess true on both user objects
