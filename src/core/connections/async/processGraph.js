@@ -43,15 +43,10 @@ export default function processGraphAsync() {
 
 function processNodes(g, ownId) {
   return g.nodes().map(id => {
-    // const node = g.node(id)
-    // const { lat, lng, timestamp } = node
     return {
       id,
       imageType: setType(id, ownId),
       shape: 'image',
-      // lat,
-      // lng,
-      // timestamp,
     }
   })
 }

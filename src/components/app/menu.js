@@ -102,13 +102,6 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={() => {}}>
-          Share
-          <Icon type={'share'} />
-        </RippleButton>
-
-        <RippleButton
-          className="sidebar-menu-item"
           onClick={this.signOutAsync}>
           Sign Out
           <Icon type={'sign-out'} />
