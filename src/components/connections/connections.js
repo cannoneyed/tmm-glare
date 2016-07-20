@@ -3,14 +3,15 @@ import { connect } from 'react-redux'
 import * as vis from 'vis'
 
 import * as connectionsActions from 'src/core/connections'
-import generateImageUrl from './helpers'
+import { generateImageUrl } from './helpers'
 import Stats from './stats'
 
 class Connections extends Component {
   static propTypes = {
     graph: PropTypes.object,
-    isGraphProcessed: PropTypes.bool.isRequired,
-    processGraphAsync: PropTypes.func.isRequired,
+    isGraphLoaded: PropTypes.bool.isRequired,
+    loadGraphAsync: PropTypes.func.isRequired,
+    ownId: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -19,32 +20,73 @@ class Connections extends Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      nodes: [],
+      edges: [],
+      isGraphProcessed: false,
+      lastSelected: null,
+    }
   }
 
   componentDidMount() {
-    const { processGraphAsync } = this.props
-    processGraphAsync()
+    const { loadGraphAsync, isGraphLoaded } = this.props
+    const { isGraphProcessed } = this.state
+
+    if (!isGraphLoaded) {
+      loadGraphAsync()
+    }
+
+    if (isGraphLoaded && !isGraphProcessed) {
+      this.updateGraph()
+    }
   }
 
   componentDidUpdate = () => {
-    const { isGraphProcessed } = this.props
-    if (isGraphProcessed) {
+    const { isGraphLoaded } = this.props
+    const { isGraphProcessed } = this.state
+
+    if (isGraphLoaded && !isGraphProcessed) {
       this.updateGraph()
     }
+  }
+
+  selectNode = (event) => {
+    const { lastSelected } = this.state
+    const { ownId } = this.props
+
+    this.state.nodes.update({
+      id: event.nodes[0],
+      image: generateImageUrl({ type: 'selected' })
+    })
+
+    if (lastSelected) {
+      const type = lastSelected === ownId ? 'me' : 'other'
+      this.state.nodes.update({
+        id: lastSelected,
+        image: generateImageUrl({ type })
+      })
+    }
+
+    this.setState({
+      lastSelected: event.nodes[0],
+    })
   }
 
   processGraph = () => {
     const { graph } = this.props
 
-    graph.nodes = graph.nodes.map(node => {
+    const nodes = new vis.DataSet(graph.nodes.map(node => {
       node.image = generateImageUrl({ type: node.imageType })
       return node
+    }))
+    const edges = new vis.DataSet(graph.edges)
+
+    this.setState({
+      nodes,
+      edges,
     })
-    return graph
-  }
 
-  selectNode = () => {
-
+    return { nodes, edges }
   }
 
   updateGraph = () => {
@@ -75,11 +117,14 @@ class Connections extends Component {
 
     this.network = new vis.Network(container, graph, options) // eslint-disable-line no-new
     this.network.on('selectNode', this.selectNode)
+
+    this.setState({
+      isGraphProcessed: true,
+    })
   }
 
   render() {
     return (
-
       <div className="connections-container">
         <div className="connections-graph" ref={(ref) => this._container = ref} />
         <Stats {...this.props.graph} />
@@ -90,6 +135,7 @@ class Connections extends Component {
 }
 
 export default connect(state => ({
+  ownId: state.auth.id,
   graph: state.connections.graph,
-  isGraphProcessed: state.connections.isGraphProcessed,
+  isGraphLoaded: state.connections.isGraphLoaded,
 }), connectionsActions)(Connections)

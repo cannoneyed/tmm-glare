@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import { Graph } from 'graphlib'
+import { getDistance } from './helpers'
 
 import {
-  setProcessedGraph,
+  setLoadedGraph,
 } from '../index'
 
 // Manage processing of the connections graph
@@ -15,12 +16,19 @@ export default function processGraphAsync() {
 
     const allIds = {}
     _.each(rawData, (obj) => {
-      const { from, to, lat, lng, timestamp } = obj
+      const {
+        from,
+        to,
+        latitude: lat,
+        longitude: lng,
+        timestamp,
+      } = obj
 
       allIds[from] = true
       allIds[to] = true
 
-      g.setEdge(from, to, { lat, lng, timestamp })
+      g.setNode(to, { lat, lng, timestamp })
+      g.setEdge(from, to)
     })
 
     const connected = g.successors(id)
@@ -32,26 +40,43 @@ export default function processGraphAsync() {
       }
     })
 
+    const { nodes } = processNodes(g, id)
+    const edges = processEdges(g)
+
     const graph = {
-      nodes: processNodes(g, id),
-      edges: processEdges(g),
-      maximumDistance: '0.25mi',
+      nodes,
+      edges,
+      maximumDistance: '0.15mi',
       sharedWith: g.neighbors(id).length,
       graphSize: g.nodes().length - 1,
     }
 
-    dispatch(setProcessedGraph(graph))
+    dispatch(setLoadedGraph(graph))
   }
 }
 
 function processNodes(g, ownId) {
-  return g.nodes().map(id => {
+  let maximumDistance = 0
+  const ownNode = g.node(ownId)
+
+  const nodes = g.nodes().map(id => {
+    if (id !== ownId) {
+      const otherNode = g.node(id)
+
+      const distance = getDistance(ownNode, otherNode)
+      if (distance > maximumDistance) {
+        maximumDistance = distance
+      }
+    }
+
     return {
       id,
       imageType: setType(id, ownId),
       shape: 'image',
     }
   })
+
+  return { nodes, maximumDistance }
 }
 
 function processEdges(g) {

@@ -1,5 +1,5 @@
-import processGraphAsync from './processGraph'
+import loadGraphAsync from './loadGraph'
 
 export {
-  processGraphAsync,
+  loadGraphAsync,
 }
