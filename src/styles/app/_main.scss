@@ -82,3 +82,22 @@ html, body {
     //border-color: #aaa;
   }
 }
+
+&.background-0 {
+  background: linear-gradient(to top, #4776E6 , #8E54E9);
+}
+&.background-1 {
+  background: linear-gradient(to top, #614385 , #516395);
+}
+&.background-2 {
+  background: linear-gradient(to top, #EB3349 , #F45C43);
+}
+&.background-3 {
+  background: linear-gradient(to top, #16222A , #3A6073);
+}
+&.background-4 {
+  background: linear-gradient(to top, #1D976C , #93F9B9);
+}
+&.background-5 {
+  background: linear-gradient(to top, #1F1C2C , #928DAB);
+}

@@ -25,8 +25,10 @@ class Listen extends Component {
       return <div></div>
     }
 
+    const r = Math.floor(Math.random() * 6)
+
     return (
-      <div className="listen-container">
+      <div className={`listen-container background-${r}`}>
         <SoundPlayerContainer>
           <Player />
         </SoundPlayerContainer>

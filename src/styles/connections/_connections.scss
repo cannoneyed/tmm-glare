@@ -3,7 +3,6 @@
   min-height: 100%;
   min-width: 100%;
   z-index: 11;
-  background-color: red;
 }
 
 .connections-graph {
@@ -12,7 +11,7 @@
   min-height: 100%;
   min-width: 100%;
   z-index: 12;
-  background-color: blue;
+  background: linear-gradient(to top, #24C6DC , #514A9D);
 }
 
 .connections-overlay {

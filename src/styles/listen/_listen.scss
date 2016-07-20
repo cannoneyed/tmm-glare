@@ -1,7 +1,7 @@
 .listen-container {
   padding: $header-height 20px $footer-height 20px;
   min-width: 100%;
-  position: relative;
+  position: absolute;
 }
 
 .playlist-row {
@@ -16,7 +16,7 @@
   font-size: rem(18px);
   line-height: 48px;
   color: #999;
-  background: transparent;
+  background: $base-background-color;
 
   display: flex;
   justify-content: space-between;
