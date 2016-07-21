@@ -75,12 +75,6 @@ html, body {
   >svg {
     margin-right: 10px;
   }
-
-  &:hover {
-    border: 2px solid #aaa;
-    line-height: 46px;
-    //border-color: #aaa;
-  }
 }
 
 &.background-0 {
@@ -96,7 +90,7 @@ html, body {
   background: linear-gradient(to top, #16222A , #3A6073);
 }
 &.background-4 {
-  background: linear-gradient(to top, #1D976C , #93F9B9);
+  background: linear-gradient(to top, #0C865B , #60C656);
 }
 &.background-5 {
   background: linear-gradient(to top, #1F1C2C , #928DAB);

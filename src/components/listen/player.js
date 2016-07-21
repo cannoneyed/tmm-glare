@@ -10,7 +10,7 @@ import {
   Timer,
 } from './components'
 
-import RippleButton from '../shared/rippleButton'
+import {Icon, RippleButton } from '../shared'
 import * as loadingActions from 'src/core/loading'
 import * as listenActions from 'src/core/listen'
 
@@ -21,8 +21,10 @@ class Player extends Component {
     duration: PropTypes.number,
     playing: PropTypes.bool.isRequired,
     playlist: PropTypes.object,
+    selectedIndex: PropTypes.number,
     setActiveIndex: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
+    setSelectedIndex: PropTypes.func.isRequired,
     soundCloudAudio: PropTypes.object,
   }
 
@@ -30,7 +32,7 @@ class Player extends Component {
     super()
   }
 
-  onPlayClick() {
+  onPlayClick = () => {
     const { playing, soundCloudAudio } = this.props
     if (!soundCloudAudio) {
       return
@@ -43,35 +45,58 @@ class Player extends Component {
     }
   }
 
-  playTrackAtIndex(playlistIndex) {
-    let { soundCloudAudio, setActiveIndex } = this.props
+  selectTrackAtIndex = (playlistIndex) => {
+    const { setSelectedIndex } = this.props
+    setSelectedIndex(playlistIndex)
+  }
+
+  playTrackAtIndex = (playlistIndex) => {
+    const { soundCloudAudio, setActiveIndex } = this.props
     setActiveIndex(playlistIndex)
     soundCloudAudio.play({ playlistIndex })
   }
 
-  nextIndex() {
-    let { playlist, soundCloudAudio, activeIndex, setActiveIndex } = this.props
+  pauseTrack = () => {
+    const { soundCloudAudio } = this.props
+    soundCloudAudio.pause()
+  }
+
+  nextIndex = () => {
+    let {
+      playlist,
+      soundCloudAudio,
+      activeIndex,
+      setSelectedIndex,
+      setActiveIndex,
+    } = this.props
     if (activeIndex >= playlist.tracks.length - 1) {
       return
     }
     if (activeIndex || activeIndex === 0) {
-      setActiveIndex(++activeIndex)
+      setActiveIndex(activeIndex + 1)
+      setSelectedIndex(activeIndex + 1)
       soundCloudAudio.next()
     }
   }
 
-  prevIndex() {
-    let { soundCloudAudio, activeIndex, setActiveIndex } = this.props
+  prevIndex = () => {
+    let {
+      soundCloudAudio,
+      activeIndex,
+      setActiveIndex,
+      setSelectedIndex,
+    } = this.props
     if (activeIndex <= 0) {
       return
     }
     if (activeIndex || activeIndex === 0) {
-      setActiveIndex(--activeIndex)
+      setActiveIndex(activeIndex - 1)
+      setSelectedIndex(activeIndex - 1)
       soundCloudAudio.previous()
     }
   }
 
-  handleSeekTrack(e) {
+  handleSeekTrack = (e) => {
     let { soundCloudAudio } = this.props
     const xPos = (e.pageX - e.currentTarget.getBoundingClientRect().left) / e.currentTarget.offsetWidth
 
@@ -80,24 +105,61 @@ class Player extends Component {
     }
   }
 
-  renderTrackList() {
-    let { playlist, activeIndex } = this.props
+  renderTrackButtons = (i) => {
+    const { activeIndex, playing } = this.props
+
+    const isPlaying = activeIndex === i && playing
+    const iconType = isPlaying ? 'pause' : 'play'
+    const playPauseButtonAction = isPlaying ? this.pauseTrack : this.playTrackAtIndex
+
+    return (
+      <span className="track-buttons">
+        <span
+          className="track-button"
+          onClick={() => playPauseButtonAction(i)}>
+          <Icon type={iconType} size={35} />
+        </span>
+        <span className="track-button" onClick={() => console.log('launch')}>
+          <Icon type="launch" size={25} />
+        </span>
+      </span>
+    )
+  }
+
+  renderTrackList = () => {
+    let { playlist, activeIndex, selectedIndex } = this.props
 
     let tracks = playlist.tracks.map((track, i) => {
+      const isSelected = selectedIndex === i
+      const isActive = activeIndex === i
       let names = classnames('playlist-row', {
-        'is-active': activeIndex === i
+        'is-selected': isSelected,
+        'is-active': isActive,
       })
 
-      const title = track.title.replace('The M Machine - ', '')
+      const string = track.title.replace('The M Machine - ', '')
+      const pieces = string.split('Ft. ')
+      const title = pieces[0]
+      const featuring = pieces[1]
+
       const time = Timer.prettyTime(track.duration / 1000)
 
       return (
         <RippleButton
           key={track.id}
           className={names}
-          onClick={this.playTrackAtIndex.bind(this, i)}>
-          <span className="title">{title}</span>
-          <span className="time">{time}</span>
+          onClick={() => this.selectTrackAtIndex(i)}>
+          <span className="title">
+            { title }
+            { featuring ?
+              <span className="featuring">{`ft. ${featuring}`}</span> :
+              null
+            }
+          </span>
+          { isSelected ?
+            this.renderTrackButtons(i) :
+            <span className="time">{time}</span>
+          }
         </RippleButton>
       )
     })
@@ -124,17 +186,17 @@ class Player extends Component {
           <div className="player-controls">
             <PrevButton
               className="player-button"
-              onClick={this.prevIndex.bind(this)}
+              onClick={this.prevIndex}
               {...this.props}
             />
             <PlayButton
               className="player-button"
-              onClick={this.onPlayClick.bind(this)}
+              onClick={this.onPlayClick}
               {...this.props}
             />
             <NextButton
               className="player-button"
-              onClick={this.nextIndex.bind(this)}
+              onClick={this.nextIndex}
               {...this.props}
             />
           </div>
@@ -145,7 +207,7 @@ class Player extends Component {
         <div className="player-timer">
           <Progress
             value={currentTime / duration * 100 || 0}
-            onClick={this.handleSeekTrack.bind(this)}
+            onClick={this.handleSeekTrack}
             {...this.props}
           />
         </div>
@@ -161,4 +223,5 @@ export default connect(state => ({
   currentTime: state.listen.currentTime,
   duration: state.listen.duration,
   activeIndex: state.listen.activeIndex,
+  selectedIndex: state.listen.selectedIndex,
 }), { ...loadingActions, ...listenActions })(Player)

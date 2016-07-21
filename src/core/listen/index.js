@@ -1,14 +1,15 @@
 import * as util from 'src/util'
-import SoundCloudAudio from 'soundcloud-audio'
+import SoundCloudAudio from './soundcloud-audio'
 import * as loadingActions from 'src/core/loading'
 
-export const LOAD_PLAYER = 'LOAD_PLAYER'
-export const SET_SEEKING = 'SET_SEEKING'
-export const SET_PLAYING = 'SET_PLAYING'
-export const SET_TIME = 'SET_TIME'
-export const SET_DURATION = 'SET_DURATION'
-export const SET_PLAYLIST = 'SET_PLAYLIST'
-export const SET_ACTIVE_INDEX = 'SET_ACTIVE_INDEX'
+export const LOAD_PLAYER = 'listen/LOAD_PLAYER'
+export const SET_SEEKING = 'listen/SET_SEEKING'
+export const SET_PLAYING = 'listen/SET_PLAYING'
+export const SET_TIME = 'listen/SET_TIME'
+export const SET_DURATION = 'listen/SET_DURATION'
+export const SET_PLAYLIST = 'listen/SET_PLAYLIST'
+export const SET_ACTIVE_INDEX = 'listen/SET_ACTIVE_INDEX'
+export const SET_SELECTED_INDEX = 'listen/SET_SELECTED_INDEX'
 
 export const initialState = {
   clientId: null,
@@ -22,6 +23,7 @@ export const initialState = {
   playing: false,
   playlist: null,
   activeIndex: 0,
+  selectedIndex: 0,
 }
 
 export default function reducer(state = initialState, action) {
@@ -42,6 +44,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, playlist: action.payload }
     case SET_ACTIVE_INDEX:
       return { ...state, activeIndex: action.payload }
+    case SET_SELECTED_INDEX:
+      return { ...state, selectedIndex: action.payload }
     default:
       return state
   }
@@ -96,4 +100,8 @@ export function setPlaylist(playlist) {
 
 export function setActiveIndex(index) {
   return { type: SET_ACTIVE_INDEX, payload: index }
+}
+
+export function setSelectedIndex(index) {
+  return { type: SET_SELECTED_INDEX, payload: index }
 }

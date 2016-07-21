@@ -13,10 +13,10 @@
   width: 100%;
   height: 48px;
   font-family: inherit;
-  font-size: rem(18px);
+  font-size: rem(16px);
   line-height: 48px;
   color: #999;
-  background: $base-background-color;
+  background: rgba($base-background-color, 1);
 
   display: flex;
   justify-content: space-between;
@@ -24,11 +24,31 @@
   &:hover {
     border: 2px solid #aaa;
     line-height: 46px;
-    //border-color: #aaa;
+  }
+
+  >.title {
+    >.featuring {
+      margin-left: 2px;
+      align-self: flex-start;
+      font-size: rem(13px);
+    }
+  }
+
+  >.time {
+  }
+
+  >.track-buttons {
+    >.track-button {
+      margin-left: 10px;
+    }
+  }
+
+  &.is-selected {
+    border: 2px solid #aaa;
   }
 
   &.is-active {
-    background: rgba(255, 255, 255, .0625);
+    background: rgba($base-background-color, .25);
   }
 }
 

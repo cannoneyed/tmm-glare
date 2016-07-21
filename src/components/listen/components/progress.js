@@ -1,5 +1,5 @@
 import React from 'react'
-import SoundCloudAudio from 'soundcloud-audio'
+import SoundCloudAudio from 'src/core/listen/soundcloud-audio'
 import classNames from 'classnames'
 
 let { PropTypes } = React

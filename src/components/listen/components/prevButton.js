@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames'
-import SoundCloudAudio from 'soundcloud-audio'
+import SoundCloudAudio from 'src/core/listen/soundcloud-audio'
 import { PrevIconSVG } from './icons'
 
 let { PropTypes, Component } = React

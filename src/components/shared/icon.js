@@ -85,6 +85,18 @@ class Icon extends Component {
         return (
           <g><path d="M20 4h-16c-1.1 0-1.99.9-1.99 2l-.01 12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-12c0-1.1-.9-2-2-2zm0 4l-8 5-8-5v-2l8 5 8-5v2z"></path></g>
         )
+      case 'play':
+        return (
+          <g><path d="M8 5v14l11-7z"></path></g>
+        )
+      case 'pause':
+        return (
+          <g><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path></g>
+        )
+      case 'launch':
+        return (
+          <g><path d="M19 19h-14v-14h7v-2h-7c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zm-5-16v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83v3.59h2v-7h-7z"></path></g>
+        )
       default:
         return null
     }
