@@ -39,11 +39,12 @@
 
   >.track-buttons {
     >.track-button {
-      margin-left: 10px;
+      margin-left: 20px;
     }
   }
 
   &.is-selected {
+    padding: 0px 8px 0px 8px;
     border: 2px solid #aaa;
   }
 

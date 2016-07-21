@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
 import { connect } from 'react-redux'
-import classnames from 'classnames'
 import {
   PlayButton,
   PrevButton,
@@ -10,11 +9,16 @@ import {
   Timer,
 } from './components'
 
-import {Icon, RippleButton } from '../shared'
+import TrackList from './trackList'
+
 import * as loadingActions from 'src/core/loading'
 import * as listenActions from 'src/core/listen'
 
 class Player extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+  }
+
   static propTypes = {
     activeIndex: PropTypes.number,
     currentTime: PropTypes.number,
@@ -43,22 +47,6 @@ class Player extends Component {
     } else {
       soundCloudAudio.pause()
     }
-  }
-
-  selectTrackAtIndex = (playlistIndex) => {
-    const { setSelectedIndex } = this.props
-    setSelectedIndex(playlistIndex)
-  }
-
-  playTrackAtIndex = (playlistIndex) => {
-    const { soundCloudAudio, setActiveIndex } = this.props
-    setActiveIndex(playlistIndex)
-    soundCloudAudio.play({ playlistIndex })
-  }
-
-  pauseTrack = () => {
-    const { soundCloudAudio } = this.props
-    soundCloudAudio.pause()
   }
 
   nextIndex = () => {
@@ -105,70 +93,6 @@ class Player extends Component {
     }
   }
 
-  renderTrackButtons = (i) => {
-    const { activeIndex, playing } = this.props
-
-    const isPlaying = activeIndex === i && playing
-    const iconType = isPlaying ? 'pause' : 'play'
-    const playPauseButtonAction = isPlaying ? this.pauseTrack : this.playTrackAtIndex
-
-    return (
-      <span className="track-buttons">
-        <span
-          className="track-button"
-          onClick={() => playPauseButtonAction(i)}>
-          <Icon type={iconType} size={35} />
-        </span>
-        <span className="track-button" onClick={() => console.log('launch')}>
-          <Icon type="launch" size={25} />
-        </span>
-      </span>
-    )
-  }
-
-  renderTrackList = () => {
-    let { playlist, activeIndex, selectedIndex } = this.props
-
-    let tracks = playlist.tracks.map((track, i) => {
-      const isSelected = selectedIndex === i
-      const isActive = activeIndex === i
-      let names = classnames('playlist-row', {
-        'is-selected': isSelected,
-        'is-active': isActive,
-      })
-
-      const string = track.title.replace('The M Machine - ', '')
-      const pieces = string.split('Ft. ')
-      const title = pieces[0]
-      const featuring = pieces[1]
-
-      const time = Timer.prettyTime(track.duration / 1000)
-
-      return (
-        <RippleButton
-          key={track.id}
-          className={names}
-          onClick={() => this.selectTrackAtIndex(i)}>
-          <span className="title">
-            { title }
-            { featuring ?
-              <span className="featuring">{`ft. ${featuring}`}</span> :
-              null
-            }
-          </span>
-          { isSelected ?
-            this.renderTrackButtons(i) :
-            <span className="time">{time}</span>
-          }
-        </RippleButton>
-      )
-    })
-
-    return (
-      <div>{tracks}</div>
-    )
-  }
-
   render() {
     let { currentTime, duration, playlist, activeIndex } = this.props
 
@@ -211,7 +135,7 @@ class Player extends Component {
             {...this.props}
           />
         </div>
-        {this.renderTrackList()}
+        <TrackList />
       </div>
     )
   }

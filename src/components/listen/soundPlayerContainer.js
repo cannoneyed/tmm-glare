@@ -15,13 +15,13 @@ class SoundPlayerContainer extends Component {
     const { soundCloudAudio } = this.props
 
     // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
-    soundCloudAudio.on('playing', this.onAudioStarted.bind(this))
-    soundCloudAudio.on('timeupdate', this.getCurrentTime.bind(this))
-    soundCloudAudio.on('loadedmetadata', this.getDuration.bind(this))
-    soundCloudAudio.on('seeking', this.onSeekingTrack.bind(this))
-    soundCloudAudio.on('seeked', this.onSeekedTrack.bind(this))
-    soundCloudAudio.on('pause', this.onAudioPaused.bind(this))
-    soundCloudAudio.on('ended', this.onAudioEnded.bind(this))
+    soundCloudAudio.on('playing', this.onAudioStarted)
+    soundCloudAudio.on('timeupdate', this.getCurrentTime)
+    soundCloudAudio.on('loadedmetadata', this.getDuration)
+    soundCloudAudio.on('seeking', this.onSeekingTrack)
+    soundCloudAudio.on('seeked', this.onSeekedTrack)
+    soundCloudAudio.on('pause', this.onAudioPaused)
+    soundCloudAudio.on('ended', this.onAudioEnded)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,17 +51,17 @@ class SoundPlayerContainer extends Component {
     this.props.soundCloudAudio.unbindAll()
   }
 
-  onSeekingTrack() {
+  onSeekingTrack = () => {
     const { setSeeking } = this.props
     setSeeking(true)
   }
 
-  onSeekedTrack() {
+  onSeekedTrack = () => {
     const { setSeeking } = this.props
     setSeeking(false)
   }
 
-  onAudioStarted() {
+  onAudioStarted = () => {
     const { soundCloudAudio, setPlaying } = this.props
 
     setPlaying(true)
@@ -69,12 +69,12 @@ class SoundPlayerContainer extends Component {
     addToPlayedStore(soundCloudAudio)
   }
 
-  onAudioPaused() {
+  onAudioPaused = () => {
     const { setPlaying } = this.props
     setPlaying(false)
   }
 
-  onAudioEnded() {
+  onAudioEnded = () => {
     let {
       activeIndex,
       playlist,
@@ -93,12 +93,12 @@ class SoundPlayerContainer extends Component {
 
   }
 
-  getCurrentTime() {
+  getCurrentTime = () => {
     const { soundCloudAudio, setTime } = this.props
     setTime(soundCloudAudio.audio.currentTime)
   }
 
-  getDuration() {
+  getDuration = () => {
     const { soundCloudAudio, setDuration } = this.props
     setDuration(soundCloudAudio.audio.duration)
   }
