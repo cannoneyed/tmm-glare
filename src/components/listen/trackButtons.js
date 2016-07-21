@@ -46,7 +46,9 @@ class TrackButtons extends Component {
         <span
           className="track-button"
           onClick={() => {
-            router.push(`/tracks/${index}`)
+            setTimeout(() => {
+              router.push(`/tracks/${index}`)
+            }, 300)
           }}>
           <Icon type="launch" size={25} />
         </span>

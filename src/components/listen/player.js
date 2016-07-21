@@ -93,12 +93,52 @@ class Player extends Component {
     }
   }
 
-  render() {
-    let { currentTime, duration, playlist, activeIndex } = this.props
-
+  renderControls = () => {
+    let { activeIndex, duration, playlist } = this.props
     if (!duration && playlist) {
       duration = playlist.tracks[activeIndex].duration / 1000
     }
+
+    return (
+      <div className="player-header">
+        <div className="player-controls">
+          <PrevButton
+            className="player-button"
+            onClick={this.prevIndex}
+            {...this.props}
+          />
+          <PlayButton
+            className="player-button"
+            onClick={this.onPlayClick}
+            {...this.props}
+          />
+          <NextButton
+            className="player-button"
+            onClick={this.nextIndex}
+            {...this.props}
+          />
+        </div>
+        <div>
+          <Timer duration={duration || 0} {..._.omit(this.props, 'duration')} />
+        </div>
+      </div>
+    )
+  }
+
+  renderProgress = (currentTime, duration) => {
+    return (
+      <div className="player-timer">
+        <Progress
+          value={currentTime / duration * 100 || 0}
+          onClick={this.handleSeekTrack}
+          {...this.props}
+        />
+      </div>
+    )
+  }
+
+  render() {
+    let { currentTime, duration, playlist } = this.props
 
     if (!playlist) {
       return <div>Loading...</div>
@@ -106,35 +146,8 @@ class Player extends Component {
 
     return (
       <div className="player">
-        <div className="player-header">
-          <div className="player-controls">
-            <PrevButton
-              className="player-button"
-              onClick={this.prevIndex}
-              {...this.props}
-            />
-            <PlayButton
-              className="player-button"
-              onClick={this.onPlayClick}
-              {...this.props}
-            />
-            <NextButton
-              className="player-button"
-              onClick={this.nextIndex}
-              {...this.props}
-            />
-          </div>
-          <div>
-            <Timer duration={duration || 0} {..._.omit(this.props, 'duration')} />
-          </div>
-        </div>
-        <div className="player-timer">
-          <Progress
-            value={currentTime / duration * 100 || 0}
-            onClick={this.handleSeekTrack}
-            {...this.props}
-          />
-        </div>
+        {this.renderControls()}
+        {this.renderProgress(currentTime, duration)}
         <TrackList />
       </div>
     )
@@ -142,10 +155,14 @@ class Player extends Component {
 }
 
 export default connect(state => ({
-  playing: state.listen.playing,
-  soundCloudAudio: state.listen.soundCloudAudio,
+  activeIndex: state.listen.activeIndex,
   currentTime: state.listen.currentTime,
   duration: state.listen.duration,
-  activeIndex: state.listen.activeIndex,
+  playing: state.listen.playing,
   selectedIndex: state.listen.selectedIndex,
-}), { ...loadingActions, ...listenActions })(Player)
+  soundCloudAudio: state.listen.soundCloudAudio,
+}), {
+  setActiveIndex: listenActions.setActiveIndex,
+  setLoading: loadingActions.setLoading,
+  setSelectedIndex: listenActions.setSelectedIndex,
+})(Player)
