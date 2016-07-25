@@ -1,5 +1,7 @@
 {
   "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null",
     "user": {
       ".read": "auth != null",
       ".write": "auth != null",
