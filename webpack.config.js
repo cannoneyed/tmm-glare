@@ -1,6 +1,5 @@
 require('dotenv').config()
 const autoprefixer = require('autoprefixer')
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -29,14 +28,6 @@ const PORT = process.env.PORT || 3000
 //  LOADERS
 //---------------------------------------------------------
 const loaders = {
-  'babel-loader': {
-    test: /\.js$/,
-    exclude: /node_modules/,
-    query: {
-      plugins: ['lodash'],
-      presets: ['es2015']
-    },
-  },
   js: {
     test: /\.js$/,
     exclude: /node_modules/,
@@ -196,10 +187,6 @@ if (ENV_PRODUCTION) {
   }
 
   config.plugins.push(
-    new LodashModuleReplacementPlugin({
-      collections: true,
-      paths: true,
-    }),
     new ExtractTextPlugin('styles.css'),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({

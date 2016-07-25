@@ -5,7 +5,5 @@
     "stage-1"
   ],
 
-  "plugins": ["lodash"],
-
   "sourceRoot": "./src"
 }
