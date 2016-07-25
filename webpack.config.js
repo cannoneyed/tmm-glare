@@ -1,6 +1,7 @@
 require('dotenv').config()
 const autoprefixer = require('autoprefixer')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const path = require('path')
@@ -42,7 +43,7 @@ const loaders = {
     loader: ExtractTextPlugin.extract('css!resolve-url!postcss-loader!sass')
   },
   img: {
-    test: /\.(png|jpg|gif)$/,
+    test: /\.(png|jpg|gif|svg)$/,
     loader: 'url-loader?limit=8192',
   }, // inline base64 URLs for <=8k images, direct URLs for the rest
 
@@ -80,7 +81,6 @@ config.sassLoader = {
   precision: 10,
   sourceComments: false
 }
-
 
 //=====================================
 //  DEVELOPMENT or PRODUCTION
@@ -122,6 +122,8 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
     })
   )
 }
+
+config.context = path.join(__dirname)
 
 
 //=====================================
@@ -197,7 +199,11 @@ if (ENV_PRODUCTION) {
         unused: true,
         warnings: false
       }
-    })
+    }),
+    new CopyWebpackPlugin([{
+      from: 'src/img',
+      to: '/img',
+    }])
   )
 }
 
