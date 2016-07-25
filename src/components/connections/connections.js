@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import * as vis from 'vis'
+import { DataSet, Network } from 'vis'
 
 import * as connectionsActions from 'src/core/connections'
 import { generateImageUrl } from './helpers'
@@ -75,11 +75,11 @@ class Connections extends Component {
   processGraph = () => {
     const { graph } = this.props
 
-    const nodes = new vis.DataSet(graph.nodes.map(node => {
+    const nodes = new DataSet(graph.nodes.map(node => {
       node.image = generateImageUrl({ type: node.imageType })
       return node
     }))
-    const edges = new vis.DataSet(graph.edges)
+    const edges = new DataSet(graph.edges)
 
     this.setState({
       nodes,
@@ -115,7 +115,7 @@ class Connections extends Component {
       layout: {},
     }
 
-    this.network = new vis.Network(container, graph, options) // eslint-disable-line no-new
+    this.network = new Network(container, graph, options) // eslint-disable-line no-new
     this.network.on('selectNode', this.selectNode)
 
     this.setState({
