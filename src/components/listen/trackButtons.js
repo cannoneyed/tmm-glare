@@ -50,7 +50,7 @@ class TrackButtons extends Component {
               router.push(`/tracks/${index}`)
             }, 300)
           }}>
-          <Icon type="launch" size={25} />
+          <Icon type="list" size={25} />
         </span>
       </span>
     )

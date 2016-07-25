@@ -14,22 +14,22 @@
   height: 48px;
   font-family: inherit;
   font-size: rem(16px);
-  line-height: 48px;
+  line-height: 42px;
   color: #999;
   background: rgba($base-background-color, 1);
 
   display: flex;
   justify-content: space-between;
+  align-content: center;
 
   &:hover {
     border: 2px solid #aaa;
-    line-height: 46px;
+    line-height: 40px;
   }
 
   >.title {
     >.featuring {
       margin-left: 2px;
-      align-self: flex-start;
       font-size: rem(13px);
     }
   }
@@ -39,7 +39,7 @@
 
   >.track-buttons {
     >.track-button {
-      margin-left: 20px;
+      margin-left: 15px;
     }
   }
 
