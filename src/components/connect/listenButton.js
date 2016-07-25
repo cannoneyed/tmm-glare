@@ -29,7 +29,7 @@ export default class ListenButton extends Component { // eslint-disable-line
       <RippleButton
         className="glare-button"
         onClick={onClick}>
-        <Icon type="listen" />
+        {hasAccess ? <Icon type="listen" /> : null }
         {content}
       </RippleButton>
     )
