@@ -1,8 +1,9 @@
-import React from 'react'
+/* eslint-disable react/no-multi-comp */
+import React, { PropTypes } from 'react'
 
 import { Icon, RippleButton } from '../shared'
 
-export default function Stats (props) {
+export default function Stats(props) {
   const { maximumDistance, sharedWith, graphSize } = props
 
   const renderSpan = (type, text) => {
@@ -40,4 +41,10 @@ export default function Stats (props) {
       </RippleButton>
     </div>
   )
+}
+
+Stats.propTypes = {
+  graphSize: PropTypes.number,
+  maximumDistance: PropTypes.string,
+  sharedWith: PropTypes.number,
 }

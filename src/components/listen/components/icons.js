@@ -1,3 +1,4 @@
+/* eslint-disable ract/no-multi-comp */
 import React, { PropTypes } from 'react'
 
 const { Component } = React

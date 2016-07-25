@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 
 export default function UserCard({ user }) {
 
@@ -31,4 +31,8 @@ export default function UserCard({ user }) {
       <div>{connectionsString}</div>
     </div>
   )
+}
+
+UserCard.propTypes = {
+  user: PropTypes.object,
 }

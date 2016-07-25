@@ -98,7 +98,6 @@ class PinchZoom extends Component {
     const pinch = touchStart
     .tap(eventPreventDefault)
     .flatMap((md) => {
-      console.log(md)
       const startPoint = normalizeTouch(md)
       const {size} = this.state
 

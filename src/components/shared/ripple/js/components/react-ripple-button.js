@@ -1,35 +1,22 @@
-/*! Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal)
-	* Licensed Under MIT (http://opensource.org/licenses/MIT)
-	*
-	* React Ripple - Version 1.0.0
-  *
-  * Adopted from : https://github.com/nelsoncash/angular-ripple
-	*
-	*/
+// Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal)
+// Licensed Under MIT (http://opensource.org/licenses/MIT)
+//
+// React Ripple - Version 1.0.0
+//
+// Adopted from : https://github.com/nelsoncash/angular-ripple
 
-import React from 'react';
-
-import { Ripple } from './index.js';
+import React, { PropTypes } from 'react'
+import { Ripple } from './index.js'
 
 class RippleButton extends React.Component {
-
   constructor() {
-    super();
+    super()
     this.state = {
       cursorPos: {}
     }
   }
 
-  render () {
-    return (
-      <button ref="button" className="Ripple-parent" onMouseUp={ this.handleClick.bind(this) } onTouchend={ this.handleClick.bind(this) } >
-        { this.props.children }
-        <Ripple cursorPos={ this.state.cursorPos } />
-      </button>
-    )
-  }
-
-  handleClick(e){
+  handleClick = (e) => {
     // Get Cursor Position
     let cursorPos = {
       top: e.clientY,
@@ -39,6 +26,21 @@ class RippleButton extends React.Component {
     this.setState({ cursorPos: cursorPos })
   }
 
+  render() {
+    return (
+      <button
+        className="Ripple-parent"
+        onMouseUp={ this.handleClick }
+        onTouchend={ this.handleClick } >
+        { this.props.children }
+        <Ripple cursorPos={ this.state.cursorPos } />
+      </button>
+    )
+  }
 }
 
-export default RippleButton;
+RippleButton.propTypes = {
+  children: PropTypes.node,
+}
+
+export default RippleButton
