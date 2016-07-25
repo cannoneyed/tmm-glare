@@ -51,28 +51,25 @@ function processConnections(data) {
   })
 
   // Sort the counts and then map to an array of counts for statistical analysis
-  const sortedCounts = _(counts)
-    .map((item, slug) => {
-      const { count } = item
-      return { count, slug }
-    })
-    .sort((a, b) => {
-      return b.count - a.count
-    })
-    .map(item => item.count)
-    .value()
+  const sortedCounts = _.map(counts, (item, slug) => {
+    const { count } = item
+    return { count, slug }
+  })
+  .sort((a, b) => {
+    return b.count - a.count
+  })
+  .map(item => item.count)
 
   const max = _.first(sortedCounts)
 
   // Now, map the coordinates and counts to data ingestible by the webGL globe
-  const output = _(counts)
-    .map(item => {
-      const { lat, lng, count } = item
-      const value = (count / max) * MAX_VALUE
-      return [lat, lng, value]
-    })
-    .flatten()
-    .value()
+  const mapped = _.map(counts, item => {
+    const { lat, lng, count } = item
+    const value = (count / max) * MAX_VALUE
+    return [lat, lng, value]
+  })
+
+  const output = _.flatten(mapped)
 
   return output
 }
