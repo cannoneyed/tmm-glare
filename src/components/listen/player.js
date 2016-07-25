@@ -29,7 +29,6 @@ class Player extends Component {
     setActiveIndex: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
     setSelectedIndex: PropTypes.func.isRequired,
-    setTime: PropTypes.func.isRequired,
     soundCloudAudio: PropTypes.object,
   }
 
@@ -57,7 +56,6 @@ class Player extends Component {
       activeIndex,
       setSelectedIndex,
       setActiveIndex,
-      setTime,
     } = this.props
     if (activeIndex >= playlist.tracks.length - 1) {
       return
@@ -65,7 +63,6 @@ class Player extends Component {
     if (activeIndex || activeIndex === 0) {
       setActiveIndex(activeIndex + 1)
       setSelectedIndex(activeIndex + 1)
-      setTime(0)
       soundCloudAudio.next()
     }
   }
@@ -76,7 +73,6 @@ class Player extends Component {
       activeIndex,
       setActiveIndex,
       setSelectedIndex,
-      setTime,
     } = this.props
     if (activeIndex <= 0) {
       return
@@ -84,7 +80,6 @@ class Player extends Component {
     if (activeIndex || activeIndex === 0) {
       setActiveIndex(activeIndex - 1)
       setSelectedIndex(activeIndex - 1)
-      setTime(0)
       soundCloudAudio.previous()
     }
   }
@@ -168,7 +163,6 @@ export default connect(state => ({
   soundCloudAudio: state.listen.soundCloudAudio,
 }), {
   setActiveIndex: listenActions.setActiveIndex,
-  setTime: listenActions.setTime,
   setLoading: loadingActions.setLoading,
   setSelectedIndex: listenActions.setSelectedIndex,
 })(Player)
