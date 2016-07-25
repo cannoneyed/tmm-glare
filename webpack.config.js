@@ -36,6 +36,10 @@ const loaders = {
     test: /\.scss$/,
     loader: 'style!css!resolve-url!postcss-loader!sass',
   },
+  scssProd: {
+    test: /\.scss$/,
+    loader: ExtractTextPlugin.extract('css!resolve-url!postcss-loader!sass')
+  },
   img: {
     test: /\.(png|jpg|gif)$/,
     loader: 'url-loader?limit=8192',
@@ -176,7 +180,8 @@ if (ENV_PRODUCTION) {
   config.module = {
     loaders: [
       loaders.js,
-      {test: /\.scss$/, loader: ExtractTextPlugin.extract('css!postcss-loader!sass')}
+      loaders.img,
+      loaders.scssProd,
     ]
   }
 
