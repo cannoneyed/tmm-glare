@@ -1,10 +1,11 @@
 {
   "rules": {
-    "tasks": {
-      "$uid": {
-        ".read": "auth !== null && auth.uid === $uid",
-        ".write": "auth !== null && auth.uid === $uid"
-      }
+    "user": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+    },
+    "beaconLocations": {
+      ".indexOn": "g"
     }
   }
 }
