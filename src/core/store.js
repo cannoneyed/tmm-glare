@@ -8,9 +8,10 @@ export default (initialState = {}) => {
   const logger = createLogger({
     collapsed: true,
   })
-  let middleware = applyMiddleware(thunk, logger)
+  let middleware = applyMiddleware(thunk)
 
   if (process.env.NODE_ENV !== 'production') {
+    middleware = middleware.compose(logger)
     // configure redux-devtools-extension
     // @see https://github.com/zalmoxisus/redux-devtools-extension
     const devToolsExtension = window.devToolsExtension
