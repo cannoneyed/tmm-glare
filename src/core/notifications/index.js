@@ -1,5 +1,3 @@
-import _ from 'lodash'
-
 // Actions
 export const ADD_NOTIFICATION = 'notifications/ADD_NOTIFICATION'
 export const DISMISS_NOTIFICATION = 'notifications/DISMISS_NOTIFICATION'
@@ -35,7 +33,7 @@ export function addNotification(notification) {
     if (dismissAfter) {
       setTimeout(() => {
         const { notifications } = getState()
-        const found = _.find(notifications, lookup => {
+        const found = notifications.find(lookup => {
           return lookup.id === notification.id
         })
         if (found) {
