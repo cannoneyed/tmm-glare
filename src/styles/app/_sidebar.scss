@@ -45,6 +45,12 @@
     margin-left: 10px;
   }
 
+  &.unlock {
+    color: #777;
+    font-size: rem(16px);
+    margin-top: $header-height / 2;
+  }
+
   &:hover {
     // border-bottom: 2px solid #aaa;
     line-height: 48px;
