@@ -22,7 +22,7 @@ export function Root({history, onEnter, store}) {
           <Route component={Connections} onEnter={onEnter} path={'/connections'} />
           <Route component={Listen} onEnter={onEnter} path={'/listen'} />
           <Route component={Intro} onEnter={onEnter} path={'/intro'} />
-          <Route component={About} onEnter={onEnter} path={'/about'} />
+          <Route component={About} path={'/about'} />
           <Route path="/tracks" onEnter={onEnter} component={Tracks}>
             <Route path="/tracks/:trackId" component={Tracks} />
           </Route>

@@ -10,6 +10,8 @@ import GlobeContainer from '../globe/globe'
 import Intro from '../about/intro'
 import ListenButton from './listenButton'
 import ShareButton from './shareButton'
+import AboutButton from './aboutButton'
+
 import Beacons from './beacons'
 
 export class Connect extends Component {
@@ -77,7 +79,10 @@ export class Connect extends Component {
           <div className="action-buttons">
             <Beacons />
             <ShareButton hasAccess={hasAccess} />
-            <ListenButton hasAccess={hasAccess} />
+            { hasAccess ?
+              <ListenButton hasAccess={hasAccess} /> :
+              <AboutButton hasAccess={hasAccess} />
+            }
           </div>
         }
       </div>
