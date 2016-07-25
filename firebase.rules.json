@@ -2,9 +2,9 @@
   "rules": {
     ".read": "auth != null",
     ".write": "auth != null",
-    "user": {
+    "users": {
       ".read": "auth != null",
-      ".write": "auth != null",
+      ".write": "auth != null"
     },
     "beaconLocations": {
       ".indexOn": "g"
