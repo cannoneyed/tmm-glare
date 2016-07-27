@@ -246,7 +246,11 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   function pan(dx, dy) {
     rotation.y += dy * 2
-    rotation.x -= dx * 2
+
+    runOriented({
+      up: () => rotation.x -= dx * 2,
+      down: () => rotation.x += dx * 2
+    })
   }
 
   function panRelease(velocityX, velocityY) {
@@ -271,7 +275,11 @@ DAT.Globe = function Globe(container, opts = {}) {
       rotationVelocity += dRotation
     }
 
-    rotation.x -= (rotationVelocity + rotationRelease.x)
+    runOriented({
+      up: () => rotation.x -= (rotationVelocity + rotationRelease.x),
+      down: () => rotation.x -= (rotationVelocity - rotationRelease.x)
+    })
+
     rotation.y += rotationRelease.y
 
     distance += (distanceTarget - distance) * 0.3
@@ -287,12 +295,10 @@ DAT.Globe = function Globe(container, opts = {}) {
     starCamera.position.y = camera.position.y * 0.01
     starCamera.position.z = distance
 
-    const yRotations = Math.floor(rotation.y / (Math.PI / 2))
-    if (yRotations % 4 === 1 || yRotations % 4 === 2) {
-      camera.up.set(0, -1, 0)
-    } else if (yRotations % 4 === 3 || yRotations % 4 === 0) {
-      camera.up.set(0, 1, 0)
-    }
+    runOriented({
+      up: () => camera.up.set(0, 1, 0),
+      down: () => camera.up.set(0, -1, 0)
+    })
 
     camera.lookAt(mesh.position)
     starCamera.lookAt(mesh.position)
@@ -304,6 +310,15 @@ DAT.Globe = function Globe(container, opts = {}) {
 
     renderer.clearDepth()
     renderer.render(scene, camera)
+  }
+
+  function runOriented({ up, down }) {
+    const yRotations = Math.floor(rotation.y / (Math.PI / 2))
+    if (yRotations % 4 === 1 || yRotations % 4 === 2) {
+      down()
+    } else if (yRotations % 4 === 3 || yRotations % 4 === 0) {
+      up()
+    }
   }
 
   init()
