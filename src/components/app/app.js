@@ -66,7 +66,11 @@ export class App extends Component {
   render() {
     const { isLoading, isSidebarOpen } = this.props
     const sidebarStyles = {
-      zIndex: 100,
+      sidebar: {
+        zIndex: 100,
+        transition: 'transform .5s ease-out',
+        WebkitTransition: '-webkit-transform .5s ease-out',
+      },
     }
 
     const fixedWindowStyle = {
@@ -80,7 +84,7 @@ export class App extends Component {
           sidebar={<Menu />}
           open={isSidebarOpen}
           sidebarClassName="sidebar-container"
-          styles={{ sidebar: sidebarStyles }}
+          styles={sidebarStyles}
           shadow={false}
           pullRight={true}
           onSetOpen={this.onSetSidebarOpen}>

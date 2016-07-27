@@ -303,7 +303,6 @@ DAT.Globe = function Globe(container, opts = {}) {
     camera.lookAt(mesh.position)
     starCamera.lookAt(mesh.position)
 
-
     // renderer.render(scene, camera)
     renderer.clear()
     renderer.render(starScene, starCamera)

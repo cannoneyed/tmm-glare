@@ -60,12 +60,8 @@ class Menu extends Component {
   }
 
   render() {
-    const { isSidebarOpen, user } = this.props
+    const { user } = this.props
     const hasAccess = user && user.hasAccess
-
-    if (!isSidebarOpen) {
-      return <div className="sidebar-menu-container" />
-    }
 
     return (
       <div className="sidebar-menu-container">
