@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import visLoader from './vis-loader'
 
 import ConnectionsView from './connections-view'
+import Loading from '../loaders/loading'
 
 class Connections extends Component {
 
@@ -20,8 +21,9 @@ class Connections extends Component {
 
   render() {
     const { vis } = this.state
+
     return (
-      vis ? <ConnectionsView vis={vis} /> : <div />
+      vis ? <ConnectionsView vis={vis} /> : <Loading />
     )
   }
 }
