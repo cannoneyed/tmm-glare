@@ -39,6 +39,9 @@ export default function connectWithUserAsync(other) {
         const otherToUpdate = {
           [`connections/${auth.id}`]: auth.id,
           hasAccess: true,
+          from: auth.id,
+          fromName: user.displayName,
+          fromProfileImageURL: user.profileImageURL,
         }
 
         return P.props({

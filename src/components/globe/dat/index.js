@@ -247,10 +247,11 @@ DAT.Globe = function Globe(container, opts = {}) {
   function pan(dx, dy) {
     rotation.y += dy * 2
 
-    runOriented({
-      up: () => rotation.x -= dx * 2,
-      down: () => rotation.x += dx * 2
-    })
+    const pans = [
+      () => rotation.x -= dx * 2,
+      () => rotation.x += dx * 2,
+    ]
+    runOriented(pans, [0, 1, 1, 0])
   }
 
   function panRelease(velocityX, velocityY) {
@@ -275,10 +276,12 @@ DAT.Globe = function Globe(container, opts = {}) {
       rotationVelocity += dRotation
     }
 
-    runOriented({
-      up: () => rotation.x -= (rotationVelocity + rotationRelease.x),
-      down: () => rotation.x -= (rotationVelocity - rotationRelease.x)
-    })
+    const rots = [
+      () => rotation.x -= (rotationVelocity + rotationRelease.x),
+      () => rotation.x -= (rotationVelocity - rotationRelease.x),
+    ]
+    runOriented(rots, [0, 1, 1, 0])
+
 
     rotation.y += rotationRelease.y
 
@@ -295,10 +298,12 @@ DAT.Globe = function Globe(container, opts = {}) {
     starCamera.position.y = camera.position.y * 0.01
     starCamera.position.z = distance
 
-    runOriented({
-      up: () => camera.up.set(0, 1, 0),
-      down: () => camera.up.set(0, -1, 0)
-    })
+
+    const cams = [
+      () => camera.up.set(0, 1, 0),
+      () => camera.up.set(0, -1, 0),
+    ]
+    runOriented(cams, [0, 1, 1, 0])
 
     camera.lookAt(mesh.position)
     starCamera.lookAt(mesh.position)
@@ -311,13 +316,13 @@ DAT.Globe = function Globe(container, opts = {}) {
     renderer.render(scene, camera)
   }
 
-  function runOriented({ up, down }) {
-    const yRotations = Math.floor(rotation.y / (Math.PI / 2))
-    if (yRotations % 4 === 1 || yRotations % 4 === 2) {
-      down()
-    } else if (yRotations % 4 === 3 || yRotations % 4 === 0) {
-      up()
+  function runOriented(fns, rots) {
+    let yRotations = Math.floor(rotation.y / (Math.PI / 2))
+    if (yRotations < 1) {
+      yRotations = 4 + yRotations
     }
+    const fnIndex = rots[yRotations % 4]
+    fns[fnIndex]()
   }
 
   init()
