@@ -3,16 +3,18 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 
 import RippleButton from '../shared/rippleButton'
-
 import * as connectActions from 'src/core/connect'
 
-const Beacons = ({ user, beacons, connectWithUserAsync }) => {
+const Beacons = (props) => {
+  const {
+    beacons,
+    connectWithUserAsync,
+    isConnecting,
+    user,
+  } = props
   const hasAccess = user && user.hasAccess
 
-  // Don't render the beacons if the user is not connected
-  if (!user.hasAccess) {
-    return null
-  }
+  const message = connectingMessage(beacons, hasAccess)
 
   const handleBeaconClick = (beacon) => {
     connectWithUserAsync(beacon.key)
@@ -35,10 +37,15 @@ const Beacons = ({ user, beacons, connectWithUserAsync }) => {
     )
   })
 
+  if (!isConnecting) {
+    return null
+  }
+
   return (
     <div className="connect-beacons">
+      <div className="connect-message">{message}</div>
       {toRender}
-      {beacons.length ? <div className="beacon-divider" /> : null }
+      <div className="beacon-divider" />
     </div>
   )
 }
@@ -46,10 +53,26 @@ const Beacons = ({ user, beacons, connectWithUserAsync }) => {
 Beacons.propTypes = {
   beacons: PropTypes.array.isRequired,
   connectWithUserAsync: PropTypes.func.isRequired,
+  isConnecting: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 }
 
 export default connect(state => ({
+  isConnecting: state.connect.isConnecting,
   beacons: state.connect.beacons,
   user: state.user,
 }), connectActions)(Beacons)
+
+function connectingMessage(beacons, hasAccess) {
+  let message
+  if (hasAccess) {
+    message = beacons.length ?
+      'People to give to' :
+      'Finding people to give to...'
+  } else {
+    message = beacons.length ?
+      'People to connect with' :
+      'Finding people to connect with...'
+  }
+  return message
+}
