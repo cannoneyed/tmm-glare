@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import * as connectionsActions from 'src/core/connections'
-import { generateImageUrl } from './helpers'
 import Stats from './stats'
 
 class ConnectionsView extends Component {
@@ -52,18 +51,16 @@ class ConnectionsView extends Component {
 
   selectNode = (event) => {
     const { lastSelected } = this.state
-    const { ownId } = this.props
 
     this.state.nodes.update({
       id: event.nodes[0],
-      image: generateImageUrl({ type: 'selected' })
+      // image: generateImageUrl({ type: 'selected' })
     })
 
     if (lastSelected) {
-      const type = lastSelected === ownId ? 'me' : 'other'
       this.state.nodes.update({
         id: lastSelected,
-        image: generateImageUrl({ type })
+        // image: generateImageUrl({ type })
       })
     }
 
@@ -76,7 +73,7 @@ class ConnectionsView extends Component {
     const { graph, vis } = this.props
 
     const nodes = new vis.DataSet(graph.nodes.map(node => {
-      node.image = generateImageUrl({ type: node.imageType })
+      // node.image = generateImageUrl({ type: node.imageType })
       return node
     }))
     const edges = new vis.DataSet(graph.edges)
@@ -98,22 +95,22 @@ class ConnectionsView extends Component {
       width: `${container.offsetWidth}px`,
       height: `${container.offsetHeight}px`,
       edges: {
+        color: 'lightgray',
         smooth: {
           forceDirection: 'none',
         }
       },
-      physics: {
-        barnesHut: {
-          centralGravity: 0.75,
-          springLength: 40,
-          springConstant: 0.41,
-          damping: 0.45,
-          avoidOverlap: 0.13,
+      nodes: {
+        borderWidth: 4,
+        size: 30,
+        color: {
+          border: '#222222',
+          background: '#666666'
         },
-        minVelocity: 0.75,
-        timestep: 0.47,
+        font: {
+          color: '#eeeeee',
+        },
       },
-      layout: {},
     }
 
     this.network = new vis.Network(container, graph, options) // eslint-disable-line no-new

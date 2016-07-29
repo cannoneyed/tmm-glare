@@ -19,15 +19,12 @@ export default function processGraphAsync() {
       const {
         from,
         to,
-        latitude: lat,
-        longitude: lng,
-        timestamp,
       } = obj
 
       allIds[from] = true
       allIds[to] = true
 
-      g.setNode(to, { lat, lng, timestamp })
+      g.setNode(to, obj)
       g.setEdge(from, to)
     })
 
@@ -60,10 +57,9 @@ function processNodes(g, ownId) {
   const ownNode = g.node(ownId)
 
   const nodes = g.nodes().map(id => {
+    const node = g.node(id)
     if (id !== ownId) {
-      const otherNode = g.node(id)
-
-      const distance = getDistance(ownNode, otherNode)
+      const distance = getDistance(ownNode, node)
       if (distance > maximumDistance) {
         maximumDistance = distance
       }
@@ -71,8 +67,9 @@ function processNodes(g, ownId) {
 
     return {
       id,
-      imageType: setType(id, ownId),
-      shape: 'image',
+      shape: 'circularImage',
+      _label: node.toName,
+      image: node.toProfileImageURL,
     }
   })
 
@@ -89,9 +86,4 @@ function createIsConnectedFunction(connected, ownId) {
   const map = { [ownId]: true }
   _.each(connected, key => map[key] = true)
   return (id) => map[id]
-}
-
-function setType(a, b) {
-  const type = (a === b) ? 'me' : 'other'
-  return type
 }
