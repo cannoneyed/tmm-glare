@@ -4,10 +4,16 @@ import {
   connectSuccess,
 } from '../index'
 
-export default function connectWithUserAsync(otherId) {
+export default function connectWithUserAsync(other) {
   return (dispatch, getState) => {
-    const { auth, firebase, location } = getState()
+    const {
+      auth,
+      firebase,
+      location,
+      user,
+    } = getState()
 
+    const otherId = other.key
     const connectionKey = [auth.id, otherId].join('::::')
 
     // Create the connection object
@@ -17,7 +23,11 @@ export default function connectWithUserAsync(otherId) {
         longitude: location.longitude,
         timestamp: Date.now(),
         from: auth.id,
-        to: otherId,
+        fromName: user.displayName,
+        fromProfileImageURL: user.profileImageURL,
+        to: other.key,
+        toName: other.displayName,
+        toProfileImageURL: other.profileImageURL,
       })
       .then(() => {
         // Set the connection and set hasAccess true on both user objects
