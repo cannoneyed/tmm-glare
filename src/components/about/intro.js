@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ReactSwipe from 'react-swipe'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 
@@ -17,6 +18,7 @@ class Intro extends Component {
     super()
     this.state = {
       index: 0,
+      fadeAway: 1,
     }
   }
 
@@ -38,6 +40,10 @@ class Intro extends Component {
   }, {
     lines: ['With love'],
     iconType: '',
+    showLogo: true,
+  }, {
+    lines: [],
+    iconType: '',
   }]
 
   getPage = (i) => {
@@ -45,50 +51,88 @@ class Intro extends Component {
       return null
     }
 
-    const { lines, iconType } = this.pages[i]
-    const last = i === this.pages.length - 1
+    const { lines, iconType, showLogo } = this.pages[i]
 
     return (
-      <div className="intro-messages">
+      <div key={i} className="intro-messages">
         <Icon type={iconType} size={50} />
-        {lines.map((line, index) => {
-          return <h3 key={index}>{line}</h3>
+        {lines.map((line, l) => {
+          return <h3 key={l}>{line}</h3>
         })}
-        { last ? <div className="intro-signoff" /> : null}
+        { showLogo ? <div className="intro-signoff" /> : null}
       </div>
     )
   }
 
-  advancePage = () => {
+  getPages = () => {
+    return _.map(this.pages, (_page, i) => {
+      return this.getPage(i)
+    })
+  }
+
+  goToPage = (index) => {
     const { finishIntro, onComplete, onPageChange } = this.props
-    if (this.state.index === this.pages.length - 1) {
+    if (index === this.pages.length - 1) {
       return onComplete ? onComplete() : finishIntro()
     }
 
     if (onPageChange) {
-      onPageChange(this.state.index + 1)
+      onPageChange(index)
     }
 
     this.setState({
-      index: this.state.index + 1
+      index,
     })
+  }
+
+  advancePage = () => {
+    this._reactSwipe.next()
   }
 
   renderProgress = () => {
     const index = this.state.index
-    return _.range(this.pages.length).map((i) => {
+    return _.range(this.pages.length - 1).map((i) => {
       const className = 'progress-icon' + (i === index ? ' passed' : '')
       return <div key={i} className={className} />
     })
   }
 
+  handleSwipe = (p) => {
+    const { index } = this.state
+    // Only apply the fadeout transition when on the last page, and swiping positive
+    if (index !== this.pages.length - 2 || p < 0) {
+      return
+    }
+    const fadeAway = Math.max(1 - 2 * p, 0)
+    this.setState({
+      fadeAway
+    })
+  }
+
   render() {
-    const page = this.getPage(this.state.index)
+    const swipeOptions = {
+      continuous: false,
+      disableScroll: true,
+      stopPropagation: true,
+      callback: this.goToPage,
+      swiping: this.handleSwipe,
+    }
+
+    const progressStyle = {
+      opacity: this.state.fadeAway,
+    }
 
     return (
       <div className="intro-container" onClick={() => this.advancePage()}>
-        { page }
-        <div className="intro-progress">
+        <div className="intro-slides">
+          <ReactSwipe
+            ref={ref => this._reactSwipe = ref}
+            className="intro-swipe"
+            swipeOptions={swipeOptions}>
+            {this.getPages()}
+          </ReactSwipe>
+        </div>
+        <div className="intro-progress" style={progressStyle}>
           {this.renderProgress()}
         </div>
       </div>

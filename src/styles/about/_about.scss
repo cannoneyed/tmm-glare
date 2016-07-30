@@ -4,3 +4,59 @@
   min-height: 100%;
   min-width: 100%;
 }
+
+.intro-container {
+  z-index: 10;
+  min-width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  min-height: 100%;
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro-slides {
+  >.intro-swipe {
+    margin: 0 auto;
+  }
+}
+
+.intro-messages {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .intro-signoff {
+    width: 150px;
+    height: 70px;
+    background-image: url('img/the-m-machine.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+.intro-progress {
+  margin: 30px auto 0px auto;
+  width: 200px;
+  height: 20px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  .progress-icon {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: #555;
+
+    &.passed {
+      background-color: #AAA;
+    }
+  }
+}
