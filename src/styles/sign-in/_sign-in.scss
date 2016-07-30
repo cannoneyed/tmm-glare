@@ -4,6 +4,7 @@
 
 .sign-in-container {
   width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -12,7 +13,7 @@
 
 .splash-logo {
   width: 80%;
-  height: 80%;
+  min-height: 80%;
   background-image: url('img/glare.png');
   background-size: contain;
   background-position: center;
