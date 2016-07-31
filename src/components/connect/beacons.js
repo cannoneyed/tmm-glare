@@ -17,7 +17,7 @@ const Beacons = (props) => {
   const message = connectingMessage(beacons, hasAccess)
 
   const handleBeaconClick = (beacon) => {
-    connectWithUserAsync(beacon.key)
+    connectWithUserAsync(beacon)
   }
 
   const toRender = beacons.reverse().filter(beacon => {
