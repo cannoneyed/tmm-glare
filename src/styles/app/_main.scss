@@ -75,6 +75,14 @@ html, body {
   >svg {
     margin-right: 10px;
   }
+
+  &.highlighted {
+    border-color: $purple;
+  }
+
+  &.dull {
+    color: $dull;
+  }
 }
 
 &.background-0 {

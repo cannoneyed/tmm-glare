@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
 
 import * as globeActions from 'src/core/globe'
+import * as messageActions from 'src/core/messages'
 
 import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'
@@ -24,14 +25,27 @@ export class Connect extends Component {
     isConnecting: PropTypes.bool.isRequired,
     isGlobeLoaded: PropTypes.bool.isRequired,
     loadGlobeDataAsync: PropTypes.func.isRequired,
+    registerMessageListenerAsync: PropTypes.func.isRequired,
+    unregisterMessageListenerAsync: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
 
   componentWillMount() {
-    const { isGlobeLoaded, loadGlobeDataAsync } = this.props
+    const {
+      isGlobeLoaded,
+      loadGlobeDataAsync,
+      registerMessageListenerAsync
+    } = this.props
+
     if (!isGlobeLoaded) {
       loadGlobeDataAsync()
     }
+    registerMessageListenerAsync()
+  }
+
+  componentWillUnmount() {
+    const { unregisterMessageListenerAsync } = this.props
+    unregisterMessageListenerAsync()
   }
 
   renderConnectingLoader() {
@@ -96,4 +110,8 @@ export default connect(state => ({
   beacons: state.connect.beacons,
   user: state.user,
   hasViewedIntro: state.app.hasViewedIntro,
-}), globeActions)(Connect)
+}), {
+  loadGlobeDataAsync: globeActions.loadGlobeDataAsync,
+  registerMessageListenerAsync: messageActions.registerMessageListenerAsync,
+  unregisterMessageListenerAsync: messageActions.unregisterMessageListenerAsync,
+})(Connect)

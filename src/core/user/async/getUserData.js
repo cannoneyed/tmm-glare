@@ -13,7 +13,7 @@ import {
   connectSuccess,
 } from '../../connect/index'
 
-import { notificationActions } from 'src/core/notifications'
+import * as notificationActions from 'src/core/notifications'
 
 export default function getUserDataAsync(userId) {
   return (dispatch, getState) => {

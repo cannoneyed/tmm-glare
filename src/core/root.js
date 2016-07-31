@@ -11,6 +11,7 @@ import historyReducer from './history'
 import listenReducer from './listen'
 import loadingReducer from './loading'
 import locationReducer from './location'
+import messageReducer from './messages'
 import notificationsReducer from './notifications'
 import userReducer from './user'
 
@@ -27,6 +28,7 @@ export const rootReducer = combineReducers({
   listen: listenReducer,
   location: locationReducer,
   loading: loadingReducer,
+  messages: messageReducer,
   notifications: notificationsReducer,
   user: userReducer,
 })
