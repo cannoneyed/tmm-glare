@@ -9,13 +9,13 @@ class Listen extends Component {
 
   static propTypes = {
     isPlayerLoaded: PropTypes.bool.isRequired,
-    loadPlayerData: PropTypes.func.isRequired,
+    loadPlayerDataAsync: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
-    const { isPlayerLoaded, loadPlayerData } = this.props
+    const { isPlayerLoaded, loadPlayerDataAsync } = this.props
     if (!isPlayerLoaded) {
-      loadPlayerData()
+      loadPlayerDataAsync()
     }
   }
 
@@ -39,4 +39,6 @@ class Listen extends Component {
 
 export default connect(state => ({
   isPlayerLoaded: state.listen.isLoaded,
-}), listenActions)(Listen)
+}), {
+  loadPlayerDataAsync: listenActions.loadPlayerDataAsync,
+})(Listen)

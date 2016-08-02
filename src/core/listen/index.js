@@ -1,7 +1,4 @@
-import * as util from 'src/util'
-import SoundCloudAudio from './soundcloud-audio'
-import * as loadingActions from 'src/core/loading'
-
+export const LOAD_TRACKS = 'listen/LOAD_TRACKS'
 export const LOAD_PLAYER = 'listen/LOAD_PLAYER'
 export const SET_SEEKING = 'listen/SET_SEEKING'
 export const SET_PLAYING = 'listen/SET_PLAYING'
@@ -24,10 +21,14 @@ export const initialState = {
   playlist: null,
   activeIndex: 0,
   selectedIndex: 0,
+  // Unlocked tracks
+  unlockedTracks: [],
 }
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case LOAD_TRACKS:
+      return { ... state, tracks: action.payload }
     case LOAD_PLAYER: {
       const { clientId, resolveUrl, soundCloudAudio } = action.payload
       return { ...state, clientId, resolveUrl, soundCloudAudio, isLoaded: true }
@@ -51,31 +52,12 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export function loadPlayerData() {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
+export function loadTracks(tracks) {
+  return { type: LOAD_TRACKS, payload: tracks }
+}
 
-    dispatch(loadingActions.setLoading(true))
-
-    // Load the soundcloud playlist data from firebase
-    return firebase.database().ref().child('playlistInfo').once('value', snapshot => {
-      const { clientId, resolveUrl } = util.recordFromSnapshot(snapshot)
-      const soundCloudAudio = new SoundCloudAudio(clientId)
-
-      // Dispatch the meta information about the player, and the soundcloud audio object
-      dispatch({ type: LOAD_PLAYER, payload: {
-        clientId,
-        resolveUrl,
-        soundCloudAudio,
-      }})
-
-      // Now fetch the actual audio in the soundcloud audio object, and dispatch the playlist
-      soundCloudAudio.resolve(resolveUrl, (data) => {
-        dispatch(setPlaylist(data))
-        dispatch(loadingActions.setLoading(false))
-      })
-    })
-  }
+export function loadPlayer(payload) {
+  return { type: LOAD_PLAYER, payload, }
 }
 
 export function setSeeking(seekState) {
@@ -105,3 +87,5 @@ export function setActiveIndex(index) {
 export function setSelectedIndex(index) {
   return { type: SET_SELECTED_INDEX, payload: index }
 }
+
+export * from './async'
