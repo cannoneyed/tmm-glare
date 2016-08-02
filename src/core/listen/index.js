@@ -28,7 +28,7 @@ export const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_TRACKS:
-      return { ... state, tracks: action.payload }
+      return { ... state, unlockedTracks: action.payload }
     case LOAD_PLAYER: {
       const { clientId, resolveUrl, soundCloudAudio } = action.payload
       return { ...state, clientId, resolveUrl, soundCloudAudio, isLoaded: true }
@@ -89,3 +89,4 @@ export function setSelectedIndex(index) {
 }
 
 export * from './async'
+export * from './playerControls'

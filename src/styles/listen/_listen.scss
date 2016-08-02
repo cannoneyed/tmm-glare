@@ -32,6 +32,9 @@
       margin-left: 2px;
       font-size: rem(13px);
     }
+    &.locked {
+      color: $dull;
+    }
   }
 
   >.time {

@@ -30,6 +30,7 @@ class Player extends Component {
     setLoading: PropTypes.func.isRequired,
     setSelectedIndex: PropTypes.func.isRequired,
     soundCloudAudio: PropTypes.object,
+    unlockedTracks: PropTypes.array.isRequired,
   }
 
   constructor() {
@@ -161,6 +162,7 @@ export default connect(state => ({
   playing: state.listen.playing,
   selectedIndex: state.listen.selectedIndex,
   soundCloudAudio: state.listen.soundCloudAudio,
+  unlockedTracks: state.listen.unlockedTracks,
 }), {
   setActiveIndex: listenActions.setActiveIndex,
   setLoading: loadingActions.setLoading,
