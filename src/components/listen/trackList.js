@@ -16,6 +16,7 @@ function TrackList(props) {
   let {
     activeIndex,
     isTrackUnlocked,
+    playTrackAtIndex,
     playlist,
     selectedIndex,
     setSelectedIndex,
@@ -39,7 +40,9 @@ function TrackList(props) {
     const unlocked = isTrackUnlocked(index)
 
     const titleDisplay = () => (
-      <span className="title">
+      <span
+        className="title"
+        onClick={() => playTrackAtIndex(index)}>
         { title }
         { featuring ?
           <span className="featuring">{`ft. ${featuring}`}</span> :
@@ -73,6 +76,7 @@ function TrackList(props) {
 TrackList.propTypes = {
   activeIndex: PropTypes.number,
   isTrackUnlocked: PropTypes.func.isRequired,
+  playTrackAtIndex: PropTypes.func.isRequired,
   playlist: PropTypes.object,
   selectedIndex: PropTypes.number,
   setSelectedIndex: PropTypes.func,
@@ -84,5 +88,6 @@ export default connect(state => ({
   playlist: state.listen.playlist,
   selectedIndex: state.listen.selectedIndex,
 }), {
+  playTrackAtIndex: listenActions.playTrackAtIndex,
   setSelectedIndex: listenActions.setSelectedIndex,
 })(TrackList)
