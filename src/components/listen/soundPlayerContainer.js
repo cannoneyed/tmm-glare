@@ -3,6 +3,7 @@ import { stopAllOther, addToPlayedStore } from './utils/audioStore.js'
 import { connect } from 'react-redux'
 
 import * as listenActions from 'src/core/listen'
+import { getNextUnlockedTrack } from 'src/core/listen/selectors'
 
 let { PropTypes, Component } = React
 
@@ -16,8 +17,8 @@ class SoundPlayerContainer extends Component {
 
     // https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
     soundCloudAudio.on('playing', this.onAudioStarted)
-    soundCloudAudio.on('timeupdate', this.getCurrentTime)
-    soundCloudAudio.on('loadedmetadata', this.getDuration)
+    soundCloudAudio.on('timeupdate', this.setCurrentTime)
+    soundCloudAudio.on('loadedmetadata', this.setDuration)
     soundCloudAudio.on('seeking', this.onSeekingTrack)
     soundCloudAudio.on('seeked', this.onSeekedTrack)
     soundCloudAudio.on('pause', this.onAudioPaused)
@@ -77,28 +78,26 @@ class SoundPlayerContainer extends Component {
   onAudioEnded = () => {
     let {
       activeIndex,
-      playlist,
-      setActiveIndex,
+      getNextUnlockedTrack,
+      playTrackAtIndex,
       setPlaying,
-      soundCloudAudio,
     } = this.props
 
-    if (activeIndex >= playlist.tracks.length - 1) {
-      setPlaying(false)
-    }
-    if (activeIndex || activeIndex === 0) {
-      setActiveIndex(++activeIndex)
-      soundCloudAudio.next()
-    }
+    const nextUnlockedTrack = getNextUnlockedTrack(activeIndex)
 
+    if (nextUnlockedTrack === null) {
+      setPlaying(false)
+    } else {
+      playTrackAtIndex(nextUnlockedTrack)
+    }
   }
 
-  getCurrentTime = () => {
+  setCurrentTime = () => {
     const { soundCloudAudio, setTime } = this.props
     setTime(soundCloudAudio.audio.currentTime)
   }
 
-  getDuration = () => {
+  setDuration = () => {
     const { soundCloudAudio, setDuration } = this.props
     setDuration(soundCloudAudio.audio.duration)
   }
@@ -137,11 +136,12 @@ SoundPlayerContainer.propTypes = {
   clientId: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
+  getNextUnlockedTrack: PropTypes.func.isRequired,
+  playTrackAtIndex: PropTypes.func.isRequired,
   playing: PropTypes.bool.isRequired,
   playlist: PropTypes.object,
   resolveUrl: PropTypes.string,
   seeking: PropTypes.bool.isRequired,
-  setActiveIndex: PropTypes.func.isRequired,
   setDuration: PropTypes.func.isRequired,
   setPlaying: PropTypes.func.isRequired,
   setPlaylist: PropTypes.func.isRequired,
@@ -153,4 +153,5 @@ SoundPlayerContainer.propTypes = {
 
 export default connect(state => ({
   ...state.listen,
+  getNextUnlockedTrack: getNextUnlockedTrack(state),
 }), listenActions)(SoundPlayerContainer)

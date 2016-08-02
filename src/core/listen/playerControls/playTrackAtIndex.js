@@ -1,5 +1,6 @@
 import {
   setActiveIndex,
+  setSelectedIndex,
   setPlaying,
 } from '../index'
 
@@ -13,6 +14,7 @@ export default function playTrackAtIndex(playlistIndex) {
 
     // Set the active player playlistIndex
     dispatch(setActiveIndex(playlistIndex))
+    dispatch(setSelectedIndex(playlistIndex))
 
     // Play the soundcloud audio
     soundCloudAudio.play({ playlistIndex })

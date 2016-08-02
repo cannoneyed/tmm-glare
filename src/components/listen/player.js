@@ -23,8 +23,12 @@ class Player extends Component {
     activeIndex: PropTypes.number,
     currentTime: PropTypes.number,
     duration: PropTypes.number,
+    nextTrack: PropTypes.func.isRequired,
+    pauseTrack: PropTypes.func.isRequired,
+    playTrackAtIndex: PropTypes.func.isRequired,
     playing: PropTypes.bool.isRequired,
     playlist: PropTypes.object,
+    previousTrack: PropTypes.func.isRequired,
     selectedIndex: PropTypes.number,
     setActiveIndex: PropTypes.func.isRequired,
     setLoading: PropTypes.func.isRequired,
@@ -38,50 +42,21 @@ class Player extends Component {
   }
 
   onPlayClick = () => {
-    const { playing, soundCloudAudio } = this.props
+    const {
+      activeIndex,
+      pauseTrack,
+      playTrackAtIndex,
+      playing,
+      soundCloudAudio,
+    } = this.props
     if (!soundCloudAudio) {
       return
     }
 
     if (!playing) {
-      soundCloudAudio.play({ playlistIndex: soundCloudAudio._playlistIndex })
+      playTrackAtIndex(activeIndex)
     } else {
-      soundCloudAudio.pause()
-    }
-  }
-
-  nextIndex = () => {
-    let {
-      playlist,
-      soundCloudAudio,
-      activeIndex,
-      setSelectedIndex,
-      setActiveIndex,
-    } = this.props
-    if (activeIndex >= playlist.tracks.length - 1) {
-      return
-    }
-    if (activeIndex || activeIndex === 0) {
-      setActiveIndex(activeIndex + 1)
-      setSelectedIndex(activeIndex + 1)
-      soundCloudAudio.next()
-    }
-  }
-
-  prevIndex = () => {
-    let {
-      soundCloudAudio,
-      activeIndex,
-      setActiveIndex,
-      setSelectedIndex,
-    } = this.props
-    if (activeIndex <= 0) {
-      return
-    }
-    if (activeIndex || activeIndex === 0) {
-      setActiveIndex(activeIndex - 1)
-      setSelectedIndex(activeIndex - 1)
-      soundCloudAudio.previous()
+      pauseTrack()
     }
   }
 
@@ -95,7 +70,13 @@ class Player extends Component {
   }
 
   renderControls = () => {
-    let { activeIndex, duration, playlist } = this.props
+    let {
+      activeIndex,
+      duration,
+      nextTrack,
+      playlist,
+      previousTrack,
+    } = this.props
     if (!duration && playlist) {
       duration = playlist.tracks[activeIndex].duration / 1000
     }
@@ -105,7 +86,7 @@ class Player extends Component {
         <div className="player-controls">
           <PrevButton
             className="player-button"
-            onClick={this.prevIndex}
+            onClick={previousTrack}
             {...this.props}
           />
           <PlayButton
@@ -115,7 +96,7 @@ class Player extends Component {
           />
           <NextButton
             className="player-button"
-            onClick={this.nextIndex}
+            onClick={nextTrack}
             {...this.props}
           />
         </div>
@@ -164,6 +145,8 @@ export default connect(state => ({
   soundCloudAudio: state.listen.soundCloudAudio,
   unlockedTracks: state.listen.unlockedTracks,
 }), {
+  nextTrack: listenActions.nextTrack,
+  previousTrack: listenActions.previousTrack,
   setActiveIndex: listenActions.setActiveIndex,
   setLoading: loadingActions.setLoading,
   setSelectedIndex: listenActions.setSelectedIndex,
