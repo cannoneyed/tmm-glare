@@ -3,7 +3,8 @@ import {
   signInFailure,
 } from '../index'
 
-import * as userActions from 'src/core/user'
+import { loadAppDataAsync } from 'src/core/app'
+import { loadOrCreateUserAsync } from 'src/core/user'
 
 // Called when the page loads, manages the facebook oauth redirect / login flow
 export default function initAuthAsync() {
@@ -18,7 +19,7 @@ export default function initAuthAsync() {
       if (user) {
         // User signed in, dispatch a success action and fetch the user data
         dispatch(signInSuccess(user.uid))
-        return dispatch(userActions.getUserDataAsync(user.uid))
+        return dispatch(loadAppDataAsync())
       } else {
         // Otherwise, get the result of the redirect
         firebase.auth().getRedirectResult().then(result => {
@@ -48,13 +49,13 @@ function handleSuccesfulRedirectAsync(authUser) {
     // Since we've succesfully fetched an authenticated user from the fireabase oauth redirect,
     // we'll need to first trigger the logic to load or create a user object in firebase (from the
     // facebook scope data we've fetched), then trigger our login success logic
-    return dispatch(userActions.loadOrCreateUserAsync(authUser))
+    return dispatch(loadOrCreateUserAsync(authUser))
       .then(() => {
-        // Dispatch a sign in success action, then set local storage authenticating to false
+        // Dispatch a sign in success action
         dispatch(signInSuccess(authUser.uid))
 
-        // Now that the user is logged in, get the user data and register the user listeners
-        return dispatch(userActions.getUserDataAsync(authUser.uid))
+        // Now that the user is logged in, get all data necessary to run the app
+        return dispatch(loadAppDataAsync())
       })
   }
 }

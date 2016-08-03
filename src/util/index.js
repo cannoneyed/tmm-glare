@@ -8,3 +8,9 @@ export function recordFromSnapshot(snapshot) {
   record.key = snapshot.key
   return record
 }
+
+
+export function recordsFromSnapshot(snapshot) {
+  let records = snapshot.val()
+  return records
+}

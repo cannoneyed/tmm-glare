@@ -1,6 +1,8 @@
+import _ from 'lodash'
+
 import {
   loadPlayer,
-  loadTracks,
+  unlockTracks,
   setPlaylist,
 } from '../index'
 
@@ -29,7 +31,10 @@ export default function loadPlayerData() {
       dispatch(loadPlayer(options))
 
       // Dispatch the track lists that are unlocked
-      dispatch(loadTracks(unlockedTracks))
+      const toUnlock = _.map(unlockedTracks, (isUnlocked, index) => {
+        return index
+      })
+      dispatch(unlockTracks(toUnlock))
 
       // Now fetch the actual audio in the soundcloud audio object, and dispatch the playlist
       soundCloudAudio.resolve(resolveUrl, (data) => {

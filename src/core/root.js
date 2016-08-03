@@ -8,6 +8,7 @@ import connectionsReducer from './connections'
 import { firebaseReducer, geofireReducer } from './firebase'
 import globeReducer from './globe'
 import historyReducer from './history'
+import journalReducer from './journal'
 import listenReducer from './listen'
 import loadingReducer from './loading'
 import locationReducer from './location'
@@ -24,6 +25,7 @@ export const rootReducer = combineReducers({
   geofire: geofireReducer,
   globe: globeReducer,
   history: historyReducer,
+  journal: journalReducer,
   routing: routerReducer,
   listen: listenReducer,
   location: locationReducer,

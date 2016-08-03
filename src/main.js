@@ -9,7 +9,7 @@ import GeoFire from 'geofire'
 import { createHistory } from 'history'
 
 import { Root } from './components/root'
-import * as authActions from './core/auth'
+import { initAuthAsync } from './core/auth'
 import authRouteResolver from './core/auth/route-resolver'
 import configureStore from './core/store'
 import { firebaseConfig } from './config'
@@ -27,7 +27,8 @@ const geofire = {
 const store = configureStore({ firebase, geofire })
 const syncedHistory = syncHistoryWithStore(history, store)
 
-store.dispatch(authActions.initAuthAsync())
+// Initial auth loading action
+store.dispatch(initAuthAsync())
 
 ReactDOM.render((
   <Root history={syncedHistory} onEnter={authRouteResolver(store.getState)} store={store} />

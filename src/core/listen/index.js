@@ -1,4 +1,6 @@
-export const LOAD_TRACKS = 'listen/LOAD_TRACKS'
+import _ from 'lodash'
+
+export const UNLOCK_TRACKS = 'listen/UNLOCK_TRACKS'
 export const LOAD_PLAYER = 'listen/LOAD_PLAYER'
 export const SET_SEEKING = 'listen/SET_SEEKING'
 export const SET_PLAYING = 'listen/SET_PLAYING'
@@ -27,8 +29,6 @@ export const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case LOAD_TRACKS:
-      return { ... state, unlockedTracks: action.payload }
     case LOAD_PLAYER: {
       const { clientId, resolveUrl, soundCloudAudio } = action.payload
       return { ...state, clientId, resolveUrl, soundCloudAudio, isLoaded: true }
@@ -47,13 +47,21 @@ export default function reducer(state = initialState, action) {
       return { ...state, activeIndex: action.payload }
     case SET_SELECTED_INDEX:
       return { ...state, selectedIndex: action.payload }
+    case UNLOCK_TRACKS: {
+      const idsToUnlock = action.payload
+      const unlockedTracks = state.unlockedTracks.slice()
+      _.each(idsToUnlock, trackId => {
+        unlockedTracks[trackId] = true
+      })
+      return { ...state, unlockedTracks }
+    }
     default:
       return state
   }
 }
 
-export function loadTracks(tracks) {
-  return { type: LOAD_TRACKS, payload: tracks }
+export function unlockTracks(trackIds) {
+  return { type: UNLOCK_TRACKS, payload: trackIds }
 }
 
 export function loadPlayer(payload) {
