@@ -1,7 +1,8 @@
 import _ from 'lodash'
 import * as util from 'src/util'
 
-import { TRACK_UNLOCKED, setJournal } from '../index'
+import { setJournal } from '../index'
+import { TRACK_UNLOCKED } from '../types'
 import { unlockTracks } from 'src/core/listen'
 
 export default function loadJournalAsync() {

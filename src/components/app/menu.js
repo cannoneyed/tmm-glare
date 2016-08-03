@@ -85,6 +85,15 @@ class Menu extends Component {
         { hasAccess ?
           <RippleButton
             className="sidebar-menu-item"
+            onClick={this.linkTo('listen')}>
+            Listen
+            <Icon type={'listen'} />
+          </RippleButton>
+        : null }
+
+        { hasAccess ?
+          <RippleButton
+            className="sidebar-menu-item"
             onClick={this.linkTo('connections')}>
             Connections
             <Icon type={'connections'} />
@@ -94,9 +103,9 @@ class Menu extends Component {
         { hasAccess ?
           <RippleButton
             className="sidebar-menu-item"
-            onClick={this.linkTo('listen')}>
-            Listen
-            <Icon type={'listen'} />
+            onClick={this.linkTo('journal')}>
+            Journal
+            <Icon type={'list'} />
           </RippleButton>
         : null }
 
@@ -104,7 +113,7 @@ class Menu extends Component {
           className="sidebar-menu-item"
           onClick={this.linkTo('about')}>
           About
-          <Icon type={'about'} />
+          <Icon type={'globe'} />
         </RippleButton>
 
         <RippleButton

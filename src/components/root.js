@@ -3,13 +3,14 @@ import { Provider } from 'react-redux'
 import { Route, Router } from 'react-router'
 
 // Components
-import App from './app/app'
-import SignIn from './sign-in/sign-in'
-import Connect from './connect/connect'
-import Listen from './listen/listen'
-import Intro from './about/intro'
 import About from './about/about'
+import App from './app/app'
+import Connect from './connect/connect'
 import Connections from './connections/connections'
+import Intro from './about/intro'
+import Journal from './journal/journal'
+import Listen from './listen/listen'
+import SignIn from './sign-in/sign-in'
 import Tracks from './tracks/tracks'
 
 export function Root({history, onEnter, store}) {
@@ -22,6 +23,7 @@ export function Root({history, onEnter, store}) {
           <Route component={Connections} onEnter={onEnter} path={'/connections'} />
           <Route component={Listen} onEnter={onEnter} path={'/listen'} />
           <Route component={Intro} onEnter={onEnter} path={'/intro'} />
+          <Route component={Journal} onEnter={onEnter} path={'/journal'} />
           <Route component={About} path={'/about'} />
           <Route path="/tracks" onEnter={onEnter} component={Tracks}>
             <Route path="/tracks/:trackId" component={Tracks} />

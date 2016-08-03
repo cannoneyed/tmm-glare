@@ -1,8 +1,5 @@
 import _ from 'lodash'
 
-// Journal types
-export const TRACK_UNLOCKED = 'TRACK_UNLOCKED'
-
 // Action types
 export const SET_JOURNAL = 'journal/SET_JOURNAL'
 

@@ -1,0 +1,33 @@
+
+.journal-container {
+  padding-top: $header-height;
+}
+
+.journal-entry {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+
+  min-height: 150px;
+  font-size: rem(15px);
+  margin: 10px 0 10px 0;
+  padding: 0 20px 0 20px;
+
+  width: 100%;
+
+  >.journal-entry-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+  }
+
+  >.entry-content {
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px;
+  }
+
+}
