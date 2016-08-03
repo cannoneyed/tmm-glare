@@ -28,6 +28,8 @@
   }
 
   >.title {
+    // Extend the title span all the way across the button to catch events
+    flex-grow: 1000;
     >.featuring {
       margin-left: 2px;
       font-size: rem(13px);
