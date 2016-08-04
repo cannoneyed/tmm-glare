@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import P from 'bluebird'
 import * as util from 'src/util'
 
 import {
@@ -42,7 +43,10 @@ export default function registerUserListenersAsync(userId) {
 
       dispatch(addConnection(id))
       dispatch(connectSuccess())
-      dispatch(displayConnectionNotificationAsync(id))
+
+      P.delay(2000).then(() => {
+        dispatch(displayConnectionNotificationAsync(id))
+      })
     })
   }
 }
