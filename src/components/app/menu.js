@@ -8,6 +8,7 @@ import UserCard from './userCard'
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
 import { unlockAsync } from 'src/core/user'
+import { getUnreadJournalCount } from 'src/core/journal/selectors'
 
 class Menu extends Component {
 
@@ -21,6 +22,7 @@ class Menu extends Component {
     signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     unlockAsync: PropTypes.func.isRequired,
+    unreadJournalCount: PropTypes.number.isRequired,
     user: PropTypes.object,
   }
 
@@ -60,7 +62,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { user } = this.props
+    const { unreadJournalCount, user } = this.props
     const hasAccess = user && user.hasAccess
 
     return (
@@ -105,6 +107,9 @@ class Menu extends Component {
             className="sidebar-menu-item"
             onClick={this.linkTo('journal')}>
             Journal
+            { unreadJournalCount ?
+              <div className="journal-sidebar-count">{unreadJournalCount}</div> :
+              null }
             <Icon type={'list'} />
           </RippleButton>
         : null }
@@ -141,6 +146,7 @@ export default connect(state => ({
   auth: state.auth,
   history: state.history,
   isSidebarOpen: state.app.isSidebarOpen,
+  unreadJournalCount: getUnreadJournalCount(state),
   user: state.user,
 }), {
   signOutAsync,

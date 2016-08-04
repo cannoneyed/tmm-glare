@@ -8,7 +8,9 @@ import { Icon } from '../shared'
 import EntryContent from './entryContent'
 
 const Entry = (props) => {
-  const { entry, showBorder } = props
+  const { entry, showBorder, isUnread } = props
+
+  console.log(isUnread)
 
   const iconType = getIconType(entry.type)
 

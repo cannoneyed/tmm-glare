@@ -1,30 +1,56 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import Entry from './entry'
 
-const Journal = (props) => {
-  const { entries } = props
-  entries.reverse()
+import * as journalActions from 'src/core/journal'
 
-  for (let i = 0; i < 5; i++) {
-    entries.push(entries[0])
+class Journal extends Component {
+
+  static propTypes = {
+    dateLastVisited: PropTypes.string,
+    entries: PropTypes.array.isRequired,
+    hasReadJournal: PropTypes.bool.isRequired,
+    readJournal: PropTypes.func.isRequired,
   }
 
-  return (
-    <div className="journal-container">
-      {entries.map((entry, index) => {
-        const showBorder = index !== entries.length - 1
-        return <Entry key={index} entry={entry} showBorder={showBorder} />
-      })}
-    </div>
-  )
-}
+  componentDidMount() {
+    const { readJournal } = this.props
+    readJournal()
+  }
 
-Journal.propTypes = {
-  entries: PropTypes.array.isRequired,
+  render() {
+    const { entries, dateLastVisited, hasReadJournal } = this.props
+    entries.reverse()
+
+    const dateIsLater = (date) => {
+      return new Date(date).getTime() > new Date(dateLastVisited).getTime()
+    }
+
+    return (
+      <div className="journal-container">
+        {entries.map((entry, index) => {
+          const showBorder = index !== entries.length - 1
+          const isUnread = !hasReadJournal && dateIsLater(entry.dateCreated)
+
+          return (
+            <Entry
+              key={index}
+              entry={entry}
+              showBorder={showBorder}
+              isUnread={isUnread}
+            />
+          )
+        })}
+      </div>
+    )
+  }
 }
 
 export default connect(state => ({
   entries: state.journal.entries,
-}), null)(Journal)
+  dateLastVisited: state.user.dateLastVisited,
+  hasReadJournal: state.journal.hasReadJournal,
+}), {
+  readJournal: journalActions.readJournal,
+})(Journal)
