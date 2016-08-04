@@ -19,8 +19,8 @@ export const initialState = {
 
 const clearAccessRequestMessages = (state) => {
   return {
-    sent: state.sent.filter(message => message.type === REQUEST_ACCESS),
-    received: state.sent.filter(message => message.type === REQUEST_ACCESS),
+    sent: state.sent.filter(message => message.type !== REQUEST_ACCESS),
+    received: state.sent.filter(message => message.type !== REQUEST_ACCESS),
   }
 }
 
