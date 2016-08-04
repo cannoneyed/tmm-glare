@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import Hammer from 'react-hammerjs'
 import Rx from 'rx'
 
-// Default options
+import * as globeActions from 'src/core/globe'
 
+// Default options
 const Detector = { webgl: true } // TODO: Add Detector support
 import DAT from './dat'
 
@@ -18,6 +19,8 @@ class WebGlGlobe extends Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     isConnecting: PropTypes.bool.isRequired,
+    setGlobeGlare: PropTypes.func.isRequired,
+    shouldGlare: PropTypes.bool.isRequired,
   }
 
   constructor() {
@@ -30,6 +33,10 @@ class WebGlGlobe extends Component {
     events.forEach((event) => {
       this[event] = new Rx.Subject()
     })
+
+    this.state = {
+      isGlaring: false,
+    }
   }
 
   componentWillMount() {
@@ -54,6 +61,12 @@ class WebGlGlobe extends Component {
       globe.animate()
 
       this.globe = globe
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.shouldGlare) {
+      this.triggerGlare()
     }
   }
 
@@ -152,6 +165,19 @@ class WebGlGlobe extends Component {
     this.panMove.onNext(e)
   }
 
+  triggerGlare = () => {
+    const { setGlobeGlare } = this.props
+
+    if (!this.state.isGlaring) {
+      this.globe.triggerGlare()
+      this.setState({ isGlaring: true })
+      setTimeout(() => {
+        setGlobeGlare(false)
+        this.setState({ isGlaring: false })
+      }, 2000)
+    }
+  }
+
   render() {
     const { isConnecting } = this.props
     const className = isConnecting ? 'globe-container connecting' : 'globe-container'
@@ -188,4 +214,7 @@ export default connect(state => ({
   data: state.globe.data,
   isLoaded: state.globe.isLoaded,
   isConnecting: state.connect.isConnecting,
-}), null)(WebGlGlobe)
+  shouldGlare: state.globe.shouldGlare,
+}), {
+  setGlobeGlare: globeActions.setGlobeGlare,
+})(WebGlGlobe)

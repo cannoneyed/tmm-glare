@@ -51,6 +51,15 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   let paused = false
 
+  let glareLight
+  let glareLightTicks = 50
+  const glareLightMax = glareLightTicks
+
+  // deltaGlare
+  const dGlareUp = -1
+  const dGlareDown = 2.5
+  let dGlare = 0
+
   // Initialization function
   function init() {
 
@@ -85,9 +94,9 @@ DAT.Globe = function Globe(container, opts = {}) {
       fragmentShader: shader.fragmentShader
     })
 
-    mesh = new THREE.Mesh(geometry, material)
-    mesh.rotation.y = Math.PI
-    scene.add(mesh)
+    const earthMesh = new THREE.Mesh(geometry, material)
+    earthMesh.rotation.y = Math.PI
+    scene.add(earthMesh)
 
     // Add the atmosphere
     shader = Shaders['atmosphere']
@@ -111,6 +120,67 @@ DAT.Globe = function Globe(container, opts = {}) {
     geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, -0.5))
 
     point = new THREE.Mesh(geometry)
+
+    // Add the lens flare
+    // lens flares
+    const textureLoader = new THREE.TextureLoader()
+
+    const textureFlare0 = textureLoader.load( 'img/textures/lensflare0.png' )
+    const textureFlare2 = textureLoader.load( 'img/textures/lensflare2.png' )
+    const textureFlare3 = textureLoader.load( 'img/textures/lensflare3.png' )
+
+    glareLight = addLight( 0.55, 0.9, 0.5, 250, 0, -50 )
+    // addLight( 0.08, 0.8, 0.5, 0, 0, -100 )
+    // addLight( 0.995, 0.5, 0.9, 500, 500, -100 )
+
+    function addLight( h, s, l, x, y, z ) {
+      const light = new THREE.PointLight( 0xffffff, 1.5, 2000 )
+      light.color.setHSL( h, s, l )
+      light.position.set( x, y, z )
+      scene.add( light )
+
+      const flareColor = new THREE.Color( 0xffffff )
+      flareColor.setHSL( h, s, l + 0.5 )
+
+      const lensFlare = new THREE.LensFlare( textureFlare0, 700, 0.0, THREE.AdditiveBlending, flareColor )
+
+      lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
+      lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
+      lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
+
+      lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending )
+      lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending )
+      lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending )
+      lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending )
+
+      lensFlare.customUpdateCallback = lensFlareUpdateCallback
+      lensFlare.position.copy( light.position )
+
+      scene.add( lensFlare )
+      return lensFlare
+    }
+
+    function lensFlareUpdateCallback( object ) {
+      const vecX = -object.positionScreen.x * 2
+      const vecY = -object.positionScreen.y * 2
+
+      const percent = (glareLightMax - glareLightTicks) / glareLightMax
+      var size = 20 * percent
+
+      for (let f = 0; f < object.lensFlares.length; f++) {
+        const flare = object.lensFlares[f]
+
+        flare.x = object.positionScreen.x + vecX * flare.distance
+        flare.y = object.positionScreen.y + vecY * flare.distance
+
+        flare.scale = size
+        flare.rotation = 0
+      }
+
+      object.lensFlares[2].y += 0.025
+      object.lensFlares[3].rotation = object.positionScreen.x * 0.5 + THREE.Math.degToRad( 45 )
+    }
+
 
     // check for browser Support
     if (helpers.webGLSupport()) {
@@ -259,10 +329,16 @@ DAT.Globe = function Globe(container, opts = {}) {
     rotationRelease.y += velocityY * 0.05
   }
 
+  function triggerGlare() {
+    glareLightTicks = 50
+    dGlare = dGlareUp
+  }
+
   function animate() {
     requestAnimationFrame(animate)
     render()
   }
+
 
   function render() {
     zoom(curZoomSpeed)
@@ -293,6 +369,18 @@ DAT.Globe = function Globe(container, opts = {}) {
     camera.position.x = distance * Math.sin(rotation.x) * Math.cos(rotation.y)
     camera.position.y = distance * Math.sin(rotation.y)
     camera.position.z = distance * Math.cos(rotation.x) * Math.cos(rotation.y)
+
+    glareLightTicks += dGlare
+    if (dGlare !== 0 && glareLightTicks === 0) {
+      dGlare = dGlareDown
+    }
+    if (glareLightTicks === glareLightMax) {
+      dGlare = 0
+    }
+
+    glareLight.position.x = camera.position.x / 1.75
+    glareLight.position.y = camera.position.y / 1.75
+    glareLight.position.z = camera.position.z / 2
 
     starCamera.position.x = camera.position.x * 0.01
     starCamera.position.y = camera.position.y * 0.01
@@ -336,6 +424,8 @@ DAT.Globe = function Globe(container, opts = {}) {
   this.pan = pan
   this.panRelease = panRelease
   this.touch = touch
+
+  this.triggerGlare = triggerGlare
 
   return this
 }
