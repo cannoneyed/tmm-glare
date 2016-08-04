@@ -36,6 +36,7 @@ function getIconType(type) {
 
 Entry.propTypes = {
   entry: PropTypes.object.isRequired,
+  showBorder: PropTypes.bool.isRequired,
 }
 
 export default Entry
