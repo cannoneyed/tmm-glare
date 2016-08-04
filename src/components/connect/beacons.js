@@ -39,8 +39,8 @@ const Beacons = (props) => {
 
     let classNames = classnames({
       'glare-button': true,
-      dull: hasAsked,
-      highlighted: hasBeenAsked,
+      dull: hasBeenAsked,
+      highlighted: hasAsked,
     })
 
     return (
@@ -48,6 +48,9 @@ const Beacons = (props) => {
         className={classNames}
         key={index}
         onClick={() => {
+          if (hasBeenAsked) {
+            return
+          }
           return hasAccess ? giveAccess(beacon) : requestAccess(beacon)
         }}>
         {beacon.displayName}

@@ -21,7 +21,7 @@ export default class AboutButton extends Component { // eslint-disable-line
       <RippleButton
         className="glare-button"
         onClick={onClick}>
-        <Icon type="about" />
+        <Icon type="globe" />
         About
       </RippleButton>
     )

@@ -22,6 +22,7 @@ export default function sendMessageAsync(recipient) {
           dismissAfter: 5000,
         }))
 
+        message.to = recipient.key
         dispatch(messageSent(message))
       })
   }

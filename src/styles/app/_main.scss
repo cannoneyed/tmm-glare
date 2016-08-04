@@ -81,6 +81,7 @@ html, body {
   }
 
   &.dull {
+    border-color: $dull;
     color: $dull;
   }
 }
