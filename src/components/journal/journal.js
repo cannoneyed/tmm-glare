@@ -7,10 +7,15 @@ const Journal = (props) => {
   const { entries } = props
   entries.reverse()
 
+  for (let i = 0; i < 5; i++) {
+    entries.push(entries[0])
+  }
+
   return (
     <div className="journal-container">
       {entries.map((entry, index) => {
-        return <Entry key={index} entry={entry} />
+        const showBorder = index !== entries.length - 1
+        return <Entry key={index} entry={entry} showBorder={showBorder} />
       })}
     </div>
   )

@@ -1,18 +1,23 @@
+$content-margin: 3px;
 
 .journal-container {
   padding-top: $header-height;
+  min-width: 100%;
+  position: absolute;
+
+  overflow-y: scroll;
 }
 
 .journal-entry {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
 
+  max-width: 80%;
 
   min-height: 150px;
-  font-size: rem(15px);
-  margin: 10px 0 10px 0;
-  padding: 0 20px 0 20px;
+  font-size: rem(14px);
+  margin: 0 auto 0 auto;
 
   width: 100%;
 
@@ -20,14 +25,38 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px;
+    width: 70px;
   }
 
   >.entry-content {
+    margin: auto 0 auto 0;
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
+    margin-left: 20px;
 
-    padding: 20px;
+    >.entry-content-header {
+      >.entry-content-header-action {
+        margin-bottom: $content-margin;
+      }
+      >.entry-content-header-title {
+        color: $purple;
+        font-size: rem(20px);
+        margin-bottom: $content-margin;
+      }
+    }
+
+    >.entry-content-milestone {
+      margin-bottom: $content-margin * 2;
+    }
+    >.entry-content-date {
+      color: $dull;
+      font-size: rem(12px);
+      margin-bottom: $content-margin;
+    }
   }
 
+  &.bottom-border {
+    border-bottom: 2px solid $dull;
+  }
 }

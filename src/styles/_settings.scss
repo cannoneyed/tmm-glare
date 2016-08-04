@@ -5,7 +5,9 @@
 $teal: #56D7C6 !default;
 $purple: #B96CFF !default;
 $darkBlue: #222232 !default;
+
 $dull: #666;
+$semi-dull: #888;
 
 $base-background-color: $darkBlue;
 $base-font-color: #999 !default;
@@ -19,5 +21,5 @@ $bright-font-color: #ddd !default;
 //  ALIGNMENT
 //===============================================
 $grid-max-width: 810px !default;
-$header-height: 60px;
+$header-height: 70px;
 $footer-height: 60px;
