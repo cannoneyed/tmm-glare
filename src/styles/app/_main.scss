@@ -85,3 +85,9 @@ html, body {
     color: $dull;
   }
 }
+
+.modal-overlay {
+  z-index: 1000;
+  min-height: 100vh;
+  background-color: $base-background-color;
+}

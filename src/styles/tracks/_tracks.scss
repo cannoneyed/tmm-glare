@@ -1,3 +1,35 @@
-.track-container {
+.track-info-container {
   padding-top: $header-height;
+  width: 100%;
+  height: 100%;
+}
+
+.track-info-page {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.track-text {
+  height: 175px;
+  width: 60vw;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(130%);
+
+  &.talking-machine {
+    background-image: url('img/tracks/talking-machine.png');
+  }
+
+  &.the-warehouse {
+    background-image: url('img/tracks/the-warehouse.png');
+  }
+
+  &.voyeur {
+    background-image: url('img/tracks/voyeur.png');
+  }
 }

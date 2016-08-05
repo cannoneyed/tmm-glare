@@ -1,11 +1,13 @@
 import React, { PropTypes } from 'react'
 
+import getIndividualTrack from './individual'
+
 export default function Tracks(props) {
   const { params: { trackId } } = props
 
   return (
-    <div className="track-container">
-      <h1>{`FUCK YOU! ${trackId}`}</h1>
+    <div className="track-info-container">
+      {getIndividualTrack(trackId)}
     </div>
   )
 }

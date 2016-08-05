@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Notifications from '../notifications/notifications'
 
 import Sidebar from 'react-sidebar'
+import Modal from './modal'
 import Header from './header'
 import Menu from './menu'
 
@@ -22,6 +23,7 @@ export class App extends Component {
     children: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isSidebarOpen: PropTypes.bool.isRequired,
+    showModal: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
@@ -64,7 +66,7 @@ export class App extends Component {
   }
 
   render() {
-    const { isLoading, isSidebarOpen } = this.props
+    const { isLoading, isSidebarOpen, showModal } = this.props
     const sidebarStyles = {
       sidebar: {
         zIndex: 100,
@@ -80,6 +82,7 @@ export class App extends Component {
 
     return (
       <div className="container" style={fixedWindowStyle}>
+        { showModal ? <Modal /> : null }
         <Sidebar
           sidebar={<Menu />}
           open={isSidebarOpen}
@@ -100,6 +103,7 @@ export default connect(state => ({
   auth: state.auth,
   isLoading: state.loading,
   isSidebarOpen: state.app.isSidebarOpen,
+  showModal: state.app.showModal,
   user: state.user,
 }), {
   addNotification,

@@ -9,9 +9,7 @@ import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'
 
 import Intro from '../about/intro'
-import ListenButton from './listenButton'
 import ShareButton from './shareButton'
-import AboutButton from './aboutButton'
 
 import Beacons from './beacons'
 
@@ -63,7 +61,6 @@ export class Connect extends Component {
       </div>
     )
   }
-
 
   render() {
     const {
