@@ -4,31 +4,34 @@ import SoundPlayerContainer from './soundPlayerContainer'
 import Player from './player'
 
 import * as listenActions from 'src/core/listen'
+import * as appActions from 'src/core/app'
 
 class Listen extends Component {
 
   static propTypes = {
+    background: PropTypes.number.isRequired,
     isPlayerLoaded: PropTypes.bool.isRequired,
     loadPlayerDataAsync: PropTypes.func.isRequired,
+    setRandomBackground: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
-    const { isPlayerLoaded, loadPlayerDataAsync } = this.props
+    const { isPlayerLoaded, loadPlayerDataAsync, setRandomBackground } = this.props
+
+    setRandomBackground()
     if (!isPlayerLoaded) {
       loadPlayerDataAsync()
     }
   }
 
   render() {
-    const { isPlayerLoaded } = this.props
+    const { background, isPlayerLoaded } = this.props
     if (!isPlayerLoaded) {
       return <div></div>
     }
 
-    const r = Math.floor(Math.random() * 6)
-
     return (
-      <div className={`listen-container background-${r}`}>
+      <div className={`listen-container background-${background}`}>
         <SoundPlayerContainer>
           <Player />
         </SoundPlayerContainer>
@@ -39,6 +42,8 @@ class Listen extends Component {
 
 export default connect(state => ({
   isPlayerLoaded: state.listen.isLoaded,
+  background: state.app.background,
 }), {
   loadPlayerDataAsync: listenActions.loadPlayerDataAsync,
+  setRandomBackground: appActions.setRandomBackground,
 })(Listen)

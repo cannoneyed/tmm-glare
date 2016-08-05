@@ -38,7 +38,12 @@ export class Header extends Component {
   }
 
   render() {
-    const { canGoBack, toggleSidebar, hideHeader, user } = this.props
+    const {
+      canGoBack,
+      toggleSidebar,
+      hideHeader,
+      user
+    } = this.props
 
     if (hideHeader) {
       return <header className="header" />

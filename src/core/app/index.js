@@ -3,7 +3,7 @@ const TOGGLE_SIDEBAR = 'app/TOGGLE_SIDEBAR'
 const FINISH_INTRO = 'app/FINISH_INTRO'
 const CLOSE_MODAL = 'app/CLOSE_MODAL'
 const OPEN_MODAL = 'app/OPEN_MODAL'
-
+const SET_BACKGROUND = 'app/SET_BACKGROUND'
 
 import {
   LOAD_USER,
@@ -14,6 +14,7 @@ const initialState = {
   isSidebarOpen: false,
   hasViewedIntro: false,
   showModal: false,
+  background: 0,
 }
 
 export default function reducer(state = initialState, action = {}) {
@@ -34,6 +35,8 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, showModal: false }
     case OPEN_MODAL:
       return { ...state, showModal: true }
+    case SET_BACKGROUND:
+      return { ...state, background: action.payload }
     default:
       return state
   }
@@ -54,6 +57,15 @@ export function closeModal() {
 
 export function openModal() {
   return { type: OPEN_MODAL }
+}
+
+export function setEmptyBackground() {
+  return { type: SET_BACKGROUND, payload: 0 }
+}
+
+export function setRandomBackground() {
+  const n = Math.floor(Math.random() * 6) + 1
+  return { type: SET_BACKGROUND, payload: n }
 }
 
 // Async Actions

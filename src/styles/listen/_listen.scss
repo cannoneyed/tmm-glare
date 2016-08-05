@@ -1,7 +1,18 @@
 .listen-container {
   padding: $header-height 0 $footer-height 0;
   min-width: 100%;
-  position: absolute;
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.tracks-list {
+  overflow-y: scroll;
+  height: 80vh;
+
+  >.tracks-list-spacer {
+    min-height: 150px;
+  }
 }
 
 .playlist-row {
@@ -15,7 +26,6 @@
   font-family: inherit;
   font-size: rem(16px);
   line-height: 42px;
-  color: $base-font-color;
   background: rgba($base-background-color, 0);
 
   display: flex;

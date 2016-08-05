@@ -98,7 +98,10 @@ class TrackList extends Component {
     })
 
     return (
-      <div>{tracks}</div>
+      <div className="tracks-list">
+        {tracks}
+        <div className="tracks-list-spacer" />
+      </div>
     )
   }
 }

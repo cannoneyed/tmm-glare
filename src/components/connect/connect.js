@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import * as globeActions from 'src/core/globe'
 import * as messageActions from 'src/core/messages'
+import * as appActions from 'src/core/app'
 
 import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'
@@ -24,6 +25,7 @@ export class Connect extends Component {
     isGlobeLoaded: PropTypes.bool.isRequired,
     loadGlobeDataAsync: PropTypes.func.isRequired,
     registerMessageListenerAsync: PropTypes.func.isRequired,
+    setEmptyBackground: PropTypes.func.isRequired,
     unregisterMessageListenerAsync: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
@@ -32,8 +34,11 @@ export class Connect extends Component {
     const {
       isGlobeLoaded,
       loadGlobeDataAsync,
-      registerMessageListenerAsync
+      registerMessageListenerAsync,
+      setEmptyBackground,
     } = this.props
+
+    setEmptyBackground()
 
     if (!isGlobeLoaded) {
       loadGlobeDataAsync()
@@ -106,5 +111,6 @@ export default connect(state => ({
 }), {
   loadGlobeDataAsync: globeActions.loadGlobeDataAsync,
   registerMessageListenerAsync: messageActions.registerMessageListenerAsync,
+  setEmptyBackground: appActions.setEmptyBackground,
   unregisterMessageListenerAsync: messageActions.unregisterMessageListenerAsync,
 })(Connect)

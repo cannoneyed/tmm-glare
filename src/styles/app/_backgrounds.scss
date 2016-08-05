@@ -1,18 +1,36 @@
-&.background-0 {
-  background: linear-gradient(to top, #4776E6 , #8E54E9);
-}
+$background-color-1A: #614385;
+$background-color-1B: #516395;
+
+$background-color-2A: #a73737;
+$background-color-2B: #7a2828;
+
+$background-color-3A: #16222A;
+$background-color-3B: #3A6073;
+
+$background-color-4A: #00bf8f;
+$background-color-4B: #001510;
+
+$background-color-5A: #1F1C2C;
+$background-color-5B: #928DAB;
+
+$background-color-6A: #4776E6;
+$background-color-6B: #8E54E9;
+
 &.background-1 {
-  background: linear-gradient(to top, #614385 , #516395);
+  background: linear-gradient(to top, $background-color-1A, $background-color-1B);
 }
 &.background-2 {
-  background: linear-gradient(to top, #a73737 , #7a2828);
+  background: linear-gradient(to top, $background-color-2A, $background-color-2B);
 }
 &.background-3 {
-  background: linear-gradient(to top, #16222A , #3A6073);
+  background: linear-gradient(to top, $background-color-3A, $background-color-3B);
 }
 &.background-4 {
-  background: linear-gradient(to top, #00bf8f , #001510);
+  background: linear-gradient(to top, $background-color-4A, $background-color-4B);
 }
 &.background-5 {
-  background: linear-gradient(to top, #1F1C2C , #928DAB);
+  background: linear-gradient(to top, $background-color-5A, $background-color-5B);
+}
+&.background-6 {
+  background: linear-gradient(to top, $background-color-6A, $background-color-6B);
 }

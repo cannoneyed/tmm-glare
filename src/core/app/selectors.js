@@ -17,3 +17,12 @@ export function hideHeader(state) {
 
   return !hasViewedIntro
 }
+
+export function whichBackground(state) {
+  const { background, isLoading } = state.app
+  if (isLoading) {
+    return 0
+  } else {
+    return background
+  }
+}
