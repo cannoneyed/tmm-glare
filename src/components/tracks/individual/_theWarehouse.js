@@ -1,12 +1,12 @@
 /* eslint-disable quotes */
 import React from 'react'
 
-const timeline = [{
-  time: 0,
-  fact: ''
-}]
-
-const lyrics = []
+// const timeline = [{
+//   time: 0,
+//   fact: ''
+// }]
+//
+// const lyrics = []
 
 export default function TheWarehouse() {
   return (

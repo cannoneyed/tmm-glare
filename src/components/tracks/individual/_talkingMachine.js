@@ -1,9 +1,9 @@
 import React from 'react'
 
-const timeline = [{
-  time: 0,
-  fact: ''
-}]
+// const timeline = [{
+//   time: 0,
+//   fact: ''
+// }]
 
 export default function TalkingMachine() {
   return (
