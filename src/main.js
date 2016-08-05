@@ -14,7 +14,7 @@ import authRouteResolver from './core/auth/route-resolver'
 import configureStore from './core/store'
 import { firebaseConfig } from './config'
 
-import fixScroll from './fix-scroll'
+import { fixScrollOn } from './fix-scroll'
 
 const history = useRouterHistory(createHistory)({basename: '/'})
 
@@ -36,4 +36,5 @@ ReactDOM.render((
   <Root history={syncedHistory} onEnter={authRouteResolver(store.getState)} store={store} />
 ), document.querySelector('.app-root'))
 
-fixScroll()
+// Fix the scroll issues by default
+fixScrollOn()

@@ -1,6 +1,8 @@
 // Action Types
 export const SET_GLOBE_DATA = 'globe/SET_GLOBE_DATA'
 export const SET_GLOBE_GLARE = 'globe/SET_GLOBE_GLARE'
+export const MOUNT_GLOBE_RENDERER = 'globe/MOUNT_GLOBE_RENDERER'
+
 
 import { CONNECT_SUCCESS } from 'src/core/connect'
 
@@ -8,6 +10,7 @@ import { CONNECT_SUCCESS } from 'src/core/connect'
 export const initialState = {
   data: [],
   isLoaded: false,
+  renderer: null,
   shouldGlare: false,
 }
 
@@ -19,6 +22,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, shouldGlare: action.payload }
     case CONNECT_SUCCESS:
       return { ...state, shouldGlare: true }
+    case MOUNT_GLOBE_RENDERER:
+      return { ...state, renderer: action.payload }
     default:
       return state
   }
@@ -35,6 +40,11 @@ export function setGlobeGlare(payload) {
   }
   return { type: SET_GLOBE_GLARE, payload }
 }
+
+export function mountGlobeRenderer(renderer) {
+  return { type: MOUNT_GLOBE_RENDERER, payload: renderer }
+}
+
 
 
 // Async Actions

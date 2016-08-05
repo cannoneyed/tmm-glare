@@ -3,11 +3,9 @@ import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
 import Hammer from 'react-hammerjs'
 import Rx from 'rx'
+import { fixScrollOn, fixScrollOff } from 'src/fix-scroll'
 
 import * as globeActions from 'src/core/globe'
-
-// Default options
-const Detector = { webgl: true } // TODO: Add Detector support
 import DAT from './dat'
 
 function eventPreventDefault(event) {
@@ -19,6 +17,8 @@ class WebGlGlobe extends Component {
   static propTypes = {
     data: PropTypes.array.isRequired,
     isConnecting: PropTypes.bool.isRequired,
+    mountGlobeRenderer: PropTypes.func.isRequired,
+    renderer: PropTypes.object,
     setGlobeGlare: PropTypes.func.isRequired,
     shouldGlare: PropTypes.bool.isRequired,
   }
@@ -40,27 +40,36 @@ class WebGlGlobe extends Component {
   }
 
   componentWillMount() {
+    // Add touch handler subscriptions
     this.handlePinch()
     this.handlePan()
+
+    // Turn off scrolling fix, since it lags the touch events on the globe
+    fixScrollOff()
   }
 
   componentDidMount() {
-    const { data } = this.props
+    const { data, mountGlobeRenderer, renderer } = this.props
     const container = ReactDom.findDOMNode(this._container)
 
-    if (!Detector.webgl) {
-      Detector.addGetWebGLMessage()
-    } else {
+    if (!renderer) {
       const opts = {
         imgDir: 'img/',
       }
-      const globe = new DAT.Globe(container, opts)
+      const renderer = new DAT.Globe(container, opts)
 
-      globe.addData(data, { name: 'globe' })
-      globe.createPoints()
-      globe.animate()
+      renderer.addData(data, { name: 'globe' })
+      renderer.createPoints()
+      renderer.animate()
 
-      this.globe = globe
+      mountGlobeRenderer(renderer)
+
+      this.globe = renderer
+    } else {
+      renderer.reinitialize(container)
+      renderer.animate()
+
+      this.globe = renderer
     }
   }
 
@@ -71,10 +80,20 @@ class WebGlGlobe extends Component {
   }
 
   componentWillUnmount() {
+    // Dispose all touch listeners on the globe container
+    if (this.panSubscription) {
+      this.panSubscription.dispose()
+      this.panEndSubscription.dispose()
+    }
     if (this.pinchSubscription) {
       this.pinchSubscription.dispose()
-      this.panSubscription.dispose()
     }
+
+    // Turn off rendering while the page is not visible
+    this.globe.turnOffRendering()
+
+    // Now fix scrolling (reenable touch event intercession)
+    fixScrollOn()
   }
 
   handlePinch = () => {
@@ -124,7 +143,7 @@ class WebGlGlobe extends Component {
           .takeUntil(panEnd)
       })
 
-    panEnd.subscribe(({ velocityX, velocityY }) => {
+    this.panEndSubscription = panEnd.subscribe(({ velocityX, velocityY }) => {
       this.globe.panRelease(velocityX, velocityY)
     })
 
@@ -215,7 +234,9 @@ export default connect(state => ({
   data: state.globe.data,
   isLoaded: state.globe.isLoaded,
   isConnecting: state.connect.isConnecting,
+  renderer: state.globe.renderer,
   shouldGlare: state.globe.shouldGlare,
 }), {
   setGlobeGlare: globeActions.setGlobeGlare,
+  mountGlobeRenderer: globeActions.mountGlobeRenderer,
 })(WebGlGlobe)

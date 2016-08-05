@@ -33,6 +33,7 @@ DAT.Globe = function Globe(container, opts = {}) {
   let camera, scene, renderer, w, h
   let starCamera, starScene
   let mesh, point
+  let animationId
 
   let distance = 100000
   let distanceTarget = opts.distanceTarget || 1000
@@ -48,12 +49,15 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   const rotation = { x: 0, y: 0 }
   let rotationRelease = { x: 0, y: 0 }
-
-  let paused = false
+  let rotationPaused = false
 
   let glareLight
   let glareLightTicks = 50
   const glareLightMax = glareLightTicks
+
+  let textureFlare0
+  let textureFlare2
+  let textureFlare3
 
   // deltaGlare
   const dGlareUp = -1
@@ -62,7 +66,6 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   // Initialization function
   function init() {
-
     rotation.x = Math.PI
 
     let shader, uniforms, material
@@ -125,62 +128,9 @@ DAT.Globe = function Globe(container, opts = {}) {
     // lens flares
     const textureLoader = new THREE.TextureLoader()
 
-    const textureFlare0 = textureLoader.load( 'img/textures/lensflare0.png' )
-    const textureFlare2 = textureLoader.load( 'img/textures/lensflare2.png' )
-    const textureFlare3 = textureLoader.load( 'img/textures/lensflare3.png' )
-
-    glareLight = addLight( 0.55, 0.9, 0.5, 250, 0, -50 )
-    // addLight( 0.08, 0.8, 0.5, 0, 0, -100 )
-    // addLight( 0.995, 0.5, 0.9, 500, 500, -100 )
-
-    function addLight( h, s, l, x, y, z ) {
-      const light = new THREE.PointLight( 0xffffff, 1.5, 2000 )
-      light.color.setHSL( h, s, l )
-      light.position.set( x, y, z )
-      scene.add( light )
-
-      const flareColor = new THREE.Color( 0xffffff )
-      flareColor.setHSL( h, s, l + 0.5 )
-
-      const lensFlare = new THREE.LensFlare( textureFlare0, 700, 0.0, THREE.AdditiveBlending, flareColor )
-
-      lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
-      lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
-      lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
-
-      lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending )
-      lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending )
-      lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending )
-      lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending )
-
-      lensFlare.customUpdateCallback = lensFlareUpdateCallback
-      lensFlare.position.copy( light.position )
-
-      scene.add( lensFlare )
-      return lensFlare
-    }
-
-    function lensFlareUpdateCallback( object ) {
-      const vecX = -object.positionScreen.x * 2
-      const vecY = -object.positionScreen.y * 2
-
-      const percent = (glareLightMax - glareLightTicks) / glareLightMax
-      var size = 20 * percent
-
-      for (let f = 0; f < object.lensFlares.length; f++) {
-        const flare = object.lensFlares[f]
-
-        flare.x = object.positionScreen.x + vecX * flare.distance
-        flare.y = object.positionScreen.y + vecY * flare.distance
-
-        flare.scale = size
-        flare.rotation = 0
-      }
-
-      object.lensFlares[2].y += 0.025
-      object.lensFlares[3].rotation = object.positionScreen.x * 0.5 + THREE.Math.degToRad( 45 )
-    }
-
+    textureFlare0 = textureLoader.load( 'img/textures/lensflare0.png' )
+    textureFlare2 = textureLoader.load( 'img/textures/lensflare2.png' )
+    textureFlare3 = textureLoader.load( 'img/textures/lensflare3.png' )
 
     // check for browser Support
     if (helpers.webGLSupport()) {
@@ -207,6 +157,61 @@ DAT.Globe = function Globe(container, opts = {}) {
     container.appendChild(renderer.domElement)
 
     window.addEventListener('resize', onWindowResize, false)
+  }
+
+  function reinitialize(container) {
+    distance = 100000
+    container.appendChild(renderer.domElement)
+  }
+
+  function addLight( h, s, l, x, y, z ) {
+    const light = new THREE.PointLight( 0xffffff, 1.5, 2000 )
+    light.color.setHSL( h, s, l )
+    light.position.set( x, y, z )
+    scene.add( light )
+
+    const flareColor = new THREE.Color( 0xffffff )
+    flareColor.setHSL( h, s, l + 0.5 )
+
+    const lensFlare = new THREE.LensFlare( textureFlare0, 700, 0.0, THREE.AdditiveBlending, flareColor )
+
+    lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
+    lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
+    lensFlare.add( textureFlare2, 512, 0.0, THREE.AdditiveBlending )
+
+    lensFlare.add( textureFlare3, 60, 0.6, THREE.AdditiveBlending )
+    lensFlare.add( textureFlare3, 70, 0.7, THREE.AdditiveBlending )
+    lensFlare.add( textureFlare3, 120, 0.9, THREE.AdditiveBlending )
+    lensFlare.add( textureFlare3, 70, 1.0, THREE.AdditiveBlending )
+
+
+
+    lensFlare.customUpdateCallback = lensFlareUpdateCallback
+    lensFlare.position.copy( light.position )
+
+    scene.add( lensFlare )
+    return lensFlare
+  }
+
+  function lensFlareUpdateCallback( object ) {
+    const vecX = -object.positionScreen.x * 2
+    const vecY = -object.positionScreen.y * 2
+
+    const percent = (glareLightMax - glareLightTicks) / glareLightMax
+    var size = 20 * percent
+
+    for (let f = 0; f < object.lensFlares.length; f++) {
+      const flare = object.lensFlares[f]
+
+      flare.x = object.positionScreen.x + vecX * flare.distance
+      flare.y = object.positionScreen.y + vecY * flare.distance
+
+      flare.scale = size
+      flare.rotation = 0
+    }
+
+    object.lensFlares[2].y += 0.025
+    object.lensFlares[3].rotation = object.positionScreen.x * 0.5 + THREE.Math.degToRad( 45 )
   }
 
   function addData(data, opts) {
@@ -311,7 +316,7 @@ DAT.Globe = function Globe(container, opts = {}) {
   }
 
   function touch(isTouched) {
-    paused = isTouched
+    rotationPaused = isTouched
   }
 
   function pan(dx, dy) {
@@ -330,20 +335,30 @@ DAT.Globe = function Globe(container, opts = {}) {
   }
 
   function triggerGlare() {
+    if (!glareLight) {
+      glareLight = addLight( 0.55, 0.9, 0.5, 250, 0, -50 )
+    }
+
     glareLightTicks = 50
     dGlare = dGlareUp
   }
 
   function animate() {
-    requestAnimationFrame(animate)
+    animationId = requestAnimationFrame(animate)
     render()
+  }
+
+  function turnOffRendering() {
+    // Remove the glareLight (doesn't look good upon reinitialization)
+    scene.remove( glareLight )
+    cancelAnimationFrame(animationId)
   }
 
 
   function render() {
     zoom(curZoomSpeed)
 
-    const dRotation = paused ? -1 * ROTATION_ACCELERATION : ROTATION_ACCELERATION
+    const dRotation = rotationPaused ? -1 * ROTATION_ACCELERATION : ROTATION_ACCELERATION
 
     if (rotationVelocity > 0 && dRotation < 0) {
       rotationVelocity += dRotation
@@ -378,9 +393,11 @@ DAT.Globe = function Globe(container, opts = {}) {
       dGlare = 0
     }
 
-    glareLight.position.x = camera.position.x / 1.75
-    glareLight.position.y = camera.position.y / 1.75
-    glareLight.position.z = camera.position.z / 2
+    if (glareLight) {
+      glareLight.position.x = camera.position.x / 1.75
+      glareLight.position.y = camera.position.y / 1.75
+      glareLight.position.z = camera.position.z / 2
+    }
 
     starCamera.position.x = camera.position.x * 0.01
     starCamera.position.y = camera.position.y * 0.01
@@ -414,6 +431,9 @@ DAT.Globe = function Globe(container, opts = {}) {
   }
 
   init()
+
+  this.reinitialize = reinitialize
+  this.turnOffRendering = turnOffRendering
   this.animate = animate
 
   this.addData = addData

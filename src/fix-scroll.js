@@ -1,6 +1,6 @@
 import $ from 'jquery'
 
-export default () => {
+export function fixScrollOn() {
   // Scroll hack - see http://stackoverflow.com/questions/10238084/ios-safari-how-to-disable-overscroll-but-allow-scrollable-divs-to-scroll-norma
   // Uses document because document will be topmost level in bubbling
   $(document).on('touchmove', (e) => {
@@ -28,4 +28,10 @@ export default () => {
   $('body').on('touchmove', '.scrollable', (e) => {
     e.stopPropagation()
   })
+}
+
+export function fixScrollOff() {
+  $(document).off('touchmove')
+  $('body').off('touchstart')
+  $('body').off('touchmove')
 }
