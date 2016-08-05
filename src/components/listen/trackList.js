@@ -98,7 +98,7 @@ class TrackList extends Component {
     })
 
     return (
-      <div className="tracks-list">
+      <div className="tracks-list scrollable">
         {tracks}
         <div className="tracks-list-spacer" />
       </div>

@@ -83,31 +83,35 @@ class Player extends Component {
 
     return (
       <div className="player-header">
-        <div className="player-controls">
-          <PrevButton
-            className="player-button"
-            onClick={previousTrack}
-            {...this.props}
-          />
-          <PlayButton
-            className="player-button"
-            onClick={this.onPlayClick}
-            {...this.props}
-          />
-          <NextButton
-            className="player-button"
-            onClick={nextTrack}
-            {...this.props}
-          />
+        <div className="player-header-top-row">
+          <div className="player-controls">
+            <PrevButton
+              className="player-button"
+              onClick={previousTrack}
+              {...this.props}
+            />
+            <PlayButton
+              className="player-button"
+              onClick={this.onPlayClick}
+              {...this.props}
+            />
+            <NextButton
+              className="player-button"
+              onClick={nextTrack}
+              {...this.props}
+            />
+          </div>
+          <div>
+            <Timer duration={duration || 0} {..._.omit(this.props, 'duration')} />
+          </div>
         </div>
-        <div>
-          <Timer duration={duration || 0} {..._.omit(this.props, 'duration')} />
-        </div>
+        {this.renderProgress()}
       </div>
     )
   }
 
-  renderProgress = (currentTime, duration) => {
+  renderProgress = () => {
+    const { currentTime, duration } = this.props
     return (
       <div className="player-timer">
         <Progress
@@ -120,7 +124,7 @@ class Player extends Component {
   }
 
   render() {
-    let { currentTime, duration, playlist } = this.props
+    let { playlist } = this.props
 
     if (!playlist) {
       return <div>Loading...</div>
@@ -129,7 +133,6 @@ class Player extends Component {
     return (
       <div className="player">
         {this.renderControls()}
-        {this.renderProgress(currentTime, duration)}
         <TrackList />
       </div>
     )

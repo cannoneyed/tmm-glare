@@ -14,6 +14,8 @@ import authRouteResolver from './core/auth/route-resolver'
 import configureStore from './core/store'
 import { firebaseConfig } from './config'
 
+import fixScroll from './fix-scroll'
+
 const history = useRouterHistory(createHistory)({basename: '/'})
 
 // Initialize firebase and geofire
@@ -33,3 +35,5 @@ store.dispatch(initAuthAsync())
 ReactDOM.render((
   <Root history={syncedHistory} onEnter={authRouteResolver(store.getState)} store={store} />
 ), document.querySelector('.app-root'))
+
+fixScroll()
