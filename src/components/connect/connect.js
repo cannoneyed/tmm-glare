@@ -50,7 +50,7 @@ export class Connect extends Component {
 
   renderConnectingLoader() {
     return (
-      <div className="loading-underlay">
+      <div key={1} className="loading-underlay">
         <ConnectingLoaderContainer />
       </div>
     )
@@ -84,19 +84,15 @@ export class Connect extends Component {
       <div className="connect-container">
         <ReactCSSTransitionGroup
           transitionName="loader-transition"
-          transitionEnterTimeout={750}
+          transitionEnterTimeout={1000}
           transitionLeaveTimeout={750}>
-          {isConnecting ? this.renderConnectingLoader() : null}
+          {isConnecting ? [this.renderConnectingLoader()] : []}
         </ReactCSSTransitionGroup>
         {isGlobeLoaded ? this.renderGlobe(blurred) : null}
         { shouldDisplayIntro ? <Intro /> :
           <div className="action-buttons">
             <Beacons />
             <ShareButton hasAccess={hasAccess} />
-            { hasAccess ?
-              <ListenButton hasAccess={hasAccess} /> :
-              <AboutButton hasAccess={hasAccess} />
-            }
           </div>
         }
       </div>

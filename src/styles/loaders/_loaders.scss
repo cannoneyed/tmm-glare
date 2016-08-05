@@ -15,25 +15,25 @@ $connecting-size: 60px;
   -webkit-transform: translate3d(0,0,1px);
   transform: translate3d(0,0,1px);
   position: absolute;
-  filter: blur(1px);
+  filter: blur(3px);
   min-width: 100%;
   min-height: 100%
 }
 
 .loader-transition-enter {
-  opacity: 0.01;
-  filter: blur(20px);
+  max-width: 0px;
+  min-width: 0px;
 }
 
 .loader-transition-enter.loader-transition-enter-active {
-  opacity: 1;
-  filter: blur(3px);
-  transition: all 750ms ease-in;
+  max-width: 100%;
+  min-width: 100%;
+  transition: all 1000ms linear;
 }
 
 .loader-transition-leave {
   opacity: 1;
-  filter: blur(5px);
+  filter: blur(10px);
 }
 
 .loader-transition-leave.loader-transition-leave-active {

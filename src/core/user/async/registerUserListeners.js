@@ -58,11 +58,13 @@ function displayConnectionNotificationAsync(id) {
     firebase.database().ref().child(`users/${id}`).once('value', snapshot => {
       const connectedUser = util.recordFromSnapshot(snapshot)
 
-      const didShare = Object.keys(connectedUser.connections).length <= 1
-      const message = didShare ? 'Shared' : 'Connected'
+      const didGive = Object.keys(connectedUser.connections).length <= 1
+      const message = didGive ?
+        `Gave access to ${connectedUser.displayName}` :
+        `${connectedUser.displayName} gave you access`
 
       dispatch(notificationActions.addNotification({
-        message: `${message} with ${connectedUser.displayName}`,
+        message,
         kind: 'success',
         dismissAfter: 5000,
       }))

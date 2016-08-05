@@ -35,7 +35,7 @@ DAT.Globe = function Globe(container, opts = {}) {
   let mesh, point
 
   let distance = 100000
-  let distanceTarget = opts.distanceTarget || 900
+  let distanceTarget = opts.distanceTarget || 1000
   const MAX_DISTANCE = opts.maxDistance || 1300
   const MIN_DISTANCE = opts.minDistance || 300
   const setDistanceTarget = opts.setDistanceTarget || (() => {})
