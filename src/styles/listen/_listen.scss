@@ -1,31 +1,26 @@
 .listen-container {
-  padding: $header-height 20px $footer-height 20px;
+  padding: $header-height 0 $footer-height 0;
   min-width: 100%;
   position: absolute;
 }
 
 .playlist-row {
   // @include button-base;
-  margin-bottom: 5px;
   outline: none;
-  border: 1px solid #555;
+  border-top: 1px solid $dull;
+  border-bottom: 1px solid $dull;
   padding: 0px 10px 0px 10px;
   width: 100%;
   height: 48px;
   font-family: inherit;
   font-size: rem(16px);
   line-height: 42px;
-  color: #999;
-  background: rgba($base-background-color, 1);
+  color: $base-font-color;
+  background: rgba($base-background-color, 0);
 
   display: flex;
   justify-content: space-between;
   align-content: center;
-
-  &:hover {
-    border: 2px solid #aaa;
-    line-height: 40px;
-  }
 
   >.title {
     // Extend the title span all the way across the button to catch events
@@ -48,12 +43,10 @@
     }
   }
 
-  &.is-selected {
-    padding: 0px 8px 0px 8px;
-    border: 2px solid #aaa;
-  }
-
   &.is-active {
+    padding: 0px 8px 0px 8px;
+    border-top: 2px solid $base-font-color;
+    border-bottom: 2px solid $base-font-color;
     background: rgba($base-background-color, .25);
   }
 }
@@ -61,13 +54,13 @@
 .player-header {
   // @include button-base;
   margin-bottom: 5px;
-  padding: 0px;
+  padding: 0 20px 0 20px;
   width: 100%;
   height: 48px;
   font-family: inherit;
   font-size: rem(18px);
   line-height: 48px;
-  color: #999;
+  color: $base-font-color;
   background: transparent;
 
   display: flex;
@@ -108,7 +101,7 @@
 .player-button {
   margin-top: 7px;
   width: 25px;
-  color: #999;
+  color: $base-font-color;
 
   &:hover {
     color: #FFF;

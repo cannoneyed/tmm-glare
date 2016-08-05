@@ -198,6 +198,7 @@ class WebGlGlobe extends Component {
         onPanStart={this.onPanStart}
         onPanEnd={this.onPanEnd}
         onPan={this.onPanMove}
+        onDoubleTap={this.triggerGlare}
         vertical={true}>
         <div
           onTouchStart={this.onTouchStart}

@@ -34,7 +34,7 @@
 
   >.aside {
     text-decoration: none;
-    color: #999;
+    color: $base-font-color;
     margin-bottom: 10px;
     font-size: rem(15px);
   }
@@ -46,7 +46,7 @@
     width: 80%;
     font-family: inherit;
     font-size: rem(18px);
-    color: #999;
+    color: $base-font-color;
     background: $base-background-color;
 
     input {
@@ -56,9 +56,9 @@
       font-size: 1em;
       font-weight: 400;
       font-family: inherit;
-      color: #999;
+      color: $base-font-color;
       background-color: $base-background-color;
-      border: 1px solid #999;
+      border: 1px solid $base-font-color;
       border-radius: 4px;
       resize: vertical;
       width: 100%;
