@@ -9,6 +9,7 @@ export const SET_DURATION = 'listen/SET_DURATION'
 export const SET_PLAYLIST = 'listen/SET_PLAYLIST'
 export const SET_ACTIVE_INDEX = 'listen/SET_ACTIVE_INDEX'
 export const SET_SELECTED_INDEX = 'listen/SET_SELECTED_INDEX'
+export const UNLOCK_ALL_TRACKS = 'listen/UNLOCK_ALL_TRACKS'
 
 export const initialState = {
   clientId: null,
@@ -55,6 +56,10 @@ export default function reducer(state = initialState, action) {
       })
       return { ...state, unlockedTracks }
     }
+    case UNLOCK_ALL_TRACKS: {
+      const unlockedTracks = _.range(12).map(() => true)
+      return { ...state, unlockedTracks }
+    }
     default:
       return state
   }
@@ -94,6 +99,10 @@ export function setActiveIndex(index) {
 
 export function setSelectedIndex(index) {
   return { type: SET_SELECTED_INDEX, payload: index }
+}
+
+export function unlockAllTracks() {
+  return { type: UNLOCK_ALL_TRACKS }
 }
 
 export * from './async'

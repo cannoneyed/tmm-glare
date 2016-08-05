@@ -7,7 +7,7 @@ import UserCard from './userCard'
 
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
-import { unlockAsync } from 'src/core/user'
+import { unlockAllTracks } from 'src/core/listen'
 import { getUnreadJournalCount } from 'src/core/journal/selectors'
 
 class Menu extends Component {
@@ -21,7 +21,7 @@ class Menu extends Component {
     isSidebarOpen: PropTypes.bool.isRequired,
     signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
-    unlockAsync: PropTypes.func.isRequired,
+    unlockAllTracks: PropTypes.func.isRequired,
     unreadJournalCount: PropTypes.number.isRequired,
     user: PropTypes.object,
   }
@@ -53,10 +53,10 @@ class Menu extends Component {
     }, 300)
   }
 
-  unlockAsync = () => {
-    const { unlockAsync, toggleSidebar } = this.props
+  unlockAllTracks = () => {
+    const { unlockAllTracks, toggleSidebar } = this.props
     setTimeout(() => {
-      unlockAsync()
+      unlockAllTracks()
       toggleSidebar(false)
     }, 300)
   }
@@ -128,10 +128,10 @@ class Menu extends Component {
           <Icon type={'sign-out'} />
         </RippleButton>
 
-        {!hasAccess ?
+        {hasAccess ?
           <RippleButton
             className="sidebar-menu-item unlock"
-            onClick={this.unlockAsync}>
+            onClick={this.unlockAllTracks}>
             Unlock
             <Icon type={'key'} />
           </RippleButton>
@@ -150,6 +150,6 @@ export default connect(state => ({
   user: state.user,
 }), {
   signOutAsync,
-  unlockAsync,
+  unlockAllTracks,
   toggleSidebar,
 })(Menu)
