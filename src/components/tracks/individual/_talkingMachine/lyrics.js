@@ -1,0 +1,28 @@
+/* eslint-disable quotes */
+
+export const lyrics = [
+  "I know you know the songs I sing",
+  "But do you know who they're for?",
+  "When you hear the songs I sing",
+  "Close your eyes, I'll sing for you",
+  "And if you see a glare",
+  "It's the stars, that's your spotlight",
+  "I hope that knowing will calm you down",
+  "I hope that knowing will calm you down",
+  "My voice is the clearest, smoothest,",
+  "and most natural of any talking maching",
+  "I can sing you tender songs of love",
+  "I can give you merry tales and joyous laughter",
+  "I can transport you to the realms of music",
+  "And if you left your voice at home",
+  "Just bear in mind you'll stare at lines of grass",
+  "just like a garden gnome",
+  "You should stay between the blades",
+  "Getting older in the sun 'til you're done",
+  "'Cause it's over, yeah it's over",
+  "And if you see a glare",
+  "It's the stars, that's your spotlight",
+  "I hope that knowing will calm you down",
+  "I hope that knowing will calm you down",
+  "I hope that knowing will calm you down",
+]

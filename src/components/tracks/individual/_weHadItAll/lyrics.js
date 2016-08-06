@@ -1,0 +1,25 @@
+/* eslint-disable quotes */
+
+export const lyrics = [
+  "Keep your feelings within reason",
+  "There's no time for that, lady",
+  "I'm not leaving, I'm just leaving you, lady",
+  "We had it all, except for a tree to call our own",
+  "We had it all, except for a tree to call our own",
+  "Keep your feelings within reason",
+  "There's no time for that, lady",
+  "I'm not leaving, I'm just leaving you, lady",
+  "We had it all, except for a tree to call our own",
+  "We had it all, except for a tree to call our own",
+  "What will you when if I refuse to feel?",
+  "What will you when if I refuse to feel?",
+  "Ooooh just to get it out, yes I'm older",
+  "We had it all, except for a tree to call our own",
+  "We had it all, except for a tree to call our own",
+  "We had it all",
+  "Well just a little more than we could reach sometimes",
+  "Except for a tree to call our own",
+  "Well just a little more than we could reach sometimes",
+  "Well just a little more than we could reach sometimes",
+  "We had it all",
+]

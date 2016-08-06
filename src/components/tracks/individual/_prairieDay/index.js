@@ -6,12 +6,12 @@ import React from 'react'
 //   fact: ''
 // }]
 //
-// const lyrics = []
+// const lyrics = [}
 
-export default function TheWarehouse() {
+export default function PrairieDay() {
   return (
     <div className="track-info-page">
-      <div className="track-text the-warehouse" />
+      <div className="track-text prairie-day" />
     </div>
   )
 }
