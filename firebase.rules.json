@@ -8,6 +8,11 @@
     },
     "beaconLocations": {
       ".indexOn": "g"
+    },
+    "queue": {
+      "tasks": {
+        ".indexOn": "_state"
+      }
     }
   }
 }

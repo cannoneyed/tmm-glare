@@ -23,7 +23,6 @@ const firebase = Firebase.initializeApp(firebaseConfig)
 
 const geofire = {
   beaconLocations: new GeoFire(firebase.database().ref().child('beaconLocations')),
-  connectionLocations: new GeoFire(firebase.database().ref().child('connectionLocations'))
 }
 
 const store = configureStore({ firebase, geofire })

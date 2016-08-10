@@ -1,19 +1,19 @@
+require('dotenv').config()
+
 const express = require('express')
 const logger = require('winston')
-
+// const { firebase } = require('./firebase')
+// const util = require('./util')
+const initializeApp = require('./initialize')
+const { loadGlobeData } = require('./graph')
 
 //=========================================================
 //  SETUP
 //---------------------------------------------------------
-const PROJECT_ROOT_DIR = process.cwd()
-
 const app = express()
 
 app.set('host', process.env.HOST || 'localhost')
-app.set('port', process.env.PORT || 3000)
-
-app.use(require('morgan')('dev'))
-app.use(express.static(`${PROJECT_ROOT_DIR}/target`))
+app.set('port', process.env.PORT || 3001)
 
 
 //=========================================================
@@ -21,20 +21,20 @@ app.use(express.static(`${PROJECT_ROOT_DIR}/target`))
 //---------------------------------------------------------
 const router = new express.Router()
 
-router.get('*', (req, res) => {
-  res.sendFile(`${PROJECT_ROOT_DIR}/target/index.html`)
-})
+router.get('/test', loadGlobeData)
 
 app.use(router)
-
 
 //=========================================================
 //  START SERVER
 //---------------------------------------------------------
-app.listen(app.get('port'), app.get('host'), error => {
-  if (error) {
-    logger.error(error)
-  } else {
-    logger.info(`Server listening @ ${app.get('host')}:${app.get('port')}`)
-  }
+
+initializeApp().then(() => {
+  app.listen(app.get('port'), app.get('host'), error => {
+    if (error) {
+      logger.error(error)
+    } else {
+      logger.info(`Server listening @ ${app.get('host')}:${app.get('port')}`)
+    }
+  })
 })

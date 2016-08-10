@@ -76,6 +76,7 @@
     "classnames": "^2.2.5",
     "dateformat": "^1.0.12",
     "firebase": "^3.0.3",
+    "firebase-queue": "^1.5.0",
     "geofire": "^4.1.1",
     "graphlib": "^2.1.1",
     "jquery": "^3.1.0",
