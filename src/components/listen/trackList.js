@@ -40,7 +40,7 @@ class TrackList extends Component {
   renderTitle = (trackTitle, index) => {
     const string = trackTitle.replace('The M Machine - ', '')
     const pieces = string.split('Ft. ')
-    const title = pieces[0]
+    const title = `${index + 1}. ${pieces[0]}`
     const featuring = pieces[1]
 
     return (
