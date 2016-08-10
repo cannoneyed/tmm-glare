@@ -29,19 +29,22 @@ class Journal extends Component {
 
     return (
       <div className="journal-container">
-        {entries.map((entry, index) => {
-          const showBorder = index !== entries.length - 1
-          const isUnread = !hasReadJournal && dateIsLater(entry.dateCreated)
+        <div className="journal-list scrollable">
+          {entries.map((entry, index) => {
+            const showBorder = index !== entries.length - 1
+            const isUnread = !hasReadJournal && dateIsLater(entry.dateCreated)
 
-          return (
-            <Entry
-              key={index}
-              entry={entry}
-              showBorder={showBorder}
-              isUnread={isUnread}
-            />
-          )
-        })}
+            return (
+              <Entry
+                key={index}
+                entry={entry}
+                showBorder={showBorder}
+                isUnread={isUnread}
+              />
+            )
+          })}
+          <div className="journal-list-spacer" />
+        </div>
       </div>
     )
   }

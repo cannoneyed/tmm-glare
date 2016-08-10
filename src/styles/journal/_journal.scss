@@ -1,11 +1,23 @@
 $content-margin: 3px;
 
 .journal-container {
-  margin-top: $header-height;
+  padding: 0;
   min-width: 100%;
-  position: absolute;
+  max-height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
+}
 
+.journal-list {
+  position: fixed;
+  top: $header-height;
   overflow-y: scroll;
+  height: 90vh;
+  min-width: 100vw;
+
+  >.journal-list-spacer {
+    min-height: 150px;
+  }
 }
 
 .journal-entry {
