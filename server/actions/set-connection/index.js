@@ -1,5 +1,7 @@
 const P = require('bluebird')
 const { firebase } = require('../../firebase')
+const graphData = require('../../graph/data')
+const processMap = require('../process-map')
 
 const db = firebase.database().ref()
 
@@ -10,15 +12,16 @@ module.exports = ({ data, resolve, reject }) => {
 
     const connectionKey = [from, to].join('::::')
 
+    const connection = {
+      from,
+      latitude,
+      longitude,
+      timestamp,
+      to,
+    }
+
     // Set the connection entry
-    yield db.child(`connections/${connectionKey}`)
-      .set({
-        from,
-        latitude,
-        longitude,
-        timestamp,
-        to,
-      })
+    yield db.child(`connections/${connectionKey}`).set(connection)
 
     // Set the connection and set hasAccess true on both user objects
     const fromUpdate = {
@@ -44,6 +47,13 @@ module.exports = ({ data, resolve, reject }) => {
       removeBeaconTo: db.child(`beacons/${to}`).set(null),
       removeBeaconLocationTo: db.child(`beaconLocations/${to}`).set(null),
     })
+
+    // Update the internal graph
+    graphData.setConnection(connection)
+
+    // Update the map representation
+    yield processMap()
+
   })().then(resolve).catch((err) => {
     const message = {
       type: 'CONNECTION_FAILED',

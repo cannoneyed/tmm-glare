@@ -5,7 +5,7 @@ const logger = require('winston')
 // const { firebase } = require('./firebase')
 // const util = require('./util')
 const initializeApp = require('./initialize')
-const { loadGlobeData } = require('./graph')
+const { processMap } = require('./map')
 
 //=========================================================
 //  SETUP
@@ -21,7 +21,7 @@ app.set('port', process.env.PORT || 3001)
 //---------------------------------------------------------
 const router = new express.Router()
 
-router.get('/test', loadGlobeData)
+router.get('/map', processMap)
 
 app.use(router)
 

@@ -1,25 +1,25 @@
 const _ = require('lodash')
-const util = require('../util')
-const webUtil = require('../webUtil')
+const graphData = require('../../graph/data')
+const { firebase } = require('../../firebase')
 
-const { firebase } = require('../firebase')
 const db = firebase.database().ref()
 
 // Number of decimal points to trim lat / lng for grouping
 const PRECISION = 3
 const MAX_VALUE = 0.5
 
-exports.loadGlobeData = webUtil.handle(function *loadGlobeData() {
-  const snapshot = yield db.child('connections').once('value')
-  const data = util.recordsFromSnapshot(snapshot)
+module.exports = function processMap() {
+  const connections = graphData.getConnections()
+  const processed = processConnections(connections)
 
-  const processed = processConnections(data)
-  return processed
-})
+  console.log(processed)
 
-function processConnections(data) {
-  // Process the raw data into the coordinate
-  const coordinates = _.map(data, connection => {
+  return db.child('map').set(processed)
+}
+
+function processConnections(connections) {
+  // Process the raw connection data into the coordinate
+  const coordinates = _.map(connections, connection => {
     return {
       lat: processCoordinate(connection.latitude),
       lng: processCoordinate(connection.longitude)
