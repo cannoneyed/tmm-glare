@@ -1,7 +1,7 @@
 const Firebase = require('firebase')
 const GeoFire = require('geofire')
 
-const { firebaseConfig } = require('../config')
+const { firebaseConfig } = require('config')
 
 const firebase = Firebase.initializeApp(firebaseConfig)
 const geofire = {

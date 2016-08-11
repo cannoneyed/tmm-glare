@@ -2,7 +2,7 @@ const P = require('bluebird')
 const _ = require('lodash')
 const util = require('../util')
 const graph = require('../graph/graph')
-const initializeQueueListener = require('./listeners/queue')
+const initializeQueueListener = require('../listeners/queue')
 
 const { firebase } = require('../firebase')
 const db = firebase.database().ref()

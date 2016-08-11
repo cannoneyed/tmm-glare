@@ -1,6 +1,7 @@
+const logger = require('winston')
 const Queue = require('firebase-queue')
-const { firebase } = require('../../firebase')
-const setConnection = require('../../actions/set-connection')
+const { firebase } = require('../firebase')
+const setConnection = require('../actions/set-connection')
 
 const db = firebase.database()
 
@@ -19,11 +20,11 @@ module.exports = () => {
     }
   })
 
-  /* eslint-disable no-console, no-process-exit */
+  /* eslint-disable no-process-exit */
   process.on('SIGINT', () => {
-    console.log('Starting queue shutdown')
+    logger.info('Starting queue shutdown')
     queue.shutdown().then(() => {
-      console.log('Finished queue shutdown')
+      logger.info('Finished queue shutdown')
       process.exit(1)
     })
   })
