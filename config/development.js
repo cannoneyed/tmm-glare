@@ -6,6 +6,8 @@ module.exports = {
       privateKey: process.env.DEV_FIREBASE_PRIVATE_KEY,
     },
     databaseURL: process.env.DEV_FIREBASE_DATA_URL,
-    devTest: true,
+    apiKey: process.env.DEV_FIREBASE_API_KEY,
+    authDomain: process.env.DEV_FIREBASE_AUTH_DOMAIN,
+    storageBucket: process.env.DEV_FIREBASE_STORAGE_BUCKET,
   }
 }

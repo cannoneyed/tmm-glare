@@ -8,6 +8,7 @@ export const REMOVE_BEACON = 'connect/REMOVE_BEACON'
 
 export const CONNECT_ERROR = 'connect/CONNECT_ERROR'
 export const CONNECT_SUCCESS = 'connect/CONNECT_SUCCESS'
+export const CONNECT_PENDING = 'connect/CONNECT_PENDING'
 export const CONNECT_CANCELLED = 'connect/CONNECT_CANCELLED'
 
 export const SET_CONNECTING = 'connect/SET_CONNECTING'
@@ -45,6 +46,10 @@ export default function reducer(state = initialState, action) {
     case FOUND_BEACON:
       return setNewBeacon(state, action.payload)
     case CONNECT_SUCCESS:
+      return setIsConnecting(state, false)
+    case CONNECT_ERROR:
+      return setIsConnecting(state, false)
+    case CONNECT_PENDING:
       return setIsConnecting(state, false)
     case CONNECT_CANCELLED:
       return {
@@ -103,8 +108,16 @@ export function connectCancelled() {
   return { type: CONNECT_CANCELLED }
 }
 
+export function connectError() {
+  return { type: CONNECT_ERROR }
+}
+
 export function setConnecting(isConnecting) {
   return { type: SET_CONNECTING, payload: isConnecting }
+}
+
+export function connectPending(userId) {
+  return { type: CONNECT_PENDING, payload: userId }
 }
 
 // Async actions

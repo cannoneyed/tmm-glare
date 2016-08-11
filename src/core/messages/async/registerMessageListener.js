@@ -1,32 +1,50 @@
 import * as util from 'src/util'
 
 import * as notificationActions from 'src/core/notifications'
-import { REQUEST_ACCESS, messageReceived } from '../index'
+import { REQUEST_ACCESS, CONNECTION_FAILED, messageReceived } from '../index'
+
+import { connectError } from '../../connect/'
 
 export default function registerMessageListenerAsync() {
   return (dispatch, getState) => {
     const { firebase, user } = getState()
+    const db = firebase.database().ref()
 
     // Clear out the message queue before subscribing
-    firebase.database().ref().child(`messages/${user.key}`).set({}).then(() => {
+    db.child(`messages/${user.key}`).set({}).then(() => {
       // Register the message listener
-      firebase.database().ref().child(`messages/${user.key}`).on('child_added', snapshot => {
+      db.child(`messages/${user.key}`).on('child_added', snapshot => {
         const message = util.recordFromSnapshot(snapshot)
-        const { from, type } = message
+        const { type } = message
 
         // If the message is a connection request, set up a notification
         if (type === REQUEST_ACCESS) {
+          const { from } = message
           const displayName = from.displayName
 
           dispatch(notificationActions.addNotification({
             message: `${displayName} asked you for the album`,
             kind: 'info',
-            dismissAfter: 5000,
+            dismissAfter: 4000,
           }))
 
           dispatch(messageReceived(message))
 
-          return firebase.database().ref().child(`messages/${user.key}/${message.key}`).remove()
+          return db.child(`messages/${user.key}/${message.key}`).remove()
+        }
+
+        // If the message is a connection failure, set up a notification
+        if (type === CONNECTION_FAILED) {
+          dispatch(notificationActions.addNotification({
+            message: 'Connection failed... Try again',
+            kind: 'warning',
+            dismissAfter: 4000,
+          }))
+
+          dispatch(messageReceived(message))
+          dispatch(connectError())
+
+          return db.child(`messages/${user.key}/${message.key}`).remove()
         }
       })
     })

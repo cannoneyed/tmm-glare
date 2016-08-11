@@ -1,5 +1,6 @@
 // Message types
 export const REQUEST_ACCESS = 'REQUEST_ACCESS'
+export const CONNECTION_FAILED = 'CONNECTION_FAILED'
 
 // Action types
 export const MESSAGE_SENT = 'message/MESSAGE_SENT'

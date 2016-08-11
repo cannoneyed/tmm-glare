@@ -1,7 +1,5 @@
-import P from 'bluebird'
-
 import {
-  connectSuccess,
+  connectPending,
 } from '../index'
 
 export default function connectWithUserAsync(other) {
@@ -23,6 +21,6 @@ export default function connectWithUserAsync(other) {
       longitude: location.longitude,
     })
 
-    dispatch(connectSuccess(other.key))
+    dispatch(connectPending(other.key))
   }
 }

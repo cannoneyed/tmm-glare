@@ -1,4 +1,5 @@
 require('dotenv').config()
+const appConfig = require('config')
 const autoprefixer = require('autoprefixer')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -12,14 +13,15 @@ const webpack = require('webpack')
 //  ENVIRONMENT VARS
 //---------------------------------------------------------
 const NODE_ENV = process.env.NODE_ENV
-const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY
-const FIREBASE_AUTH_DOMAIN = process.env.FIREBASE_AUTH_DOMAIN
-const FIREBASE_DATA_URL = process.env.FIREBASE_DATA_URL
-const FIREBASE_STORAGE_BUCKET = process.env.FIREBASE_STORAGE_BUCKET
 
 const ENV_DEVELOPMENT = NODE_ENV === 'development'
 const ENV_PRODUCTION = NODE_ENV === 'production'
 const ENV_TEST = NODE_ENV === 'test'
+
+const FIREBASE_API_KEY = appConfig.firebaseConfig.apiKey
+const FIREBASE_AUTH_DOMAIN = appConfig.firebaseConfig.authDomain
+const FIREBASE_DATA_URL = appConfig.firebaseConfig.databaseURL
+const FIREBASE_STORAGE_BUCKET = appConfig.firebaseConfig.storageBucket
 
 const HOST = process.env.HOST || 'localhost'
 const PORT = process.env.PORT || 3000
