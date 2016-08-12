@@ -3,8 +3,8 @@ exports.getDistance = (coords1, coords2, isMiles = true) => {
     return x * Math.PI / 180
   }
 
-  var { lat: lat1, lgn: lng1 } = coords1
-  var { lat: lat2, lgn: lng2 } = coords2
+  var { latitude: lat1, longitude: lng1 } = coords1
+  var { latitude: lat2, longitude: lng2 } = coords2
 
   var R = 6371 // km
 

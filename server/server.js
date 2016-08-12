@@ -5,7 +5,8 @@ const logger = require('winston')
 // const { firebase } = require('./firebase')
 // const util = require('./util')
 const initializeApp = require('./initialize')
-const { processMap } = require('./map')
+const processUserGraph = require('./actions/process-user-graph')
+const webUtil = require('./webUtil')
 
 //=========================================================
 //  SETUP
@@ -21,7 +22,9 @@ app.set('port', process.env.PORT || 3001)
 //---------------------------------------------------------
 const router = new express.Router()
 
-router.get('/map', processMap)
+router.get('/graph/:id', webUtil.handle(function* gen(req) {
+  return processUserGraph({ data: { userId: req.params.id }})
+}))
 
 app.use(router)
 
