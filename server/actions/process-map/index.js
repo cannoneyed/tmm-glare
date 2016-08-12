@@ -5,14 +5,12 @@ const { firebase } = require('../../firebase')
 const db = firebase.database().ref()
 
 // Number of decimal points to trim lat / lng for grouping
-const PRECISION = 3
+const PRECISION = 2
 const MAX_VALUE = 0.5
 
 module.exports = function processMap() {
   const connections = graphData.getConnections()
   const processed = processConnections(connections)
-
-  console.log(processed)
 
   return db.child('map').set(processed)
 }
