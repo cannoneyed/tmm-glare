@@ -423,10 +423,9 @@ DAT.Globe = function Globe(container, opts = {}) {
 
   function runOriented(fns, rots) {
     let yRotations = Math.floor(rotation.y / (Math.PI / 2))
-    if (yRotations < 1) {
-      yRotations = 4 + yRotations
-    }
-    const fnIndex = rots[yRotations % 4]
+    const mod = yRotations % 4
+    const index = mod < 0 ? 4 + mod : mod
+    const fnIndex = rots[index]
     fns[fnIndex]()
   }
 
