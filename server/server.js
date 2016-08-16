@@ -7,8 +7,8 @@ const logger = require('winston')
 // const { firebase } = require('./firebase')
 // const util = require('./util')
 const initializeApp = require('./initialize')
-const processUserGraph = require('./actions/process-user-graph')
-const webUtil = require('./webUtil')
+// const processUserGraph = require('./actions/process-user-graph')
+// const webUtil = require('./webUtil')
 
 //=========================================================
 //  SETUP
@@ -22,19 +22,20 @@ app.set('port', process.env.PORT || 3001)
 //=========================================================
 //  ROUTER
 //---------------------------------------------------------
-const router = new express.Router()
-
-router.get('/graph/:id', webUtil.handle(function* gen(req) {
-  return processUserGraph({ data: { userId: req.params.id }})
-}))
-
-app.use(router)
+// const router = new express.Router()
+//
+// router.get('/graph/:id', webUtil.handle(function* gen(req) {
+//   return processUserGraph({ data: { userId: req.params.id }})
+// }))
+//
+// app.use(router)
 
 //=========================================================
 //  START SERVER
 //---------------------------------------------------------
 const start = (id) => {
-  initializeApp().then(() => {
+  const isMaster = id === 1 // The first worker is the master
+  initializeApp(isMaster).then(() => {
     app.listen(app.get('port'), app.get('host'), error => {
       if (error) {
         logger.error(error)

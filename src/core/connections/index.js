@@ -1,31 +1,39 @@
-export const SET_RAW_DATA = 'connections/SET_RAW_DATA'
-export const SET_GRAPH = 'connections/SET_GRAPH'
+export const SET_CONNECTION_STATS = 'connections/SET_CONNECTION_STATS'
+export const SET_IS_PROCESSING_STATS = 'connections/SET_IS_PROCESSING_STATS'
 
 export const initialState = {
+  isStatsLoaded: false,
+  isStatsProcessing: false,
   isGraphLoaded: false,
-  rawData: {},
+  stats: {},
   graph: {},
+  users: {},
 }
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
 
-    case SET_RAW_DATA:
-      return { ...state, rawData: action.payload}
-    case SET_GRAPH:
-      return { ...state, graph: action.payload, isGraphLoaded: true }
+    case SET_IS_PROCESSING_STATS:
+      return { ...state, isProcessing: action.payload }
+    case SET_CONNECTION_STATS:
+      return {
+        ...state,
+        stats: action.payload,
+        isStatsLoaded: true,
+        isStatsProcessing: false,
+      }
     default:
       return state
   }
 }
 
 // Action creators
-export function setRawData(data) {
-  return { type: SET_RAW_DATA, payload: data }
+export function setConnectionStats(stats) {
+  return { type: SET_CONNECTION_STATS, payload: stats }
 }
 
-export function setLoadedGraph(graph) {
-  return { type: SET_GRAPH, payload: graph }
+export function setIsProcessingStats(isProcessing) {
+  return { type: SET_IS_PROCESSING_STATS, payload: isProcessing }
 }
 
 // Async Actions

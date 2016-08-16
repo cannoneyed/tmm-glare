@@ -3,16 +3,13 @@ const graphData = require('../../graph/data')
 const { firebase } = require('../../firebase')
 const helpers = require('./helpers')
 
-const db = firebase.database().ref()
-
-module.exports = function processUserGraph({ data, resolve, reject }) {
+module.exports = function processUserStatistics({ data, resolve, reject }) {
   const { userId } = data
 
   return P.try(() => {
     const g = graphData.getGraph()
 
-    const connected = g.successors(userId)
-
+    const connected = g.successors(userId) || []
     const own = g.node(userId)
 
     const total = connected.length
@@ -28,8 +25,8 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
     }
   })
   .then(processed => {
-    return db.child(`userGraphs/${userId}`).set(processed)
+    return firebase.database().ref('userStats').child(userId).set(processed)
   })
-  // .then(resolve)
-  // .catch(reject)
+  .then(resolve)
+  .catch(reject)
 }

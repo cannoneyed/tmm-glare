@@ -1,5 +1,5 @@
-import loadGraphAsync from './loadGraph'
+import loadConnectionStatsAsync from './loadConnectionStats'
 
 export {
-  loadGraphAsync,
+  loadConnectionStatsAsync,
 }
