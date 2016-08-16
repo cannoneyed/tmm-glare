@@ -1,10 +1,11 @@
 /* eslint-disable react/no-multi-comp */
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import { Icon, RippleButton } from '../shared'
 
-export default function Stats(props) {
-  const { maximumDistance, sharedWith, graphSize } = props
+const Stats = (props) => {
+  const { maxDistance, sharedWith, total } = props
 
   const renderSpan = (type, text) => {
     return <span className={`connections-statistic-${type}`}>{text}</span>
@@ -18,8 +19,8 @@ export default function Stats(props) {
           setTimeout(() => {}, 200)
         }}>
         <Icon type="world" />
-        {renderSpan('description', 'Farthest connection:')}
-        {renderSpan('number', maximumDistance)}
+        {renderSpan('description', 'Farthest reach:')}
+        {renderSpan('number', `${maxDistance.toFixed(2)} mi`)}
       </RippleButton>
       <RippleButton
         className="connections-statistic"
@@ -37,14 +38,20 @@ export default function Stats(props) {
         }}>
         <Icon type="connections" />
         {renderSpan('description', 'Total connections:')}
-        {renderSpan('number', graphSize)}
+        {renderSpan('number', total)}
       </RippleButton>
     </div>
   )
 }
 
 Stats.propTypes = {
-  graphSize: PropTypes.number,
-  maximumDistance: PropTypes.string,
+  maxDistance: PropTypes.number,
   sharedWith: PropTypes.number,
+  total: PropTypes.number,
 }
+
+export default connect(state => ({
+  total: state.connections.stats.total,
+  maxDistance: state.connections.stats.maxDistance,
+  sharedWith: Object.keys(state.user.connections).length,
+}), null)(Stats)

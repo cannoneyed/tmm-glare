@@ -125,7 +125,7 @@ class ConnectionsView extends Component {
     return (
       <div className="connections-container">
         <div className="connections-graph" ref={(ref) => this._container = ref} />
-        <Stats {...this.props.graph} />
+        <Stats />
       </div>
 
     )
