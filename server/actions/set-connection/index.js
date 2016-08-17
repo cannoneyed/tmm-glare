@@ -1,3 +1,5 @@
+const _ = require('lodash')
+const logger = require('winston')
 const P = require('bluebird')
 const config = require('config')
 const fetch = require('node-fetch')
@@ -22,6 +24,8 @@ module.exports = ({ data, resolve, reject }) => {
 
     const locationData = yield fetch(`http://api.geonames.org/findNearbyPlaceNameJSON?${qs}`)
       .then(res => res.json())
+      .then(data => _.get(data, 'geonames.0', {}))
+
     const { name, countryName } = locationData
 
     const connectionKey = [from, to].join('::::')
@@ -55,14 +59,6 @@ module.exports = ({ data, resolve, reject }) => {
       from: db.child(`users/${to}`).update(toUpdate),
     })
 
-    // Now remove the beacons
-    yield P.props({
-      removeBeaconFrom: db.child(`beacons/${from}`).set(null),
-      removeBeaconLocationFrom: db.child(`beaconLocations/${from}`).set(null),
-      removeBeaconTo: db.child(`beacons/${to}`).set(null),
-      removeBeaconLocationTo: db.child(`beaconLocations/${to}`).set(null),
-    })
-
     // Update the internal graph
     graphData.setConnection(connection)
 
@@ -70,6 +66,8 @@ module.exports = ({ data, resolve, reject }) => {
     yield processMap()
 
   })().then(resolve).catch((err) => {
+    logger.error(err)
+
     const message = {
       type: 'CONNECTION_FAILED',
       timestamp: Date.now(),
@@ -81,6 +79,15 @@ module.exports = ({ data, resolve, reject }) => {
       from: db.child(`messages/${from}/${to}`).set(message),
     }).then(() => {
       return reject(err)
+    })
+  })
+  .finally(() => {
+    // Remove the beacons
+    return P.props({
+      removeBeaconFrom: db.child(`beacons/${from}`).set(null),
+      removeBeaconLocationFrom: db.child(`beaconLocations/${from}`).set(null),
+      removeBeaconTo: db.child(`beacons/${to}`).set(null),
+      removeBeaconLocationTo: db.child(`beaconLocations/${to}`).set(null),
     })
   })
 }
