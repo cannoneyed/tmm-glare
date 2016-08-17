@@ -3,18 +3,20 @@ const logger = require('winston')
 
 const initializeQueueListener = require('../listeners/queue')
 const initializeGraph = require('../graph/initialize')
+const intializeUsers = require('../users/initialize')
 const processMap = require('../actions/process-map')
 
 module.exports = P.coroutine(function* initializeApp(isMaster) {
   // Initialize graph
   yield P.all([
-    initializeGraph()
+    initializeGraph(),
+    intializeUsers(),
   ])
 
   if (isMaster) {
     const timeStart = Date.now()
     yield processMap()
-    logger.info(`Initialized map in ${Date.now() - timeStart} ms`)
+    logger.info(`Processed map in ${Date.now() - timeStart} ms`)
   }
 
   // Set up listeners
