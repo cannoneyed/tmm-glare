@@ -109,8 +109,7 @@ class Menu extends Component {
             Journal
             { unreadJournalCount ?
               <div className="journal-sidebar-count">{unreadJournalCount}</div> :
-              null }
-            <Icon type={'list'} />
+              <Icon type={'list'} /> }
           </RippleButton>
         : null }
 

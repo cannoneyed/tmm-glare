@@ -2,7 +2,7 @@ import {
   setGlobeData,
 } from '../index'
 
-import constants from 'src/core/constants'
+import * as constants from 'src/core/constants'
 import * as util from 'src/util'
 
 export default function loadGlobeDataAsync() {
