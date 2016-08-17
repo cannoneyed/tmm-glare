@@ -3,6 +3,7 @@ const Queue = require('firebase-queue')
 const { firebase } = require('../firebase')
 const setConnection = require('../actions/set-connection')
 const processUserStatistics = require('../actions/process-user-statistics')
+const processUserGraph = require('../actions/process-user-graph')
 
 const db = firebase.database()
 
@@ -22,6 +23,10 @@ module.exports = () => {
 
     if (type === 'USER_STATISTICS') {
       return processUserStatistics({ data, resolve, reject })
+    }
+
+    if (type === 'USER_GRAPH') {
+      return processUserGraph({ data, resolve, reject })
     }
   })
 

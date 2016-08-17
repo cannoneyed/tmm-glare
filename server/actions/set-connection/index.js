@@ -1,4 +1,7 @@
 const P = require('bluebird')
+const config = require('config')
+const fetch = require('node-fetch')
+const querystring = require('querystring')
 const { firebase } = require('../../firebase')
 const graphData = require('../../graph/data')
 const processMap = require('../process-map')
@@ -10,14 +13,26 @@ module.exports = ({ data, resolve, reject }) => {
 
   return P.coroutine(function* setConnection() {
 
-    const connectionKey = [from, to].join('::::')
+    const qs = querystring.stringify({
+      lat: latitude,
+      lng: longitude,
+      username: config.geonames.username,
+      cities: 'cities15000',
+    })
 
+    const locationData = yield fetch(`http://api.geonames.org/findNearbyPlaceNameJSON?${qs}`)
+      .then(res => res.json())
+    const { name, countryName } = locationData
+
+    const connectionKey = [from, to].join('::::')
     const connection = {
       from,
       latitude,
       longitude,
       timestamp,
       to,
+      city: name,
+      country: countryName,
     }
 
     // Set the connection entry
