@@ -15,5 +15,5 @@ module.exports = P.coroutine(function* () {
   _.each(connections, connection => {
     graphData.setConnection(connection)
   })
-  logger.info(`Initialized ${Object.keys(connections).length} connections in ${Date.now() - timeStart} ms`)
+  logger.info(`Initialized ${Object.keys(connections || {}).length} connections in ${Date.now() - timeStart} ms`)
 })

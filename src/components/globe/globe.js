@@ -3,7 +3,7 @@ import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
 import Hammer from 'react-hammerjs'
 import Rx from 'rx'
-import { fixScrollOn, fixScrollOff } from 'src/fix-scroll'
+import { fixScrollOn, fixScrollOff } from 'src/page/fix-scroll'
 
 import * as globeActions from 'src/core/globe'
 import DAT from './dat'

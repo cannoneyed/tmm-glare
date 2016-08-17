@@ -19,6 +19,8 @@ export default function initAuthAsync() {
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
       unsubscribe()
       if (user) {
+        dispatch(loadOrCreateUserAsync(user))
+
         // User signed in, dispatch a success action and fetch the user data
         dispatch(signInSuccess(user.uid))
         return dispatch(loadAppDataAsync())

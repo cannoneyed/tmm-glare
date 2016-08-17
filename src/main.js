@@ -14,7 +14,7 @@ import authRouteResolver from './core/auth/route-resolver'
 import configureStore from './core/store'
 import { firebaseConfig } from './config'
 
-import { fixScrollOn } from './fix-scroll'
+import { fixScrollOn } from './page/fix-scroll'
 
 const history = useRouterHistory(createHistory)({basename: '/'})
 

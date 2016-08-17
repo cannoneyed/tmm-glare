@@ -1,16 +1,24 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
+import { fixTouchOn, fixTouchOff } from 'src/page/fix-touch'
 
 import createGraph from './graph'
 
-import * as connectionsActions from 'src/core/connections'
+import * as appActions from 'src/core/app'
 import Stats from './stats'
 
 class ConnectionsView extends Component {
   static propTypes = {
     d3: PropTypes.object,
     graph: PropTypes.object,
+    setTouchFixed: PropTypes.func.isRequired,
+  }
+
+  componentWillMount() {
+    const { setTouchFixed } = this.props
+    fixTouchOn()
+    return setTouchFixed(true)
   }
 
   componentDidMount() {
@@ -19,9 +27,11 @@ class ConnectionsView extends Component {
     createGraph({ d3, container, graph })
   }
 
-  handleMouseDown = (e) => {
-    e.stopPropagation()
-    e.preventDefault()
+  componentWillUnmount() {
+    const { setTouchFixed } = this.props
+    fixTouchOff()
+    return setTouchFixed(false)
+
   }
 
   render() {
@@ -29,7 +39,6 @@ class ConnectionsView extends Component {
       <div className="connections-container">
         <svg
           className="connections-graph"
-          onMouseDown={this.handleMouseDown}
           ref={(ref) => this._graph = ref}
         />
         <Stats />
@@ -43,4 +52,6 @@ export default connect(state => ({
   ownId: state.auth.id,
   graph: state.connections.graph,
   isGraphLoaded: state.connections.isGraphLoaded,
-}), connectionsActions)(ConnectionsView)
+}), {
+  setTouchFixed: appActions.setTouchFixed,
+})(ConnectionsView)

@@ -4,6 +4,7 @@ const FINISH_INTRO = 'app/FINISH_INTRO'
 const CLOSE_MODAL = 'app/CLOSE_MODAL'
 const OPEN_MODAL = 'app/OPEN_MODAL'
 const SET_BACKGROUND = 'app/SET_BACKGROUND'
+const SET_TOUCH_FIXED = 'app/SET_TOUCH_FIXED'
 
 import {
   LOAD_USER,
@@ -13,6 +14,7 @@ import {
 const initialState = {
   isSidebarOpen: false,
   hasViewedIntro: false,
+  isTouchFixed: false,
   showModal: false,
   background: 0,
 }
@@ -37,6 +39,8 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, showModal: true }
     case SET_BACKGROUND:
       return { ...state, background: action.payload }
+    case SET_TOUCH_FIXED:
+      return { ...state, isTouchFixed: action.payload }
     default:
       return state
   }
@@ -66,6 +70,10 @@ export function setEmptyBackground() {
 export function setRandomBackground() {
   const n = Math.floor(Math.random() * 6) + 1
   return { type: SET_BACKGROUND, payload: n }
+}
+
+export function setTouchFixed(isFixed) {
+  return { type: SET_TOUCH_FIXED, payload: isFixed }
 }
 
 // Async Actions

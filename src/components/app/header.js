@@ -13,6 +13,7 @@ export class Header extends Component {
   static propTypes = {
     canGoBack: PropTypes.bool.isRequired,
     hideHeader: PropTypes.bool.isRequired,
+    isTouchFixed: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
   }
@@ -42,6 +43,7 @@ export class Header extends Component {
       canGoBack,
       toggleSidebar,
       hideHeader,
+      isTouchFixed,
       user
     } = this.props
 
@@ -49,14 +51,28 @@ export class Header extends Component {
       return <header className="header" />
     }
 
+    const clickBack = () => this.goBack()
+    const clickMenu = () => toggleSidebar()
+
+    // When touch events are being converted to clicks (ie for the connections page),
+    // we'll need to use a different handler
+    const clickOrTouch = isTouchFixed ? 'onMouseUp' : 'onClick'
+    const backButtonHandler = {
+      [clickOrTouch]: clickBack
+    }
+    const menuButtonHandler = {
+      [clickOrTouch]: clickMenu
+    }
+
     return (
       <header className="header">
-        <span className="header-back" onClick={() => this.goBack()}>
+        <span className="header-back" {...backButtonHandler} >
           { canGoBack ? <Icon type={'arrow-back'} size={50} /> : <span /> }
         </span>
         <span className="header-logo" />
         { user ?
-          <span className="header-menu" onClick={() => toggleSidebar()}>
+          <span
+            className="header-menu" {...menuButtonHandler} >
             <Icon type={'menu'} size={50} />
           </span>
         : this.renderDummyMenu() }
@@ -68,6 +84,7 @@ export class Header extends Component {
 export default connect(state => ({
   canGoBack: canGoBack(state.history),
   hideHeader: hideHeader(state),
+  isTouchFixed: state.app.isTouchFixed,
   user: state.user,
 }), {
   toggleSidebar,

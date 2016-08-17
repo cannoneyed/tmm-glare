@@ -1,5 +1,6 @@
 const P = require('bluebird')
 const _ = require('lodash')
+const logger = require('winston')
 const graphData = require('../../graph/data')
 const userData = require('../../users/data')
 const { firebase } = require('../../firebase')
@@ -82,6 +83,7 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
   })
   .then(resolve)
   .catch(err => {
+    logger.error(err)
     reject(err)
   })
 }
