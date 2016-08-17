@@ -1,130 +1,103 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
+import d3 from 'd3'
+
+import createGraph from './graph'
 
 import * as connectionsActions from 'src/core/connections'
 import Stats from './stats'
 
+const width = 500
+const height = 500
+//
+// const force = d3.layout.force()
+//   .charge(-300)
+//   .linkDistance(50)
+//   .size([width, height])
+//
+// // *****************************************************
+// // ** d3 functions to manipulate attributes
+// // *****************************************************
+//
+// var enterNode = (selection) => {
+//   selection.classed('node', true)
+//
+//   selection.append('circle')
+//     .attr('r', (d) => d.size)
+//     .call(force.drag)
+//
+//   selection.append('text')
+//     .attr('x', (d) => d.size + 5)
+//     .attr('dy', '.35em')
+//     .text((d) => d.key)
+// }
+//
+// var updateNode = (selection) => {
+//   selection.attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')')
+// }
+//
+// var enterLink = (selection) => {
+//   selection.classed('link', true)
+//     .attr('stroke-width', (d) => d.size)
+// }
+//
+// var updateLink = (selection) => {
+//   selection.attr('x1', (d) => d.source.x)
+//     .attr('y1', (d) => d.source.y)
+//     .attr('x2', (d) => d.target.x)
+//     .attr('y2', (d) => d.target.y)
+// }
+//
+// var updateGraph = (selection) => {
+//   selection.selectAll('.node')
+//     .call(updateNode)
+//   selection.selectAll('.link')
+//     .call(updateLink)
+// }
+
+
 class ConnectionsView extends Component {
-  static propTypes = {
-    graph: PropTypes.object,
-    isGraphLoaded: PropTypes.bool.isRequired,
-    loadGraphAsync: PropTypes.func.isRequired,
-    ownId: PropTypes.string.isRequired,
-    vis: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = {
-    graph: {},
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      nodes: [],
-      edges: [],
-      isGraphProcessed: false,
-      lastSelected: null,
-    }
-  }
-
   componentDidMount() {
-    const { loadGraphAsync, isGraphLoaded } = this.props
-    const { isGraphProcessed } = this.state
-
-    if (!isGraphLoaded) {
-      loadGraphAsync()
-    }
-
-    if (isGraphLoaded && !isGraphProcessed) {
-      this.updateGraph()
-    }
+    const container = ReactDOM.findDOMNode(this._graph)
+    createGraph(container)
   }
 
-  componentDidUpdate = () => {
-    const { isGraphLoaded } = this.props
-    const { isGraphProcessed } = this.state
-
-    if (isGraphLoaded && !isGraphProcessed) {
-      this.updateGraph()
-    }
-  }
-
-  selectNode = (event) => {
-    const { lastSelected } = this.state
-
-    this.state.nodes.update({
-      id: event.nodes[0],
-      // image: generateImageUrl({ type: 'selected' })
-    })
-
-    if (lastSelected) {
-      this.state.nodes.update({
-        id: lastSelected,
-        // image: generateImageUrl({ type })
-      })
-    }
-
-    this.setState({
-      lastSelected: event.nodes[0],
-    })
-  }
-
-  processGraph = () => {
-    const { graph, vis } = this.props
-
-    const nodes = new vis.DataSet(graph.nodes.map(node => {
-      // node.image = generateImageUrl({ type: node.imageType })
-      return node
-    }))
-    const edges = new vis.DataSet(graph.edges)
-
-    this.setState({
-      nodes,
-      edges,
-    })
-
-    return { nodes, edges }
-  }
-
-  updateGraph = () => {
-    const { vis } = this.props
-    const container = this._container
-    const graph = this.processGraph()
-
-    const options = {
-      width: `${container.offsetWidth}px`,
-      height: `${container.offsetHeight}px`,
-      edges: {
-        color: 'lightgray',
-        smooth: {
-          forceDirection: 'none',
-        }
-      },
-      nodes: {
-        borderWidth: 4,
-        size: 30,
-        color: {
-          border: '#222222',
-          background: '#666666'
-        },
-        font: {
-          color: '#eeeeee',
-        },
-      },
-    }
-
-    this.network = new vis.Network(container, graph, options) // eslint-disable-line no-new
-    this.network.on('selectNode', this.selectNode)
-
-    this.setState({
-      isGraphProcessed: true,
-    })
-  }
+  // shouldComponentUpdate(nextProps) {
+    // this.d3Graph = d3.select(ReactDOM.findDOMNode(this._graph))
+    //
+    // var d3Nodes = this.d3Graph.selectAll('.node')
+    //   .data(nextProps.nodes, (node) => node.key)
+    // d3Nodes.enter().append('g').call(enterNode)
+    // d3Nodes.exit().remove()
+    // d3Nodes.call(updateNode)
+    //
+    // var d3Links = this.d3Graph.selectAll('.link')
+    //   .data(nextProps.links, (link) => link.key)
+    // d3Links.enter().insert('line', '.node').call(enterLink)
+    // d3Links.exit().remove()
+    // d3Links.call(updateLink)
+    //
+    // // we should actually clone the nodes and links
+    // // since we're not supposed to directly mutate
+    // // props passed in from parent, and d3's force function
+    // // mutates the nodes and links array directly
+    // // we're bypassing that here for sake of brevity in example
+    // force.nodes(nextProps.nodes).links(nextProps.links)
+    // force.start()
+    //
+    // return false
+  // }
 
   render() {
     return (
       <div className="connections-container">
-        <div className="connections-graph" ref={(ref) => this._container = ref} />
+        <svg
+          className="connections-graph"
+          width={width}
+          height={height}
+          ref={(ref) => this._graph = ref}
+        />
         <Stats />
       </div>
 

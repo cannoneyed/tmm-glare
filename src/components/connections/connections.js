@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import visLoader from './vis-loader'
+import d3Loader from './d3-loader'
 
 import ConnectionsView from './connections-view'
 import Loading from '../loaders/loading'
@@ -9,21 +9,21 @@ class Connections extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      vis: null,
+      d3: null,
     }
   }
 
   componentWillMount() {
-    visLoader().then(({ vis }) => {
-      this.setState({ vis })
+    d3Loader().then(({ d3 }) => {
+      this.setState({ d3 })
     })
   }
 
   render() {
-    const { vis } = this.state
+    const { d3 } = this.state
 
     return (
-      vis ? <ConnectionsView vis={vis} /> : <Loading />
+      d3 ? <ConnectionsView d3={d3} /> : <Loading />
     )
   }
 }

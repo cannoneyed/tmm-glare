@@ -75,6 +75,7 @@
     "bluebird": "^3.3.5",
     "classnames": "^2.2.5",
     "config": "^1.21.0",
+    "d3": "^3.5.17",
     "dateformat": "^1.0.12",
     "firebase": "^3.0.3",
     "firebase-queue": "^1.5.0",
