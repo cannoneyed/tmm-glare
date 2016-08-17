@@ -33,7 +33,7 @@ export default function initAuthAsync() {
           if (err.code === 'auth/account-exists-with-different-credential') {
             const { email } = err
             dispatch(notificationActions.addNotification({
-              message: `An account has already claimed registered for ${email}`,
+              message: `An account has already been registered for ${email}`,
               kind: 'danger',
               dismissAfter: 4000,
             }))

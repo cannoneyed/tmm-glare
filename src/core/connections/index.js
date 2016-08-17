@@ -1,26 +1,23 @@
-export const SET_CONNECTION_STATS = 'connections/SET_CONNECTION_STATS'
-export const SET_IS_PROCESSING_STATS = 'connections/SET_IS_PROCESSING_STATS'
+export const SET_CONNECTION_GRAPH = 'connections/SET_CONNECTION_GRAPH'
+export const SET_IS_PROCESSING_GRAPH = 'connections/SET_IS_PROCESSING_GRAPH'
 
 export const initialState = {
-  isStatsLoaded: false,
-  isStatsProcessing: false,
+  isGraphProcessing: false,
   isGraphLoaded: false,
-  stats: {},
   graph: {},
-  users: {},
 }
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
 
-    case SET_IS_PROCESSING_STATS:
-      return { ...state, isProcessing: action.payload }
-    case SET_CONNECTION_STATS:
+    case SET_IS_PROCESSING_GRAPH:
+      return { ...state, isGraphProcessing: action.payload }
+    case SET_CONNECTION_GRAPH:
       return {
         ...state,
-        stats: action.payload,
-        isStatsLoaded: true,
-        isStatsProcessing: false,
+        graph: action.payload,
+        isGraphLoaded: true,
+        isGraphProcessing: false,
       }
     default:
       return state
@@ -28,12 +25,12 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action creators
-export function setConnectionStats(stats) {
-  return { type: SET_CONNECTION_STATS, payload: stats }
+export function setConnectionGraph(graph) {
+  return { type: SET_CONNECTION_GRAPH, payload: graph }
 }
 
-export function setIsProcessingStats(isProcessing) {
-  return { type: SET_IS_PROCESSING_STATS, payload: isProcessing }
+export function setIsProcessingGraph(isProcessing) {
+  return { type: SET_IS_PROCESSING_GRAPH, payload: isProcessing }
 }
 
 // Async Actions
