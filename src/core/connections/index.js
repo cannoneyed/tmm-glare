@@ -4,7 +4,12 @@ export const SET_IS_PROCESSING_GRAPH = 'connections/SET_IS_PROCESSING_GRAPH'
 export const initialState = {
   isGraphProcessing: false,
   isGraphLoaded: false,
-  graph: {},
+  graph: {
+    links: [],
+    nodes: [],
+  },
+  stats: {},
+  from: null,
 }
 
 export default function reducer(state = initialState, action) {
@@ -15,7 +20,7 @@ export default function reducer(state = initialState, action) {
     case SET_CONNECTION_GRAPH:
       return {
         ...state,
-        graph: action.payload,
+        ...action.payload,
         isGraphLoaded: true,
         isGraphProcessing: false,
       }
@@ -25,8 +30,8 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action creators
-export function setConnectionGraph(graph) {
-  return { type: SET_CONNECTION_GRAPH, payload: graph }
+export function setConnectionGraph(data) {
+  return { type: SET_CONNECTION_GRAPH, payload: data }
 }
 
 export function setIsProcessingGraph(isProcessing) {

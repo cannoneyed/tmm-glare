@@ -1,10 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 import d3Loader from './d3-loader'
 
 import ConnectionsView from './connections-view'
 import Loading from '../loaders/loading'
 
 class Connections extends Component {
+
+  static propTypes = {
+    graph: PropTypes.object,
+  }
 
   constructor(props) {
     super(props)
@@ -21,11 +26,14 @@ class Connections extends Component {
 
   render() {
     const { d3 } = this.state
+    const { graph } = this.props
 
     return (
-      d3 ? <ConnectionsView d3={d3} /> : <Loading />
+      d3 ? <ConnectionsView graph={graph} d3={d3} /> : <Loading />
     )
   }
 }
 
-export default Connections
+export default connect(state => ({
+  graph: state.connections.graph,
+}), null)(Connections)

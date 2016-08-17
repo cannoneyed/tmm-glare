@@ -1,8 +1,4 @@
 /* eslint-disable camelcase, no-unused-vars */
-import d3 from 'd3'
-
-import graph from './graph-data'
-
 var w = window.innerWidth
 var h = window.innerHeight
 
@@ -29,7 +25,7 @@ var key2 = true
 var key3 = true
 var key0 = true
 
-export default function createGraph(container) {
+export default function createGraph({ d3, container, graph }) {
   var color = d3.scale.linear()
     .domain([min_score, (min_score + max_score) / 2, max_score])
     .range(['lime', 'yellow', 'red'])
@@ -42,7 +38,7 @@ export default function createGraph(container) {
     .range([8, 24])
 
   var force = d3.layout.force()
-    .linkDistance(60)
+    .linkDistance(100)
     .charge(-300)
     .size([w, h])
 
