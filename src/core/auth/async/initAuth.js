@@ -6,6 +6,8 @@ import {
 import { loadAppDataAsync } from 'src/core/app'
 import { loadOrCreateUserAsync } from 'src/core/user'
 
+import * as notificationActions from 'src/core/notifications'
+
 // Called when the page loads, manages the facebook oauth redirect / login flow
 export default function initAuthAsync() {
   return (dispatch, getState) => {
@@ -24,6 +26,18 @@ export default function initAuthAsync() {
         // Otherwise, get the result of the redirect
         firebase.auth().getRedirectResult().then(result => {
           dispatch(handleRedirectResultAsync(result))
+        }).catch(err => {
+          dispatch(signInFailure())
+
+          // Depending on the error, we'll need to dispatch different messages
+          if (err.code === 'auth/account-exists-with-different-credential') {
+            const { email } = err
+            dispatch(notificationActions.addNotification({
+              message: `An account has already claimed registered for ${email}`,
+              kind: 'danger',
+              dismissAfter: 4000,
+            }))
+          }
         })
       }
     })
