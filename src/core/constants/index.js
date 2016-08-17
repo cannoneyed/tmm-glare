@@ -13,6 +13,9 @@ const trackTitles = [
   'Another Parachute Ending',
 ]
 
+const defaultMap = [37.81, -122.26, 0.1]
+
 export {
   trackTitles,
+  defaultMap,
 }
