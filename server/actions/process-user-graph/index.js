@@ -14,6 +14,11 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
 
     const connected = g.successors(userId) || []
     const own = g.node(userId)
+
+    if (!own) {
+      return resolve()
+    }
+
     const { from } = own
 
     const ownUser = userData.get(userId)
