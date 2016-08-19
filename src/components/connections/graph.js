@@ -1,4 +1,7 @@
 /* eslint-disable camelcase, no-unused-vars */
+import graph from './graph-data'
+import hammer from 'hammerjs'
+
 var w = window.innerWidth
 var h = window.innerHeight
 
@@ -25,7 +28,9 @@ var key2 = true
 var key3 = true
 var key0 = true
 
-export default function createGraph({ d3, container, graph }) {
+export default function createGraph({ d3, container }) {
+  console.log('d3 built')
+
   var color = d3.scale.linear()
     .domain([min_score, (min_score + max_score) / 2, max_score])
     .range(['lime', 'yellow', 'red'])
@@ -57,9 +62,6 @@ export default function createGraph({ d3, container, graph }) {
   var zoom = d3.behavior.zoom().scaleExtent([min_zoom, max_zoom])
   var g = svg.append('g')
 
-  svg.style('cursor', 'move')
-
-
   var linkedByIndex = {}
   graph.links.forEach(function(d) {
     linkedByIndex[d.source + ',' + d.target] = true
@@ -89,6 +91,7 @@ export default function createGraph({ d3, container, graph }) {
     .enter().append('line')
     .attr('class', 'link')
     .style('stroke-width', nominal_stroke)
+    .attr('filter', 'url(#blur)')
     .style('stroke', function(d) {
       if (isNumber(d.score) && d.score >= 0) {
         return color(d.score)
@@ -97,13 +100,24 @@ export default function createGraph({ d3, container, graph }) {
       }
     })
 
+  var filter = svg.append('defs')
+    .append('filter')
+      .attr('id', 'blur')
+    .append('feGaussianBlur')
+      .attr('stdDeviation', 1)
 
   var node = g.selectAll('.node')
     .data(graph.nodes)
     .enter().append('g')
     .attr('class', 'node')
+    .attr('filter', 'url(#blur)')
+    .on('mousedown', handleTouch)
+    .on('touchstart', handleTouch)
     .call(force.drag)
 
+  function handleTouch() {
+    d3.event.stopPropagation()
+  }
 
   node.on('dblclick.zoom', function(d) {
     d3.event.stopPropagation()
@@ -162,7 +176,7 @@ export default function createGraph({ d3, container, graph }) {
   }
 
   node
-    .on('mouseover', function(d) {
+    .on('tap', function(d) {
       set_highlight(d)
     })
     .on('mousedown', function(d) {
@@ -176,6 +190,7 @@ export default function createGraph({ d3, container, graph }) {
     .on('mouseout', function(d) {
       exit_highlight()
     })
+
 
   d3.select(window)
     .on('mouseup', function() {

@@ -19,6 +19,7 @@ class Menu extends Component {
   static propTypes = {
     history: PropTypes.array,
     isSidebarOpen: PropTypes.bool.isRequired,
+    isTouchFixed: PropTypes.bool.isRequired,
     signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     unlockAllTracks: PropTypes.func.isRequired,
@@ -62,14 +63,26 @@ class Menu extends Component {
   }
 
   render() {
-    const { unreadJournalCount, user } = this.props
+    const { unreadJournalCount, user, isTouchFixed } = this.props
     const hasAccess = user && user.hasAccess
+
+    // When touch events are being converted to clicks (ie for the connections page),
+    // we'll need to use a different handler
+    const clickOrTouch = isTouchFixed ? 'onMouseUp' : 'onClick'
+    const hideButtonHandler = { [clickOrTouch]: this.hideSidebar }
+    const giveButtonHandler = { [clickOrTouch]: this.linkTo('connect') }
+    const listenButtonHandler = { [clickOrTouch]: this.linkTo('listen') }
+    const connectionsButtonHandler = { [clickOrTouch]: this.linkTo('connections') }
+    const journalButtonHandler = { [clickOrTouch]: this.linkTo('journal') }
+    const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
+    const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
+    const unlockButtonHandler = { [clickOrTouch]: this.unlockAllTracks }
 
     return (
       <div className="sidebar-menu-container">
         <RippleButton
           className="sidebar-menu-item menu-close"
-          onClick={this.hideSidebar}>
+          {...hideButtonHandler}>
           <Icon type={'close'} size={35} />
         </RippleButton>
 
@@ -79,7 +92,7 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={this.linkTo('connect')}>
+          {...giveButtonHandler}>
           {hasAccess ? 'Give' : 'Connect'}
           <Icon type={'give'} />
         </RippleButton>
@@ -87,7 +100,7 @@ class Menu extends Component {
         { hasAccess ?
           <RippleButton
             className="sidebar-menu-item"
-            onClick={this.linkTo('listen')}>
+            {...listenButtonHandler}>
             Listen
             <Icon type={'listen'} />
           </RippleButton>
@@ -96,7 +109,7 @@ class Menu extends Component {
         { hasAccess ?
           <RippleButton
             className="sidebar-menu-item"
-            onClick={this.linkTo('connections')}>
+            {...connectionsButtonHandler}>
             Connections
             <Icon type={'connections'} />
           </RippleButton>
@@ -105,7 +118,7 @@ class Menu extends Component {
         { hasAccess ?
           <RippleButton
             className="sidebar-menu-item"
-            onClick={this.linkTo('journal')}>
+            {...journalButtonHandler}>
             Journal
             { unreadJournalCount ?
               <div className="journal-sidebar-count">{unreadJournalCount}</div> :
@@ -115,14 +128,14 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={this.linkTo('about')}>
+          {...aboutButtonHandler}>
           About
           <Icon type={'globe'} />
         </RippleButton>
 
         <RippleButton
           className="sidebar-menu-item"
-          onClick={this.signOutAsync}>
+          {...signOutButtonHandler}>
           Sign Out
           <Icon type={'sign-out'} />
         </RippleButton>
@@ -130,7 +143,7 @@ class Menu extends Component {
         {hasAccess ?
           <RippleButton
             className="sidebar-menu-item unlock"
-            onClick={this.unlockAllTracks}>
+            {...unlockButtonHandler}>
             Unlock
             <Icon type={'key'} />
           </RippleButton>
@@ -145,6 +158,7 @@ export default connect(state => ({
   auth: state.auth,
   history: state.history,
   isSidebarOpen: state.app.isSidebarOpen,
+  isTouchFixed: state.app.isTouchFixed,
   unreadJournalCount: getUnreadJournalCount(state),
   user: state.user,
 }), {

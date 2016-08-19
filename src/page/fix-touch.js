@@ -28,6 +28,8 @@ function touchHandler(event) {
                                 first.clientX, first.clientY, false,
                                 false, false, false, 0/* left */, null)
 
+  console.log('🐸')
+
   first.target.dispatchEvent(simulatedEvent)
   event.preventDefault()
 }

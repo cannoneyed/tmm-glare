@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { fixTouchOn, fixTouchOff } from 'src/page/fix-touch'
 
 import createGraph from './graph'
 
@@ -15,23 +14,10 @@ class ConnectionsView extends Component {
     setTouchFixed: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
-    const { setTouchFixed } = this.props
-    fixTouchOn()
-    return setTouchFixed(true)
-  }
-
   componentDidMount() {
     const { graph, d3 } = this.props
     const container = ReactDOM.findDOMNode(this._graph)
     createGraph({ d3, container, graph })
-  }
-
-  componentWillUnmount() {
-    const { setTouchFixed } = this.props
-    fixTouchOff()
-    return setTouchFixed(false)
-
   }
 
   render() {
