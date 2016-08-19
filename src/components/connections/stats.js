@@ -20,7 +20,7 @@ const Stats = (props) => {
         }}>
         <Icon type="world" />
         {renderSpan('description', 'Farthest reach:')}
-        {renderSpan('number', `${maxDistance.toFixed(2)} mi`)}
+        {renderSpan('number', `${(maxDistance).toFixed(2)} mi`)}
       </RippleButton>
       <RippleButton
         className="connections-statistic"
@@ -52,6 +52,6 @@ Stats.propTypes = {
 
 export default connect(state => ({
   total: state.connections.stats.total,
-  maxDistance: state.connections.stats.maxDistance,
-  sharedWith: Object.keys(state.user.connections).length,
+  maxDistance: state.connections.stats.maxDistance || 0,
+  sharedWith: Object.keys(state.user.connections || {}).length,
 }), null)(Stats)
