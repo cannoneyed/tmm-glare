@@ -1,11 +1,11 @@
 import * as util from 'src/util'
 
 import {
-  setConnectionGraph,
-  setIsProcessingGraph,
+  setConnectionStats,
+  setIsProcessingStats,
 } from '../index'
 
-export default function loadConnectionGraph() {
+export default function loadConnectionStats() {
   return (dispatch, getState) => {
     const { auth, firebase } = getState()
 
@@ -22,17 +22,17 @@ export default function loadConnectionGraph() {
       // Add the USER_GRAPH job to the queue
       const tasksRef = firebase.database().ref('queue/tasks')
       tasksRef.push({
-        type: 'USER_GRAPH',
+        type: 'USER_STATS',
         userId,
       })
-      dispatch(setIsProcessingGraph(true))
+      dispatch(setIsProcessingStats(true))
     })
     .then(() => {
-      // Set up the listener for loading the userGraph
-      firebase.database().ref().child(`userGraph/${userId}`).on('value', snapshot => {
+      // Set up the listener for loading the userStats
+      firebase.database().ref().child(`userStats/${userId}`).on('value', snapshot => {
         const stats = util.recordFromSnapshot(snapshot)
         if (stats !== null) {
-          dispatch(setConnectionGraph(stats))
+          dispatch(setConnectionStats(stats))
         }
       })
     })

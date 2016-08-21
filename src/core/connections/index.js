@@ -1,28 +1,37 @@
-export const SET_CONNECTION_GRAPH = 'connections/SET_CONNECTION_GRAPH'
-export const SET_IS_PROCESSING_GRAPH = 'connections/SET_IS_PROCESSING_GRAPH'
+export const SET_CONNECTION_STATS = 'connections/SET_CONNECTION_STATS'
+export const SET_IS_PROCESSING_STATS = 'connections/SET_IS_PROCESSING_STATS'
+export const SET_IS_GRAPH_LOADING = 'connections/SET_IS_GRAPH_LOADING'
+export const SET_GRAPH = 'SET_GRAPH'
 
 export const initialState = {
-  isGraphProcessing: false,
   isGraphLoaded: false,
-  graph: {
-    links: [],
-    nodes: [],
-  },
+  isGraphLoading: false,
+  isStatsProcessing: false,
+  isStatsLoaded: false,
   stats: {},
-  from: null,
+  graph: null,
 }
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
 
-    case SET_IS_PROCESSING_GRAPH:
+    case SET_IS_GRAPH_LOADING:
+      return { ...state, isGraphLoading: action.payload }
+    case SET_IS_PROCESSING_STATS:
       return { ...state, isGraphProcessing: action.payload }
-    case SET_CONNECTION_GRAPH:
+    case SET_CONNECTION_STATS:
       return {
         ...state,
-        ...action.payload,
+        stats: action.payload,
+        isStatsLoaded: true,
+        isStatsProcessing: false,
+      }
+    case SET_GRAPH:
+      return {
+        ...state,
+        graph: action.payload,
         isGraphLoaded: true,
-        isGraphProcessing: false,
+        isGraphLoading: false,
       }
     default:
       return state
@@ -30,12 +39,20 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action creators
-export function setConnectionGraph(data) {
-  return { type: SET_CONNECTION_GRAPH, payload: data }
+export function setConnectionStats(data) {
+  return { type: SET_CONNECTION_STATS, payload: data }
 }
 
-export function setIsProcessingGraph(isProcessing) {
-  return { type: SET_IS_PROCESSING_GRAPH, payload: isProcessing }
+export function setIsProcessingStats(isProcessing) {
+  return { type: SET_IS_PROCESSING_STATS, payload: isProcessing }
+}
+
+export function setIsGraphLoading(isLoading) {
+  return { type: SET_IS_GRAPH_LOADING, payload: isLoading }
+}
+
+export function setGraph(graph) {
+  return { type: SET_GRAPH, payload: graph }
 }
 
 // Async Actions
