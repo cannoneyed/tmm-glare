@@ -1,5 +1,5 @@
 /* eslint-disable camelcase, no-unused-vars */
-import graph from './graph-data'
+import processGraph from './process-graph'
 import hammer from 'hammerjs'
 
 var w = window.innerWidth
@@ -14,22 +14,8 @@ var outline = false
 var min_score = 0
 var max_score = 1
 
-var keyc = true
-var keys = true
-var keyt = true
-var keyr = true
-var keyx = true
-var keyd = true
-var keyl = true
-var keym = true
-var keyh = true
-var key1 = true
-var key2 = true
-var key3 = true
-var key0 = true
-
-export default function createGraph({ d3, container }) {
-  console.log('d3 built')
+export default function createGraph({ graph, d3, container }) {
+  const graphData = processGraph(graph)
 
   var color = d3.scale.linear()
     .domain([min_score, (min_score + max_score) / 2, max_score])
@@ -63,7 +49,7 @@ export default function createGraph({ d3, container }) {
   var g = svg.append('g')
 
   var linkedByIndex = {}
-  graph.links.forEach(function(d) {
+  graphData.links.forEach(function(d) {
     linkedByIndex[d.source + ',' + d.target] = true
   })
 
@@ -82,12 +68,12 @@ export default function createGraph({ d3, container }) {
   }
 
   force
-    .nodes(graph.nodes)
-    .links(graph.links)
+    .nodes(graphData.nodes)
+    .links(graphData.links)
     .start()
 
   var link = g.selectAll('.link')
-    .data(graph.links)
+    .data(graphData.links)
     .enter().append('line')
     .attr('class', 'link')
     .style('stroke-width', nominal_stroke)
@@ -107,7 +93,7 @@ export default function createGraph({ d3, container }) {
       .attr('stdDeviation', 1)
 
   var node = g.selectAll('.node')
-    .data(graph.nodes)
+    .data(graphData.nodes)
     .enter().append('g')
     .attr('class', 'node')
     .attr('filter', 'url(#blur)')
@@ -156,14 +142,14 @@ export default function createGraph({ d3, container }) {
 
 
   var text = g.selectAll('.text')
-    .data(graph.nodes)
+    .data(graphData.nodes)
     .enter().append('text')
     .attr('dy', '.35em')
     .style('font-size', nominal_text_size + 'px')
 
   if (text_center) {
     text.text(function(d) {
-      return d.id
+      return d.name
     })
     .style('text-anchor', 'middle')
   } else {
@@ -171,7 +157,7 @@ export default function createGraph({ d3, container }) {
       return size(d.size) || nominal_base_node_size
     })
     .text(function(d) {
-      return '\u2002' + d.id
+      return '\u2002' + d.name
     })
   }
 
@@ -364,20 +350,17 @@ export default function createGraph({ d3, container }) {
   })
 
   node.style('display', function(d) {
-    return (key0 || hasConnections(d))
-      && vis_by_type(d.type)
+    return vis_by_type(d.type)
       && vis_by_node_score(d.score) ? 'inline' : 'none'
   })
 
   text.style('display', function(d) {
-    return (key0 || hasConnections(d))
-      && vis_by_type(d.type)
+    return vis_by_type(d.type)
       && vis_by_node_score(d.score) ? 'inline' : 'none'
   })
 
   if (highlight_node !== null) {
-    const condition = (key0 || hasConnections(highlight_node))
-      && vis_by_type(highlight_node.type)
+    const condition = vis_by_type(highlight_node.type)
       && vis_by_node_score(highlight_node.score)
 
     if (condition) {
@@ -391,41 +374,15 @@ export default function createGraph({ d3, container }) {
   }
 }
 
-function vis_by_type(type) {
-  switch (type) {
-    case 'circle': return keyc
-    case 'square': return keys
-    case 'triangle-up': return keyt
-    case 'diamond': return keyr
-    case 'cross': return keyx
-    case 'triangle-down': return keyd
-    default: return true
-  }
-}
-
-function vis_by_node_score(score) {
-  if (isNumber(score)) {
-    if (score >= 0.666) {
-      return keyh
-    } else if (score >= 0.333) {
-      return keym
-    } else if (score >= 0) {
-      return keyl
-    }
-  }
+function vis_by_type() {
   return true
 }
 
-function vis_by_link_score(score) {
-  if (isNumber(score)) {
-    if (score >= 0.666) {
-      return key3
-    } else if (score >= 0.333) {
-      return key2
-    } else if (score >= 0) {
-      return key1
-    }
-  }
+function vis_by_node_score() {
+  return true
+}
+
+function vis_by_link_score() {
   return true
 }
 

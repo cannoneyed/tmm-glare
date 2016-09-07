@@ -34,10 +34,10 @@ export default function loadInitialGraph() {
       g.setNode(ownId, user)
 
       // Process connections of the root user
-      const connectedUsers = yield processUser(user, ownId)
+      yield processUser(user, ownId)
 
       // Process the next step of connected users
-      yield P.map(connectedUsers, user => processUser(user, user.key))
+      // yield P.map(connectedUsers, user => processUser(user, user.key))
 
       dispatch(setGraph(g))
     })()
