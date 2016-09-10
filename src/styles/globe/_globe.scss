@@ -12,7 +12,7 @@
 }
 
 .globe-underlay {
-  z-index: 1;
+  z-index: $z-globe-underlay;
   background-color: transparent;
   position: absolute;
   min-width: 100%;

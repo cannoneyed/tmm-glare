@@ -3,7 +3,7 @@
 //===================================================================
 
 .footer {
-  z-index: 2;
+  z-index: $z-footer;
   position: relative;
   bottom: 0px;
   min-width: 100%;

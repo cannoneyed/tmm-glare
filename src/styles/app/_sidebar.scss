@@ -6,7 +6,7 @@
 }
 
 .sidebar-container {
-  z-index: 100;
+  z-index: $z-sidebar;
   min-height: vh;
   width: 100%;
   position: relative;
@@ -17,7 +17,7 @@
 
 .sidebar-menu-container {
   padding-top: $header-height / 5;
-  z-index: 100;
+  z-index: $z-sidebar;
   height: 100%;
   width: 100%;
   display: flex;
@@ -79,7 +79,7 @@
     border-radius: 15px;
     border: 1px solid $purple;
     color: $purple;
-    z-index: 901;
+    z-index: $z-sidebar-journal-count;
   }
 }
 

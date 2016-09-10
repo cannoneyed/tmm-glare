@@ -3,7 +3,7 @@
 //===================================================================
 
 .header {
-  z-index: 2;
+  z-index: $z-header;
   position: fixed;
   top: 0px;
 

@@ -2,7 +2,7 @@ $loading-height: 100px !default;
 $connecting-size: 60px;
 
 .loader-overlay {
-  z-index: 100;
+  z-index: $z-loader-overlay;
   -webkit-transform: translate3d(0,0,100px);
   transform: translate3d(0,0,100px);
   min-width: 100%;
@@ -10,7 +10,7 @@ $connecting-size: 60px;
 }
 
 .loader-underlay {
-  z-index: 2;
+  z-index: $z-loader-underlay;
   background-color: transparent;
   -webkit-transform: translate3d(0,0,1px);
   transform: translate3d(0,0,1px);

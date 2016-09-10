@@ -15,7 +15,7 @@ const initialState = {
   isSidebarOpen: false,
   hasViewedIntro: false,
   isTouchFixed: false,
-  showModal: false,
+  isModalOpen: false,
   background: 0,
 }
 
@@ -34,9 +34,9 @@ export default function reducer(state = initialState, action = {}) {
       return { ...state, hasViewedIntro }
     }
     case CLOSE_MODAL:
-      return { ...state, showModal: false }
+      return { ...state, isModalOpen: false }
     case OPEN_MODAL:
-      return { ...state, showModal: true }
+      return { ...state, isModalOpen: true }
     case SET_BACKGROUND:
       return { ...state, background: action.payload }
     case SET_TOUCH_FIXED:

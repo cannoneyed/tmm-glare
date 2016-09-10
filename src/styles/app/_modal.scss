@@ -1,0 +1,55 @@
+$modal-margin: 20px;
+
+.app-modal-overlay {
+  z-index: $z-modal-overlay;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  perspective: 600;
+  opacity: 0;
+}
+
+.app-modal {
+  position: absolute;
+  top: $modal-margin;
+  left: $modal-margin;
+  right: $modal-margin;
+  bottom: $modal-margin;
+  border: 1px solid #ccc;
+  background: $base-background-color;
+  overflow: auto;
+  border-radius: 4px;
+  outline: none;
+  padding: 20px;
+  transform: scale(0.5) rotateX(-30deg);
+
+  >div.app-modal-close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+  transition: opacity 150ms ease-out;
+}
+
+.ReactModal__Content--after-open {
+  -webkit-transform: scale(1) rotateX(0deg);
+  transform: scale(1) rotateX(0deg);
+  transition: all 150ms ease-in;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--before-close {
+  -webkit-transform: scale(0.5) rotateX(30deg);
+  transform: scale(0.5) rotateX(30deg);
+  transition: all 150ms ease-in;
+}

@@ -3,7 +3,7 @@
   top: $header-height + 10px;
   right: 0;
   left: 0;
-  z-index: 1000;
+  z-index: $z-notifications;
   width: 80%;
   max-width: 400;
   margin: auto;

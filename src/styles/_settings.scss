@@ -23,3 +23,21 @@ $bright-font-color: #ddd !default;
 $grid-max-width: 810px !default;
 $header-height: 70px;
 $footer-height: 60px;
+
+
+//===============================================
+//  Z-INDEXING
+//===============================================
+$z-main: 1;
+$z-globe-underlay: 1;
+$z-footer: 2;
+$z-header: 2;
+$z-loader-underlay: 2;
+$z-intro-container: 10;
+$z-action-buttons: 10;
+$z-connections-container: 11;
+$z-sidebar: 100;
+$z-loader-overlay: 100;
+$z-sidebar-journal-count: 901;
+$z-notifications: 1000;
+$z-modal-overlay: 2000;

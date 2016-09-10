@@ -6,7 +6,7 @@
 }
 
 .intro-container {
-  z-index: 10;
+  z-index: $z-intro-container;
   min-width: 100%;
   max-width: 100%;
   overflow-x: hidden;
