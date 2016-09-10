@@ -2,6 +2,8 @@ import P from 'bluebird'
 import _ from 'lodash'
 import * as util from 'src/util'
 
+import { firebase, geofire } from 'src/firebase'
+
 import {
   registerGeoquery,
   removeBeacon,
@@ -76,7 +78,7 @@ function handleGeolocationErrorAsync(err) {
 function createOwnBeaconAsync({ coords, timestamp }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
-    const { auth, firebase, geofire, connect } = getState()
+    const { auth, connect } = getState()
 
     // Check to ensure the connect action has not been canceled
     if (!connect.isConnecting) {
@@ -99,7 +101,7 @@ function createOwnBeaconAsync({ coords, timestamp }) {
 function findBeaconsAsync({ coords }) {
   const { latitude, longitude } = coords
   return (dispatch, getState) => {
-    const { geofire, connect } = getState()
+    const { connect } = getState()
 
     // Check to ensure the connect action has not been canceled
     if (!connect.isConnecting) {
@@ -116,7 +118,7 @@ function findBeaconsAsync({ coords }) {
 
     // Register event listener for finding a beacon by the geoquery
     geoquery.on('key_entered', (key) => {
-      const { auth, firebase, user } = getState()
+      const { auth, user } = getState()
       const isConnected = _.get(user, ['connections', key])
 
       // Ignore the user's beacon and any beacons of users the user is already

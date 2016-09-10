@@ -1,4 +1,5 @@
 import * as util from 'src/util'
+import { firebase } from 'src/firebase'
 
 import * as notificationActions from 'src/core/notifications'
 import { REQUEST_ACCESS, CONNECTION_FAILED, messageReceived } from '../index'
@@ -7,7 +8,7 @@ import { connectError } from '../../connect/'
 
 export default function registerMessageListenerAsync() {
   return (dispatch, getState) => {
-    const { firebase, user } = getState()
+    const { user } = getState()
     const db = firebase.database().ref()
 
     // Clear out the message queue before subscribing

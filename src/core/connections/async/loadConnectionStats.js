@@ -1,4 +1,5 @@
 import * as util from 'src/util'
+import { firebase } from 'src/firebase'
 
 import {
   setConnectionStats,
@@ -7,7 +8,7 @@ import {
 
 export default function loadConnectionStats() {
   return (dispatch, getState) => {
-    const { auth, firebase } = getState()
+    const { auth } = getState()
 
     const db = firebase.database().ref()
     const userId = auth.id

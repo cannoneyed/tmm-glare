@@ -4,7 +4,7 @@ import dateFormat from 'dateformat'
 
 import { TRACK_UNLOCKED } from 'src/core/journal/types'
 
-import { trackTitles } from 'src/core/constants'
+import { trackTitles } from 'src/constants'
 
 
 const EntryContent = (props) => {

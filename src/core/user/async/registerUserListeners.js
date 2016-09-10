@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import P from 'bluebird'
 import * as util from 'src/util'
+import { firebase } from 'src/firebase'
 
 import {
   updateAccess,
@@ -15,8 +16,6 @@ import * as notificationActions from 'src/core/notifications'
 
 export default function registerUserListenersAsync(userId) {
   return (dispatch, getState) => {
-    const { firebase } = getState()
-
     // Register the user access listener
     firebase.database().ref().child(`users/${userId}/hasAccess`).on('value', snapshot => {
       const { user } = getState()
@@ -52,9 +51,7 @@ export default function registerUserListenersAsync(userId) {
 }
 
 function displayConnectionNotificationAsync(id) {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
-
+  return (dispatch) => {
     firebase.database().ref().child(`users/${id}`).once('value', snapshot => {
       const connectedUser = util.recordFromSnapshot(snapshot)
 

@@ -1,5 +1,6 @@
 import P from 'bluebird'
 import * as util from 'src/util'
+import { firebase } from 'src/firebase'
 
 import graphlib from 'graphlib'
 const g = new graphlib.Graph({ directed: true })
@@ -7,8 +8,6 @@ const g = new graphlib.Graph({ directed: true })
 import {
   setGraph,
 } from '../index'
-
-let firebase
 
 const processUser = P.coroutine(function* processUser(user, ownId) {
   const connectionIds = getConnectionIds(user)
@@ -27,7 +26,6 @@ const processUser = P.coroutine(function* processUser(user, ownId) {
 export default function loadInitialGraph() {
   return (dispatch, getState) => {
     const { user, auth } = getState()
-    firebase = getState().firebase
 
     return P.coroutine(function* loadGraphData() {
       const ownId = auth.id

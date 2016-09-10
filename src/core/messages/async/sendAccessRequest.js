@@ -1,10 +1,11 @@
+import { firebase } from 'src/firebase'
 import * as notificationActions from 'src/core/notifications'
 
 import { REQUEST_ACCESS, messageSent } from '../index'
 
 export default function sendMessageAsync(recipient) {
   return (dispatch, getState) => {
-    const { firebase, user } = getState()
+    const { user } = getState()
 
     const message = {
       from: user,

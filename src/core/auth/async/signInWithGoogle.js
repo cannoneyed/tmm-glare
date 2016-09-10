@@ -1,9 +1,9 @@
 import Firebase from 'firebase'
+import { firebase } from 'src/firebase'
 
 // Manage the sign in with google flow (sign in button handler)
 export default function signInWithGoogleAsync() {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
+  return () => {
 
     const provider = new Firebase.auth.GoogleAuthProvider()
     provider.addScope('email')

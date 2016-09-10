@@ -1,9 +1,9 @@
 import Firebase from 'firebase'
+import { firebase } from 'src/firebase'
 
 // Manage the sign in with facebook flow (sign in button handler)
 export default function signInWithFacebookAsync() {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
+  return () => {
 
     const provider = new Firebase.auth.FacebookAuthProvider()
     provider.addScope('email')

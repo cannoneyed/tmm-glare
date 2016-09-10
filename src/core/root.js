@@ -5,7 +5,6 @@ import appReducer from './app'
 import authReducer from './auth'
 import connectReducer from './connect'
 import connectionsReducer from './connections'
-import { firebaseReducer, geofireReducer } from './firebase'
 import globeReducer from './globe'
 import historyReducer from './history'
 import journalReducer from './journal'
@@ -21,8 +20,6 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   connect: connectReducer,
   connections: connectionsReducer,
-  firebase: firebaseReducer,
-  geofire: geofireReducer,
   globe: globeReducer,
   history: historyReducer,
   journal: journalReducer,

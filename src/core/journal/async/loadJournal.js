@@ -1,13 +1,13 @@
 import _ from 'lodash'
 import * as util from 'src/util'
+import { firebase } from 'src/firebase'
 
 import { setJournal } from '../index'
 import { TRACK_UNLOCKED } from '../types'
 import { unlockTracks } from 'src/core/listen'
 
 export default function loadJournalAsync() {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
+  return (dispatch) => {
 
     // Fetch the journal entries
     firebase.database().ref().child('journal').once('value', snapshot => {

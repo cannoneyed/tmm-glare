@@ -1,13 +1,12 @@
 import * as util from 'src/util'
+import { firebase } from 'src/firebase'
 
 import {
   trackUserVisitAsync,
 } from '../index'
 
 export default function loadOrCreateUserAsync(authUser) {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
-
+  return (dispatch) => {
     const db = firebase.database().ref()
 
     // Lookup existing user object

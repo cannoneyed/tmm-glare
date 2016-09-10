@@ -1,5 +1,6 @@
 import P from 'bluebird'
 import * as util from 'src/util'
+import { firebase } from 'src/firebase'
 
 import {
   loadUser,
@@ -7,9 +8,7 @@ import {
 } from '../index'
 
 export default function getUserDataAsync(userId) {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
-
+  return (dispatch) => {
     return P.resolve()
     .then(() => {
       // Load user Data

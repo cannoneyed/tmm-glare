@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { firebase } from 'src/firebase'
 
 import {
   loadPlayer,
@@ -11,8 +12,7 @@ import SoundCloudAudio from '../soundcloud-audio'
 import * as loadingActions from 'src/core/loading'
 
 export default function loadPlayerData() {
-  return (dispatch, getState) => {
-    const { firebase } = getState()
+  return (dispatch) => {
 
     dispatch(loadingActions.setLoading(true))
 
