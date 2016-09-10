@@ -4,7 +4,6 @@ import * as util from 'src/util'
 import {
   loadUser,
   registerUserListenersAsync,
-  trackUserVisitAsync,
 } from '../index'
 
 export default function getUserDataAsync(userId) {
@@ -17,9 +16,6 @@ export default function getUserDataAsync(userId) {
       return firebase.database().ref().child(`users/${userId}`).once('value', snapshot => {
         const user = util.recordFromSnapshot(snapshot)
         dispatch(loadUser(user))
-
-        // Now track the visit to the user
-        return dispatch(trackUserVisitAsync(user))
       })
     })
     .then(() => {
