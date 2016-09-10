@@ -12,7 +12,8 @@ import {
   connectSuccess,
 } from '../../connect/index'
 
-import * as notificationActions from 'src/core/notifications'
+import * as modalActions from 'src/core/modals'
+const modalTypes = modalActions // Alias for the imported actions
 
 export default function registerUserListenersAsync(userId) {
   return (dispatch, getState) => {
@@ -56,14 +57,13 @@ function displayConnectionNotificationAsync(id) {
       const connectedUser = util.recordFromSnapshot(snapshot)
 
       const didGive = Object.keys(connectedUser.connections).length <= 1
-      const message = didGive ?
-        `Gave access to ${connectedUser.displayName}` :
-        `${connectedUser.displayName} gave you access`
+      const kind = didGive ? modalTypes.DID_GIVE : modalTypes.DID_RECEIVE
 
-      dispatch(notificationActions.addNotification({
-        message,
-        kind: 'success',
-        dismissAfter: 5000,
+      dispatch(modalActions.showModal({
+        kind,
+        data: {
+          connectedUser,
+        }
       }))
     })
   }

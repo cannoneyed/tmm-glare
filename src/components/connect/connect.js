@@ -97,12 +97,12 @@ export class Connect extends Component {
           <div className="action-buttons">
             <Beacons />
             <ShareButton hasAccess={hasAccess} />
-            <h1
+            <h5
               onClick={() => {
                 openModal()
               }}>
               FUCK YOU
-            </h1>
+            </h5>
           </div>
         }
       </div>
