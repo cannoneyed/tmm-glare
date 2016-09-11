@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { toggleSidebar } from 'src/core/app'
 import { browserHistory } from 'react-router'
 
-import { canGoBack } from 'src/core/history/selectors'
-import { hideHeader } from 'src/core/app/selectors'
+import { canGoBack } from 'src/core/selectors/history'
+import { hideHeader } from 'src/core/selectors/app'
 
 import Icon from '../shared/icon'
 

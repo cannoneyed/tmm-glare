@@ -1,4 +1,4 @@
-import { getCurrentPage } from '../history/selectors'
+import { getCurrentPage } from './history'
 
 export function hideHeader(state) {
   const { history, app } = state

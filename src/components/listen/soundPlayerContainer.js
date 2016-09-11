@@ -3,7 +3,7 @@ import { stopAllOther, addToPlayedStore } from './utils/audioStore.js'
 import { connect } from 'react-redux'
 
 import * as listenActions from 'src/core/listen'
-import { getNextUnlockedTrack } from 'src/core/listen/selectors'
+import { getNextUnlockedTrack } from 'src/core/selectors/listen'
 
 let { PropTypes, Component } = React
 

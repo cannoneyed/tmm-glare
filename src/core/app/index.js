@@ -1,8 +1,6 @@
 // Actions
 const TOGGLE_SIDEBAR = 'app/TOGGLE_SIDEBAR'
 const FINISH_INTRO = 'app/FINISH_INTRO'
-const CLOSE_MODAL = 'app/CLOSE_MODAL'
-const OPEN_MODAL = 'app/OPEN_MODAL'
 const SET_BACKGROUND = 'app/SET_BACKGROUND'
 const SET_TOUCH_FIXED = 'app/SET_TOUCH_FIXED'
 
@@ -15,7 +13,6 @@ const initialState = {
   isSidebarOpen: false,
   hasViewedIntro: false,
   isTouchFixed: false,
-  isModalOpen: false,
   background: 0,
 }
 
@@ -33,10 +30,6 @@ export default function reducer(state = initialState, action = {}) {
       const hasViewedIntro = user.visits > 0
       return { ...state, hasViewedIntro }
     }
-    case CLOSE_MODAL:
-      return { ...state, isModalOpen: false }
-    case OPEN_MODAL:
-      return { ...state, isModalOpen: true }
     case SET_BACKGROUND:
       return { ...state, background: action.payload }
     case SET_TOUCH_FIXED:
@@ -53,14 +46,6 @@ export function toggleSidebar(isOpen) {
 
 export function finishIntro() {
   return { type: FINISH_INTRO }
-}
-
-export function closeModal() {
-  return { type: CLOSE_MODAL }
-}
-
-export function openModal() {
-  return { type: OPEN_MODAL }
 }
 
 export function setEmptyBackground() {

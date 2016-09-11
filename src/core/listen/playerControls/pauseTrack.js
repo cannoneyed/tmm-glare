@@ -4,7 +4,7 @@ import {
 
 import {
   getSoundCloudAudio,
-} from '../selectors'
+} from 'src/core/selectors/listen'
 
 export default function pauseTrack() {
   return (dispatch, getState) => {

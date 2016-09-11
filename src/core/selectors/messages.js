@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { REQUEST_ACCESS } from './index'
+import { REQUEST_ACCESS } from '../messages'
 
 // See if a given user key has asked you for access to the album
 export function hasAskedForAccess(key, messages) {

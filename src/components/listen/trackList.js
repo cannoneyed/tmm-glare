@@ -10,7 +10,7 @@ import { Icon, RippleButton } from '../shared'
 import TrackInfo from './trackInfo'
 
 import * as listenActions from 'src/core/listen'
-import { isTrackUnlocked } from 'src/core/listen/selectors'
+import { isTrackUnlocked } from 'src/core/selectors/listen'
 
 class TrackList extends Component {
   static propTypes = {

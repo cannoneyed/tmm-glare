@@ -6,7 +6,7 @@ import _ from 'lodash'
 import RippleButton from '../shared/rippleButton'
 import * as connectActions from 'src/core/connect'
 import * as messageActions from 'src/core/messages'
-import { hasAskedForAccess, hasBeenAskedForAccess } from 'src/core/messages/selectors'
+import { hasAskedForAccess, hasBeenAskedForAccess } from 'src/core/selectors/messages'
 
 const Beacons = (props) => {
   const {

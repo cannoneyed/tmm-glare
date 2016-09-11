@@ -8,7 +8,7 @@ import UserCard from './userCard'
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
 import { unlockAllTracks } from 'src/core/listen'
-import { getUnreadJournalCount } from 'src/core/journal/selectors'
+import { getUnreadJournalCount } from 'src/core/selectors/journal'
 
 class Menu extends Component {
 

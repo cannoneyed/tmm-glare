@@ -1,3 +1,7 @@
+const app = {
+  maximumGives: 5,
+}
+
 const trackTitles = [
   'Blind ft. Luisa Gernstein',
   'Voyeur',
@@ -15,7 +19,8 @@ const trackTitles = [
 
 const defaultMap = [37.81, -122.26, 0.1]
 
-export {
+export default {
+  app,
   trackTitles,
   defaultMap,
 }

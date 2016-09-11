@@ -59,7 +59,7 @@ function displayConnectionNotificationAsync(id) {
       const didGive = Object.keys(connectedUser.connections).length <= 1
       const kind = didGive ? modalTypes.DID_GIVE : modalTypes.DID_RECEIVE
 
-      dispatch(modalActions.showModal({
+      dispatch(modalActions.openModal({
         kind,
         data: {
           connectedUser,

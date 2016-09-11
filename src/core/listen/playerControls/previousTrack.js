@@ -2,7 +2,7 @@ import playTrackAtIndex from './playTrackAtIndex'
 import goToTrackAtIndex from './goToTrackAtIndex'
 import seekToBeginning from './seekToBeginning'
 
-import { getPreviousUnlockedTrack } from 'src/core/listen/selectors'
+import { getPreviousUnlockedTrack } from 'src/core/selectors/listen'
 
 export default function previousTrack() {
   return (dispatch, getState) => {

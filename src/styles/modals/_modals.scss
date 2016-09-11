@@ -20,16 +20,44 @@ $modal-margin: 20px;
   bottom: $modal-margin;
   border: 1px solid #ccc;
   background: $base-background-color;
+  opacity: 0.9;
   overflow: auto;
   border-radius: 4px;
   outline: none;
   padding: 20px;
   transform: scale(0.5) rotateX(-30deg);
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
   >div.app-modal-close {
     position: absolute;
     top: 0px;
     right: 0px;
+  }
+}
+
+.give-notification-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  font-size: rem(20px);
+
+  >.give-message {
+    margin-bottom: 20px;
+    >.give-name {
+      font-weight: bold;
+    }
+  }
+
+  >.remaining-message {
+    font-size: rem(18px);
   }
 }
 

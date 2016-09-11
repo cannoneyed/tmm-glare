@@ -1,7 +1,7 @@
 import playTrackAtIndex from './playTrackAtIndex'
 import goToTrackAtIndex from './goToTrackAtIndex'
 
-import { getNextUnlockedTrack } from 'src/core/listen/selectors'
+import { getNextUnlockedTrack } from 'src/core/selectors/listen'
 
 export default function nextTrack() {
   return (dispatch, getState) => {

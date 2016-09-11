@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import * as globeActions from 'src/core/globe'
 import * as messageActions from 'src/core/messages'
 import * as appActions from 'src/core/app'
+import * as modalActions from 'src/core/modals'
 
 import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'
@@ -120,6 +121,6 @@ export default connect(state => ({
   loadGlobeDataAsync: globeActions.loadGlobeDataAsync,
   registerMessageListenerAsync: messageActions.registerMessageListenerAsync,
   setEmptyBackground: appActions.setEmptyBackground,
-  openModal: appActions.openModal,
+  openModal: modalActions.dummyOpenModal,
   unregisterMessageListenerAsync: messageActions.unregisterMessageListenerAsync,
 })(Connect)

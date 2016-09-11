@@ -5,10 +5,27 @@ import Modal from 'react-modal'
 
 import { Icon } from '../shared'
 
-import * as appActions from 'src/core/app'
+import * as modalActions from 'src/core/modals'
+const modalTypes = modalActions
+
+import GiveNotificationContent from './giveNotificationContent'
+import ReceiveNotificationContent from './receiveNotificationContent'
 
 const ModalManager = (props) => {
-  const { closeModal, isModalOpen } = props
+  const {
+    closeModal,
+    data,
+    isModalOpen,
+    kind
+  } = props
+
+  let Content
+  if (kind === modalTypes.DID_GIVE) {
+    Content = <GiveNotificationContent data={data} />
+  } else if (kind === modalTypes.DID_RECEIVE) {
+    Content = <ReceiveNotificationContent data={data} />
+  }
+
 
   return (
     <ReactCSSTransitionGroup
@@ -26,7 +43,7 @@ const ModalManager = (props) => {
           onClick={ closeModal }>
           <Icon type={'close'} size={35} />
         </div>
-        { 'HEY!' }
+        { Content }
       </Modal>
     </ReactCSSTransitionGroup>
   )
@@ -34,12 +51,15 @@ const ModalManager = (props) => {
 
 ModalManager.propTypes = {
   closeModal: PropTypes.func.isRequired,
+  data: PropTypes.object,
   isModalOpen: PropTypes.bool.isRequired,
+  kind: PropTypes.string,
 }
 
 export default connect(state => ({
-  isModalOpen: state.app.isModalOpen,
+  isModalOpen: state.modals.isOpen,
+  kind: state.modals.kind,
+  data: state.modals.data,
 }), {
-  openModal: appActions.openModal,
-  closeModal: appActions.closeModal,
+  closeModal: modalActions.closeModal,
 })(ModalManager)

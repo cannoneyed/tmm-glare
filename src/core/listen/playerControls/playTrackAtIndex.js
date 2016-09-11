@@ -6,7 +6,7 @@ import {
 
 import {
   getSoundCloudAudio,
-} from '../selectors'
+} from 'src/core/selectors/listen'
 
 export default function playTrackAtIndex(playlistIndex) {
   return (dispatch, getState) => {
