@@ -1,4 +1,4 @@
-const app = {
+const appConstants = {
   maximumGives: 5,
 }
 
@@ -19,8 +19,8 @@ const trackTitles = [
 
 const defaultMap = [37.81, -122.26, 0.1]
 
-export default {
-  app,
+export {
+  appConstants,
   trackTitles,
   defaultMap,
 }

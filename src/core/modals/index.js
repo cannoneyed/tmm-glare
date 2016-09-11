@@ -41,7 +41,7 @@ export function closeModal() {
 
 export function dummyOpenModal() {
   const payload = {
-    kind: DID_GIVE,
+    kind: DID_RECEIVE,
     data: {
       connectedUser: {
         displayName: 'Bob Ross',
