@@ -1,5 +1,9 @@
 import _ from 'lodash'
 
+export function getTitleByIndex(state, index) {
+  return `The M Machine - ${state.listen.playlist.tracks[index].title}`
+}
+
 export function getSoundCloudAudio(state) {
   return state.listen.soundCloudAudio
 }
