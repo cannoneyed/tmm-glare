@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import ReactSwipe from 'react-swipe'
 import { connect } from 'react-redux'
 import _ from 'lodash'
+import { appConstants } from 'src/constants'
 
 import * as appActions from 'src/core/app'
 import Icon from '../shared/icon'
@@ -23,22 +24,44 @@ class Intro extends Component {
   }
 
   pages = [{
-    lines: ['Get the album', 'from someone', 'who has it'],
+    lines: [
+      'Get the album',
+      'from someone',
+      'who has it'
+    ],
     iconType: 'listen',
   }, {
-    lines: ['Give the album', 'to someone', 'who doesn\'t'],
+    lines: [
+      'Give the album',
+      'to someone',
+      'who doesn\'t'
+    ],
     iconType: 'give',
   }, {
-    lines: ['You\'ve got', 'to be', 'nearby'],
+    lines: [
+      'You\'ve got',
+      'to be',
+      'nearby'
+    ],
     iconType: 'world',
   }, {
-    lines: ['So you\'ve got', 'to allow', 'geolocation'],
+    lines: [
+      'So you\'ve got',
+      'to allow',
+      'geolocation'
+    ],
     iconType: 'location'
   }, {
-    lines: ['Remember, you', 'can only give', 'to 5 people'],
+    lines: [
+      'Remember, you',
+      'can only give',
+      `to ${appConstants.maximumGives} people`
+    ],
     iconType: 'people',
   }, {
-    lines: ['With love'],
+    lines: [
+      'With love,'
+    ],
     iconType: '',
     showLogo: true,
   }, {

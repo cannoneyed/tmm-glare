@@ -18,7 +18,7 @@ const EntryContent = (props) => {
     header = (
       <div className="entry-content-header">
         <div className="entry-content-header-action">
-          {`Unlocked Track ${index + 1}!`}
+          {`Track ${index + 1} unlocked!`}
         </div>
         <div className="entry-content-header-title">
           {getTrackTitle(index)}
