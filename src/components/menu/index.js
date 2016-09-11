@@ -7,7 +7,6 @@ import UserCard from './userCard'
 
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
-import { unlockAllTracks } from 'src/core/listen'
 import { getUnreadJournalCount } from 'src/core/selectors/journal'
 
 class Menu extends Component {
@@ -22,7 +21,6 @@ class Menu extends Component {
     isTouchFixed: PropTypes.bool.isRequired,
     signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
-    unlockAllTracks: PropTypes.func.isRequired,
     unreadJournalCount: PropTypes.number.isRequired,
     user: PropTypes.object,
   }
@@ -54,14 +52,6 @@ class Menu extends Component {
     }, 300)
   }
 
-  unlockAllTracks = () => {
-    const { unlockAllTracks, toggleSidebar } = this.props
-    setTimeout(() => {
-      unlockAllTracks()
-      toggleSidebar(false)
-    }, 300)
-  }
-
   render() {
     const { unreadJournalCount, user, isTouchFixed } = this.props
     const hasAccess = user && user.hasAccess
@@ -76,7 +66,7 @@ class Menu extends Component {
     const journalButtonHandler = { [clickOrTouch]: this.linkTo('journal') }
     const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
     const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
-    const unlockButtonHandler = { [clickOrTouch]: this.unlockAllTracks }
+    const helpButtonHandler = { [clickOrTouch]: this.linkTo('help') }
 
     return (
       <div className="sidebar-menu-container">
@@ -87,7 +77,7 @@ class Menu extends Component {
         </RippleButton>
 
         { user ?
-          <UserCard user={user} />
+          <UserCard />
         : null }
 
         <RippleButton
@@ -135,20 +125,17 @@ class Menu extends Component {
 
         <RippleButton
           className="sidebar-menu-item"
+          {...helpButtonHandler}>
+          Help
+          <Icon type={'help'} />
+        </RippleButton>
+
+        <RippleButton
+          className="sidebar-menu-item"
           {...signOutButtonHandler}>
           Sign Out
           <Icon type={'sign-out'} />
         </RippleButton>
-
-        {hasAccess ?
-          <RippleButton
-            className="sidebar-menu-item unlock"
-            {...unlockButtonHandler}>
-            Unlock
-            <Icon type={'key'} />
-          </RippleButton>
-        : null
-        }
       </div>
     )
   }
@@ -163,6 +150,5 @@ export default connect(state => ({
   user: state.user,
 }), {
   signOutAsync,
-  unlockAllTracks,
   toggleSidebar,
 })(Menu)

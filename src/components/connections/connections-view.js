@@ -17,7 +17,7 @@ class ConnectionsView extends Component {
   componentDidMount() {
     const { graph, d3 } = this.props
     const container = ReactDOM.findDOMNode(this._graph)
-    createGraph({ d3, container, graph })
+    this.graphView = createGraph({ d3, container, graph })
   }
 
   render() {

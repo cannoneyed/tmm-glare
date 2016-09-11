@@ -28,9 +28,12 @@ module.exports = function processUserStats({ data, resolve, reject }) {
       maxDistance = distance > maxDistance ? distance : maxDistance
     })
 
+    const score = Math.floor(maxDistance) + (total * 5)
+
     return {
       total,
       maxDistance,
+      score,
     }
   })
   .then(processed => {

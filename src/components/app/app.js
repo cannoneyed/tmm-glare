@@ -86,6 +86,7 @@ export class App extends Component {
           sidebar={<Menu />}
           open={isSidebarOpen}
           sidebarClassName="sidebar-container"
+          touchHandleWidth={0}
           styles={sidebarStyles}
           shadow={false}
           pullRight={true}

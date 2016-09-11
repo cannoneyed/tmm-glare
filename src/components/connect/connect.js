@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import * as globeActions from 'src/core/globe'
 import * as messageActions from 'src/core/messages'
 import * as appActions from 'src/core/app'
-import * as modalActions from 'src/core/modals'
 
 import ConnectingLoaderContainer from '../loaders/connecting'
 import GlobeContainer from '../globe/globe'
@@ -25,7 +24,6 @@ export class Connect extends Component {
     isConnecting: PropTypes.bool.isRequired,
     isGlobeLoaded: PropTypes.bool.isRequired,
     loadGlobeDataAsync: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
     registerMessageListenerAsync: PropTypes.func.isRequired,
     setEmptyBackground: PropTypes.func.isRequired,
     unregisterMessageListenerAsync: PropTypes.func.isRequired,
@@ -75,7 +73,6 @@ export class Connect extends Component {
       isConnecting,
       isGlobeLoaded,
       user,
-      openModal,
     } = this.props
 
     const hasAccess = user && user.hasAccess
@@ -98,12 +95,6 @@ export class Connect extends Component {
           <div className="action-buttons">
             <Beacons />
             <ShareButton hasAccess={hasAccess} />
-            <h5
-              onClick={() => {
-                openModal()
-              }}>
-              FUCK YOU
-            </h5>
           </div>
         }
       </div>
@@ -121,6 +112,5 @@ export default connect(state => ({
   loadGlobeDataAsync: globeActions.loadGlobeDataAsync,
   registerMessageListenerAsync: messageActions.registerMessageListenerAsync,
   setEmptyBackground: appActions.setEmptyBackground,
-  openModal: modalActions.dummyOpenModal,
   unregisterMessageListenerAsync: messageActions.unregisterMessageListenerAsync,
 })(Connect)

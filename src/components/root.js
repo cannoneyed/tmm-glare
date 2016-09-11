@@ -12,6 +12,7 @@ import Journal from './journal/journal'
 import Listen from './listen/listen'
 import SignIn from './sign-in/sign-in'
 import Tracks from './tracks/tracks'
+import Help from './help/help'
 
 export function Root({history, onEnter, store}) {
   return (
@@ -25,6 +26,7 @@ export function Root({history, onEnter, store}) {
           <Route component={Intro} onEnter={onEnter} path={'/intro'} />
           <Route component={Journal} onEnter={onEnter} path={'/journal'} />
           <Route component={About} path={'/about'} />
+          <Route component={Help} path={'/help'} />
           <Route path="/tracks" onEnter={onEnter} component={Tracks}>
             <Route path="/tracks/:trackId" component={Tracks} />
           </Route>

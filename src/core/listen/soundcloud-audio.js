@@ -120,6 +120,8 @@ SoundCloud.prototype.play = function (options) {
     options = options || {};
     var src;
 
+    const otherIndex = this._playlistIndex !== options.playlistIndex
+
     if (options.streamUrl) {
         src = options.streamUrl;
     } else if (this._playlist) {
@@ -153,7 +155,10 @@ SoundCloud.prototype.play = function (options) {
     if (options.title) {
       this.audio.setAttribute('title', options.title)
     }
-    this.audio.load();
+
+    if (otherIndex) {
+      this.audio.load()
+    }
     this.audio.play();
 };
 

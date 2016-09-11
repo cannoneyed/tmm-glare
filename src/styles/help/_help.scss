@@ -1,0 +1,11 @@
+.help-container {
+  position: fixed;
+  top: $header-height;
+  overflow-y: scroll;
+  height: 80vh;
+  min-width: 100vw;
+
+  >.help-spacer {
+    min-height: 150px;
+  }
+}

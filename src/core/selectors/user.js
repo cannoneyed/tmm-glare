@@ -6,3 +6,7 @@ export function getRemainingGives(state) {
   const remaining = appConstants.maximumGives - Object.keys(connections || {}).length
   return Math.max(0, remaining) // No negative numbers
 }
+
+export function getConnectionsScore(state) {
+  return state.connections.stats.score || 0
+}

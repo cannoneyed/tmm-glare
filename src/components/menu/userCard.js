@@ -1,6 +1,13 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 
-export default function UserCard({ user }) {
+import { getConnectionsScore, getRemainingGives } from 'src/core/selectors/user'
+
+const UserCard = (props) => {
+  const {
+    score,
+    user
+  } = props
 
   const avatarUrl = user.profileImageURL || ''
 
@@ -8,18 +15,7 @@ export default function UserCard({ user }) {
     backgroundImage: `url('${avatarUrl}')`
   }
 
-
-  const connectionsCount = user && user.connections ?
-    Object.keys(user.connections).length : 0
-
-  let connectionsString
-  if (connectionsCount === 0) {
-    connectionsString = 'No Connections'
-  } else if (connectionsCount === 1) {
-    connectionsString = '1 Connection'
-  } else {
-    connectionsString = `${connectionsCount} Connections`
-  }
+  const scoreString = `Influence: ${score}`
 
   return (
     <div className="user-card">
@@ -28,11 +24,19 @@ export default function UserCard({ user }) {
         className="user-avatar"
       />
       <div>{user.displayName}</div>
-      <div>{connectionsString}</div>
+      <div>{scoreString}</div>
     </div>
   )
 }
 
 UserCard.propTypes = {
+  remaining: PropTypes.number,
+  score: PropTypes.number,
   user: PropTypes.object,
 }
+
+export default connect(state => ({
+  remaining: getRemainingGives(state),
+  score: getConnectionsScore(state),
+  user: state.user,
+}), null)(UserCard)

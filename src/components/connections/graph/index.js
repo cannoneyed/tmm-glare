@@ -17,38 +17,38 @@ var max_score = 1
 export default function createGraph({ graph, d3, container }) {
   const graphData = processGraph(graph)
 
-  var color = d3.scale.linear()
+  const color = d3.scale.linear()
     .domain([min_score, (min_score + max_score) / 2, max_score])
     .range(['lime', 'yellow', 'red'])
 
-  var highlight_color = 'blue'
-  var highlight_trans = 0.1
+  const highlight_color = 'blue'
+  const highlight_trans = 0.1
 
-  var size = d3.scale.pow().exponent(1)
+  const size = d3.scale.pow().exponent(1)
     .domain([1, 100])
     .range([8, 24])
 
-  var force = d3.layout.force()
+  const force = d3.layout.force()
     .linkDistance(100)
     .charge(-300)
     .size([w, h])
 
-  var default_node_color = '#ccc'
-  var default_link_color = '#888'
-  var nominal_base_node_size = 8
-  var nominal_text_size = 10
-  var max_text_size = 24
-  var nominal_stroke = 1.5
-  var max_stroke = 4.5
-  var max_base_node_size = 36
-  var min_zoom = 0.1
-  var max_zoom = 7
+  const default_node_color = '#ccc'
+  const default_link_color = '#888'
+  const nominal_base_node_size = 8
+  const nominal_text_size = 10
+  const max_text_size = 24
+  const nominal_stroke = 1.5
+  const max_stroke = 4.5
+  const max_base_node_size = 36
+  const min_zoom = 0.1
+  const max_zoom = 7
 
-  var svg = d3.select(container)
-  var zoom = d3.behavior.zoom().scaleExtent([min_zoom, max_zoom])
-  var g = svg.append('g')
+  const svg = d3.select(container)
+  const zoom = d3.behavior.zoom().scaleExtent([min_zoom, max_zoom])
+  const g = svg.append('g')
 
-  var linkedByIndex = {}
+  const linkedByIndex = {}
   graphData.links.forEach(function(d) {
     linkedByIndex[d.source + ',' + d.target] = true
   })
@@ -72,7 +72,7 @@ export default function createGraph({ graph, d3, container }) {
     .links(graphData.links)
     .start()
 
-  var link = g.selectAll('.link')
+  const link = g.selectAll('.link')
     .data(graphData.links)
     .enter().append('line')
     .attr('class', 'link')
@@ -86,13 +86,13 @@ export default function createGraph({ graph, d3, container }) {
       }
     })
 
-  var filter = svg.append('defs')
+  const filter = svg.append('defs')
     .append('filter')
       .attr('id', 'blur')
     .append('feGaussianBlur')
       .attr('stdDeviation', 1)
 
-  var node = g.selectAll('.node')
+  const node = g.selectAll('.node')
     .data(graphData.nodes)
     .enter().append('g')
     .attr('class', 'node')
@@ -113,16 +113,14 @@ export default function createGraph({ graph, d3, container }) {
     g.attr('transform', 'translate(' + dcx + ',' + dcy + ')scale(' + zoom.scale() + ')')
   })
 
-  var tocolor = 'fill'
-  var towhite = 'stroke'
+  let tocolor = 'fill'
+  let towhite = 'stroke'
   if (outline) {
     tocolor = 'stroke'
     towhite = 'fill'
   }
 
-
-
-  var circle = node.append('path')
+  const circle = node.append('path')
     .attr('d', d3.svg.symbol()
     .size(function(d) {
       return Math.PI * Math.pow(size(d.size) || nominal_base_node_size, 2)
@@ -141,7 +139,7 @@ export default function createGraph({ graph, d3, container }) {
     .style(towhite, 'white')
 
 
-  var text = g.selectAll('.text')
+  const text = g.selectAll('.text')
     .data(graphData.nodes)
     .enter().append('text')
     .attr('dy', '.35em')
@@ -161,17 +159,33 @@ export default function createGraph({ graph, d3, container }) {
     })
   }
 
-  node
-    .on('tap', function(d) {
+  let last = 0
+  let threshold = 300
+
+  function handleNodeClick(d) {
+    focus_node = d
+    set_focus(d)
+    if (highlight_node === null) {
       set_highlight(d)
-    })
+    }
+  }
+
+  function handleNodeDoubleClick(d) {
+    console.log('DOUBLE CLICK!')
+  }
+
+  node
     .on('mousedown', function(d) {
       d3.event.stopPropagation()
-      focus_node = d
-      set_focus(d)
-      if (highlight_node === null) {
-        set_highlight(d)
+
+      // Detect a doubleclick
+      if (Date.now() - last < threshold) {
+        handleNodeDoubleClick(d)
+      } else {
+        handleNodeClick(d)
       }
+
+      last = Date.now()
     })
     .on('mouseout', function(d) {
       exit_highlight()

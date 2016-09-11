@@ -37,17 +37,3 @@ export function openModal({ kind, data }) {
 export function closeModal() {
   return { type: CLOSE_MODAL }
 }
-
-
-export function dummyOpenModal() {
-  const payload = {
-    kind: DID_RECEIVE,
-    data: {
-      connectedUser: {
-        displayName: 'Bob Ross',
-        profileImageURL: 'https://scontent.xx.fbcdn.net/v/t1.0-1/c204.44.552.552/s50x50/565017_10100517399379297_264734697_n.jpg?oh=6f66c190b07eb68178594770c04ea681&oe=57D4448C',
-      }
-    }
-  }
-  return { type: OPEN_MODAL, payload }
-}
