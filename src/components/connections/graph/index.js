@@ -14,7 +14,15 @@ var outline = false
 var min_score = 0
 var max_score = 1
 
-export default function createGraph({ graph, d3, container }) {
+export default function createGraph(params) {
+  const {
+    container,
+    d3,
+    expandNode,
+    graph,
+    selectNode
+  } = params
+
   const graphData = processGraph(graph)
 
   const color = d3.scale.linear()
@@ -70,36 +78,34 @@ export default function createGraph({ graph, d3, container }) {
   force
     .nodes(graphData.nodes)
     .links(graphData.links)
-    .start()
 
-  const link = g.selectAll('.link')
-    .data(graphData.links)
-    .enter().append('line')
-    .attr('class', 'link')
-    .style('stroke-width', nominal_stroke)
-    .attr('filter', 'url(#blur)')
-    .style('stroke', function(d) {
-      if (isNumber(d.score) && d.score >= 0) {
-        return color(d.score)
-      } else {
-        return default_link_color
-      }
-    })
+  let link = g.selectAll('.link')
+  let node = g.selectAll('.node')
 
-  const filter = svg.append('defs')
-    .append('filter')
-      .attr('id', 'blur')
-    .append('feGaussianBlur')
-      .attr('stdDeviation', 1)
+  function start() {
+    link = link.data(force.links(), d => d.source.id + '-' + d.target.id )
+      .enter().append('line')
+      .attr('class', 'link')
+      .style('stroke-width', nominal_stroke)
+      .style('stroke', function(d) {
+        if (isNumber(d.score) && d.score >= 0) {
+          return color(d.score)
+        } else {
+          return default_link_color
+        }
+      })
 
-  const node = g.selectAll('.node')
-    .data(graphData.nodes)
-    .enter().append('g')
-    .attr('class', 'node')
-    .attr('filter', 'url(#blur)')
-    .on('mousedown', handleTouch)
-    .on('touchstart', handleTouch)
-    .call(force.drag)
+    node = node.data(force.nodes(), d => d.id )
+      .enter().append('g')
+      .attr('class', 'node')
+      .on('mousedown', handleTouch)
+      .on('touchstart', handleTouch)
+      .call(force.drag)
+
+    force.start()
+  }
+
+  start()
 
   function handleTouch() {
     d3.event.stopPropagation()
@@ -162,27 +168,28 @@ export default function createGraph({ graph, d3, container }) {
   let last = 0
   let threshold = 300
 
-  function handleNodeClick(d) {
-    focus_node = d
-    set_focus(d)
+  function handleNodeClick(node) {
+    focus_node = node
+    set_focus(node)
     if (highlight_node === null) {
-      set_highlight(d)
+      set_highlight(node)
     }
+    selectNode(node.id)
   }
 
-  function handleNodeDoubleClick(d) {
-    console.log('DOUBLE CLICK!')
+  function handleNodeDoubleClick(node) {
+    expandNode(node)
   }
 
   node
-    .on('mousedown', function(d) {
+    .on('mousedown', function(node) {
       d3.event.stopPropagation()
 
       // Detect a doubleclick
       if (Date.now() - last < threshold) {
-        handleNodeDoubleClick(d)
+        handleNodeDoubleClick(node)
       } else {
-        handleNodeClick(d)
+        handleNodeClick(node)
       }
 
       last = Date.now()
@@ -385,6 +392,19 @@ export default function createGraph({ graph, d3, container }) {
     } else {
       exit_highlight()
     }
+  }
+
+  function addNodes(source, toAdd) {
+    toAdd.forEach(node => {
+      graphData.nodes.push(node)
+      graphData.links.push({ source, target: node })
+      start()
+    })
+
+  }
+
+  return {
+    addNodes,
   }
 }
 
