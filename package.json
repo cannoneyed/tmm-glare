@@ -44,7 +44,6 @@
     "del-cli": "~0.2.0",
     "eslint": "~2.9.0",
     "eslint-plugin-react": "~5.0.1",
-    "express": "~4.13.4",
     "extract-text-webpack-plugin": "~1.0.1",
     "file-loader": "^0.9.0",
     "history": "~2.1.1",
@@ -52,7 +51,6 @@
     "lodash-webpack-plugin": "^0.9.3",
     "minx": "~0.4.14",
     "mockfirebase": "~0.12.0",
-    "morgan": "~1.7.0",
     "node-sass": "~3.7.0",
     "nodemon": "~1.9.2",
     "npm-run-all": "~1.8.0",
@@ -67,8 +65,6 @@
     "url-loader": "^0.5.7",
     "webpack": "~1.13.0",
     "webpack-dev-server": "~1.14.1",
-    "winston": "~2.2.0",
-    "worker-loader": "^0.7.1"
   },
   "dependencies": {
     "bluebird": "^3.3.5",
@@ -77,12 +73,14 @@
     "d3": "^3.5.17",
     "dotenv": "^2.0.0",
     "dateformat": "^1.0.12",
+    "express": "~4.13.4",
     "firebase": "^3.0.3",
     "firebase-queue": "^1.5.0",
     "geofire": "^4.1.1",
     "graphlib": "^2.1.1",
     "jquery": "^3.1.0",
     "lodash": "^4.14.0",
+    "morgan": "~1.7.0",
     "node-fetch": "^1.6.0",
     "react": "~15.0.2",
     "react-addons-css-transition-group": "^15.2.0",
@@ -101,6 +99,7 @@
     "swipe-js-iso": "^2.0.3",
     "throng": "^4.0.0",
     "uuid": "^2.0.2",
-    "vis": "^4.16.1"
+    "vis": "^4.16.1",
+    "winston": "~2.2.0"
   }
 }
