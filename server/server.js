@@ -1,6 +1,9 @@
 const throng = require('throng')
 const WORKERS = process.env.WEB_CONCURRENCY || 1
-require('dotenv').config()
+
+if (process.env !== 'production') {
+  require('dotenv').config()
+}
 
 const express = require('express')
 const logger = require('winston')
