@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Icon, RippleButton } from '../shared'
 
 const Stats = (props) => {
-  const { maxDistance, sharedWith, total } = props
+  const { influence, maxDistance, sharedWith, total } = props
 
   const renderSpan = (type, text) => {
     return <span className={`connections-statistic-${type}`}>{text}</span>
@@ -40,17 +40,28 @@ const Stats = (props) => {
         {renderSpan('description', 'Total connections:')}
         {renderSpan('number', total)}
       </RippleButton>
+      <RippleButton
+        className="connections-statistic"
+        onClick={() => {
+          setTimeout(() => {}, 200)
+        }}>
+        <Icon type="influence" />
+        {renderSpan('description', 'Influence:')}
+        {renderSpan('number', influence)}
+      </RippleButton>
     </div>
   )
 }
 
 Stats.propTypes = {
+  influence: PropTypes.number,
   maxDistance: PropTypes.number,
   sharedWith: PropTypes.number,
   total: PropTypes.number,
 }
 
 export default connect(state => ({
+  influence: state.connections.stats.score,
   total: state.connections.stats.total,
   maxDistance: state.connections.stats.maxDistance || 0,
   sharedWith: Object.keys(state.user.connections || {}).length,
