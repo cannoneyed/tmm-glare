@@ -12,7 +12,6 @@ const webUtil = require('./webUtil')
 //---------------------------------------------------------
 const app = express()
 
-app.set('host', process.env.HOST || 'localhost')
 app.set('port', process.env.PORT || 3001)
 
 
@@ -33,11 +32,11 @@ app.use(router)
 const start = (id) => {
   const isMaster = id === 1 // The first worker is the master
   initializeApp(isMaster).then(() => {
-    app.listen(app.get('port'), app.get('host'), error => {
+    app.listen(app.get('port'), error => {
       if (error) {
         logger.error(error)
       } else {
-        logger.info(`Server ${id} listening @ ${app.get('host')}:${app.get('port')}`)
+        logger.info(`Server ${id} listening @ port ${app.get('port')}`)
       }
     })
   })
