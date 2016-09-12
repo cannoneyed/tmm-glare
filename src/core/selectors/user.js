@@ -10,3 +10,7 @@ export function getRemainingGives(state) {
 export function getConnectionsScore(state) {
   return state.connections.stats.score || 0
 }
+
+export function getConnectionsCount(state) {
+  return Object.keys(state.user.connections || {}).length
+}

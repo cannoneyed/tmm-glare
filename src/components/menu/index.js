@@ -66,7 +66,6 @@ class Menu extends Component {
     const journalButtonHandler = { [clickOrTouch]: this.linkTo('journal') }
     const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
     const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
-    const helpButtonHandler = { [clickOrTouch]: this.linkTo('help') }
 
     return (
       <div className="sidebar-menu-container">
@@ -121,13 +120,6 @@ class Menu extends Component {
           {...aboutButtonHandler}>
           About
           <Icon type={'globe'} />
-        </RippleButton>
-
-        <RippleButton
-          className="sidebar-menu-item"
-          {...helpButtonHandler}>
-          Help
-          <Icon type={'help'} />
         </RippleButton>
 
         <RippleButton
