@@ -9,6 +9,7 @@ const db = firebase.database().ref()
 
 module.exports = P.coroutine(function* () {
   const timeStart = Date.now()
+  logger.info('Connecting to firebase...')
   const snapshot = yield db.child('connections').once('value')
   const connections = util.recordsFromSnapshot(snapshot)
 
