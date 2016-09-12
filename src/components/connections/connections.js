@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import d3Loader from './d3-loader'
+import visLoader from './vis-loader'
 
 import ConnectionsView from './connections-view'
 import Loading from '../loaders/loading'
@@ -18,7 +18,7 @@ class Connections extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      d3: null,
+      vis: null,
     }
   }
 
@@ -29,18 +29,17 @@ class Connections extends Component {
       loadInitialGraphAsync()
     }
 
-    // Load d3
-    d3Loader().then(({ d3 }) => {
-      this.setState({ d3 })
+    visLoader().then(({ vis }) => {
+      this.setState({ vis })
     })
   }
 
   render() {
-    const { d3 } = this.state
+    const { vis } = this.state
     const { graph } = this.props
 
     return (
-      d3 && graph ? <ConnectionsView graph={graph} d3={d3} /> : <Loading />
+      vis ? <ConnectionsView vis={vis} graph={graph} /> : <Loading />
     )
   }
 }
