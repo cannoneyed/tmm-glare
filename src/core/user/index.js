@@ -13,7 +13,7 @@ export const initialState = null
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_USER:
-      return action.payload
+      return { ...action.payload }
     case UPDATE_ACCESS:
       return { ...state, hasAccess: action.payload }
     case ADD_CONNECTION: {
