@@ -1,4 +1,5 @@
 import * as util from 'src/util'
+import P from 'bluebird'
 import { firebase } from 'src/firebase'
 
 import {
@@ -21,6 +22,7 @@ export default function loadOrCreateUserAsync(authUser) {
         dispatch(trackUserVisitAsync(user))
         return db.child(`users/${authUser.uid}/profileImageURL`).set(provider.photoURL)
       }
+
 
       // Otherwise, create a new user record
       return db.child(`users/${authUser.uid}`).set({

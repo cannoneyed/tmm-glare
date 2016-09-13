@@ -17,14 +17,10 @@ export default function initAuthAsync() {
     // Set up a firebase auth state listener to get the currently logged in user (this will succeed)
     // if the user is logged in and a session token exists, otherwise we'll have to look for the
     // result of the oauth redirect)
-    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(authUser => {
       unsubscribe()
-      if (user) {
-        dispatch(loadOrCreateUserAsync(user))
-
-        // User signed in, dispatch a success action and fetch the user data
-        dispatch(signInSuccess(user.uid))
-        return dispatch(loadAppDataAsync())
+      if (authUser) {
+        return dispatch(handleSuccesfulRedirectAsync(authUser))
       } else {
         // Otherwise, get the result of the redirect
         firebase.auth().getRedirectResult().then(result => {
