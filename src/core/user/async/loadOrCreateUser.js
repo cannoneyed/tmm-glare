@@ -1,5 +1,4 @@
 import * as util from 'src/util'
-import P from 'bluebird'
 import { firebase } from 'src/firebase'
 
 import {
