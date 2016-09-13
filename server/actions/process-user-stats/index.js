@@ -8,36 +8,41 @@ const helpers = require('./helpers')
 module.exports = function processUserStats({ data, resolve, reject }) {
   const { userId } = data
 
-  return P.try(() => {
-    const g = graphData.getGraph()
+  return P.resolve().then(() => {
+    try {
+      const g = graphData.getGraph()
 
-    const connected = g.successors(userId) || []
-    const own = g.node(userId)
+      const connected = g.successors(userId) || []
+      const own = g.node(userId)
 
-    if (!own) {
-      return resolve()
-    }
+      if (!own) {
+        return resolve()
+      }
 
-    const total = connected.length
+      const total = connected.length
 
-    let maxDistance = 0
-    _.each(connected, (id) => {
-      const other = g.node(id)
+      let maxDistance = 0
+      _.each(connected, (id) => {
+        const other = g.node(id)
 
-      const distance = helpers.getDistance(own, other)
-      maxDistance = distance > maxDistance ? distance : maxDistance
-    })
+        const distance = helpers.getDistance(own, other)
+        maxDistance = distance > maxDistance ? distance : maxDistance
+      })
 
-    const score = Math.floor(maxDistance) + (total * 5)
+      const score = Math.floor(maxDistance) + (total * 5)
 
-    return {
-      total,
-      maxDistance,
-      score,
+      return {
+        total,
+        maxDistance,
+        score,
+      }
+    } catch (err) {
+      console.log('🐷', err)
+      throw err
     }
   })
   .then(processed => {
-    logger.info(processed)
+    logger.info('🍕', processed)
     logger.info(`Processed stats for user ${userId}`)
     return firebase.database().ref('userStats').child(userId).set(processed)
   })
