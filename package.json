@@ -17,7 +17,7 @@
     "node": "6.3.1"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --display-chunks --display-modules --progress",
+    "build": "cross-env NODE_ENV=production webpack --display-chunks --display-modules --progress --json > stats.json",
     "clean": "del-cli ./target",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress",
     "lint": "eslint -c .eslintrc.yml *.js ./src ./server",
