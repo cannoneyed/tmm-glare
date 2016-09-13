@@ -17,6 +17,7 @@ class ShareButton extends Component { // eslint-disable-line
     addNotification: PropTypes.func.isRequired,
     beginConnectingAsync: PropTypes.func.isRequired,
     cancelConnectingAsync: PropTypes.func.isRequired,
+    connectionsCount: PropTypes.number,
     hasAccess: PropTypes.bool.isRequired,
     isConnecting: PropTypes.bool.isRequired,
     remainingGives: PropTypes.number.isRequired,

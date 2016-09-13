@@ -8,7 +8,7 @@ export const lyrics = [
   "We can talk it out we can masturbate",
   "You can tell me about the things you hate",
   "You can tell me, yeah, tell me",
-  "And calculate in layman terms"
+  "And calculate in layman terms",
   "And go ahead and eat some worms",
   "'Cause' I wanna talk a little while",
   "But I don't know why but I don't remember your name",
@@ -22,13 +22,13 @@ export const lyrics = [
   "You can tell me anything you want",
   "You can tell me anything you want",
   "Tell me, yeah, tell me",
-  "And calculate in layman terms"
+  "And calculate in layman terms",
   "And go ahead and eat some worms",
   "Tell me, yeah, tell me",
   "We can talk it out we can masturbate",
   "You can tell me about the things you hate",
   "You can tell me, yeah, tell me",
-  "And calculate in layman terms"
+  "And calculate in layman terms",
   "And go ahead and eat some worms",
   "'Cause I've been waiting so long",
   "You can tell me anything you want",
