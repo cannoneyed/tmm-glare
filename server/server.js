@@ -5,9 +5,6 @@ if (process.env !== 'production') {
   require('dotenv').config()
 }
 
-console.log('🐸', process.env.NODE_ENV)
-console.log('🍕', require('config'))
-
 const express = require('express')
 const logger = require('winston')
 const initializeApp = require('./initialize')
