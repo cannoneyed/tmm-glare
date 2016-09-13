@@ -8,14 +8,10 @@ const processMap = require('../actions/process-map')
 module.exports = P.coroutine(function* initializeApp(isMaster) {
   logger.info('Initializing...')
 
-  try {
-    // Initialize graph
-    yield P.all([
-      initializeGraph(),
-    ])
-  } catch (err) {
-    console.log('🐸', err)
-  }
+  // Initialize graph
+  yield P.all([
+    initializeGraph(),
+  ])
 
   if (isMaster) {
     const timeStart = Date.now()
