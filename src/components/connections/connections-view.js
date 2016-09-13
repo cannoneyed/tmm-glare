@@ -214,7 +214,7 @@ class ConnectionsView extends Component {
       },
       physics: {
         barnesHut: {
-          gravitationalConstant: -2000,
+          gravitationalConstant: -4000,
           centralGravity: 1.65,
         },
       },
