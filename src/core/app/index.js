@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action = {}) {
     }
     case LOAD_USER: {
       const user = action.payload
-      const hasViewedIntro = user.visits > 0
+      const hasViewedIntro = user && user.visits > 0
       return { ...state, hasViewedIntro }
     }
     case SET_BACKGROUND:
