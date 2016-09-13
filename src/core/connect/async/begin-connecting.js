@@ -109,8 +109,7 @@ function findBeaconsAsync({ coords }) {
       return
     }
 
-    const geoquery = geofire.beaco
-    nLocations.query({
+    const geoquery = geofire.beaconLocations.query({
       center: [latitude, longitude],
       radius: 300,
     })
