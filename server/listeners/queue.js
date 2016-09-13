@@ -21,6 +21,7 @@ module.exports = () => {
     }
 
     if (type === 'USER_STATS') {
+      logger.info('processing user stats...')
       return processUserStats({ data, resolve, reject })
     }
   })
