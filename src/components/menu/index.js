@@ -7,7 +7,9 @@ import UserCard from './userCard'
 
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
+import { beginConnectingAsync } from 'src/core/connect'
 import { getUnreadJournalCount } from 'src/core/selectors/journal'
+
 
 class Menu extends Component {
 
@@ -16,7 +18,9 @@ class Menu extends Component {
   }
 
   static propTypes = {
+    beginConnectingAsync: PropTypes.func.isRequired,
     history: PropTypes.array,
+    isConnecting: PropTypes.bool.isRequired,
     isSidebarOpen: PropTypes.bool.isRequired,
     isTouchFixed: PropTypes.bool.isRequired,
     signOutAsync: PropTypes.func.isRequired,
@@ -53,14 +57,24 @@ class Menu extends Component {
   }
 
   render() {
-    const { unreadJournalCount, user, isTouchFixed } = this.props
+    const {
+      beginConnectingAsync,
+      isConnecting,
+      isTouchFixed,
+      unreadJournalCount,
+      user,
+    } = this.props
     const hasAccess = user && user.hasAccess
 
     // When touch events are being converted to clicks (ie for the connections page),
     // we'll need to use a different handler
     const clickOrTouch = isTouchFixed ? 'onMouseUp' : 'onClick'
     const hideButtonHandler = { [clickOrTouch]: this.hideSidebar }
-    const giveButtonHandler = { [clickOrTouch]: this.linkTo('connect') }
+    const giveButtonHandler = { [clickOrTouch]: () => {
+      const link = this.linkTo('connect')
+      link()
+      setTimeout(() => !isConnecting ? beginConnectingAsync() : null, 300)
+    }}
     const listenButtonHandler = { [clickOrTouch]: this.linkTo('listen') }
     const connectionsButtonHandler = { [clickOrTouch]: this.linkTo('connections') }
     const journalButtonHandler = { [clickOrTouch]: this.linkTo('journal') }
@@ -136,6 +150,7 @@ class Menu extends Component {
 export default connect(state => ({
   auth: state.auth,
   history: state.history,
+  isConnecting: state.connect.isConnecting,
   isSidebarOpen: state.app.isSidebarOpen,
   isTouchFixed: state.app.isTouchFixed,
   unreadJournalCount: getUnreadJournalCount(state),
@@ -143,4 +158,5 @@ export default connect(state => ({
 }), {
   signOutAsync,
   toggleSidebar,
+  beginConnectingAsync,
 })(Menu)
