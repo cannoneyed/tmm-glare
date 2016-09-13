@@ -52,11 +52,14 @@ export default function registerUserListenersAsync(userId) {
 }
 
 function displayConnectionNotificationAsync(id) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { user } = getState()
+
+
     firebase.database().ref().child(`users/${id}`).once('value', snapshot => {
       const connectedUser = util.recordFromSnapshot(snapshot)
 
-      const didGive = Object.keys(connectedUser.connections).length <= 1
+      const didGive = Object.keys(user.connections).length !== 1
       const kind = didGive ? modalTypes.DID_GIVE : modalTypes.DID_RECEIVE
 
       dispatch(modalActions.openModal({
