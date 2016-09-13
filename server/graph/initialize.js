@@ -10,6 +10,8 @@ const db = firebase.database().ref()
 module.exports = P.coroutine(function* () {
   const timeStart = Date.now()
 
+
+  console.log(require('config'))
   console.log('HEY!')
 
   const snapshot = yield db.child('connections').once('value')
