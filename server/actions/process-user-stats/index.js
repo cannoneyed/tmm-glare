@@ -37,6 +37,7 @@ module.exports = function processUserStats({ data, resolve, reject }) {
     }
   })
   .then(processed => {
+    logger.info(`Processed stats for user ${userId}`)
     return firebase.database().ref('userStats').child(userId).set(processed)
   })
   .then(resolve)
