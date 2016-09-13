@@ -1,5 +1,5 @@
 import React, { Component, PropTypes} from 'react'
-import _ from 'lodash'
+import last from 'lodash.last'
 import { connect } from 'react-redux'
 
 import { Icon, RippleButton } from '../shared'
@@ -31,7 +31,7 @@ class Menu extends Component {
 
     return () => {
       setTimeout(() => {
-        if (_.last(history) !== destination) {
+        if (last(history) !== destination) {
           router.push(`/${destination}`)
         }
         toggleSidebar(false)

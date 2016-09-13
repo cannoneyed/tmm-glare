@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import ReactSwipe from 'react-swipe'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import map from 'lodash.map'
+import range from 'lodash.range'
 import { appConstants } from 'src/constants'
 
 import * as appActions from 'src/core/app'
@@ -88,7 +89,7 @@ class Intro extends Component {
   }
 
   getPages = () => {
-    return _.map(this.pages, (_page, i) => {
+    return map(this.pages, (_page, i) => {
       return this.getPage(i)
     })
   }
@@ -114,7 +115,7 @@ class Intro extends Component {
 
   renderProgress = () => {
     const index = this.state.index
-    return _.range(this.pages.length - 1).map((i) => {
+    return range(this.pages.length - 1).map((i) => {
       const className = 'progress-icon' + (i === index ? ' passed' : '')
       return <div key={i} className={className} />
     })

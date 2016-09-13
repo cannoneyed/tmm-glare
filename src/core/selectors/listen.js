@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import indexOf from 'lodash.indexof'
 
 export function getTitleByIndex(state, index) {
   return `The M Machine - ${state.listen.playlist.tracks[index].title}`
@@ -18,7 +18,7 @@ export function isTrackUnlocked(state) {
 export function getNextUnlockedTrack(state) {
   const unlockedTracks = state.listen.unlockedTracks
   return (currentIndex) => {
-    const sliceIndex = _.indexOf(unlockedTracks.slice(currentIndex + 1), true)
+    const sliceIndex = indexOf(unlockedTracks.slice(currentIndex + 1), true)
     if (sliceIndex === -1) {
       return null
     }
@@ -29,7 +29,7 @@ export function getNextUnlockedTrack(state) {
 export function getPreviousUnlockedTrack(state) {
   const unlockedTracks = state.listen.unlockedTracks
   return (currentIndex) => {
-    const sliceIndex = _.indexOf(unlockedTracks.slice(0, currentIndex).reverse(), true)
+    const sliceIndex = indexOf(unlockedTracks.slice(0, currentIndex).reverse(), true)
     if (sliceIndex === -1) {
       return null
     }

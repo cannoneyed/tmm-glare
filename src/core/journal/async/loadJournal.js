@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import map from 'lodash.map'
 import * as util from 'src/util'
 import { firebase } from 'src/firebase'
 
@@ -17,7 +17,7 @@ export default function loadJournalAsync() {
       dispatch(setJournal(journal))
 
       // Now parse the journal to handle all journal entry types
-      const unlockedTrackIds = _.map(journal, entry => entry)
+      const unlockedTrackIds = map(journal, entry => entry)
         .filter(entry => entry.type === TRACK_UNLOCKED)
         .map(entry => entry.index)
 

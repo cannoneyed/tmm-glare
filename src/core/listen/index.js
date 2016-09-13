@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import range from 'lodash.range'
 
 export const UNLOCK_TRACKS = 'listen/UNLOCK_TRACKS'
 export const LOAD_PLAYER = 'listen/LOAD_PLAYER'
@@ -51,13 +51,13 @@ export default function reducer(state = initialState, action) {
     case UNLOCK_TRACKS: {
       const idsToUnlock = action.payload
       const unlockedTracks = state.unlockedTracks.slice()
-      _.each(idsToUnlock, trackId => {
+      idsToUnlock.forEach(trackId => {
         unlockedTracks[trackId] = true
       })
       return { ...state, unlockedTracks }
     }
     case UNLOCK_ALL_TRACKS: {
-      const unlockedTracks = _.range(12).map(() => true)
+      const unlockedTracks = range(12).map(() => true)
       return { ...state, unlockedTracks }
     }
     default:

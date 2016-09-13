@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import every from 'lodash.every'
+import map from 'lodash.map'
 
 import Stats from './stats'
 
@@ -48,11 +49,11 @@ class ConnectionsView extends Component {
       return nextProps
     }
 
-    _.each(queue.users, user => {
+    queue.users.forEach(user => {
       this.state.nodes.add(this.nodeFromUser(user))
     })
 
-    _.each(queue.connections, connection => {
+    queue.connections.forEach(connection => {
       this.state.edges.add(this.edgeFromConnection(connection))
     })
 
@@ -138,7 +139,7 @@ class ConnectionsView extends Component {
     const { graph, loadUserConnections } = this.props
     const connections = Object.keys(graph.users[targetNode].connections || {})
 
-    const isExpanded = _.every(connections, connection => {
+    const isExpanded = every(connections, connection => {
       return graph.users[connection]
     })
 
@@ -169,8 +170,8 @@ class ConnectionsView extends Component {
   processGraph = () => {
     const { graph, vis } = this.props
 
-    const nodes = new vis.DataSet(_.map(graph.users, this.nodeFromUser))
-    const edges = new vis.DataSet(_.map(graph.connections, this.edgeFromConnection))
+    const nodes = new vis.DataSet(map(graph.users, this.nodeFromUser))
+    const edges = new vis.DataSet(map(graph.connections, this.edgeFromConnection))
 
     this.setState({
       nodes,

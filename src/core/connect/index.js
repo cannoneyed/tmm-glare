@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import uniqBy from 'lodash.uniqby'
 
 export const REGISTER_GEOQUERY = 'connect/REGISTER_GEOQUERY'
 export const REMOVE_GEOQUERY = 'connect/REMOVE_GEOQUERY'
@@ -78,7 +78,7 @@ export default function reducer(state = initialState, action) {
   }
 
   function setNewBeacon(state, user) {
-    const newBeacons = _.uniqBy(state.beacons.concat(user), 'key')
+    const newBeacons = uniqBy(state.beacons.concat(user), 'key')
     return { ...state, beacons: newBeacons }
   }
 }

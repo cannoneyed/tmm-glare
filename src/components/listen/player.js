@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import _ from 'lodash'
+import omit from 'lodash.omit'
 import { connect } from 'react-redux'
 import {
   PlayButton,
@@ -102,7 +102,7 @@ class Player extends Component {
             />
           </div>
           <div>
-            <Timer duration={duration || 0} {..._.omit(this.props, 'duration')} />
+            <Timer duration={duration || 0} {...omit(this.props, 'duration')} />
           </div>
         </div>
         {this.renderProgress()}

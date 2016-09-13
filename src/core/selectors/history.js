@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import last from 'lodash.last'
 
 export function canGoBack(history) {
   if (getCurrentPage(history) === 'email') {
@@ -11,5 +11,5 @@ export function canGoBack(history) {
 }
 
 export function getCurrentPage(history) {
-  return _.last(history)
+  return last(history)
 }

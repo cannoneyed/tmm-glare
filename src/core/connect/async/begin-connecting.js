@@ -1,5 +1,6 @@
 import P from 'bluebird'
-import _ from 'lodash'
+import find from 'lodash.find'
+import get from 'lodash.get'
 import * as util from 'src/util'
 
 import { firebase, geofire } from 'src/firebase'
@@ -108,7 +109,8 @@ function findBeaconsAsync({ coords }) {
       return
     }
 
-    const geoquery = geofire.beaconLocations.query({
+    const geoquery = geofire.beaco
+    nLocations.query({
       center: [latitude, longitude],
       radius: 300,
     })
@@ -119,7 +121,7 @@ function findBeaconsAsync({ coords }) {
     // Register event listener for finding a beacon by the geoquery
     geoquery.on('key_entered', (key) => {
       const { auth, user } = getState()
-      const isConnected = _.get(user, ['connections', key])
+      const isConnected = get(user, ['connections', key])
 
       // Ignore the user's beacon and any beacons of users the user is already
       // connected to
@@ -134,9 +136,9 @@ function findBeaconsAsync({ coords }) {
 
         // Ignore found beacons that are already in the list
         const beaconUserIds = connect.beacons.map(user => user.id)
-        const existsInBeacons = _.find(beaconUserIds, otherUser.id)
+        const existsInBeacons = find(beaconUserIds, otherUser.id)
         // Ignore found beacons that the user is already connected to
-        const existsInConnections = _.get(user, ['connections', otherUser.id])
+        const existsInConnections = get(user, ['connections', otherUser.id])
         if (existsInBeacons || existsInConnections) {
           return
         }

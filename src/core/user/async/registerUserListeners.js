@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import get from 'lodash.get'
 import P from 'bluebird'
 import * as util from 'src/util'
 import { firebase } from 'src/firebase'
@@ -36,7 +36,7 @@ export default function registerUserListenersAsync(userId) {
       const id = util.recordFromSnapshot(snapshot)
 
       // If the connection is already present on the user, don't dispatch the action
-      const isConnected = _.get(user, ['connections', id])
+      const isConnected = get(user, ['connections', id])
       if (isConnected) {
         return
       }

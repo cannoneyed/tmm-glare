@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import map from 'lodash.map'
 import { firebase } from 'src/firebase'
 
 import {
@@ -31,7 +31,7 @@ export default function loadPlayerData() {
       dispatch(loadPlayer(options))
 
       // Dispatch the track lists that are unlocked
-      const toUnlock = _.map(unlockedTracks, (isUnlocked, index) => {
+      const toUnlock = map(unlockedTracks, (isUnlocked, index) => {
         return index
       })
       dispatch(unlockTracks(toUnlock))

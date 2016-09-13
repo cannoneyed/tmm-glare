@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import last from 'lodash.last'
 
 // Action types
 export const SET_JOURNAL = 'journal/SET_JOURNAL'
@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         entries: action.payload.slice(),
-        latestJournalEntry: _.last(action.payload).dateCreated,
+        latestJournalEntry: last(action.payload).dateCreated,
       }
     case READ_JOURNAL:
       return { ...state, hasReadJournal: true }

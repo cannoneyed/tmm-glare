@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
-import _ from 'lodash'
+import get from 'lodash.get'
 
 import RippleButton from '../shared/rippleButton'
 import * as connectActions from 'src/core/connect'
@@ -30,7 +30,7 @@ const Beacons = (props) => {
   }
 
   const toRender = beacons.reverse().filter(beacon => {
-    const isConnected = _.get(user, ['connections', beacon.key])
+    const isConnected = get(user, ['connections', beacon.key].l)
     return !isConnected
   })
   .map((beacon, index) => {

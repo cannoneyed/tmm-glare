@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import last from 'lodash.last'
 
 export const LOCATION_CHANGE = '@@router/LOCATION_CHANGE'
 
@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
       if (action.payload.action === 'PUSH') {
         return state.concat(pathname)
       }
-      if (action.payload.action === 'REPLACE' && pathname !== _.last(state)) {
+      if (action.payload.action === 'REPLACE' && pathname !== last(state)) {
         return state.concat(pathname)
       }
       return state
