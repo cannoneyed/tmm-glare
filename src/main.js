@@ -12,6 +12,9 @@ import authRouteResolver from './core/auth/route-resolver'
 import configureStore from './core/store'
 
 import { fixScrollOn } from './page/fix-scroll'
+import { checkIncognito } from './page/check-incognito'
+
+import * as appActions from 'src/core/app'
 
 const history = useRouterHistory(createHistory)({basename: '/'})
 
@@ -27,3 +30,8 @@ ReactDOM.render((
 
 // Fix the scroll issues by default
 fixScrollOn()
+
+const isIncognito = checkIncognito()
+if (isIncognito) {
+  store.dispatch(appActions.isIncognito())
+}

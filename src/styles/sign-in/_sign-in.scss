@@ -20,3 +20,13 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.incognito-warning {
+  position: absolute;
+  margin-bottom: $footer-height * 2;
+  bottom: 0px;
+  min-width: 80%;
+  padding: 50px;
+  text-align: center;
+  font-size: rem(17px);
+}
