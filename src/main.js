@@ -14,7 +14,7 @@ import configureStore from './core/store'
 import { fixScrollOn } from './page/fix-scroll'
 import { checkIncognito } from './page/check-incognito'
 
-import * as appActions from 'src/core/app'
+// import * as appActions from 'src/core/app'
 
 const history = useRouterHistory(createHistory)({basename: '/'})
 
@@ -33,5 +33,5 @@ fixScrollOn()
 
 const isIncognito = checkIncognito()
 if (isIncognito) {
-  store.dispatch(appActions.isIncognito())
+  // store.dispatch(appActions.isIncognito())
 }
