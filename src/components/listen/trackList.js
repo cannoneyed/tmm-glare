@@ -66,7 +66,7 @@ class TrackList extends Component {
         <Icon type="lock" size={20} /><Icon type="empty" size={10} />
         This track is locked!
         <br /><br />
-        As more people share the record, more content will be unlocked
+        As more people share Glare, more content will be unlocked
       </span>
     )
 
