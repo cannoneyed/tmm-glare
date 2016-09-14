@@ -10,11 +10,13 @@ import { Icon, RippleButton } from '../shared'
 import TrackInfo from './trackInfo'
 
 import * as listenActions from 'src/core/listen'
+import * as notificationActions from 'src/core/notifications'
 import { isTrackUnlocked } from 'src/core/selectors/listen'
 
 class TrackList extends Component {
   static propTypes = {
     activeIndex: PropTypes.number,
+    addNotification: PropTypes.func.isRequired,
     isTrackUnlocked: PropTypes.func.isRequired,
     playTrackAtIndex: PropTypes.func.isRequired,
     playlist: PropTypes.object,
@@ -56,9 +58,28 @@ class TrackList extends Component {
     )
   }
 
+  handleLockedTrackClick = () => {
+    const { addNotification } = this.props
+
+    const content = (
+      <span>
+        <Icon type="lock" size={20} /><Icon type="empty" size={10} />
+        This track is locked!
+        <br /><br />
+        As more people share the record, more content will be unlocked
+      </span>
+    )
+
+    addNotification({
+      message: content,
+      kind: 'success',
+      dismissAfter: 4000,
+    })
+  }
+
   renderLocked = () => {
     return (
-      <span className="title locked">
+      <span className="title locked" onClick={this.handleLockedTrackClick}>
         <Icon type="lock" size={20} />
       </span>
     )
@@ -114,4 +135,5 @@ export default connect(state => ({
 }), {
   playTrackAtIndex: listenActions.playTrackAtIndex,
   setSelectedIndex: listenActions.setSelectedIndex,
+  addNotification: notificationActions.addNotification
 })(TrackList)
