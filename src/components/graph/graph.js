@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import visLoader from './vis-loader'
+import d3Loader from './d3-loader'
 
 import GraphView from './graph-view'
 import Loading from '../loaders/loading'
@@ -17,7 +17,7 @@ class Graph extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      vis: null,
+      d3: null,
     }
   }
 
@@ -28,16 +28,16 @@ class Graph extends Component {
       loadInitialGraphAsync()
     }
 
-    visLoader().then(({ vis }) => {
-      this.setState({ vis })
+    d3Loader().then(({ d3 }) => {
+      this.setState({ d3 })
     })
   }
 
   render() {
-    const { vis } = this.state
+    const { d3 } = this.state
 
     return (
-      vis ? <GraphView vis={vis} /> : <Loading />
+      d3 ? <GraphView d3={d3} /> : <Loading />
     )
   }
 }

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import every from 'lodash.every'
 import map from 'lodash.map'
@@ -8,15 +9,17 @@ import Stats from './stats'
 import * as graphActions from 'src/core/graph'
 import selectors from 'src/core/selectors'
 
+import createGraph from './d3'
+
 class GraphView extends Component {
   static propTypes = {
     clearQueue: PropTypes.func.isRequired,
+    d3: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     graph: PropTypes.object,
     isGraphLoaded: PropTypes.bool.isRequired,
     loadUserConnections: PropTypes.func.isRequired,
     ownId: PropTypes.string.isRequired,
-    vis: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -168,11 +171,11 @@ class GraphView extends Component {
     }
   }
 
-  processGraph = () => {
-    const { data, vis } = this.props
+  processGraphData = () => {
+    const { data } = this.props
 
-    const nodes = new vis.DataSet(map(data.users, this.nodeFromUser))
-    const edges = new vis.DataSet(map(data.connections, this.edgeFromConnection))
+    const nodes = map(data.users, this.nodeFromUser)
+    const edges = map(data.connections, this.edgeFromConnection)
 
     this.setState({
       nodes,
@@ -183,48 +186,15 @@ class GraphView extends Component {
   }
 
   updateGraph = () => {
-    const { vis } = this.props
-    const container = this._container
-    const graph = this.processGraph()
+    const { d3 } = this.props
+    const container = ReactDOM.findDOMNode(this._container)
 
-    const options = {
-      width: `${container.offsetWidth}px`,
-      height: `${container.offsetHeight}px`,
-      edges: {
-        color: 'lightgray',
-        smooth: {
-          forceDirection: 'none',
-        },
-        width: 2,
-        shadow: true,
-      },
-      nodes: {
-        borderWidth: 4,
-        scaling: {
-          min: 18,
-          max: 32,
-        },
-        shadow: true,
-        color: {
-          border: '#222222',
-          background: '#666666'
-        },
-        font: {
-          color: '#eeeeee',
-        },
-      },
-      physics: {
-        barnesHut: {
-          gravitationalConstant: -4000,
-          centralGravity: 1.65,
-        },
-      },
-    }
+    const graphData = this.processGraphData()
 
-    this.network = new vis.Network(container, graph, options) // eslint-disable-line no-new
+    this.graph = createGraph({ d3, container, graphData }) // eslint-disable-line no-new
 
-    this.network.on('selectNode', this.selectNode)
-    this.network.on('doubleClick', this.doubleClick)
+    // this.network.on('selectNode', this.selectNode)
+    // this.network.on('doubleClick', this.doubleClick)
 
     this.setState({
       isGraphProcessed: true,
