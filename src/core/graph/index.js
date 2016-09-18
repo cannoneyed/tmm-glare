@@ -1,4 +1,4 @@
-export const SET_CONNECTION_STATS = 'connections/SET_CONNECTION_STATS'
+export const SET_GRAPH_STATS = 'connections/SET_GRAPH_STATS'
 export const SET_IS_PROCESSING_STATS = 'connections/SET_IS_PROCESSING_STATS'
 export const SET_IS_GRAPH_LOADING = 'connections/SET_IS_GRAPH_LOADING'
 export const SET_INITIAL_GRAPH = 'connections/SET_INITIAL_GRAPH'
@@ -13,7 +13,7 @@ export const initialState = {
   isStatsProcessing: false,
   isStatsLoaded: false,
   stats: {},
-  graph: {
+  data: {
     users: {},
     connections: {},
   },
@@ -30,7 +30,7 @@ export default function reducer(state = initialState, action) {
       return { ...state, isGraphLoading: action.payload }
     case SET_IS_PROCESSING_STATS:
       return { ...state, isGraphProcessing: action.payload }
-    case SET_CONNECTION_STATS:
+    case SET_GRAPH_STATS:
       return {
         ...state,
         stats: action.payload,
@@ -40,17 +40,17 @@ export default function reducer(state = initialState, action) {
     case SET_INITIAL_GRAPH:
       return {
         ...state,
-        graph: action.payload,
+        data: action.payload,
         isGraphLoaded: true,
         isGraphLoading: false,
       }
     case ADD_USER:
       return {
         ...state,
-        graph: {
-          ...state.graph,
+        data: {
+          ...state.data,
           users: {
-            ...state.graph.users,
+            ...state.data.users,
             [action.payload.key]: action.payload,
           }
         },
@@ -65,10 +65,10 @@ export default function reducer(state = initialState, action) {
     case ADD_CONNECTION:
       return {
         ...state,
-        graph: {
-          ...state.graph,
+        data: {
+          ...state.data,
           connections: {
-            ...state.graph.connections,
+            ...state.data.connections,
             [action.payload.to]: action.payload,
           }
         },
@@ -91,12 +91,12 @@ export default function reducer(state = initialState, action) {
     case SET_USER_EXPANDED:
       return {
         ...state,
-        graph: {
-          ...state.graph,
+        data: {
+          ...state.data,
           users: {
-            ...state.graph.users,
+            ...state.data.users,
             [action.payload]: {
-              ...state.graph.users[action.payload],
+              ...state.data.users[action.payload],
               isExpanded: true,
             }
           }
@@ -108,8 +108,8 @@ export default function reducer(state = initialState, action) {
 }
 
 // Action creators
-export function setConnectionStats(data) {
-  return { type: SET_CONNECTION_STATS, payload: data }
+export function setGraphStats(data) {
+  return { type: SET_GRAPH_STATS, payload: data }
 }
 
 export function setIsProcessingStats(isProcessing) {

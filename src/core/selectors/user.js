@@ -13,7 +13,7 @@ export function getRemainingGives(state) {
 }
 
 export function getConnectionsScore(state) {
-  return state.connections.stats.score || 0
+  return state.graph.stats.score || 0
 }
 
 export function getConnectionsCount(state) {

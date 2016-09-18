@@ -1,11 +1,11 @@
-.connections-container {
+.graph-wrapper {
   position: relative;
   min-height: 100%;
   min-width: 100%;
   z-index: $z-connections-container;
 }
 
-.connections-graph {
+.graph-container {
   position: absolute;
   top: 0px;
   min-height: 100%;
@@ -14,7 +14,7 @@
   background: linear-gradient(to top, #24C6DC , #514A9D);
 }
 
-.connections-overlay {
+.graph-overlay {
   position: absolute;
   bottom: 0px;
   min-height: 20%;
@@ -27,7 +27,7 @@
   align-items: center;
 }
 
-.connections-statistic {
+.graph-statistic {
   // @include button-base;
   margin-bottom: 10px;
   outline: none;
@@ -50,7 +50,7 @@
     margin-right: 10px;
   }
 
-  >.connections-statistic-number {
+  >.graph-statistic-number {
     margin-left: 7px;
     font-size: rem(16px);
     font-weight: 1000;

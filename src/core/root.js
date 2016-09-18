@@ -4,8 +4,8 @@ import { combineReducers } from 'redux'
 import appReducer from './app'
 import authReducer from './auth'
 import connectReducer from './connect'
-import connectionsReducer from './connections'
 import globeReducer from './globe'
+import graphReducer from './graph'
 import historyReducer from './history'
 import journalReducer from './journal'
 import listenReducer from './listen'
@@ -20,8 +20,8 @@ export const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
   connect: connectReducer,
-  connections: connectionsReducer,
   globe: globeReducer,
+  graph: graphReducer,
   history: historyReducer,
   journal: journalReducer,
   routing: routerReducer,

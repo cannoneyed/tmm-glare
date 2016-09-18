@@ -5,12 +5,13 @@ import map from 'lodash.map'
 
 import Stats from './stats'
 
-import * as connectionsActions from 'src/core/connections'
+import * as graphActions from 'src/core/graph'
 import selectors from 'src/core/selectors'
 
-class ConnectionsView extends Component {
+class GraphView extends Component {
   static propTypes = {
     clearQueue: PropTypes.func.isRequired,
+    data: PropTypes.object.isRequired,
     graph: PropTypes.object,
     isGraphLoaded: PropTypes.bool.isRequired,
     loadUserConnections: PropTypes.func.isRequired,
@@ -168,10 +169,10 @@ class ConnectionsView extends Component {
   }
 
   processGraph = () => {
-    const { graph, vis } = this.props
+    const { data, vis } = this.props
 
-    const nodes = new vis.DataSet(map(graph.users, this.nodeFromUser))
-    const edges = new vis.DataSet(map(graph.connections, this.edgeFromConnection))
+    const nodes = new vis.DataSet(map(data.users, this.nodeFromUser))
+    const edges = new vis.DataSet(map(data.connections, this.edgeFromConnection))
 
     this.setState({
       nodes,
@@ -232,8 +233,8 @@ class ConnectionsView extends Component {
 
   render() {
     return (
-      <div className="connections-container">
-        <div className="connections-graph" ref={(ref) => this._container = ref} />
+      <div className="graph-wrapper">
+        <div className="graph-container" ref={(ref) => this._container = ref} />
         <Stats />
       </div>
 
@@ -242,11 +243,12 @@ class ConnectionsView extends Component {
 }
 
 export default connect(state => ({
+  data: state.graph.data,
   ownId: state.auth.id,
-  queue: state.connections.queue,
-  isGraphLoaded: state.connections.isGraphLoaded,
-  isQueueEmpty: selectors.connections.isQueueEmpty(state),
+  queue: state.graph.queue,
+  isGraphLoaded: state.graph.isGraphLoaded,
+  isQueueEmpty: selectors.graph.isQueueEmpty(state),
 }), {
-  loadUserConnections: connectionsActions.loadUserConnectionsAsync,
-  clearQueue: connectionsActions.clearQueue,
-})(ConnectionsView)
+  loadUserConnections: graphActions.loadUserConnectionsAsync,
+  clearQueue: graphActions.clearQueue,
+})(GraphView)

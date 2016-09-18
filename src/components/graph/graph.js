@@ -2,14 +2,13 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import visLoader from './vis-loader'
 
-import ConnectionsView from './connections-view'
+import GraphView from './graph-view'
 import Loading from '../loaders/loading'
-import * as connectionsActions from 'src/core/connections'
+import * as graphActions from 'src/core/graph'
 
-class Connections extends Component {
+class Graph extends Component {
 
   static propTypes = {
-    graph: PropTypes.object,
     isGraphLoaded: PropTypes.bool.isRequired,
     isGraphLoading: PropTypes.bool.isRequired,
     loadInitialGraphAsync: PropTypes.func.isRequired,
@@ -36,18 +35,16 @@ class Connections extends Component {
 
   render() {
     const { vis } = this.state
-    const { graph } = this.props
 
     return (
-      vis ? <ConnectionsView vis={vis} graph={graph} /> : <Loading />
+      vis ? <GraphView vis={vis} /> : <Loading />
     )
   }
 }
 
 export default connect(state => ({
-  graph: state.connections.graph,
-  isGraphLoaded: state.connections.isGraphLoaded,
-  isGraphLoading: state.connections.isGraphLoading,
+  isGraphLoaded: state.graph.isGraphLoaded,
+  isGraphLoading: state.graph.isGraphLoading,
 }), {
-  loadInitialGraphAsync: connectionsActions.loadInitialGraphAsync,
-})(Connections)
+  loadInitialGraphAsync: graphActions.loadInitialGraphAsync,
+})(Graph)

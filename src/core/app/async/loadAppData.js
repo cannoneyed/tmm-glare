@@ -1,6 +1,6 @@
 import { loadJournalAsync } from 'src/core/journal'
 import { getUserDataAsync } from 'src/core/user'
-import { loadConnectionStatsAsync } from 'src/core/connections'
+import { loadGraphStatsAsync } from 'src/core/graph'
 
 // Called when the auth flow is finishes, loads user and journal data
 export default function loadAppData() {
@@ -10,6 +10,6 @@ export default function loadAppData() {
 
     dispatch(getUserDataAsync(userId))
     dispatch(loadJournalAsync())
-    dispatch(loadConnectionStatsAsync(userId))
+    dispatch(loadGraphStatsAsync(userId))
   }
 }

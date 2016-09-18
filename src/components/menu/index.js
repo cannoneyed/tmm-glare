@@ -76,7 +76,7 @@ class Menu extends Component {
       setTimeout(() => !isConnecting ? beginConnectingAsync() : null, 300)
     }}
     const listenButtonHandler = { [clickOrTouch]: this.linkTo('listen') }
-    const connectionsButtonHandler = { [clickOrTouch]: this.linkTo('connections') }
+    const graphButtonHandler = { [clickOrTouch]: this.linkTo('graph') }
     const journalButtonHandler = { [clickOrTouch]: this.linkTo('journal') }
     const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
     const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
@@ -112,9 +112,9 @@ class Menu extends Component {
         { hasAccess ?
           <RippleButton
             className="sidebar-menu-item"
-            {...connectionsButtonHandler}>
+            {...graphButtonHandler}>
             Connections
-            <Icon type={'connections'} />
+            <Icon type={'graph'} />
           </RippleButton>
         : null }
 

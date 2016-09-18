@@ -61,8 +61,8 @@ Stats.propTypes = {
 }
 
 export default connect(state => ({
-  influence: state.connections.stats.score,
-  total: state.connections.stats.total,
-  maxDistance: state.connections.stats.maxDistance || 0,
+  influence: state.graph.stats.score,
+  total: state.graph.stats.total,
+  maxDistance: state.graph.stats.maxDistance || 0,
   sharedWith: Object.keys(state.user.connections || {}).length,
 }), null)(Stats)
