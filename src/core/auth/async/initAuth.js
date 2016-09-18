@@ -13,7 +13,6 @@ import * as notificationActions from 'src/core/notifications'
 // Called when the page loads, manages the facebook oauth redirect / login flow
 export default function initAuthAsync() {
   return (dispatch) => {
-
     // Set up a firebase auth state listener to get the currently logged in user (this will succeed)
     // if the user is logged in and a session token exists, otherwise we'll have to look for the
     // result of the oauth redirect)

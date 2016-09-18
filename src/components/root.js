@@ -30,6 +30,7 @@ export function Root({history, onEnter, store}) {
           <Route path="/tracks" onEnter={onEnter} component={Tracks}>
             <Route path="/tracks/:trackId" component={Tracks} />
           </Route>
+          <Route path="*" component={Connect} />
         </Route>
       </Router>
     </Provider>
