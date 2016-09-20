@@ -35,9 +35,10 @@ class Graph extends Component {
 
   render() {
     const { d3 } = this.state
+    const { isGraphLoaded } = this.props
 
     return (
-      d3 ? <GraphView d3={d3} /> : <Loading />
+      d3 && isGraphLoaded ? <GraphView d3={d3} /> : <Loading />
     )
   }
 }

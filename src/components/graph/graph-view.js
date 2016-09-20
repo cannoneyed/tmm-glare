@@ -29,8 +29,9 @@ class GraphView extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      nodeIdToIndex: {},
       nodes: [],
-      edges: [],
+      links: [],
       isGraphProcessed: false,
       lastSelected: null,
     }
@@ -46,22 +47,22 @@ class GraphView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { queue, isQueueEmpty } = nextProps
-    const { clearQueue } = this.props
-
-    if (isQueueEmpty) {
-      return nextProps
-    }
-
-    queue.users.forEach(user => {
-      this.state.nodes.add(this.nodeFromUser(user))
-    })
-
-    queue.connections.forEach(connection => {
-      this.state.edges.add(this.edgeFromConnection(connection))
-    })
-
-    clearQueue()
+    // const { queue, isQueueEmpty } = nextProps
+    // const { clearQueue } = this.props
+    //
+    // if (isQueueEmpty) {
+    //   return nextProps
+    // }
+    //
+    // queue.users.forEach(user => {
+    //   this.state.nodes.add(this.nodeFromUser(user))
+    // })
+    //
+    // queue.connections.forEach(connection => {
+    //   this.state.edges.add(this.edgeFromConnection(connection))
+    // })
+    //
+    // clearQueue()
     return nextProps
   }
 
@@ -152,13 +153,25 @@ class GraphView extends Component {
     }
   }
 
-  nodeFromUser = (user) => {
+  indexNode = (index, id) => {
+    this._indexById = this._indexById || {}
+    this._indexById[id] = index
+  }
+
+  getNodeIndex = (id) => {
+    return this._indexById[id]
+  }
+
+  nodeFromUser = (user, index) => {
+    const id = user.key
+    this.indexNode(index, id)
+
     return {
       id: user.key,
       shape: 'circularImage',
       image: user.profileImageURL,
-      label: '',
-      value: Object.keys(user.connections || {}).length,
+      name: user.displayName,
+      size: Object.keys(user.connections || {}).length,
     }
   }
 
@@ -166,28 +179,35 @@ class GraphView extends Component {
     const { from, to } = connection
 
     return {
-      from,
-      to,
+      source: this.getNodeIndex(from),
+      target: this.getNodeIndex(to),
     }
   }
 
   processGraphData = () => {
     const { data } = this.props
 
-    const nodes = map(data.users, this.nodeFromUser)
-    const edges = map(data.connections, this.edgeFromConnection)
+    let i = 0
+    const nodes = map(data.users, user => {
+      return this.nodeFromUser(user, i++)
+    })
+    const links = map(data.connections, this.edgeFromConnection)
 
     this.setState({
       nodes,
-      edges,
+      links,
     })
 
-    return { nodes, edges }
+    return { nodes, links }
   }
 
   updateGraph = () => {
     const { d3 } = this.props
     const container = ReactDOM.findDOMNode(this._container)
+
+    this.setState({
+      isGraphProcessed: true,
+    })
 
     const graphData = this.processGraphData()
 
@@ -196,15 +216,13 @@ class GraphView extends Component {
     // this.network.on('selectNode', this.selectNode)
     // this.network.on('doubleClick', this.doubleClick)
 
-    this.setState({
-      isGraphProcessed: true,
-    })
+
   }
 
   render() {
     return (
       <div className="graph-wrapper">
-        <div className="graph-container" ref={(ref) => this._container = ref} />
+        <svg className="graph-container" ref={(ref) => this._container = ref} />
         <Stats />
       </div>
 

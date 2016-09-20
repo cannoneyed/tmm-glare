@@ -14,8 +14,11 @@ var outline = false
 var min_score = 0
 var max_score = 1
 
-export default function createGraph({ d3, container }) {
-  const graphData = processGraph()
+export default function createGraph({ d3, container, graphData }) {
+  console.log(graphData)
+
+  // graphData = processGraph()
+  console.log(graphData)
 
   var color = d3.scale.linear()
     .domain([min_score, (min_score + max_score) / 2, max_score])
@@ -101,6 +104,15 @@ export default function createGraph({ d3, container }) {
     .on('touchstart', handleTouch)
     .call(force.drag)
 
+  node.append('image')
+    .attr('xlink:href', (d) => {
+      return d.image
+    })
+    .attr('x', (d) => -0.5 * d.size )
+    .attr('y', (d) => -0.5 * d.size )
+    .attr('height', (d) => d.size )
+    .attr('width', (d) => d.size )
+
   function handleTouch() {
     d3.event.stopPropagation()
   }
@@ -155,7 +167,7 @@ export default function createGraph({ d3, container }) {
       return size(d.size) || nominal_base_node_size
     })
     .text(function(d) {
-      return '\u2002' + d.name
+      return d.name
     })
   }
 
