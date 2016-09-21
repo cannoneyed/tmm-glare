@@ -168,10 +168,11 @@ class GraphView extends Component {
 
     return {
       id: user.key,
+      index,
       shape: 'circularImage',
       image: user.profileImageURL,
       name: user.displayName,
-      size: Object.keys(user.connections || {}).length * 10 + 10,
+      size: Object.keys(user.connections || {}).length * 10 + 10 * Math.random() * 1000,
     }
   }
 
@@ -188,17 +189,35 @@ class GraphView extends Component {
     const { data } = this.props
 
     let i = 0
-    const nodes = map(data.users, user => {
+    let nodes = map(data.users, user => {
       return this.nodeFromUser(user, i++)
     })
-    const links = map(data.connections, this.edgeFromConnection)
+
+    const nodesMap = {}
+    nodes.forEach(node => nodesMap[node.id] = node)
+
+    nodes = nodes.map(node => {
+      const user = data.users[node.id]
+      node.children = map(user.connections, (connection, key) => {
+        return nodesMap[key]
+      }).filter(child => {
+        return child && child.id !== node.id
+      })
+
+      if (node.children.length === 1) {
+        delete node.children
+      }
+
+      return node
+    })
+
+    nodes.forEach(node => nodesMap[node.id] = node)
 
     this.setState({
       nodes,
-      links,
     })
 
-    return { nodes, links }
+    return { nodes }
   }
 
   updateGraph = () => {
@@ -222,7 +241,7 @@ class GraphView extends Component {
   render() {
     return (
       <div className="graph-wrapper">
-        <svg className="graph-container" ref={(ref) => this._container = ref} />
+        <div className="graph-container" ref={(ref) => this._container = ref} />
         <Stats />
       </div>
 

@@ -18,7 +18,9 @@ const graph = {
     {source: 6, target: 16},
   ],
   nodes: [
-    {size: 60, index: 0, name: 'Andy Coenen', type: 'circle'},
+    {size: 60, index: 0, name: 'Andy Coenen', type: 'circle', children: [
+      { name: 'Molly Larkin'},
+    ]},
     {size: 20, index: 1, name: 'Molly Larkin', type: 'circle'},
     {size: 20, index: 2, name: 'Eric Luttrell', type: 'circle'},
     {size: 20, index: 3, name: 'Matt Conrad', type: 'circle'},
