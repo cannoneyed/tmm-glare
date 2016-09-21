@@ -15,14 +15,12 @@ var min_score = 0
 var max_score = 1
 
 export default function createGraph({ d3, container, graphData }) {
-  console.log(graphData)
+  graphData.nodes = graphData.nodes.map(node => {
+    node.x = window.innerWidth / 4 * Math.random() * 10
+    node.y = window.innerHeight / 4 * Math.random() * 10
+    return node
+  })
 
-  // graphData = processGraph()
-  console.log(graphData)
-
-  var color = d3.scale.linear()
-    .domain([min_score, (min_score + max_score) / 2, max_score])
-    .range(['lime', 'yellow', 'red'])
 
   var highlight_color = 'blue'
   var highlight_trans = 0.1
@@ -85,13 +83,7 @@ export default function createGraph({ d3, container, graphData }) {
     .attr('class', 'link')
     .style('stroke-width', nominal_stroke)
     .attr('filter', 'url(#blur)')
-    .style('stroke', function(d) {
-      if (isNumber(d.score) && d.score >= 0) {
-        return color(d.score)
-      } else {
-        return default_link_color
-      }
-    })
+    .style('stroke', default_link_color)
 
   var defs = svg.append('defs')
 
@@ -115,7 +107,17 @@ export default function createGraph({ d3, container, graphData }) {
 
   var node = g.selectAll('.node')
     .data(graphData.nodes)
-    .enter().append('g')
+    .enter()
+    .append('path')
+    .attr('d', d3.svg.symbol()
+      .size(function(d) {
+        return getSize(d)
+      })
+      .type('circle')
+    )
+    .style('fill', d => `url(#${d.id})`)
+    .style('stroke-width', nominal_stroke)
+    .style(towhite, 'white')
     .attr('class', 'node')
     // .attr('filter', 'url(#blur)')
     .on('mousedown', handleTouch)
@@ -141,40 +143,6 @@ export default function createGraph({ d3, container, graphData }) {
     towhite = 'fill'
   }
 
-  var circle = node.append('path')
-    .attr('d', d3.svg.symbol()
-      .size(function(d) {
-        return getSize(d)
-      })
-      .type(function(d) {
-        return d.type
-      })
-    )
-    .style('fill', d => `url(#${d.id})`)
-    .style('stroke-width', nominal_stroke)
-    .style(towhite, 'white')
-
-
-  var text = g.selectAll('.text')
-    .data(graphData.nodes)
-    .enter().append('text')
-    .attr('dy', '.35em')
-    .style('font-size', nominal_text_size + 'px')
-
-  if (text_center) {
-    text.text(function(d) {
-      return d.name
-    })
-    .style('text-anchor', 'middle')
-  } else {
-    text.attr('dx', function(d) {
-      return size(d.size) || nominal_base_node_size
-    })
-    .text(function(d) {
-      return d.name
-    })
-  }
-
   node
     .on('tap', function(d) {
       set_highlight(d)
@@ -197,8 +165,7 @@ export default function createGraph({ d3, container, graphData }) {
       if (focus_node !== null) {
         focus_node = null
         if (highlight_trans < 1) {
-          circle.style('opacity', 1)
-          text.style('opacity', 1)
+          node.style('opacity', 1)
           link.style('opacity', 1)
         }
       }
@@ -213,22 +180,15 @@ export default function createGraph({ d3, container, graphData }) {
     if (focus_node === null) {
       svg.style('cursor', 'move')
       if (highlight_color !== 'white') {
-        circle.style(towhite, 'white')
-        text.style('font-weight', 'normal')
-        link.style('stroke', function(o) {
-          return (isNumber(o.score) && o.score >= 0) ? color(o.score) : default_link_color
-        })
+        node.style(towhite, 'white')
+        link.style('stroke', default_link_color)
       }
     }
   }
 
   function set_focus(d) {
     if (highlight_trans < 1) {
-      circle.style('opacity', function(o) {
-        return isConnected(d, o) ? 1 : highlight_trans
-      })
-
-      text.style('opacity', function(o) {
+      node.style('opacity', function(o) {
         return isConnected(d, o) ? 1 : highlight_trans
       })
 
@@ -248,42 +208,28 @@ export default function createGraph({ d3, container, graphData }) {
     highlight_node = d
 
     if (highlight_color !== 'white') {
-      circle.style(towhite, function(o) {
+      node.style(towhite, function(o) {
         return isConnected(d, o) ? highlight_color : 'white'
       })
-      text.style('font-weight', function(o) {
-        return isConnected(d, o) ? 'bold' : 'normal'
-      })
-      link.style('stroke', function(o) {
-        if (o.source.index === d.index || o.target.index === d.index) {
-          return highlight_color
-        } else {
-          if (isNumber(o.score) && o.score >= 0) {
-            return color(o.score)
-          } else {
-            return default_link_color
-          }
-        }
-      })
+      link.style('stroke', default_link_color)
     }
   }
 
 
   zoom.on('zoom', function() {
-
     var stroke = nominal_stroke
     if (nominal_stroke * zoom.scale() > max_stroke) {
       stroke = max_stroke / zoom.scale()
     }
     link.style('stroke-width', stroke)
-    circle.style('stroke-width', stroke)
+    node.style('stroke-width', stroke)
 
     var base_radius = nominal_base_node_size
     if (nominal_base_node_size * zoom.scale() > max_base_node_size) {
       base_radius = max_base_node_size / zoom.scale()
     }
 
-    circle.attr('d', d3.svg.symbol()
+    node.attr('d', d3.svg.symbol()
       .size(function(d) {
         return Math.PI * Math.pow(size(d.size) * base_radius / nominal_base_node_size || base_radius, 2)
       })
@@ -291,18 +237,10 @@ export default function createGraph({ d3, container, graphData }) {
         return d.type
       }))
 
-    if (!text_center) {
-      text.attr('dx', function(d) {
-        return size(d.size) * base_radius / nominal_base_node_size || base_radius
-      })
-    }
-
     var text_size = nominal_text_size
     if (nominal_text_size * zoom.scale() > max_text_size) {
       text_size = max_text_size / zoom.scale()
     }
-
-    text.style('font-size', text_size + 'px')
 
     g.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')')
   })
@@ -313,9 +251,6 @@ export default function createGraph({ d3, container, graphData }) {
 
   force.on('tick', function() {
     node.attr('transform', function(d) {
-      return 'translate(' + d.x + ',' + d.y + ')'
-    })
-    text.attr('transform', function(d) {
       return 'translate(' + d.x + ',' + d.y + ')'
     })
 
@@ -331,13 +266,6 @@ export default function createGraph({ d3, container, graphData }) {
     .attr('y2', function(d) {
       return d.target.y
     })
-
-    node.attr('cx', function(d) {
-      return d.x
-    })
-    .attr('cy', function(d) {
-      return d.y
-    })
   })
 
   function resize() {
@@ -352,40 +280,6 @@ export default function createGraph({ d3, container, graphData }) {
     h = height
   }
 
-  link.style('display', function(d) {
-    var flag = vis_by_type(d.source.type)
-      && vis_by_type(d.target.type)
-      && vis_by_node_score(d.source.score)
-      && vis_by_node_score(d.target.score)
-      && vis_by_link_score(d.score)
-
-    linkedByIndex[d.source.index + ',' + d.target.index] = flag
-    return flag ? 'inline' : 'none'
-  })
-
-  node.style('display', function(d) {
-    return vis_by_type(d.type)
-      && vis_by_node_score(d.score) ? 'inline' : 'none'
-  })
-
-  text.style('display', function(d) {
-    return vis_by_type(d.type)
-      && vis_by_node_score(d.score) ? 'inline' : 'none'
-  })
-
-  if (highlight_node !== null) {
-    const condition = vis_by_type(highlight_node.type)
-      && vis_by_node_score(highlight_node.score)
-
-    if (condition) {
-      if (focus_node !== null) {
-        set_focus(focus_node)
-      }
-      set_highlight(highlight_node)
-    } else {
-      exit_highlight()
-    }
-  }
 }
 
 function vis_by_type() {

@@ -90,7 +90,7 @@ export class Connect extends Component {
           transitionLeaveTimeout={750}>
           {isConnecting ? [this.renderConnectingLoader()] : []}
         </ReactCSSTransitionGroup>
-        {isGlobeLoaded ? this.renderGlobe(blurred) : null}
+        {/*{isGlobeLoaded ? this.renderGlobe(blurred) : null}*/}
         { shouldDisplayIntro ? <Intro /> :
           <div className="action-buttons">
             <Beacons />
