@@ -171,7 +171,7 @@ class GraphView extends Component {
       shape: 'circularImage',
       image: user.profileImageURL,
       name: user.displayName,
-      size: Object.keys(user.connections || {}).length,
+      size: Object.keys(user.connections || {}).length * 10 + 10,
     }
   }
 

@@ -47,6 +47,10 @@ export default function createGraph({ d3, container, graphData }) {
   var min_zoom = 0.1
   var max_zoom = 7
 
+  const getSize = (d) => Math.PI * Math.pow(size(d.size) || nominal_base_node_size, 2)
+  const getImageSize = (d) => 2 * size(d.size)
+
+
   var svg = d3.select(container)
   var zoom = d3.behavior.zoom().scaleExtent([min_zoom, max_zoom])
   var g = svg.append('g')
@@ -89,29 +93,34 @@ export default function createGraph({ d3, container, graphData }) {
       }
     })
 
-  var filter = svg.append('defs')
-    .append('filter')
+  var defs = svg.append('defs')
+
+  var filter = defs.append('filter')
       .attr('id', 'blur')
     .append('feGaussianBlur')
       .attr('stdDeviation', 1)
+
+  graphData.nodes.forEach(node => {
+    defs.append('svg:pattern')
+      .attr('id', node.id)
+      .attr('patternContentUnits', 'objectBoundingBox')
+      .attr('width', '100%')
+      .attr('height', '100%')
+      .append('svg:image')
+      .attr('xlink:href', node.image)
+      .attr('width', 1)
+      .attr('height', 1)
+      .attr('preserveAspectRatio', 'none')
+  })
 
   var node = g.selectAll('.node')
     .data(graphData.nodes)
     .enter().append('g')
     .attr('class', 'node')
-    .attr('filter', 'url(#blur)')
+    // .attr('filter', 'url(#blur)')
     .on('mousedown', handleTouch)
     .on('touchstart', handleTouch)
     .call(force.drag)
-
-  node.append('image')
-    .attr('xlink:href', (d) => {
-      return d.image
-    })
-    .attr('x', (d) => -0.5 * d.size )
-    .attr('y', (d) => -0.5 * d.size )
-    .attr('height', (d) => d.size )
-    .attr('width', (d) => d.size )
 
   function handleTouch() {
     d3.event.stopPropagation()
@@ -134,19 +143,14 @@ export default function createGraph({ d3, container, graphData }) {
 
   var circle = node.append('path')
     .attr('d', d3.svg.symbol()
-    .size(function(d) {
-      return Math.PI * Math.pow(size(d.size) || nominal_base_node_size, 2)
-    })
-    .type(function(d) {
-      return d.type
-    }))
-    .style(tocolor, function(d) {
-      if (isNumber(d.score) && d.score >= 0) {
-        return color(d.score)
-      } else {
-        return default_node_color
-      }
-    })
+      .size(function(d) {
+        return getSize(d)
+      })
+      .type(function(d) {
+        return d.type
+      })
+    )
+    .style('fill', d => `url(#${d.id})`)
     .style('stroke-width', nominal_stroke)
     .style(towhite, 'white')
 
