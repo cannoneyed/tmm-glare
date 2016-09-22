@@ -98,6 +98,7 @@
     "react-hammerjs": "^0.4.6",
     "react-modal": "^1.4.0",
     "react-redux": "~4.4.5",
+    "react-responsive": "^1.1.5",
     "react-router": "~2.4.0",
     "react-router-redux": "~4.0.4",
     "react-sidebar": "^2.1.4",
