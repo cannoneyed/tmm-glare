@@ -1,4 +1,11 @@
 export const checkIncognito = () => {
-  const fs = window.RequestFileSystem || window.webkitRequestFileSystem
-  return !fs
+  var testKey = '___test___', storage = window.localStorage
+  try {
+    storage.setItem(testKey, '1')
+    storage.removeItem(testKey)
+    return false
+  } catch (error) {
+    window.alert('FUCK YOU!')
+    return true
+  }
 }
