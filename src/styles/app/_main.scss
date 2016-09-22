@@ -85,3 +85,17 @@ html, body {
     color: $dull;
   }
 }
+
+.mobile-warning-container {
+  min-width: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-warning {
+  max-width: 50%;
+  text-align: center;
+  font-size: rem(17px);
+}
