@@ -5,7 +5,6 @@ export const checkIncognito = () => {
     storage.removeItem(testKey)
     return false
   } catch (error) {
-    window.alert('FUCK YOU!')
     return true
   }
 }
