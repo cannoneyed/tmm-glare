@@ -5,6 +5,7 @@ import {
   loadPlayer,
   unlockTracks,
   setPlaylist,
+  setActiveAndSelectedIndex,
 } from '../index'
 
 import * as util from 'src/util'
@@ -32,8 +33,14 @@ export default function loadPlayerData() {
 
       // Dispatch the track lists that are unlocked
       const toUnlock = map(unlockedTracks, (isUnlocked, index) => {
-        return index
+        return index * 1
       })
+
+      // We need to ensure the first unlocked track is selected
+      const firstUnlockedTrack = toUnlock.sort()[0]
+      dispatch(setActiveAndSelectedIndex(firstUnlockedTrack))
+
+      // Unlock tracks
       dispatch(unlockTracks(toUnlock))
 
       // Now fetch the actual audio in the soundcloud audio object, and dispatch the playlist

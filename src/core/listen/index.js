@@ -10,6 +10,7 @@ export const SET_PLAYLIST = 'listen/SET_PLAYLIST'
 export const SET_ACTIVE_INDEX = 'listen/SET_ACTIVE_INDEX'
 export const SET_SELECTED_INDEX = 'listen/SET_SELECTED_INDEX'
 export const UNLOCK_ALL_TRACKS = 'listen/UNLOCK_ALL_TRACKS'
+export const SET_ACTIVE_AND_SELECTED_INDEX = 'listen/SET_ACTIVE_AND_SELECTED_INDEX'
 
 export const initialState = {
   clientId: null,
@@ -48,6 +49,8 @@ export default function reducer(state = initialState, action) {
       return { ...state, activeIndex: action.payload }
     case SET_SELECTED_INDEX:
       return { ...state, selectedIndex: action.payload }
+    case SET_ACTIVE_AND_SELECTED_INDEX:
+      return { ...state, activeIndex: action.payload, selectedIndex: action.payload}
     case UNLOCK_TRACKS: {
       const idsToUnlock = action.payload
       const unlockedTracks = state.unlockedTracks.slice()
@@ -99,6 +102,10 @@ export function setActiveIndex(index) {
 
 export function setSelectedIndex(index) {
   return { type: SET_SELECTED_INDEX, payload: index }
+}
+
+export function setActiveAndSelectedIndex(index) {
+  return { type: SET_ACTIVE_AND_SELECTED_INDEX, payload: index }
 }
 
 export function unlockAllTracks() {
