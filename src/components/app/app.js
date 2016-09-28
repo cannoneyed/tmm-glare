@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import MediaQuery from 'react-responsive'
 import { connect } from 'react-redux'
 import Notifications from '../notifications/notifications'
 
@@ -7,7 +6,7 @@ import Sidebar from 'react-sidebar'
 import ModalManager from '../modal'
 import Header from './header'
 import Menu from '../menu'
-import UseMobileWarning from './use-mobile'
+import OrientationManager from './orientation'
 
 import Loading from '../loaders/loading'
 
@@ -82,28 +81,23 @@ export class App extends Component {
     }
 
     return (
-      <div>
-        <MediaQuery minDeviceWidth={1224}>
-          <UseMobileWarning />
-        </MediaQuery>
-        <MediaQuery maxDeviceWidth={1224}>
-          <div className="container" style={fixedWindowStyle}>
-            <ModalManager />
-            <Sidebar
-              sidebar={<Menu />}
-              open={isSidebarOpen}
-              sidebarClassName="sidebar-container"
-              touchHandleWidth={0}
-              styles={sidebarStyles}
-              shadow={false}
-              pullRight={true}
-              onSetOpen={this.onSetSidebarOpen}>
-              <Header />
-              {isLoading ? this.renderLoading() : this.renderMain()}
-            </Sidebar>
-          </div>
-        </MediaQuery>
-      </div>
+      <OrientationManager >
+        <div className="container" style={fixedWindowStyle}>
+          <ModalManager />
+          <Sidebar
+            sidebar={<Menu />}
+            open={isSidebarOpen}
+            sidebarClassName="sidebar-container"
+            touchHandleWidth={0}
+            styles={sidebarStyles}
+            shadow={false}
+            pullRight={true}
+            onSetOpen={this.onSetSidebarOpen}>
+            <Header />
+            {isLoading ? this.renderLoading() : this.renderMain()}
+          </Sidebar>
+        </div>
+      </OrientationManager>
     )
   }
 }

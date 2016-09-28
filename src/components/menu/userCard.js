@@ -5,6 +5,7 @@ import { getConnectionsScore, getRemainingGives } from 'src/core/selectors/user'
 
 const UserCard = (props) => {
   const {
+    remaining,
     score,
     user
   } = props
@@ -15,16 +16,19 @@ const UserCard = (props) => {
     backgroundImage: `url('${avatarUrl}')`
   }
 
-  const scoreString = `Influence: ${score}`
-
   return (
     <div className="user-card">
       <div
         style={avatarStyle}
         className="user-avatar"
       />
-      <div>{user.displayName}</div>
-      <div>{scoreString}</div>
+      <div className="user-name">{user.displayName}</div>
+      <div className="user-stats">
+        Influence: <span className="user-influence">{score}</span>
+      </div>
+      <div className="user-stats">
+        Gives Remaining: <span className="user-gives">{remaining}</span>
+      </div>
     </div>
   )
 }

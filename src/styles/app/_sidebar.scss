@@ -92,6 +92,24 @@
   padding-bottom: 20px;
   font-size: rem(14px);
   padding-right: 15px;
+
+  >.user-name {
+    font-size: rem(16px);
+    margin-bottom: 5px;
+  }
+}
+
+
+
+.user-stats {
+  >.user-influence {
+    color: $teal;
+    display: inline;
+  }
+
+  >.user-gives {
+    color: $teal;
+  }
 }
 
 .user-avatar {
