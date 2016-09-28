@@ -1,119 +1,102 @@
-/* eslint-disable */
-import processGraph from './process-graph'
-import hammer from 'hammerjs'
-import root from './test-data'
-
-var w = window.innerWidth
-var h = window.innerHeight
-
-var focus_node = null
-var highlight_node = null
-
-var text_center = false
-var outline = false
-
-var min_score = 0
-var max_score = 1
+const width = window.innerWidth
+const height = window.innerHeight
 
 export default function createGraph({ d3, container, graphData }) {
-  var width = window.innerWidth,
-    height = window.innerHeight
+  const force = d3.layout.force()
+    .size([width, height])
+    .on('tick', tick)
 
-  var force = d3.layout.force()
-      .size([width, height])
-      .on("tick", tick);
+  const zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on('zoom', resize)
 
-  var svg = d3.select(container).append("svg")
-      .attr("width", width)
-      .attr("height", height);
+  const svg = d3.select(container).append('svg')
+    .attr('width', width)
+    .attr('height', height)
 
-  var link = svg.selectAll(".link"),
-      node = svg.selectAll(".node");
+
+  const vis = svg.append('g')
+    .attr('width', width)
+    .attr('height', height)
+    .call(zoom)
+
+  let link = vis.selectAll('.link')
+  let node = vis.selectAll('.node')
 
   update()
 
   function update() {
-    var nodes = graphData.nodes,
-        links = d3.layout.tree().links(nodes);
+    const nodes = graphData.nodes
+    const links = d3.layout.tree().links(nodes)
 
     // Restart the force layout.
     force
-        .nodes(nodes)
-        .links(links)
-        .start();
+      .nodes(nodes)
+      .links(links)
+      .start()
 
     // Update the links…
-    link = link.data(links, function(d) { return d.target.id; });
+    link = link.data(links, (d) => d.target.id )
 
     // Exit any old links.
-    link.exit().remove();
+    link.exit().remove()
 
     // Enter any new links.
-    link.enter().insert("line", ".node")
-        .attr("class", "link")
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+    link.enter().insert('line', '.node')
+      .attr('class', 'link')
+      .attr('x1', (d) => d.source.x)
+      .attr('y1', (d) => d.source.y)
+      .attr('x2', (d) => d.target.x)
+      .attr('y2', (d) => d.target.y)
 
     // Update the nodes…
-    node = node.data(nodes, function(d) { return d.id; }).style("fill", color);
+    node = node.data(nodes, (d) => d.id ).style('fill', color)
 
     // Exit any old nodes.
-    node.exit().remove();
+    node.exit().remove()
 
     // Enter any new nodes.
-    node.enter().append("circle")
-        .attr("class", "node")
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; })
-        .attr("r", function(d) { return Math.sqrt(d.size) / 10 || 4.5; })
-        .style("fill", color)
-        .on("click", click)
-        .call(force.drag);
+    node.enter().append('circle')
+      .attr('class', 'node')
+      .attr('cx', (d) => d.x )
+      .attr('cy', (d) => d.y )
+      .attr('r', (d) => Math.sqrt(d.size) / 10 || 4.5 )
+      .style('fill', color)
+      .on('click', click)
+      .call(force.drag)
   }
 
   function tick() {
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+    link.attr('x1', (d) => d.source.x )
+      .attr('y1', (d) => d.source.y )
+      .attr('x2', (d) => d.target.x )
+      .attr('y2', (d) => d.target.y )
 
-    node.attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+    node.attr('cx', (d) => d.x )
+        .attr('cy', (d) => d.y )
   }
 
   // Color leaf nodes orange, and packages white or blue.
   function color(d) {
-    return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
+    if (d._children) {
+      return '#3182bd'
+    } else {
+      return d.children ? '#c6dbef' : '#fd8d3c'
+    }
   }
 
   // Toggle children on click.
   function click(d) {
     if (!d3.event.defaultPrevented) {
-      if (d.children) {
-        d._children = d.children;
-        d.children = null;
-      } else {
-        d.children = d._children;
-        d._children = null;
-      }
-      update();
+      console.log('🍕', d)
+      update()
     }
   }
 
-  // Returns a list of all nodes under the root.
-  function flatten(root) {
-    var nodes = [], i = 0;
+  function resize() {
+    const trans = d3.event.translate
+    const scale = d3.event.scale
 
-    function recurse(node) {
-      if (node.children) node.children.forEach(recurse);
-      if (!node.id) node.id = ++i;
-      nodes.push(node);
-    }
-
-    recurse(root);
-    return nodes;
+    vis.attr('transform', `translate(${trans}) scale(${scale})`)
   }
-
 }
