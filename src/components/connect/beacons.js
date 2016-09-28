@@ -7,6 +7,7 @@ import RippleButton from '../shared/rippleButton'
 import * as connectActions from 'src/core/connect'
 import * as messageActions from 'src/core/messages'
 import { hasAskedForAccess, hasBeenAskedForAccess } from 'src/core/selectors/messages'
+import ConnectingMessage from './connecting-message'
 
 const Beacons = (props) => {
   const {
@@ -18,8 +19,6 @@ const Beacons = (props) => {
     user,
   } = props
   const hasAccess = user && user.hasAccess
-
-  const message = connectingMessage(beacons, hasAccess)
 
   const giveAccess = (beacon) => {
     connectWithUserAsync(beacon)
@@ -64,7 +63,7 @@ const Beacons = (props) => {
 
   return (
     <div className="connect-beacons">
-      <div className="connect-message">{message}</div>
+      <ConnectingMessage beacons={beacons} hasAccess={hasAccess} />
       {toRender}
       <div className="beacon-divider" />
     </div>
@@ -89,17 +88,3 @@ export default connect(state => ({
   connectWithUserAsync: connectActions.connectWithUserAsync,
   sendAccessRequestAsync: messageActions.sendAccessRequestAsync,
 })(Beacons)
-
-function connectingMessage(beacons, hasAccess) {
-  let message
-  if (hasAccess) {
-    message = beacons.length ?
-      'People to give to' :
-      'Finding people to give to...'
-  } else {
-    message = beacons.length ?
-      'People to connect with' :
-      'Finding people to connect with...'
-  }
-  return message
-}

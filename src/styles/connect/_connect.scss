@@ -16,6 +16,13 @@
   >.connect-message {
     font-size: rem(16px);
     margin-bottom: 10px;
+    text-align: center;
+
+    >.connect-learn-more {
+      font-size: rem(14px);
+      margin-top: 10px;
+      color: $teal;
+    }
   }
 
   >.beacon-divider {

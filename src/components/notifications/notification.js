@@ -62,19 +62,19 @@ const stylesNotification = {
   },
 
   success: {
-    backgroundColor: 'rgba(34, 84, 78, .650)'
+    backgroundColor: 'rgba(34, 84, 78, .850)'
   },
 
   info: {
-    backgroundColor: 'rgba(73, 42, 100, .650)'
+    backgroundColor: 'rgba(73, 42, 100, .850)'
   },
 
   warning: {
-    backgroundColor: 'rgba(100, 50, 28, .650)'
+    backgroundColor: 'rgba(100, 50, 28, .850)'
   },
 
   danger: {
-    backgroundColor: 'rgba(91, 30, 24, .650)'
+    backgroundColor: 'rgba(91, 30, 24, .850)'
   }
 }
 
@@ -85,7 +85,7 @@ Notification.propTypes = {
   dismissNotification: PropTypes.func,
   id: PropTypes.number,
   kind: React.PropTypes.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.node.isRequired,
   onActionClick: PropTypes.func,
   onClick: PropTypes.func,
   onDismis: PropTypes.func,
