@@ -13,12 +13,12 @@ export default function createGraph({ d3, container, graphData }) {
   const svg = d3.select(container).append('svg')
     .attr('width', width)
     .attr('height', height)
-
+    .style('cursor,', 'move')
+    .call(zoom)
 
   const vis = svg.append('g')
     .attr('width', width)
     .attr('height', height)
-    .call(zoom)
 
   let link = vis.selectAll('.link')
   let node = vis.selectAll('.node')
@@ -64,6 +64,14 @@ export default function createGraph({ d3, container, graphData }) {
       .style('fill', color)
       .on('click', click)
       .call(force.drag)
+
+    node.on('dblclick.zoom', (d) => {
+      d3.event.stopPropagation()
+      var dcx = (window.innerWidth / 2 - d.x * zoom.scale())
+      var dcy = (window.innerHeight / 2 - d.y * zoom.scale())
+      zoom.translate([dcx, dcy])
+      vis.attr('transform', `translate(${dcx},${dcy})scale(${zoom.scale()})`)
+    })
   }
 
   function tick() {
@@ -86,9 +94,8 @@ export default function createGraph({ d3, container, graphData }) {
   }
 
   // Toggle children on click.
-  function click(d) {
+  function click() {
     if (!d3.event.defaultPrevented) {
-      console.log('🍕', d)
       update()
     }
   }
