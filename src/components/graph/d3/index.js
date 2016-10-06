@@ -1,3 +1,5 @@
+import get from 'lodash.get'
+
 const width = window.innerWidth
 const height = window.innerHeight
 
@@ -11,6 +13,7 @@ export default function createGraph({ d3, container, graphData }) {
     .on('zoom', resize)
 
   const svg = d3.select(container).append('svg')
+    .attr('id', 'containerSVG')
     .attr('width', width)
     .attr('height', height)
     .style('cursor,', 'move')
@@ -55,6 +58,9 @@ export default function createGraph({ d3, container, graphData }) {
     // Exit any old nodes.
     node.exit().remove()
 
+    const drag = force.drag()
+      .on('dragstart', () => d3.event.sourceEvent.stopPropagation())
+
     // Enter any new nodes.
     node.enter().append('circle')
       .attr('class', 'node')
@@ -63,9 +69,13 @@ export default function createGraph({ d3, container, graphData }) {
       .attr('r', (d) => Math.sqrt(d.size) / 10 || 4.5 )
       .style('fill', color)
       .on('click', click)
-      .call(force.drag)
+      .on('touchstart', d => {
+        console.log(d)
+      })
+      .on('dblclick', dblclick)
+      .call(drag)
 
-    node.on('dblclick.zoom', (d) => {
+    svg.on('dblclick.zoom', (d) => {
       d3.event.stopPropagation()
       var dcx = (window.innerWidth / 2 - d.x * zoom.scale())
       var dcy = (window.innerHeight / 2 - d.y * zoom.scale())
@@ -95,6 +105,13 @@ export default function createGraph({ d3, container, graphData }) {
 
   // Toggle children on click.
   function click() {
+    if (!d3.event.defaultPrevented) {
+      update()
+    }
+  }
+
+  function dblclick() {
+    console.log('DOUBLE!!!')
     if (!d3.event.defaultPrevented) {
       update()
     }
