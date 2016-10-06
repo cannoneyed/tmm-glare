@@ -12,7 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import THREE from 'three'
+import * as THREE from 'three'
 import Shaders from './shaders'
 import helpers from './helpers'
 import stars from './stars'
