@@ -4,6 +4,19 @@ const width = window.innerWidth
 const height = window.innerHeight
 
 export default function createGraph({ d3, container, graphData }) {
+
+  d3.selection.prototype.dblTap = function(callback) {
+    var last = 0
+    return this.each(function() {
+      d3.select(this).on('touchstart', function(e) {
+        if ((d3.event.timeStamp - last) < 500) {
+          return callback(e)
+        }
+        last = d3.event.timeStamp
+      })
+    })
+  }
+
   const force = d3.layout.force()
     .size([width, height])
     .on('tick', tick)
@@ -69,10 +82,7 @@ export default function createGraph({ d3, container, graphData }) {
       .attr('r', (d) => Math.sqrt(d.size) / 10 || 4.5 )
       .style('fill', color)
       .on('click', click)
-      .on('touchstart', d => {
-        console.log(d)
-      })
-      .on('dblclick', dblclick)
+      .dblTap(dblclick)
       .call(drag)
 
     svg.on('dblclick.zoom', (d) => {
@@ -111,7 +121,6 @@ export default function createGraph({ d3, container, graphData }) {
   }
 
   function dblclick() {
-    console.log('DOUBLE!!!')
     if (!d3.event.defaultPrevented) {
       update()
     }
