@@ -34,6 +34,20 @@
   margin-bottom: 20px;
   font-family: inherit;
   font-size: rem(15px);
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.graph-user-avatar {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.graph-user-info {
+  >.graph-user-name {
+    font-weight: bold;
+  }
 }
 
 .graph-statistic {
@@ -70,6 +84,15 @@
 .node {
   stroke: #3182bd;
   stroke-width: 1.5px;
+
+  &.selected {
+    stroke: $purple;
+    stroke-opacity: 0.3;
+    stroke-width: 6px;
+    animation: pulse 1.25s infinite cubic-bezier( 0.66, 0.33, 0, 1)
+  }
+
+  transition: 200ms stroke-width;
 }
 
 .link {

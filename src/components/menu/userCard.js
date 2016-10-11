@@ -13,9 +13,14 @@ const UserCard = (props) => {
 
   const scoreString = `Influence: ${score}`
 
+  const avatarStyle = {
+    marginBottom: 10,
+    paddingRight: 15,
+  }
+
   return (
     <div className="user-card">
-      <UserAvatar profileImageURL={user.profileImageURL} />
+      <UserAvatar profileImageURL={user.profileImageURL} style={avatarStyle} />
       <div>{user.displayName}</div>
       <div>{scoreString}</div>
     </div>

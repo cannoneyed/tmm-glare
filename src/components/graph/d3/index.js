@@ -10,6 +10,8 @@ export default function createGraph(props) {
     onClickOutside,
   } = props
 
+  let selected = null
+
   d3.selection.prototype.dblTap = function(callback) {
     var last = 0
     return this.each(function() {
@@ -122,6 +124,12 @@ export default function createGraph(props) {
   }
 
   function clickNode(d) {
+    if (selected) {
+      selected.attr('class', 'node')
+    }
+    selected = d3.select(this)
+    selected.attr('class', 'node selected')
+
     if (!d3.event.defaultPrevented) {
       d3.event.stopPropagation()
       d3.event.preventDefault()
@@ -131,6 +139,11 @@ export default function createGraph(props) {
   }
 
   function clickOutside() {
+    if (selected) {
+      selected.attr('class', 'node')
+    }
+    selected = null
+
     if (!d3.event.defaultPrevented) {
       d3.event.stopPropagation()
       d3.event.preventDefault()
