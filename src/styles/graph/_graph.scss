@@ -81,6 +81,15 @@
   }
 }
 
+.graph-statistic:first-of-type {
+  border-radius: 10px 10px 0 0;
+}
+
+.graph-statistic:last-of-type {
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 20px;
+}
+
 .node {
   stroke: #3182bd;
   stroke-width: 1.5px;
@@ -88,11 +97,22 @@
   &.selected {
     stroke: $purple;
     stroke-opacity: 0.3;
-    stroke-width: 6px;
-    animation: pulse 1.25s infinite cubic-bezier( 0.66, 0.33, 0, 1)
+    animation: pulse 1.25s infinite
   }
 
   transition: 200ms stroke-width;
+}
+
+@keyframes pulse {
+  0% {
+    stroke-width: 1.5px;
+  }
+  50% {
+    stroke-width: 8px;
+  }
+  100% {
+    stroke-width: 1.5px;
+  }
 }
 
 .link {
