@@ -27,18 +27,28 @@
   align-items: center;
 }
 
+.graph-user-container {
+  width: 80%;
+  background: rgba($base-background-color, 0.5);
+  border-radius: 10px 10px 10px 10px;
+  margin-bottom: 20px;
+  font-family: inherit;
+  font-size: rem(15px);
+}
+
 .graph-statistic {
+  width: 80%;
+  background: rgba($base-background-color, 0.5);
+
   // @include button-base;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   outline: none;
   padding: 0px 0px 0px 5px;
-  width: 80%;
   height: 28px;
   font-family: inherit;
   font-size: rem(15px);
   line-height: 28px;
   color: $base-font-color;
-  background: $base-background-color;
 
   display: flex;
   flex-direction: row;

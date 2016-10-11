@@ -1,26 +1,15 @@
-export const SET_GRAPH_STATS = 'connections/SET_GRAPH_STATS'
-export const SET_IS_PROCESSING_STATS = 'connections/SET_IS_PROCESSING_STATS'
-export const SET_IS_GRAPH_LOADING = 'connections/SET_IS_GRAPH_LOADING'
-export const SET_INITIAL_GRAPH = 'connections/SET_INITIAL_GRAPH'
-export const ADD_CONNECTION = 'connections/ADD_CONNECTION'
-export const ADD_USER = 'connections/ADD_USER'
-export const CLEAR_QUEUE = 'connections/CLEAR_QUEUE'
-export const SET_USER_EXPANDED = 'connections/SET_USER_EXPANDED'
+export const SET_IS_GRAPH_LOADING = 'graph/SET_IS_GRAPH_LOADING'
+export const SET_GRAPH_DATA = 'graph/SET_GRAPH_DATA'
+export const SET_USER = 'graph/SET_USER'
+export const SET_SELECTED_USER_ID = 'graph/SET_SELECTED_USER_ID'
 
 export const initialState = {
+  data: {},
   isGraphLoaded: false,
   isGraphLoading: false,
-  isStatsProcessing: false,
-  isStatsLoaded: false,
   stats: {},
-  data: {
-    users: {},
-    connections: {},
-  },
-  queue: {
-    users: {},
-    connections: {},
-  },
+  selectedUserId: null,
+  users: {},
 }
 
 export default function reducer(state = initialState, action) {
@@ -28,116 +17,55 @@ export default function reducer(state = initialState, action) {
 
     case SET_IS_GRAPH_LOADING:
       return { ...state, isGraphLoading: action.payload }
-    case SET_IS_PROCESSING_STATS:
-      return { ...state, isGraphProcessing: action.payload }
-    case SET_GRAPH_STATS:
+    case SET_GRAPH_DATA: {
+      const payload = action.payload
       return {
         ...state,
-        stats: action.payload,
-        isStatsLoaded: true,
-        isStatsProcessing: false,
-      }
-    case SET_INITIAL_GRAPH:
-      return {
-        ...state,
-        data: action.payload,
+        stats: payload.stats,
+        nodes: payload.nodes,
         isGraphLoaded: true,
         isGraphLoading: false,
       }
-    case ADD_USER:
+    }
+    case SET_SELECTED_USER_ID:
       return {
         ...state,
-        data: {
-          ...state.data,
-          users: {
-            ...state.data.users,
-            [action.payload.key]: action.payload,
-          }
-        },
-        queue: {
-          ...state.queue,
-          users: {
-            ...state.queue.users,
-            [action.payload.key]: action.payload,
-          }
-        },
+        selectedUserId: action.payload,
       }
-    case ADD_CONNECTION:
+    case SET_USER: {
+      const user = action.payload
       return {
         ...state,
-        data: {
-          ...state.data,
-          connections: {
-            ...state.data.connections,
-            [action.payload.to]: action.payload,
-          }
-        },
-        queue: {
-          ...state.queue,
-          connections: {
-            ...state.queue.connections,
-            [action.payload.to]: action.payload,
-          }
+        users: {
+          ...state.users,
+          [user.key]: user,
         }
       }
-    case CLEAR_QUEUE:
-      return {
-        ...state,
-        queue: {
-          users: {},
-          connections: {},
-        }
-      }
-    case SET_USER_EXPANDED:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          users: {
-            ...state.data.users,
-            [action.payload]: {
-              ...state.data.users[action.payload],
-              isExpanded: true,
-            }
-          }
-        }
-      }
+    }
     default:
       return state
   }
 }
 
 // Action creators
-export function setGraphStats(data) {
-  return { type: SET_GRAPH_STATS, payload: data }
-}
-
-export function setIsProcessingStats(isProcessing) {
-  return { type: SET_IS_PROCESSING_STATS, payload: isProcessing }
-}
-
 export function setIsGraphLoading(isLoading) {
   return { type: SET_IS_GRAPH_LOADING, payload: isLoading }
 }
 
-export function setInitialGraph(graph) {
-  return { type: SET_INITIAL_GRAPH, payload: graph }
+export function setGraphData({ nodes, stats }) {
+  return { type: SET_GRAPH_DATA, payload: { nodes, stats } }
 }
 
-export function addConnection(connection) {
-  return { type: ADD_CONNECTION, payload: connection }
+export function setUser(user) {
+  return { type: SET_USER, payload: user }
 }
 
-export function addUser(user) {
-  return { type: ADD_USER, payload: user }
+export function setSelectedUserId(userId) {
+  return { type: SET_SELECTED_USER_ID, payload: userId }
 }
 
-export function clearQueue() {
-  return { type: CLEAR_QUEUE }
-}
-
-export function setUserExpanded(userId) {
-  return { type: SET_USER_EXPANDED, payload: userId }
+export function unselectUser() {
+  return { type: SET_SELECTED_USER_ID, payload: null }
 }
 
 // Async Actions

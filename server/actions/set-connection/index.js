@@ -26,7 +26,7 @@ module.exports = ({ data, resolve, reject }) => {
       .then(res => res.json())
       .then(data => _.get(data, 'geonames.0', {}))
 
-    const { name, countryName } = locationData
+    const { adminCode1, name, countryName } = locationData
 
     const connectionKey = [from, to].join('::::')
     const connection = {
@@ -37,6 +37,7 @@ module.exports = ({ data, resolve, reject }) => {
       to,
       city: name,
       country: countryName,
+      state: adminCode1 || '',
     }
 
     // Set the connection entry

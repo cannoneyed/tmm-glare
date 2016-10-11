@@ -1,9 +1,14 @@
-import get from 'lodash.get'
-
 const width = window.innerWidth
 const height = window.innerHeight
 
-export default function createGraph({ d3, container, graphData }) {
+export default function createGraph(props) {
+  const {
+    container,
+    d3,
+    nodes,
+    onClickNode,
+    onClickOutside,
+  } = props
 
   d3.selection.prototype.dblTap = function(callback) {
     var last = 0
@@ -24,13 +29,18 @@ export default function createGraph({ d3, container, graphData }) {
   const zoom = d3.behavior.zoom()
     .scaleExtent([1, 10])
     .on('zoom', resize)
+    .scale(2)
+    .translate([ -1 * width / 2, -1 * height / 2 ])
 
   const svg = d3.select(container).append('svg')
     .attr('id', 'containerSVG')
     .attr('width', width)
     .attr('height', height)
     .style('cursor,', 'move')
+    .on('click', clickOutside)
     .call(zoom)
+
+  zoom.event(svg.transition().duration(50))
 
   const vis = svg.append('g')
     .attr('width', width)
@@ -42,7 +52,6 @@ export default function createGraph({ d3, container, graphData }) {
   update()
 
   function update() {
-    const nodes = graphData.nodes
     const links = d3.layout.tree().links(nodes)
 
     // Restart the force layout.
@@ -79,10 +88,9 @@ export default function createGraph({ d3, container, graphData }) {
       .attr('class', 'node')
       .attr('cx', (d) => d.x )
       .attr('cy', (d) => d.y )
-      .attr('r', (d) => Math.sqrt(d.size) / 10 || 4.5 )
+      .attr('r', (d) => d.size)
       .style('fill', color)
-      .on('click', click)
-      .dblTap(dblclick)
+      .on('click', clickNode)
       .call(drag)
 
     svg.on('dblclick.zoom', (d) => {
@@ -113,16 +121,20 @@ export default function createGraph({ d3, container, graphData }) {
     }
   }
 
-  // Toggle children on click.
-  function click() {
+  function clickNode(d) {
     if (!d3.event.defaultPrevented) {
+      d3.event.stopPropagation()
+      d3.event.preventDefault()
       update()
+      onClickNode(d.id)
     }
   }
 
-  function dblclick() {
+  function clickOutside() {
     if (!d3.event.defaultPrevented) {
-      update()
+      d3.event.stopPropagation()
+      d3.event.preventDefault()
+      onClickOutside()
     }
   }
 

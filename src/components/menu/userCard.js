@@ -3,26 +3,19 @@ import { connect } from 'react-redux'
 
 import { getConnectionsScore, getRemainingGives } from 'src/core/selectors/user'
 
+import UserAvatar from 'src/components/shared/userAvatar'
+
 const UserCard = (props) => {
   const {
     score,
     user
   } = props
 
-  const avatarUrl = user.profileImageURL || ''
-
-  const avatarStyle = {
-    backgroundImage: `url('${avatarUrl}')`
-  }
-
   const scoreString = `Influence: ${score}`
 
   return (
     <div className="user-card">
-      <div
-        style={avatarStyle}
-        className="user-avatar"
-      />
+      <UserAvatar profileImageURL={user.profileImageURL} />
       <div>{user.displayName}</div>
       <div>{scoreString}</div>
     </div>

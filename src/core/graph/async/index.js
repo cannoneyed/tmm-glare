@@ -1,9 +1,7 @@
-import loadGraphStatsAsync from './loadGraphStats'
-import loadInitialGraphAsync from './loadInitialGraph'
-import loadUserConnectionsAsync from './loadUserConnections'
+import loadGraphDataAsync from './loadGraphData'
+import selectUserAsync from './selectUser'
 
 export {
-  loadGraphStatsAsync,
-  loadInitialGraphAsync,
-  loadUserConnectionsAsync,
+  loadGraphDataAsync,
+  selectUserAsync,
 }

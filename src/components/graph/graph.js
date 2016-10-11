@@ -11,7 +11,7 @@ class Graph extends Component {
   static propTypes = {
     isGraphLoaded: PropTypes.bool.isRequired,
     isGraphLoading: PropTypes.bool.isRequired,
-    loadInitialGraphAsync: PropTypes.func.isRequired,
+    loadGraphDataAsync: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -22,10 +22,10 @@ class Graph extends Component {
   }
 
   componentWillMount() {
-    const { isGraphLoaded, isGraphLoading, loadInitialGraphAsync } = this.props
+    const { isGraphLoaded, isGraphLoading, loadGraphDataAsync } = this.props
     // Load the initial user graph (first 2 levels)
     if (!isGraphLoaded && !isGraphLoading) {
-      loadInitialGraphAsync()
+      loadGraphDataAsync()
     }
 
     d3Loader().then(({ d3 }) => {
@@ -47,5 +47,5 @@ export default connect(state => ({
   isGraphLoaded: state.graph.isGraphLoaded,
   isGraphLoading: state.graph.isGraphLoading,
 }), {
-  loadInitialGraphAsync: graphActions.loadInitialGraphAsync,
+  loadGraphDataAsync: graphActions.loadGraphDataAsync,
 })(Graph)

@@ -4,3 +4,7 @@ export function isQueueEmpty(state) {
 
   return !(users || connections)
 }
+
+export function getSelectedUser(state) {
+  return state.graph.users[state.graph.selectedUserId]
+}
