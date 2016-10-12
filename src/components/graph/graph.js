@@ -4,7 +4,6 @@ import d3Loader from './d3-loader'
 
 import GraphView from './graph-view'
 import Loading from '../loaders/loading'
-import * as graphActions from 'src/core/graph'
 
 class Graph extends Component {
 
@@ -22,12 +21,6 @@ class Graph extends Component {
   }
 
   componentWillMount() {
-    const { isGraphLoaded, isGraphLoading, loadGraphDataAsync } = this.props
-    // Load the initial user graph (first 2 levels)
-    if (!isGraphLoaded && !isGraphLoading) {
-      loadGraphDataAsync()
-    }
-
     d3Loader().then(({ d3 }) => {
       this.setState({ d3 })
     })
@@ -46,6 +39,4 @@ class Graph extends Component {
 export default connect(state => ({
   isGraphLoaded: state.graph.isGraphLoaded,
   isGraphLoading: state.graph.isGraphLoading,
-}), {
-  loadGraphDataAsync: graphActions.loadGraphDataAsync,
-})(Graph)
+}), null)(Graph)
