@@ -2,6 +2,7 @@ const P = require('bluebird')
 const _ = require('lodash')
 const logger = require('winston')
 const graphData = require('../../graph/data')
+const graphlib = require('graphlib')
 const { firebase } = require('../../firebase')
 const helpers = require('./helpers')
 
@@ -11,7 +12,7 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
   return P.resolve().then(() => {
     const g = graphData.getGraph()
 
-    const connected = g.successors(userId) || []
+    const connected = graphlib.alg.postorder(g, userId) || []
     const own = g.node(userId)
 
     if (!own) {
