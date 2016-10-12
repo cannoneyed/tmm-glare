@@ -8,7 +8,7 @@ import SelectedUser from './selectedUser'
 import * as graphActions from 'src/core/graph'
 import * as graphSelectors from 'src/core/selectors/graph'
 
-import createGraph from './d3'
+import createGraph from './create-graph'
 
 class GraphView extends Component {
   static propTypes = {
