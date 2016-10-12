@@ -102,6 +102,10 @@
     animation: pulse 1.25s infinite
   }
 
+  &.own {
+    fill: #FFF;
+  }
+
   transition: 200ms stroke-width;
 }
 

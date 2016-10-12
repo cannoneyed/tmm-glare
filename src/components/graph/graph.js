@@ -10,7 +10,6 @@ class Graph extends Component {
   static propTypes = {
     isGraphLoaded: PropTypes.bool.isRequired,
     isGraphLoading: PropTypes.bool.isRequired,
-    loadGraphDataAsync: PropTypes.func.isRequired,
   }
 
   constructor(props) {

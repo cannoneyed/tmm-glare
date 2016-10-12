@@ -116,6 +116,10 @@ export default function createGraph(props) {
 
   // Color leaf nodes orange, and packages white or blue.
   function color(d) {
+    if (d.isOwnUser) {
+      return '#FFF'
+    }
+
     if (d._children) {
       return '#3182bd'
     } else {

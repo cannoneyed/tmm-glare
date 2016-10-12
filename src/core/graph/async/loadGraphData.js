@@ -38,7 +38,7 @@ export default function loadGraphData() {
           const { data: { connections }, stats } = res
 
           // Process the connections returned from the server
-          const nodes = processConnections(connections)
+          const nodes = processConnections(connections, userId)
 
           // Set the graph data (data & stats)
           dispatch(setGraphData({ nodes, stats }))
@@ -50,7 +50,7 @@ export default function loadGraphData() {
 
 // Create the map of data for the graph, formatted as such:
 // { id, children: [ { id: children: ... } ] }
-function processConnections(connections) {
+function processConnections(connections, userId) {
   const graph = {}
 
   // Connections response from server formatted as:
@@ -78,6 +78,11 @@ function processConnections(connections) {
     const nConnections = get(node, 'children.length', 0)
     const fraction = nConnections > maxConnections ? 1 : nConnections / maxConnections
     node.size = minSize + (delta * fraction)
+
+    if (node.id === userId) {
+      node.isOwnUser = true
+      node.size += delta / 4
+    }
   })
 
   const nodes = []
