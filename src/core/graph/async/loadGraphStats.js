@@ -2,11 +2,11 @@ import * as util from 'src/util'
 import { firebase } from 'src/firebase'
 
 import {
-  setConnectionStats,
+  setGraphStats,
   setIsProcessingStats,
 } from '../index'
 
-export default function loadConnectionStats() {
+export default function loadGraphStats() {
   return (dispatch, getState) => {
     const { auth } = getState()
 
@@ -33,7 +33,7 @@ export default function loadConnectionStats() {
       firebase.database().ref().child(`userStats/${userId}`).on('value', snapshot => {
         const stats = util.recordFromSnapshot(snapshot)
         if (stats !== null) {
-          dispatch(setConnectionStats(stats))
+          dispatch(setGraphStats(stats))
         }
       })
     })

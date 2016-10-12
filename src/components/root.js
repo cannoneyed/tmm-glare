@@ -6,7 +6,7 @@ import { Route, Router } from 'react-router'
 import About from './about/about'
 import App from './app/app'
 import Connect from './connect/connect'
-import Connections from './connections/connections'
+import Graph from './graph/graph'
 import Intro from './about/intro'
 import Journal from './journal/journal'
 import Listen from './listen/listen'
@@ -21,7 +21,7 @@ export function Root({history, onEnter, store}) {
         <Route component={App} onEnter={onEnter} path="/">
           <Route component={SignIn} onEnter={onEnter} path={'/sign-in'} />
           <Route component={Connect} onEnter={onEnter} path={'/connect'} />
-          <Route component={Connections} onEnter={onEnter} path={'/connections'} />
+          <Route component={Graph} onEnter={onEnter} path={'/graph'} />
           <Route component={Listen} onEnter={onEnter} path={'/listen'} />
           <Route component={Intro} onEnter={onEnter} path={'/intro'} />
           <Route component={Journal} onEnter={onEnter} path={'/journal'} />

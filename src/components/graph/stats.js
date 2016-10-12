@@ -8,13 +8,13 @@ const Stats = (props) => {
   const { influence, maxDistance, sharedWith, total } = props
 
   const renderSpan = (type, text) => {
-    return <span className={`connections-statistic-${type}`}>{text}</span>
+    return <span className={`graph-statistic-${type}`}>{text}</span>
   }
 
   return (
-    <div className="connections-overlay">
+    <div className="graph-overlay">
       <RippleButton
-        className="connections-statistic"
+        className="graph-statistic"
         onClick={() => {
           setTimeout(() => {}, 200)
         }}>
@@ -23,7 +23,7 @@ const Stats = (props) => {
         {renderSpan('number', `${(maxDistance).toFixed(2)} mi`)}
       </RippleButton>
       <RippleButton
-        className="connections-statistic"
+        className="graph-statistic"
         onClick={() => {
           setTimeout(() => {}, 200)
         }}>
@@ -32,16 +32,16 @@ const Stats = (props) => {
         {renderSpan('number', sharedWith)}
       </RippleButton>
       <RippleButton
-        className="connections-statistic"
+        className="graph-statistic"
         onClick={() => {
           setTimeout(() => {}, 200)
         }}>
-        <Icon type="connections" />
+        <Icon type="graph" />
         {renderSpan('description', 'Total connections:')}
         {renderSpan('number', total)}
       </RippleButton>
       <RippleButton
-        className="connections-statistic"
+        className="graph-statistic"
         onClick={() => {
           setTimeout(() => {}, 200)
         }}>
@@ -61,8 +61,8 @@ Stats.propTypes = {
 }
 
 export default connect(state => ({
-  influence: state.connections.stats.score,
-  total: state.connections.stats.total,
-  maxDistance: state.connections.stats.maxDistance || 0,
+  influence: state.graph.stats.score,
+  total: state.graph.stats.total,
+  maxDistance: state.graph.stats.maxDistance || 0,
   sharedWith: Object.keys(state.user.connections || {}).length,
 }), null)(Stats)

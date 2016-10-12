@@ -2,7 +2,7 @@ const logger = require('winston')
 const Queue = require('firebase-queue')
 const { firebase } = require('../firebase')
 const setConnection = require('../actions/set-connection')
-const processUserStats = require('../actions/process-user-stats')
+const processUserGraph = require('../actions/process-user-graph')
 
 const db = firebase.database()
 
@@ -20,9 +20,9 @@ module.exports = () => {
       return setConnection({ data, resolve, reject })
     }
 
-    if (type === 'USER_STATS') {
-      logger.info('processing user stats...')
-      return processUserStats({ data, resolve, reject })
+    if (type === 'USER_GRAPH') {
+      logger.info('processing user graph...')
+      return processUserGraph({ data, resolve, reject })
     }
   })
 

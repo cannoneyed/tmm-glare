@@ -99,8 +99,6 @@
   }
 }
 
-
-
 .user-stats {
   >.user-influence {
     color: $teal;
@@ -110,14 +108,4 @@
   >.user-gives {
     color: $teal;
   }
-}
-
-.user-avatar {
-  width: 75px;
-  height: 75px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  padding-right: 15px;
 }

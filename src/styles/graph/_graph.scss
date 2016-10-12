@@ -1,0 +1,124 @@
+.graph-wrapper {
+  position: relative;
+  min-height: 100%;
+  min-width: 100%;
+  z-index: $z-connections-container;
+}
+
+.graph-container {
+  position: absolute;
+  top: 0px;
+  min-height: 100%;
+  min-width: 100%;
+  z-index: $z-connections-container + 1;
+  background: linear-gradient(to top, #24C6DC , #514A9D);
+}
+
+.graph-overlay {
+  position: absolute;
+  bottom: 0px;
+  min-height: 20%;
+  min-width: 100%;
+  padding-bottom: $footer-height / 2;
+  z-index: $z-connections-container + 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.graph-user-container {
+  width: 80%;
+  background: rgba($base-background-color, 0.5);
+  border-radius: 10px 10px 10px 10px;
+  margin-bottom: 20px;
+  font-family: inherit;
+  font-size: rem(15px);
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.graph-user-avatar {
+  margin-left: 5px;
+  margin-right: 15px;
+}
+
+.graph-user-info {
+  >.graph-user-name {
+    font-weight: bold;
+  }
+}
+
+.graph-statistic {
+  width: 80%;
+  background: rgba($base-background-color, 0.5);
+
+  // @include button-base;
+  margin-bottom: 0px;
+  outline: none;
+  padding: 0px 0px 0px 5px;
+  height: 28px;
+  font-family: inherit;
+  font-size: rem(15px);
+  line-height: 28px;
+  color: $base-font-color;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  touch-action: none;
+
+  >svg {
+    align-self: flex-start;
+    margin-right: 10px;
+  }
+
+  >.graph-statistic-number {
+    margin-left: 7px;
+    font-size: rem(16px);
+    font-weight: 1000;
+  }
+}
+
+.graph-statistic:first-of-type {
+  padding-top: 5px;
+  border-radius: 10px 10px 0 0;
+}
+
+.graph-statistic:last-of-type {
+  padding-bottom: 5px;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 20px;
+}
+
+.node {
+  stroke: #3182bd;
+  stroke-width: 1.5px;
+
+  &.selected {
+    stroke: $purple;
+    stroke-opacity: 0.3;
+    animation: pulse 1.25s infinite
+  }
+
+  transition: 200ms stroke-width;
+}
+
+@keyframes pulse {
+  0% {
+    stroke-width: 1.5px;
+  }
+  50% {
+    stroke-width: 8px;
+  }
+  100% {
+    stroke-width: 1.5px;
+  }
+}
+
+.link {
+  fill: none;
+  stroke: #9ecae1;
+  stroke-width: 1.5px;
+}
