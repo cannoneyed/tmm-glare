@@ -20,7 +20,7 @@ const UserCard = (props) => {
   return (
     <div className="user-card">
       <UserAvatar profileImageURL={user.profileImageURL} style={avatarStyle} />
-      <div>{user.displayName}</div>
+      <div className="user-name">{user.displayName}</div>
       <div className="user-stats">
         Influence: <span className="user-influence">{score}</span>
       </div>
