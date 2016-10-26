@@ -1,1 +1,1 @@
-worker: node server/server.js
+worker: ./node_modules/.bin/forever start server/server.js
