@@ -1,1 +1,1 @@
-worker: node server/server.js
+worker: forever start server/server.js
