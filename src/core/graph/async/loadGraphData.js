@@ -86,6 +86,11 @@ function processConnections(connections, userId) {
   })
 
   const nodes = []
-  map(graph, node => nodes.push(node))
+  map(graph, node => {
+    if (node.id === 'THE_SOURCE') {
+      return
+    }
+    nodes.push(node)
+  })
   return nodes
 }

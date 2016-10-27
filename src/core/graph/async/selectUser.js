@@ -11,7 +11,7 @@ export default function selectUser(userId) {
     const { graph } = getState()
     const { selectedUser, users } = graph
 
-    if (selectedUser === userId) {
+    if (selectedUser === userId || userId === 'THE_SOURCE') {
       return
     }
 
