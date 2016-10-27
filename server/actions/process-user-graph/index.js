@@ -12,7 +12,15 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
   return P.resolve().then(() => {
     const g = graphData.getGraph()
 
-    const connected = graphlib.alg.postorder(g, userId) || []
+    let connected = []
+    try {
+      connected = graphlib.alg.postorder(g, userId)
+    } catch (err) {
+      if (err.message !== `Graph does not have node: ${userId}`) {
+        throw err
+      }
+    }
+
     const own = g.node(userId)
 
     if (!own) {
