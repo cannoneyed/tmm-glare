@@ -43,6 +43,10 @@ const start = (id) => {
       }
     })
   })
+
+  setInterval(() => {
+    logger.info('ping')
+  }, 30000)
 }
 
 start()
