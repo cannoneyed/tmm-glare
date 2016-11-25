@@ -45,12 +45,12 @@ module.exports = ({ data, resolve, reject }) => {
 
     // Set the connection and set hasAccess true on both user objects
     const fromUpdate = {
-      [`connections/${to}`]: to,
+      [`connections/${to}`]: timestamp,
       hasAccess: true,
     }
 
     const toUpdate = {
-      [`connections/${from}`]: from,
+      [`connections/${from}`]: timestamp,
       hasAccess: true,
       from,
     }
