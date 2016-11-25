@@ -32,21 +32,16 @@ app.use(router)
 //=========================================================
 //  START SERVER
 //---------------------------------------------------------
-const start = (id) => {
-  const isMaster = id === 1 // The first worker is the master
-  initializeApp(isMaster).then(() => {
+const start = () => {
+  initializeApp().then(() => {
     app.listen(app.get('port'), error => {
       if (error) {
         logger.error(error)
       } else {
-        logger.info(`Server ${id} listening @ port ${app.get('port')}`)
+        logger.info(`Server listening @ port ${app.get('port')}`)
       }
     })
   })
-
-  setInterval(() => {
-    logger.info('ping')
-  }, 30000)
 }
 
 start()
