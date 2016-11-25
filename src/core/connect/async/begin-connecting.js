@@ -25,19 +25,6 @@ import * as notificationActions from 'src/core/notifications'
 export default function beginConnectingAsync() {
   return (dispatch, getState) => {
 
-    const state = getState()
-    const connectionsCount = selectors.user.getConnectionsCount(state)
-    const remainingGives = selectors.user.getRemainingGives(state)
-
-    if (!remainingGives) {
-      dispatch(notificationActions.addNotification({
-        message: `You\'ve given the album ${connectionsCount} times. Wait for your network to grow to give more.`,
-        kind: 'warning',
-        dismissAfter: 4000,
-      }))
-      return
-    }
-
     dispatch(setConnecting(true))
 
     return getGeolocation()

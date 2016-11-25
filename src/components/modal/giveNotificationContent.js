@@ -1,10 +1,7 @@
 import React, { PropTypes } from 'react'
-import { connect } from 'react-redux'
-
-import { getRemainingGives } from 'src/core/selectors/user'
 
 const GiveNotificationContent = (props) => {
-  const { data: { connectedUser }, remaining } = props
+  const { data: { connectedUser } } = props
 
   const avatarUrl = connectedUser.profileImageURL || ''
 
@@ -13,9 +10,7 @@ const GiveNotificationContent = (props) => {
     backgroundImage: `url('${avatarUrl}'), url('${dummyProfileImage}')`
   }
 
-  const remainingMessage = remaining > 0 ?
-    `You can give Glare to ${remaining} more ${remaining === 1 ? 'person' : 'people'}` :
-    'You\'ve given your last copy. As your network grows, you can give to more people'
+  const trackUnlockedMessage = 'TODO! Notify the user which tracks were unlocked!'
 
   return (
     <div className="give-notification-content">
@@ -28,7 +23,7 @@ const GiveNotificationContent = (props) => {
         <br />
         <span className="give-name">{connectedUser.displayName}</span>
       </div>
-      <div className="remaining-message">{remainingMessage}</div>
+      <div className="track-unlocked-message">{trackUnlockedMessage}</div>
     </div>
   )
 }
@@ -40,9 +35,6 @@ GiveNotificationContent.propTypes = {
       profileImageURL: PropTypes.string,
     })
   }),
-  remaining: PropTypes.number,
 }
 
-export default connect(state => ({
-  remaining: getRemainingGives(state),
-}), null)(GiveNotificationContent)
+export default GiveNotificationContent
