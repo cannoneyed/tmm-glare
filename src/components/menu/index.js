@@ -96,8 +96,8 @@ class Menu extends Component {
         <RippleButton
           className="sidebar-menu-item"
           {...giveButtonHandler}>
-          {hasAccess ? 'Give' : 'Connect'}
-          <Icon type={'give'} />
+          Home
+          <Icon type={'earth'} />
         </RippleButton>
 
         { hasAccess ?
