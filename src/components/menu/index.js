@@ -58,8 +58,6 @@ class Menu extends Component {
 
   render() {
     const {
-      beginConnectingAsync,
-      isConnecting,
       isTouchFixed,
       unreadJournalCount,
       user,
@@ -70,11 +68,7 @@ class Menu extends Component {
     // we'll need to use a different handler
     const clickOrTouch = isTouchFixed ? 'onMouseUp' : 'onClick'
     const hideButtonHandler = { [clickOrTouch]: this.hideSidebar }
-    const giveButtonHandler = { [clickOrTouch]: () => {
-      const link = this.linkTo('connect')
-      link()
-      setTimeout(() => !isConnecting ? beginConnectingAsync() : null, 300)
-    }}
+    const giveButtonHandler = { [clickOrTouch]: this.linkTo('connect') }
     const listenButtonHandler = { [clickOrTouch]: this.linkTo('listen') }
     const graphButtonHandler = { [clickOrTouch]: this.linkTo('graph') }
     const journalButtonHandler = { [clickOrTouch]: this.linkTo('journal') }
