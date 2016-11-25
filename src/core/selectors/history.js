@@ -13,3 +13,11 @@ export function canGoBack(history) {
 export function getCurrentPage(history) {
   return last(history)
 }
+
+export function getPreviousPage(history) {
+  return history.length > 1 ? history[history.length - 2] : null
+}
+
+export function isHomeBackOne(history) {
+  return getPreviousPage(history) === 'connect'
+}
