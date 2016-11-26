@@ -23,7 +23,6 @@ class Menu extends Component {
     isTouchFixed: PropTypes.bool.isRequired,
     signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
-    unreadJournalCount: PropTypes.number.isRequired,
     user: PropTypes.object,
   }
 

@@ -30,12 +30,6 @@ export default function registerUserListenersAsync(userId) {
     // Set the initialization time, with which to compare connection times for new conenctions
     initializationTime = new Date().getTime()
 
-    window.testUnlocked = () => {
-      const { user } = getState()
-      console.log(user, getUnlockedTracks(user))
-    }
-
-
     const { user } = getState()
     hadAccessAlready = user.hasAccess
     alreadyUnlocked = getUnlockedTracks(user)
@@ -75,8 +69,6 @@ export default function registerUserListenersAsync(userId) {
 
       // Only unlock tracks if the user already had access
       const newlyUnlocked = difference(unlocked, alreadyUnlocked)
-
-      console.log('🐸', newlyUnlocked)
 
       if (hadAccessAlready) {
         alreadyUnlocked = unlocked
