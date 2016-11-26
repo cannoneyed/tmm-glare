@@ -58,6 +58,16 @@ $modal-margin: 20px;
 
   >.track-unlocked-message {
     font-size: rem(18px);
+
+    >.track-unlocked-header {
+      margin-bottom: 20px;
+    }
+
+    >.track-unlocked-title {
+      color: $teal;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
   }
 }
 

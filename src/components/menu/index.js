@@ -8,8 +8,6 @@ import UserCard from './userCard'
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
 import { beginConnectingAsync } from 'src/core/connect'
-import { getUnreadJournalCount } from 'src/core/selectors/journal'
-
 
 class Menu extends Component {
 
@@ -59,7 +57,6 @@ class Menu extends Component {
   render() {
     const {
       isTouchFixed,
-      unreadJournalCount,
       user,
     } = this.props
     const hasAccess = user && user.hasAccess
@@ -71,7 +68,6 @@ class Menu extends Component {
     const giveButtonHandler = { [clickOrTouch]: this.linkTo('connect') }
     const listenButtonHandler = { [clickOrTouch]: this.linkTo('listen') }
     const graphButtonHandler = { [clickOrTouch]: this.linkTo('graph') }
-    const journalButtonHandler = { [clickOrTouch]: this.linkTo('journal') }
     const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
     const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
 
@@ -112,17 +108,6 @@ class Menu extends Component {
           </RippleButton>
         : null }
 
-        { hasAccess ?
-          <RippleButton
-            className="sidebar-menu-item"
-            {...journalButtonHandler}>
-            Journal
-            { unreadJournalCount ?
-              <div className="journal-sidebar-count">{unreadJournalCount}</div> :
-              <Icon type={'list'} /> }
-          </RippleButton>
-        : null }
-
         <RippleButton
           className="sidebar-menu-item"
           {...aboutButtonHandler}>
@@ -147,7 +132,6 @@ export default connect(state => ({
   isConnecting: state.connect.isConnecting,
   isSidebarOpen: state.app.isSidebarOpen,
   isTouchFixed: state.app.isTouchFixed,
-  unreadJournalCount: getUnreadJournalCount(state),
   user: state.user,
 }), {
   signOutAsync,

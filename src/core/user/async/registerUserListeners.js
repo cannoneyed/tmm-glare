@@ -1,7 +1,8 @@
 import P from 'bluebird'
+import difference from 'lodash.difference'
 import * as util from 'src/util'
 import { firebase } from 'src/firebase'
-// import getUnlockedTracks from '../../listen/get-unlocked-tracks'
+import getUnlockedTracks from '../../listen/get-unlocked-tracks'
 
 import {
   updateAccess,
@@ -12,11 +13,16 @@ import {
   connectSuccess,
 } from '../../connect/index'
 
+import {
+  unlockTracks,
+} from '../../listen/index'
+
 import * as modalActions from 'src/core/modals'
 const modalTypes = modalActions // Alias for the imported actions
 
 let hadAccessAlready
 let initializationTime
+let alreadyUnlocked
 
 export default function registerUserListenersAsync(userId) {
   return (dispatch, getState) => {
@@ -24,9 +30,15 @@ export default function registerUserListenersAsync(userId) {
     // Set the initialization time, with which to compare connection times for new conenctions
     initializationTime = new Date().getTime()
 
+    window.testUnlocked = () => {
+      const { user } = getState()
+      console.log(user, getUnlockedTracks(user))
+    }
+
 
     const { user } = getState()
     hadAccessAlready = user.hasAccess
+    alreadyUnlocked = getUnlockedTracks(user)
 
     // Register the user access listener
     firebase.database().ref().child(`users/${userId}/hasAccess`).on('value', snapshot => {
@@ -53,22 +65,32 @@ export default function registerUserListenersAsync(userId) {
         return
       }
 
-      dispatch(addConnection(id))
+      dispatch(addConnection(id, timestamp))
       dispatch(connectSuccess())
 
       // Now, handle unlocking additional tracks and notifying the user what tracks
       // have been unlocked
-      // const { user } = getState()
-      // const unlocked = getUnlockedTracks(user)
+      const { user } = getState()
+      const unlocked = getUnlockedTracks(user)
+
+      // Only unlock tracks if the user already had access
+      const newlyUnlocked = difference(unlocked, alreadyUnlocked)
+
+      console.log('🐸', newlyUnlocked)
+
+      if (hadAccessAlready) {
+        alreadyUnlocked = unlocked
+        dispatch(unlockTracks(newlyUnlocked))
+      }
 
       P.delay(2000).then(() => {
-        dispatch(displayConnectionNotificationAsync(id))
+        dispatch(displayConnectionNotificationAsync(id, newlyUnlocked))
       })
     })
   }
 }
 
-function displayConnectionNotificationAsync(id) {
+function displayConnectionNotificationAsync(id, unlocked) {
   return (dispatch) => {
     firebase.database().ref().child(`users/${id}`).once('value', snapshot => {
       const connectedUser = util.recordFromSnapshot(snapshot)
@@ -80,6 +102,7 @@ function displayConnectionNotificationAsync(id) {
         kind,
         data: {
           connectedUser,
+          unlocked
         }
       }))
     })

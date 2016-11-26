@@ -17,12 +17,12 @@ export default function reducer(state = initialState, action) {
     case UPDATE_ACCESS:
       return { ...state, hasAccess: action.payload }
     case ADD_CONNECTION: {
-      const connection = action.payload
+      const { id, timestamp } = action.payload
       return {
         ...state,
         connections: {
           ...state.connections,
-          [connection]: connection,
+          [id]: timestamp,
         }
       }
     }
@@ -41,8 +41,8 @@ export function updateAccess(access) {
   return { type: UPDATE_ACCESS, payload: access }
 }
 
-export function addConnection(id) {
-  return { type: ADD_CONNECTION, payload: id }
+export function addConnection(id, timestamp) {
+  return { type: ADD_CONNECTION, payload: { id, timestamp } }
 }
 
 export * from './async'

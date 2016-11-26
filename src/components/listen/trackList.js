@@ -18,6 +18,7 @@ class TrackList extends Component {
     activeIndex: PropTypes.number,
     addNotification: PropTypes.func.isRequired,
     isTrackUnlocked: PropTypes.func.isRequired,
+    notificationsCount: PropTypes.number,
     playTrackAtIndex: PropTypes.func.isRequired,
     playlist: PropTypes.object,
     selectedIndex: PropTypes.number,
@@ -59,14 +60,19 @@ class TrackList extends Component {
   }
 
   handleLockedTrackClick = () => {
-    const { addNotification } = this.props
+    const { addNotification, notificationsCount } = this.props
+
+    // Don't display the unlock notification if a notification is present
+    if (notificationsCount) {
+      return
+    }
 
     const content = (
       <span>
         <Icon type="lock" size={20} /><Icon type="empty" size={10} />
         This track is locked!
         <br /><br />
-        As more people share Glare, more content will be unlocked
+        Share Glare to unlock tracks
       </span>
     )
 
@@ -130,6 +136,7 @@ class TrackList extends Component {
 export default connect(state => ({
   activeIndex: state.listen.activeIndex,
   isTrackUnlocked: isTrackUnlocked(state),
+  notificationsCount: state.notifications.length,
   playlist: state.listen.playlist,
   selectedIndex: state.listen.selectedIndex,
 }), {

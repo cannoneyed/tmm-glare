@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react'
+import { trackTitles } from '../../constants'
+import Icon from '../shared/icon'
 
 const GiveNotificationContent = (props) => {
-  const { data: { connectedUser } } = props
+  const { data: { connectedUser, unlocked } } = props
 
   const avatarUrl = connectedUser.profileImageURL || ''
 
@@ -10,7 +12,22 @@ const GiveNotificationContent = (props) => {
     backgroundImage: `url('${avatarUrl}'), url('${dummyProfileImage}')`
   }
 
-  const trackUnlockedMessage = 'TODO! Notify the user which tracks were unlocked!'
+  const unlockedTrackTitles = unlocked.map(index => {
+    return trackTitles[index]
+  })
+  const trackUnlockedMessage = unlocked.length ? (
+    <div className="track-unlocked-message">
+      <div className="track-unlocked-header">
+        <Icon type="unlock" />
+        { ` You unlocked ${unlocked.length} ${unlocked.length === 1 ? 'track' : 'tracks'}!` }
+      </div>
+      {unlockedTrackTitles.map((title, index) => (
+        <div key={index} className="track-unlocked-title">
+          {title}
+        </div>
+      ))}
+    </div>
+  ) : null
 
   return (
     <div className="give-notification-content">
@@ -23,7 +40,7 @@ const GiveNotificationContent = (props) => {
         <br />
         <span className="give-name">{connectedUser.displayName}</span>
       </div>
-      <div className="track-unlocked-message">{trackUnlockedMessage}</div>
+      {trackUnlockedMessage}
     </div>
   )
 }
@@ -33,7 +50,8 @@ GiveNotificationContent.propTypes = {
     connectedUser: PropTypes.shape({
       displayName: PropTypes.string,
       profileImageURL: PropTypes.string,
-    })
+    }),
+    unlocked: PropTypes.array,
   }),
 }
 
