@@ -14,6 +14,8 @@ import ShareButton from './shareButton'
 
 import Beacons from './beacons'
 
+import disableScroll from '../../page/disable-scroll'
+
 export class Connect extends Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -44,11 +46,13 @@ export class Connect extends Component {
       loadGlobeDataAsync()
     }
     registerMessageListenerAsync()
+    disableScroll(true)
   }
 
   componentWillUnmount() {
     const { unregisterMessageListenerAsync } = this.props
     unregisterMessageListenerAsync()
+    disableScroll(false)
   }
 
   renderConnectingLoader() {
