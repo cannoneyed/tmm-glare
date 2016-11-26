@@ -4,7 +4,6 @@ import get from 'lodash.get'
 import * as util from 'src/util'
 
 import { firebase, geofire } from 'src/firebase'
-import selectors from 'src/core/selectors'
 
 import {
   registerGeoquery,

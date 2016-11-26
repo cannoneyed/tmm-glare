@@ -1,7 +1,7 @@
 import P from 'bluebird'
 import * as util from 'src/util'
 import { firebase } from 'src/firebase'
-import getUnlockedTracks from '../../listen/get-unlocked-tracks'
+// import getUnlockedTracks from '../../listen/get-unlocked-tracks'
 
 import {
   updateAccess,
@@ -58,8 +58,8 @@ export default function registerUserListenersAsync(userId) {
 
       // Now, handle unlocking additional tracks and notifying the user what tracks
       // have been unlocked
-      const { user } = getState()
-      const unlocked = getUnlockedTracks(user)
+      // const { user } = getState()
+      // const unlocked = getUnlockedTracks(user)
 
       P.delay(2000).then(() => {
         dispatch(displayConnectionNotificationAsync(id))
