@@ -1,4 +1,3 @@
-import { loadJournalAsync } from 'src/core/journal'
 import { getUserDataAsync } from 'src/core/user'
 import { loadGraphDataAsync } from 'src/core/graph'
 
@@ -9,7 +8,6 @@ export default function loadAppData() {
     const userId = auth.id
 
     dispatch(getUserDataAsync(userId))
-    dispatch(loadJournalAsync())
     dispatch(loadGraphDataAsync())
   }
 }
