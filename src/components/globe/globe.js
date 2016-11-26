@@ -152,6 +152,10 @@ class WebGlGlobe extends Component {
     })
   }
 
+  onDoubleTap = () => {
+    this.globe.zoomDoubleTap()
+  }
+
   onTouchStart = () => {
     this.globe.touch(true)
   }
@@ -211,6 +215,7 @@ class WebGlGlobe extends Component {
     return (
       <Hammer
         options={options}
+        onDoubleTap={this.onDoubleTap}
         onPinchStart={this.onPinchStart}
         onPinchEnd={this.onPinchEnd}
         onPinch={this.onPinchMove}

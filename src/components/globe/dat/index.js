@@ -12,6 +12,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
+
 import * as THREE from 'three'
 import Shaders from './shaders'
 import helpers from './helpers'
@@ -19,6 +20,8 @@ import stars from './stars'
 
 const DAT = {}
 const EARTH_RADIUS = 100
+const DEFAULT_DISTANCE = 1000
+const DOUBLETAP_ZOOM_DISTANCE = 500
 
 DAT.Globe = function Globe(container, opts = {}) {
 
@@ -36,7 +39,7 @@ DAT.Globe = function Globe(container, opts = {}) {
   let animationId
 
   let distance = 100000
-  let distanceTarget = opts.distanceTarget || 1000
+  let distanceTarget = opts.distanceTarget || DEFAULT_DISTANCE
   const MAX_DISTANCE = opts.maxDistance || 1300
   const MIN_DISTANCE = opts.minDistance || 300
   const setDistanceTarget = opts.setDistanceTarget || (() => {})
@@ -302,6 +305,14 @@ DAT.Globe = function Globe(container, opts = {}) {
     renderer.setSize( container.offsetWidth, container.offsetHeight )
   }
 
+  function zoomDoubleTap() {
+    if (distanceTarget >= DEFAULT_DISTANCE - 100) {
+      distanceTarget = DOUBLETAP_ZOOM_DISTANCE
+    } else {
+      distanceTarget = DEFAULT_DISTANCE
+    }
+  }
+
   function zoom(delta) {
     const result = distanceTarget -= delta
     if (result > MAX_DISTANCE) {
@@ -440,6 +451,7 @@ DAT.Globe = function Globe(container, opts = {}) {
   this.renderer = renderer
   this.scene = scene
   this.zoom = zoom
+  this.zoomDoubleTap = zoomDoubleTap
   this.pan = pan
   this.panRelease = panRelease
   this.touch = touch
