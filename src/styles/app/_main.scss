@@ -42,6 +42,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 999;
 
   >.aside {
     text-decoration: none;

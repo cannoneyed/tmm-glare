@@ -9,6 +9,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  >canvas {
+    position: absolute;
+    top: 0px;
+    z-index: -999;
+  }
 }
 
 .splash-logo {
@@ -19,6 +25,7 @@
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  z-index: 999;
 }
 
 .incognito-warning {
