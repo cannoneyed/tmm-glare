@@ -3,7 +3,6 @@ import ReactSwipe from 'react-swipe'
 import { connect } from 'react-redux'
 import map from 'lodash.map'
 import range from 'lodash.range'
-import { appConstants } from 'src/constants'
 
 import * as appActions from 'src/core/app'
 import Icon from '../shared/icon'
@@ -54,9 +53,9 @@ class Intro extends Component {
     iconType: 'location'
   }, {
     lines: [
-      'Remember, you',
-      'can only give',
-      `to ${appConstants.maximumGives} people`
+      'Share Glare',
+      'to unlock tracks',
+      'and content'
     ],
     iconType: 'people',
   }, {
