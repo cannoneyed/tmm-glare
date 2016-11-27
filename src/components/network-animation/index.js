@@ -5,10 +5,6 @@
 
 export default function initNetworkAnimation(element) {
 
-  // let ParticleNetworkAnimation
-  // let PNA
-  // ParticleNetworkAnimation = PNA = function() {}
-
   class ParticleNetworkAnimation {
     constructor(element) {
       this.$el = element

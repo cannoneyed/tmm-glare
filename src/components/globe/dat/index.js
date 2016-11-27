@@ -158,8 +158,6 @@ DAT.Globe = function Globe(container, opts = {}) {
     renderer.domElement.style.position = 'absolute'
 
     container.appendChild(renderer.domElement)
-
-    window.addEventListener('resize', onWindowResize, false)
   }
 
   function reinitialize(container) {
@@ -297,12 +295,6 @@ DAT.Globe = function Globe(container, opts = {}) {
     }
 
     THREE.GeometryUtils.merge(subgeo, point)
-  }
-
-  function onWindowResize() {
-    camera.aspect = container.offsetWidth / container.offsetHeight
-    camera.updateProjectionMatrix()
-    renderer.setSize( container.offsetWidth, container.offsetHeight )
   }
 
   function zoomDoubleTap() {
