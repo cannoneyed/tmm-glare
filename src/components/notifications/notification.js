@@ -66,7 +66,7 @@ const stylesNotification = {
   },
 
   info: {
-    backgroundColor: 'rgba(73, 42, 100, .850)'
+    backgroundColor: 'rgba(72, 134, 191, 0.850)'
   },
 
   warning: {
