@@ -1,21 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
+import ReactDom from 'react-dom'
 import Intro from './intro'
 import { browserHistory } from 'react-router'
+import initNetworkAnimation from '../network-animation'
 
-const About = () => {
-  const r = Math.floor(Math.random() * 6)
+class About extends Component {
+  componentDidMount() {
+    const container = ReactDom.findDOMNode(this._container)
+    this.animation = initNetworkAnimation(container)
+  }
 
-  return (
-    <div className={`about-container background-${r}`}>
-      <Intro
-        onComplete={() => {
-          setTimeout(() => {
-            browserHistory.goBack()
-          }, 300)
-        }}
-      />
-    </div>
-  )
+  render() {
+
+    return (
+      <div
+        className={'about-container background-0'}
+        ref={(ref) => this._container = ref} >
+        <Intro
+          onComplete={() => {
+            setTimeout(() => {
+              browserHistory.goBack()
+            }, 300)
+          }}
+        />
+      </div>
+    )
+  }
 }
 
 

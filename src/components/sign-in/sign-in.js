@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import ReactDom from 'react-dom'
 import { Icon, RippleButton } from '../shared'
 import { connect } from 'react-redux'
-import initNetworkAnimation from './network-animation'
+import initNetworkAnimation from '../network-animation'
 import * as authActions from 'src/core/auth'
 
 class SignIn extends Component {
@@ -15,7 +15,7 @@ class SignIn extends Component {
 
   componentDidMount() {
     const container = ReactDom.findDOMNode(this._container)
-    initNetworkAnimation(container)
+    this.animation = initNetworkAnimation(container)
   }
 
   render() {

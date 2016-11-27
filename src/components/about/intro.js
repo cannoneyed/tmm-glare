@@ -67,6 +67,7 @@ class Intro extends Component {
   }, {
     lines: [],
     iconType: '',
+    hideArrow: true,
   }]
 
   getPage = (i) => {
@@ -74,7 +75,7 @@ class Intro extends Component {
       return null
     }
 
-    const { lines, iconType, showLogo } = this.pages[i]
+    const { lines, iconType, showLogo, hideArrow } = this.pages[i]
 
     return (
       <div key={i} className="intro-messages">
@@ -83,6 +84,9 @@ class Intro extends Component {
           return <h3 key={l}>{line}</h3>
         })}
         { showLogo ? <div className="intro-signoff" /> : null}
+        <div className="intro-arrow">
+          { hideArrow ? null : <Icon type="chevron-right" size={40} /> }
+        </div>
       </div>
     )
   }

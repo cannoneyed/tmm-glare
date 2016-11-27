@@ -38,6 +38,11 @@
     background-repeat: no-repeat;
     filter: brightness(130%);
   }
+  .intro-arrow {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+  }
 }
 
 .intro-progress {
@@ -54,10 +59,10 @@
     border-radius: 50%;
     width: 8px;
     height: 8px;
-    background-color: #555;
+    background-color: #999;
 
     &.passed {
-      background-color: #AAA;
+      background-color: #EEE;
     }
   }
 }
