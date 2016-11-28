@@ -25,6 +25,7 @@ const FIREBASE_STORAGE_BUCKET = appConfig.firebaseConfig.storageBucket
 
 const HOST = process.env.HOST || 'localhost'
 const PORT = process.env.PORT || 3000
+const SENTRY_URL = process.env.SENTRY_URL
 
 
 //=========================================================
@@ -71,6 +72,7 @@ config.plugins = [
     'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(FIREBASE_AUTH_DOMAIN),
     'process.env.FIREBASE_DATA_URL': JSON.stringify(FIREBASE_DATA_URL),
     'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(FIREBASE_STORAGE_BUCKET),
+    'process.env.SENTRY_URL': JSON.stringify(SENTRY_URL),
   })
 ]
 

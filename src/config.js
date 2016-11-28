@@ -4,3 +4,5 @@ export const firebaseConfig = {
   databaseURL: process.env.FIREBASE_DATA_URL,
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 }
+
+export const sentryUrl = process.env.SENTRY_URL

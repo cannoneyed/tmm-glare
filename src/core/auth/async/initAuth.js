@@ -1,3 +1,5 @@
+import Raven from 'raven-js'
+
 import {
   signInSuccess,
   signInFailure,
@@ -63,6 +65,12 @@ function handleSuccesfulRedirectAsync(authUser) {
     // facebook scope data we've fetched), then trigger our login success logic
     return dispatch(loadOrCreateUserAsync(authUser))
       .then(() => {
+        // Attach the authorized user into the Raven error-tracking module
+        Raven.setUserContext({
+          email: authUser.email,
+          id: authUser.uid,
+        })
+
         // Dispatch a sign in success action
         dispatch(signInSuccess(authUser.uid))
 
