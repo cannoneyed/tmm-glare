@@ -67,6 +67,8 @@ DAT.Globe = function Globe(container, opts = {}) {
   const dGlareDown = 2.5
   let dGlare = 0
 
+  const textureLoader = new THREE.TextureLoader()
+
   // Initialization function
   function init() {
     rotation.x = Math.PI
@@ -92,7 +94,7 @@ DAT.Globe = function Globe(container, opts = {}) {
     shader = Shaders['earth']
     uniforms = THREE.UniformsUtils.clone(shader.uniforms)
 
-    uniforms['texture'].value = THREE.ImageUtils.loadTexture(imgDir + 'world.jpg')
+    uniforms['texture'].value = textureLoader.load(imgDir + 'world.jpg')
 
     material = new THREE.ShaderMaterial({
       uniforms: uniforms,
@@ -129,8 +131,6 @@ DAT.Globe = function Globe(container, opts = {}) {
 
     // Add the lens flare
     // lens flares
-    const textureLoader = new THREE.TextureLoader()
-
     textureFlare0 = textureLoader.load( 'img/textures/lensflare0.png' )
     textureFlare2 = textureLoader.load( 'img/textures/lensflare2.png' )
     textureFlare3 = textureLoader.load( 'img/textures/lensflare3.png' )
@@ -294,7 +294,7 @@ DAT.Globe = function Globe(container, opts = {}) {
       point.geometry.faces[i].color = color
     }
 
-    THREE.GeometryUtils.merge(subgeo, point)
+    subgeo.merge(point.geometry, point.matrix)
   }
 
   function zoomDoubleTap() {
