@@ -1,4 +1,5 @@
 require('dotenv').config()
+const _ = require('lodash')
 const appConfig = require('config')
 const autoprefixer = require('autoprefixer')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
@@ -7,7 +8,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const path = require('path')
 const webpack = require('webpack')
-
 
 //=========================================================
 //  ENVIRONMENT VARS
@@ -18,15 +18,18 @@ const ENV_DEVELOPMENT = NODE_ENV === 'development'
 const ENV_PRODUCTION = NODE_ENV === 'production'
 const ENV_TEST = NODE_ENV === 'test'
 
-const FIREBASE_API_KEY = appConfig.firebaseConfig.apiKey
-const FIREBASE_AUTH_DOMAIN = appConfig.firebaseConfig.authDomain
-const FIREBASE_DATA_URL = appConfig.firebaseConfig.databaseURL
-const FIREBASE_STORAGE_BUCKET = appConfig.firebaseConfig.storageBucket
-
 const HOST = process.env.HOST || 'localhost'
 const PORT = process.env.PORT || 3000
-const SENTRY_URL = process.env.SENTRY_URL
 
+//=========================================================
+//  CONFIG
+//---------------------------------------------------------
+// We need to ensure that the serviceAccount key on the firebase config is not provided - this is a
+// node-specific configuration option for server environments. Hence, we'll remove it from the
+// config object passed to the client code
+const configObject = _.assign({}, appConfig)
+configObject.firebaseConfig = _.omit(appConfig.firebaseConfig, 'serviceAccount')
+const CONFIG_OBJECT = configObject
 
 //=========================================================
 //  LOADERS
@@ -68,11 +71,7 @@ config.resolve = {
 config.plugins = [
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-    'process.env.FIREBASE_API_KEY': JSON.stringify(FIREBASE_API_KEY),
-    'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(FIREBASE_AUTH_DOMAIN),
-    'process.env.FIREBASE_DATA_URL': JSON.stringify(FIREBASE_DATA_URL),
-    'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(FIREBASE_STORAGE_BUCKET),
-    'process.env.SENTRY_URL': JSON.stringify(SENTRY_URL),
+    '__CONFIG_OBJECT__': JSON.stringify(CONFIG_OBJECT),
   })
 ]
 

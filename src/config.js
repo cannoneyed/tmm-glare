@@ -1,8 +1,5 @@
-export const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATA_URL,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-}
+/* eslint-disable no-undef */
 
-export const sentryUrl = process.env.SENTRY_URL
+// We'll be bootstrapping in the 'config' module's resolve in webpack, so that we can use the
+// environment-specific config module for production build / development build
+export default __CONFIG_OBJECT__

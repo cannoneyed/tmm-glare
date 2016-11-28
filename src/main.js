@@ -3,7 +3,7 @@ import './styles/styles.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Raven from 'raven-js'
-import { sentryUrl } from './config'
+import config from './config'
 import { useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { createHistory } from 'history'
@@ -18,7 +18,7 @@ import { checkIncognito } from './page/check-incognito'
 
 import * as appActions from 'src/core/app'
 
-Raven.config(sentryUrl, {
+Raven.config(config.sentryUrl, {
   environment: process.env.NODE_ENV,
   debug: process.env.NODE_ENV === 'development',
 }).install()

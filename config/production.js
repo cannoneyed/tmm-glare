@@ -14,5 +14,6 @@ module.exports = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  }
+  },
+  sentryUrl: process.env.SENTRY_URL,
 }
