@@ -67,6 +67,7 @@ class Menu extends Component {
     const giveButtonHandler = { [clickOrTouch]: this.linkTo('connect') }
     const listenButtonHandler = { [clickOrTouch]: this.linkTo('listen') }
     const graphButtonHandler = { [clickOrTouch]: this.linkTo('graph') }
+    const leaderboardButtonHandler = { [clickOrTouch]: this.linkTo('leaderboard') }
     const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
     const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
 
@@ -104,6 +105,15 @@ class Menu extends Component {
             {...graphButtonHandler}>
             Connections
             <Icon type={'graph'} />
+          </RippleButton>
+        : null }
+
+        { hasAccess ?
+          <RippleButton
+            className="sidebar-menu-item"
+            {...leaderboardButtonHandler}>
+            Leaderboard
+            <Icon type={'list'} />
           </RippleButton>
         : null }
 

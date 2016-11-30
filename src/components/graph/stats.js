@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Icon, RippleButton } from '../shared'
 
 const Stats = (props) => {
-  const { influence, maxDistance, sharedWith, total } = props
+  const { score, maxDistance, sharedWith, total } = props
 
   const renderSpan = (type, text) => {
     return <span className={`graph-statistic-${type}`}>{text}</span>
@@ -46,22 +46,22 @@ const Stats = (props) => {
           setTimeout(() => {}, 200)
         }}>
         <Icon type="influence" />
-        {renderSpan('description', 'Influence:')}
-        {renderSpan('number', influence)}
+        {renderSpan('description', 'Score:')}
+        {renderSpan('number', score)}
       </RippleButton>
     </div>
   )
 }
 
 Stats.propTypes = {
-  influence: PropTypes.number,
   maxDistance: PropTypes.number,
+  score: PropTypes.number,
   sharedWith: PropTypes.number,
   total: PropTypes.number,
 }
 
 export default connect(state => ({
-  influence: state.graph.stats.score,
+  score: state.graph.stats.score,
   total: state.graph.stats.total,
   maxDistance: state.graph.stats.maxDistance || 0,
   sharedWith: Object.keys(state.user.connections || {}).length,

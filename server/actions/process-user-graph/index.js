@@ -6,7 +6,7 @@ const graphlib = require('graphlib')
 const { firebase } = require('../../firebase')
 const helpers = require('./helpers')
 
-const userPlays = require('../../plays')
+const users = require('../../store/users')
 
 module.exports = function processUserGraph({ data, resolve, reject }) {
   const { userId } = data
@@ -37,7 +37,7 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
     let score = 0
     connected.forEach(userId => {
       const node = g.node(userId)
-      score += userPlays[userId] || 0
+      score += _.get(users, [userId, 'plays'], 0)
       const { from } = node
       connections[from] = (connections[from] || []).concat(userId)
     })
@@ -64,8 +64,20 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
       },
     }
 
+
+    // Add the relevant user info to the leaderboard
+    const user = users[userId]
+    const leaderboardData = {
+      displayName: user.displayName,
+      profileImageURL: user.profileImageURL,
+      score,
+    }
+
     logger.info(`Processed graph for user ${userId}`)
-    return firebase.database().ref('userGraph').child(userId).set(processed)
+    return P.all([
+      firebase.database().ref('userGraph').child(userId).set(processed),
+      firebase.database().ref('leaderboard').child(userId).set(leaderboardData),
+    ])
   })
   .then(resolve)
   .catch(err => {

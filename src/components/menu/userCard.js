@@ -17,9 +17,9 @@ const UserCard = (props) => {
     paddingRight: 15,
   }
 
-  const influence = (
+  const scoreSection = (
     <div className="user-stats">
-      Influence: <span className="user-influence">{score}</span>
+      Score: <span className="user-influence">{score}</span>
     </div>
   )
 
@@ -27,7 +27,7 @@ const UserCard = (props) => {
     <div className="user-card">
       <UserAvatar profileImageURL={user.profileImageURL} style={avatarStyle} />
       <div className="user-name">{user.displayName}</div>
-      { hasAccess ? influence : null }
+      { hasAccess ? scoreSection : null }
     </div>
   )
 }

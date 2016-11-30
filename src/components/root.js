@@ -8,7 +8,7 @@ import App from './app/app'
 import Connect from './connect/connect'
 import Graph from './graph/graph'
 import Intro from './about/intro'
-import Journal from './journal/journal'
+import Leaderboard from './leaderboard/leaderboard'
 import Listen from './listen/listen'
 import SignIn from './sign-in/sign-in'
 import Tracks from './tracks/tracks'
@@ -24,7 +24,7 @@ export function Root({history, onEnter, store}) {
           <Route component={Graph} onEnter={onEnter} path={'/graph'} />
           <Route component={Listen} onEnter={onEnter} path={'/listen'} />
           <Route component={Intro} onEnter={onEnter} path={'/intro'} />
-          <Route component={Journal} onEnter={onEnter} path={'/journal'} />
+          <Route component={Leaderboard} onEnter={onEnter} path={'/Leaderboard'} />
           <Route component={About} path={'/about'} />
           <Route component={Help} path={'/help'} />
           <Route path="/tracks" onEnter={onEnter} component={Tracks}>
