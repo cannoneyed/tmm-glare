@@ -1,6 +1,7 @@
 const P = require('bluebird')
 const logger = require('winston')
 
+const initializePlayTracker = require('../listeners/plays')
 const initializeQueueListener = require('../listeners/queue')
 const initializeGraph = require('../graph/initialize')
 const processMap = require('../actions/process-map')
@@ -22,6 +23,9 @@ module.exports = P.coroutine(function* initializeApp() {
   yield P.all([
     initializeQueueListener(),
   ])
+
+  // Set up worker for tracking plays / scorekeeping
+  initializePlayTracker()
 
   // Log graph status at interval
   setInterval(() => {

@@ -6,6 +6,8 @@ const graphlib = require('graphlib')
 const { firebase } = require('../../firebase')
 const helpers = require('./helpers')
 
+const userPlays = require('../../plays')
+
 module.exports = function processUserGraph({ data, resolve, reject }) {
   const { userId } = data
 
@@ -29,11 +31,13 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
       return
     }
 
-    // Process the graph data
+    // Process the graph data, and sum all plays
     // Formatted as { from: [to, to] }
     const connections = {}
+    let plays = 0
     connected.forEach(userId => {
       const node = g.node(userId)
+      plays += userPlays[userId] || 0
       const { from } = node
       connections[from] = (connections[from] || []).concat(userId)
     })
@@ -59,6 +63,7 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
         total,
         maxDistance,
         score,
+        plays,
       },
     }
 
