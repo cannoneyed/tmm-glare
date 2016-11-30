@@ -420,7 +420,6 @@ DAT.Globe = function Globe(container, opts = {}) {
     renderer.clear()
     renderer.render(starScene, starCamera)
 
-    renderer.clearDepth()
     renderer.render(scene, camera)
   }
 
