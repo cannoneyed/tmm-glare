@@ -34,10 +34,10 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
     // Process the graph data, and sum all plays
     // Formatted as { from: [to, to] }
     const connections = {}
-    let plays = 0
+    let score = 0
     connected.forEach(userId => {
       const node = g.node(userId)
-      plays += userPlays[userId] || 0
+      score += userPlays[userId] || 0
       const { from } = node
       connections[from] = (connections[from] || []).concat(userId)
     })
@@ -53,8 +53,6 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
       maxDistance = distance > maxDistance ? distance : maxDistance
     })
 
-    const score = Math.floor(maxDistance) + (total * 5)
-
     const processed = {
       data: {
         connections,
@@ -63,7 +61,6 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
         total,
         maxDistance,
         score,
-        plays,
       },
     }
 
