@@ -1,49 +1,76 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDom from 'react-dom'
 import { connect } from 'react-redux'
 
-import Entry from './entry'
+import initNetworkAnimation from '../network-animation'
+import Leader from './leader'
 
-import * as journalActions from 'src/core/journal'
+import * as leaderboardActions from 'src/core/leaderboard'
+import * as notificationActions from 'src/core/notifications'
 
-class Journal extends Component {
+class leaderboard extends Component {
 
   static propTypes = {
-    dateLastVisited: PropTypes.string,
-    entries: PropTypes.array.isRequired,
-    hasReadJournal: PropTypes.bool.isRequired,
-    readJournal: PropTypes.func.isRequired,
+    addNotification: PropTypes.func.isRequired,
+    leaderboard: PropTypes.array.isRequired,
+    loadLeaderboard: PropTypes.func.isRequired,
+    notificationsCount: PropTypes.number.isRequired,
   }
 
   componentDidMount() {
-    const { readJournal } = this.props
-    readJournal()
+    const container = ReactDom.findDOMNode(this._container)
+    this.animation = initNetworkAnimation(container)
+
+    const { loadLeaderboard } = this.props
+    loadLeaderboard()
+  }
+
+  handleAboutClick = () => {
+    const { addNotification, notificationsCount } = this.props
+
+    // Don't display the unlock notification if a notification is present
+    if (notificationsCount) {
+      return
+    }
+
+    const content = (
+      <span>
+        Your score is the total of all track plays by everyone in your network -
+        <br /><br />
+        Everyone you've given Glare to, everyone they've given Glare to, and so on!
+      </span>
+    )
+
+    addNotification({
+      message: content,
+      kind: 'success',
+      dismissAfter: 4000,
+    })
   }
 
   render() {
-    const { entries, dateLastVisited, hasReadJournal } = this.props
-    entries.reverse()
-
-    const dateIsLater = (date) => {
-      return new Date(date).getTime() > new Date(dateLastVisited).getTime()
-    }
+    const { leaderboard } = this.props
 
     return (
-      <div className="journal-container">
-        <div className="journal-list scrollable">
-          {entries.map((entry, index) => {
-            const showBorder = index !== entries.length - 1
-            const isUnread = !hasReadJournal && dateIsLater(entry.dateCreated)
+      <div className="leaderboard-container gradientback" ref={ref => this._container = ref}>
+        <div className="fadeOutTop" />
+        <div className="leaderboard-list scrollable">
+          {leaderboard.map((user, index) => {
+            const showBorder = index !== leaderboard.length - 1
 
             return (
-              <Entry
+              <Leader
                 key={index}
-                entry={entry}
+                index={index}
+                user={user}
                 showBorder={showBorder}
-                isUnread={isUnread}
               />
             )
           })}
-          <div className="journal-list-spacer" />
+          <div className="leaderboard-learn-more">
+            <span onClick={this.handleAboutClick}>About</span>
+          </div>
+          <div className="leaderboard-list-spacer" />
         </div>
       </div>
     )
@@ -51,9 +78,9 @@ class Journal extends Component {
 }
 
 export default connect(state => ({
-  entries: state.journal.entries,
-  dateLastVisited: state.user.dateLastVisited,
-  hasReadJournal: state.journal.hasReadJournal,
+  leaderboard: state.leaderboard,
+  notificationsCount: state.notifications.length,
 }), {
-  readJournal: journalActions.readJournal,
-})(Journal)
+  loadLeaderboard: leaderboardActions.loadLeaderboardAsync,
+  addNotification: notificationActions.addNotification
+})(leaderboard)

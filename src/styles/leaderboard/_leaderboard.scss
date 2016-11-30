@@ -1,6 +1,6 @@
 $content-margin: 3px;
 
-.journal-container {
+.leaderboard-container {
   padding: 0;
   min-width: 100%;
   max-height: 100vh;
@@ -8,43 +8,50 @@ $content-margin: 3px;
   overflow: hidden;
 }
 
-.journal-list {
+.leaderboard-list {
+  padding-top: 20px;
   position: fixed;
   top: $header-height;
   overflow-y: scroll;
   height: 90vh;
   min-width: 100vw;
 
-  >.journal-list-spacer {
-    min-height: 150px;
+  >.leaderboard-learn-more {
+    margin-top: 20px;
+    font-size: rem(15px);
+    text-align: center;
+  }
+
+  >.leaderboard-list-spacer {
+    min-height: 100px;
   }
 }
 
-.journal-entry {
+.leader {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 
   max-width: 80%;
 
-  min-height: 150px;
+  min-height: 120px;
   font-size: rem(14px);
   margin: 0 auto 0 auto;
 
   width: 100%;
 
-  >.journal-entry-icon {
+  >.leader-avatar {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 70px;
   }
 
-  >.entry-content {
+  >.leader-content {
     margin: auto 0 auto 0;
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
+    padding-top: 10px;
     margin-left: 20px;
 
     >.entry-content-header {
@@ -53,17 +60,22 @@ $content-margin: 3px;
       }
       >.entry-content-header-title {
         color: $purple;
-        font-size: rem(20px);
         margin-bottom: $content-margin;
       }
     }
 
-    >.entry-content-milestone {
+    >.leader-name {
       margin-bottom: $content-margin * 2;
+      font-size: rem(18px);
+
+      >.leader-index {
+        color: $purple;
+        margin-right: 10px;
+      }
     }
-    >.entry-content-date {
+    >.leader-score {
       color: $dull;
-      font-size: rem(12px);
+      font-size: rem(16px);
       margin-bottom: $content-margin;
     }
   }

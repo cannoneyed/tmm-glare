@@ -7,7 +7,7 @@ import connectReducer from './connect'
 import globeReducer from './globe'
 import graphReducer from './graph'
 import historyReducer from './history'
-import journalReducer from './journal'
+import leaderboardReducer from './leaderboard'
 import listenReducer from './listen'
 import loadingReducer from './loading'
 import locationReducer from './location'
@@ -23,13 +23,13 @@ export const rootReducer = combineReducers({
   globe: globeReducer,
   graph: graphReducer,
   history: historyReducer,
-  journal: journalReducer,
-  routing: routerReducer,
+  leaderboard: leaderboardReducer,
   listen: listenReducer,
   location: locationReducer,
   loading: loadingReducer,
   messages: messageReducer,
   modals: modalsReducer,
   notifications: notificationsReducer,
+  routing: routerReducer,
   user: userReducer,
 })
