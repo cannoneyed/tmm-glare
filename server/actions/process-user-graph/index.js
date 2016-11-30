@@ -37,7 +37,7 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
     let score = 0
     connected.forEach(userId => {
       const node = g.node(userId)
-      score += _.get(users, [userId, 'plays'], 0)
+      score += _.get(users, [userId, 'plays'], 0) + 1
       const { from } = node
       connections[from] = (connections[from] || []).concat(userId)
     })
@@ -74,10 +74,17 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
     }
 
     logger.info(`Processed graph for user ${userId}`)
-    return P.all([
-      firebase.database().ref('userGraph').child(userId).set(processed),
-      firebase.database().ref('leaderboard').child(userId).set(leaderboardData),
-    ])
+
+    const promises = []
+    // Add the operation to set the processsed graph
+    promises.push(firebase.database().ref('userGraph').child(userId).set(processed))
+
+    // Only add the user to the leaderboard if not an admin
+    if (!user.isAdmin) {
+      promises.push(firebase.database().ref('leaderboard').child(userId).set(leaderboardData))
+    }
+
+    return P.all(promises)
   })
   .then(resolve)
   .catch(err => {
