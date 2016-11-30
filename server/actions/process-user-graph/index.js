@@ -19,7 +19,7 @@ module.exports = function processUserGraph({ data, resolve, reject }) {
       if (err.message !== `Graph does not have node: ${userId}`) {
         throw err
       } else {
-        logger.warning(err.message)
+        logger.warn(err.message)
       }
     }
 
