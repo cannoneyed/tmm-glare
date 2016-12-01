@@ -10,6 +10,7 @@ const modalTypes = modalActions
 
 import GiveNotificationContent from './giveNotificationContent'
 import ReceiveNotificationContent from './receiveNotificationContent'
+import AboutLeaderboard from './aboutLeaderboard'
 
 const ModalManager = (props) => {
   const {
@@ -24,6 +25,8 @@ const ModalManager = (props) => {
     Content = <GiveNotificationContent data={data} />
   } else if (kind === modalTypes.DID_RECEIVE) {
     Content = <ReceiveNotificationContent data={data} />
+  } else if (kind === modalTypes.ABOUT_LEADERBOARD) {
+    Content = <AboutLeaderboard />
   }
 
 

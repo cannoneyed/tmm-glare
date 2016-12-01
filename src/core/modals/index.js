@@ -5,6 +5,7 @@ export const CLOSE_MODAL = 'modals/CLOSE_MODAL'
 // Modal Types
 export const DID_GIVE = 'modalTypes/DID_GIVE'
 export const DID_RECEIVE = 'modalTypes/DID_RECEIVE'
+export const ABOUT_LEADERBOARD = 'modalTypes/ABOUT_LEADERBOARD'
 
 // Reducer
 export const initialState = {

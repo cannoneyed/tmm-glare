@@ -71,6 +71,14 @@ $modal-margin: 20px;
   }
 }
 
+.about-leaderboard-content {
+  font-size: rem(16px);
+}
+
+.about-leaderboard-score {
+  color: $purple;
+}
+
 .ReactModal__Overlay--after-open {
   opacity: 1;
   transition: opacity 300ms ease-out;

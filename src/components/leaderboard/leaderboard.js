@@ -6,15 +6,15 @@ import initNetworkAnimation from '../network-animation'
 import Leader from './leader'
 
 import * as leaderboardActions from 'src/core/leaderboard'
-import * as notificationActions from 'src/core/notifications'
+import * as modalActions from 'src/core/modals'
+const modalTypes = modalActions
 
 class leaderboard extends Component {
 
   static propTypes = {
-    addNotification: PropTypes.func.isRequired,
     leaderboard: PropTypes.array.isRequired,
     loadLeaderboard: PropTypes.func.isRequired,
-    notificationsCount: PropTypes.number.isRequired,
+    openModal: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -26,25 +26,10 @@ class leaderboard extends Component {
   }
 
   handleAboutClick = () => {
-    const { addNotification, notificationsCount } = this.props
+    const { openModal } = this.props
 
-    // Don't display the unlock notification if a notification is present
-    if (notificationsCount) {
-      return
-    }
-
-    const content = (
-      <span>
-        Your score is the total of all track plays by everyone in your network -
-        <br /><br />
-        Everyone you've given Glare to, everyone they've given Glare to, and so on!
-      </span>
-    )
-
-    addNotification({
-      message: content,
-      kind: 'success',
-      dismissAfter: 4000,
+    openModal({
+      kind: modalTypes.ABOUT_LEADERBOARD
     })
   }
 
@@ -79,8 +64,7 @@ class leaderboard extends Component {
 
 export default connect(state => ({
   leaderboard: state.leaderboard,
-  notificationsCount: state.notifications.length,
 }), {
   loadLeaderboard: leaderboardActions.loadLeaderboardAsync,
-  addNotification: notificationActions.addNotification
+  openModal: modalActions.openModal
 })(leaderboard)
