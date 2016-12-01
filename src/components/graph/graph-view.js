@@ -12,7 +12,6 @@ import createGraph from './create-graph'
 
 class GraphView extends Component {
   static propTypes = {
-    d3: PropTypes.object.isRequired,
     isGraphLoaded: PropTypes.bool.isRequired,
     nodes: PropTypes.array.isRequired,
     ownId: PropTypes.string.isRequired,
@@ -35,13 +34,12 @@ class GraphView extends Component {
   }
 
   componentDidMount() {
-    const { isGraphLoaded, d3, nodes } = this.props
+    const { isGraphLoaded, nodes } = this.props
 
     if (isGraphLoaded) {
       const container = ReactDOM.findDOMNode(this._container)
       this.graph = createGraph({
         container,
-        d3,
         nodes,
         onClickNode: this.onClickNode,
         onClickOutside: this.onClickOutside,
@@ -51,11 +49,13 @@ class GraphView extends Component {
 
   onClickNode = (userId) => {
     const { selectUser } = this.props
+
     selectUser(userId)
   }
 
   onClickOutside = () => {
     const { unselectUser } = this.props
+
     unselectUser()
   }
 

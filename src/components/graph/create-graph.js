@@ -1,10 +1,11 @@
+import d3 from 'd3'
+
 const width = window.innerWidth
 const height = window.innerHeight
 
 export default function createGraph(props) {
   const {
     container,
-    d3,
     nodes,
     onClickNode,
     onClickOutside,

@@ -191,6 +191,8 @@ if (ENV_PRODUCTION) {
     ]
   }
 
+  config.cache = false
+
   config.plugins.push(
     new ExtractTextPlugin('styles.css'),
     new webpack.optimize.DedupePlugin(),
