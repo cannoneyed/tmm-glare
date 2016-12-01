@@ -29,6 +29,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .intro-glare-fm {
+    color: $teal;
+  }
+
+  .intro-glare {
+    color: $purple;
+  }
+
+  .intro-image {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 70vw;
+    width: 70vw;
+  }
+
   .intro-signoff {
     width: 150px;
     height: 70px;

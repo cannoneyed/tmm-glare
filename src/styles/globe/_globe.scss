@@ -19,6 +19,6 @@
   min-height: 100%;
   transition: all 750ms ease-in-out;
   &.blurred {
-    filter: blur(2px);
+    filter: blur(10px);
   }
 }
