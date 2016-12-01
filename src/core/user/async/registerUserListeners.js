@@ -17,6 +17,10 @@ import {
   unlockTracks,
 } from '../../listen/index'
 
+import {
+  loadGraphDataAsync
+} from '../../graph/index'
+
 import * as modalActions from 'src/core/modals'
 const modalTypes = modalActions // Alias for the imported actions
 
@@ -77,6 +81,7 @@ export default function registerUserListenersAsync(userId) {
 
       P.delay(2000).then(() => {
         dispatch(displayConnectionNotificationAsync(id, newlyUnlocked))
+        dispatch(loadGraphDataAsync())
       })
     })
   }
