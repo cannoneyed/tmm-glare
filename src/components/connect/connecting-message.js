@@ -31,11 +31,11 @@ class ConnectingMessage extends Component {
     const learnMoreMessages = {
       aboutGiving: [
         'To give someone the album, they must sign in to glare.fm and press "Connect"',
-        'Remember, they must be nearby and you both must enable geolocation'
+        'Remember, they must be next to you and you both must enable geolocation'
       ],
       aboutGetting: [
         'To get the album, someone who already has access on glare.fm must give it to you.',
-        'Remember, they must be nearby and you both must enable geolocation',
+        'Remember, they must be next to you and you both must enable geolocation',
       ],
     }
 
