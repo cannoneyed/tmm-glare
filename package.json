@@ -18,11 +18,13 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --display-chunks --display-modules --progress --json > stats.json",
+    "build:server": "babel server -d server-production",
     "clean": "del-cli ./target",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress",
     "lint": "eslint -c .eslintrc.yml *.js ./src ./server",
     "prebuild": "npm-run-all clean lint",
-    "server": "cross-env NODE_ENV=development nodemon -w 'server/**/*.*' ./server/server.js",
+    "server": "cross-env NODE_ENV=development nodemon -w 'server/**/*.*' --exec babel-node ./server/server.js",
+    "server:production": "node_modules/.bin/forever server-production/server.js",
     "start": "npm run dev",
     "test": "cross-env NODE_ENV=test karma start --single-run",
     "test:watch": "cross-env NODE_ENV=test karma start"

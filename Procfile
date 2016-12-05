@@ -1,1 +1,1 @@
-worker: node_modules/.bin/forever server/server.js
+worker: npm run server:production
