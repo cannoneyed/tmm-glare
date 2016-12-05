@@ -5,7 +5,7 @@ require('dotenv').config()
 const config = require('config')
 import postmark from 'postmark'
 
-import email from '../email/welcome'
+import email from '../server/email/welcome'
 const html = ReactHTMLEmail.renderEmail(email)
 
 const client = new postmark.Client(config.postmark.id)

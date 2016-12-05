@@ -26,7 +26,7 @@ module.exports = () => {
       return processUserGraph({ data, resolve, reject })
     }
 
-    if (type === 'NEW_USER') {
+    if (type === 'SEND_WELCOME_EMAIL') {
       logger.info('sending new user email...')
       return sendWelcomeEmail({ data, resolve, reject })
     }
