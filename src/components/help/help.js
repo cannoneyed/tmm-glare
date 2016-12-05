@@ -4,8 +4,6 @@ import { faqs } from './faqs'
 
 const Help = () => {
 
-  console.log(faqs)
-
   return (
     <div className="help-container scrollable">
       {
