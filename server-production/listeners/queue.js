@@ -33,7 +33,7 @@ module.exports = function () {
       return processUserGraph({ data: data, resolve: resolve, reject: reject });
     }
 
-    if (type === 'NEW_USER') {
+    if (type === 'SEND_WELCOME_EMAIL') {
       logger.info('sending new user email...');
       return sendWelcomeEmail({ data: data, resolve: resolve, reject: reject });
     }
