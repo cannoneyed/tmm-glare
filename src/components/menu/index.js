@@ -146,5 +146,4 @@ export default connect(state => ({
   signOutAsync,
   toggleSidebar,
   beginConnectingAsync,
-  sendWelcomeEmailAsync,
 })(Menu)
