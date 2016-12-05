@@ -3,6 +3,7 @@ const Queue = require('firebase-queue')
 const { firebase } = require('../firebase')
 const setConnection = require('../actions/set-connection')
 const processUserGraph = require('../actions/process-user-graph')
+const sendWelcomeEmail = require('../actions/send-welcome-email')
 
 const db = firebase.database()
 
@@ -23,6 +24,11 @@ module.exports = () => {
     if (type === 'USER_GRAPH') {
       logger.info('processing user graph...')
       return processUserGraph({ data, resolve, reject })
+    }
+
+    if (type === 'NEW_USER') {
+      logger.info('sending new user email...')
+      return sendWelcomeEmail({ data, resolve, reject })
     }
   })
 

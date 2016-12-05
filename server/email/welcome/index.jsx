@@ -40,7 +40,7 @@ const email = (
             </ul>
           </div>
           <div>{closingContent}</div>
-          <Image Image data-mc-bar="bar" data-mc-baz="baz" alt="react" src="https://glare.fm/img/the-m-machine-signature.png" width={250} height={129} />
+          <Image Image data-mc-bar="bar" data-mc-baz="baz" alt="react" src="https://glare.fm/img/the-m-machine-signature.png" width={150} height={77} />
         </Item>
       </Box>
     </Item>
