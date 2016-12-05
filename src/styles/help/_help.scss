@@ -2,8 +2,36 @@
   position: fixed;
   top: $header-height;
   overflow-y: scroll;
-  height: 80vh;
+  height: 100vh;
   min-width: 100vw;
+  padding: 20px;
+
+  font-size: rem(17px);
+
+  a {
+    color: $purple;
+  }
+
+  .faq-container {
+    margin-bottom: 25px;
+
+    >.faq-title {
+      font-size: rem(20px);
+      margin-bottom: 8px;
+      color: $teal;
+    }
+
+    >.faq-item {
+      margin-bottom: 12px;
+    }
+  }
+
+  >.message-us-title {
+    font-size: rem(20px);
+    margin-bottom: 8px;
+    color: $teal;
+  }
+
 
   >.help-spacer {
     min-height: 150px;

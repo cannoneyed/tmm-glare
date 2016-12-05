@@ -69,6 +69,7 @@ class Menu extends Component {
     const graphButtonHandler = { [clickOrTouch]: this.linkTo('graph') }
     const leaderboardButtonHandler = { [clickOrTouch]: this.linkTo('leaderboard') }
     const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
+    const helpButtonHandler = {[clickOrTouch]: this.linkTo('help') }
     const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
 
     return (
@@ -122,6 +123,13 @@ class Menu extends Component {
           {...aboutButtonHandler}>
           About
           <Icon type={'globe'} />
+        </RippleButton>
+
+        <RippleButton
+          className="sidebar-menu-item"
+          {...helpButtonHandler}>
+          Help
+          <Icon type={'help'} />
         </RippleButton>
 
         <RippleButton
