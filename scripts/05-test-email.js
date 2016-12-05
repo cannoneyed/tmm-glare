@@ -15,6 +15,6 @@ client.sendEmail({
   To: 'bswardlick@gmail.com',
   Subject: 'Welcome to glare.fm',
   HtmlBody: html,
-}, (err, result) => {
-  console.log('🍕', err, result)
+}, () => {
+  // console.log('🍕', err, result)
 })
