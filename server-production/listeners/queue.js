@@ -34,7 +34,7 @@ module.exports = function () {
     }
 
     if (type === 'SEND_WELCOME_EMAIL') {
-      logger.info('sending new user email...');
+      logger.info('sending new user email...', data.email);
       return sendWelcomeEmail({ data: data, resolve: resolve, reject: reject });
     }
   });
