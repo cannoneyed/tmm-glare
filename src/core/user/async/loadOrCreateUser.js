@@ -2,6 +2,7 @@ import * as util from 'src/util'
 import { firebase } from 'src/firebase'
 
 import {
+  sendWelcomeEmailAsync,
   trackUserVisitAsync,
 } from '../index'
 
@@ -23,7 +24,9 @@ export default function loadOrCreateUserAsync(authUser) {
       }
 
 
-      // Otherwise, create a new user record
+      // Otherwise, create a new user record, and send a welcome email
+      dispatch(sendWelcomeEmailAsync(provider.email))
+
       return db.child(`users/${authUser.uid}`).set({
         connections: {},
         id: provider.uid,

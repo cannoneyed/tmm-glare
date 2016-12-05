@@ -1,10 +1,12 @@
 import { firebase } from 'src/firebase'
 
-export default function sendWelcomeEmailAsync() {
-  return (dispatch, getState) => {
-    const { user } = getState()
+export default function sendWelcomeEmailAsync(email) {
+  return (dispatch) => {
 
-    const { email } = user
+    dispatch({
+      type: 'SEND_WELCOME_EMAIL',
+      payload: email,
+    })
 
     // Add the SEND_WELCOME_EMAIL job to the queue
     const tasksRef = firebase.database().ref('queue/tasks')

@@ -8,7 +8,6 @@ import UserCard from './userCard'
 import { toggleSidebar } from 'src/core/app'
 import { signOutAsync } from 'src/core/auth'
 import { beginConnectingAsync } from 'src/core/connect'
-import { sendWelcomeEmailAsync } from 'src/core/user'
 
 class Menu extends Component {
 
@@ -22,7 +21,6 @@ class Menu extends Component {
     isConnecting: PropTypes.bool.isRequired,
     isSidebarOpen: PropTypes.bool.isRequired,
     isTouchFixed: PropTypes.bool.isRequired,
-    sendWelcomeEmailAsync: PropTypes.func.isRequired,
     signOutAsync: PropTypes.func.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
     user: PropTypes.object,
@@ -72,8 +70,6 @@ class Menu extends Component {
     const leaderboardButtonHandler = { [clickOrTouch]: this.linkTo('leaderboard') }
     const aboutButtonHandler = { [clickOrTouch]: this.linkTo('about') }
     const signOutButtonHandler = { [clickOrTouch]: this.signOutAsync }
-
-    const testEmailHandler = { [clickOrTouch]: this.props.sendWelcomeEmailAsync }
 
     return (
       <div className="sidebar-menu-container">
@@ -133,13 +129,6 @@ class Menu extends Component {
           {...signOutButtonHandler}>
           Sign Out
           <Icon type={'sign-out'} />
-        </RippleButton>
-
-        <RippleButton
-          className="sidebar-menu-item"
-          {...testEmailHandler}>
-          Test Email
-          <Icon type={'email'} />
         </RippleButton>
       </div>
     )
