@@ -7,6 +7,7 @@ import getUnlockedTracks from '../../listen/get-unlocked-tracks'
 import {
   updateAccess,
   addConnection,
+  setFromId,
 } from '../index'
 
 import {
@@ -65,6 +66,12 @@ export default function registerUserListenersAsync(userId) {
 
       dispatch(addConnection(id, timestamp))
       dispatch(connectSuccess())
+
+      // Set the from id to ensure that this share is not prematurely counted for
+      // a track unlock
+      if (!hadAccessAlready) {
+        dispatch(setFromId(id))
+      }
 
       // Now, handle unlocking additional tracks and notifying the user what tracks
       // have been unlocked

@@ -2,6 +2,7 @@
 export const LOAD_USER = 'user/LOAD_USER'
 export const UPDATE_ACCESS = 'user/UPDATE_ACCESS'
 export const ADD_CONNECTION = 'user/ADD_CONNECTION'
+export const SET_FROM_ID = 'user/SET_FROM_ID'
 
 import {
   SIGN_OUT_SUCCESS,
@@ -28,6 +29,11 @@ export default function reducer(state = initialState, action) {
     }
     case SIGN_OUT_SUCCESS:
       return null
+    case SET_FROM_ID:
+      return {
+        ...state,
+        from: action.payload,
+      }
     default:
       return state
   }
@@ -43,6 +49,10 @@ export function updateAccess(access) {
 
 export function addConnection(id, timestamp) {
   return { type: ADD_CONNECTION, payload: { id, timestamp } }
+}
+
+export function setFromId(id) {
+  return { type: SET_FROM_ID, payload: id }
 }
 
 export * from './async'
