@@ -8,6 +8,7 @@ var initializeQueueListener = require('../listeners/queue');
 var initializeGraph = require('../graph/initialize');
 var processMap = require('../actions/process-map');
 var graphData = require('../graph/data');
+var users = require('../store/users');
 
 module.exports = P.coroutine(regeneratorRuntime.mark(function initializeApp() {
   var timeStart;
@@ -41,9 +42,10 @@ module.exports = P.coroutine(regeneratorRuntime.mark(function initializeApp() {
           // Log graph status at interval
           setInterval(function () {
             var g = graphData.getGraph();
-            var count = g.nodes().length;
+            var connectedCount = g.nodes().length;
+            var userCount = Object.keys(users).length;
 
-            logger.info('Ping! Total users: ' + count);
+            logger.info('Ping! Total connected: ' + connectedCount + ', Total users: ' + userCount);
           }, 30000);
 
         case 11:

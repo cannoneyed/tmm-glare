@@ -6,6 +6,7 @@ const initializeQueueListener = require('../listeners/queue')
 const initializeGraph = require('../graph/initialize')
 const processMap = require('../actions/process-map')
 const graphData = require('../graph/data')
+const users = require('../store/users')
 
 module.exports = P.coroutine(function* initializeApp() {
   logger.info('Initializing...')
@@ -30,8 +31,9 @@ module.exports = P.coroutine(function* initializeApp() {
   // Log graph status at interval
   setInterval(() => {
     const g = graphData.getGraph()
-    const count = g.nodes().length
+    const connectedCount = g.nodes().length
+    const userCount = Object.keys(users).length
 
-    logger.info(`Ping! Total users: ${count}`)
+    logger.info(`Ping! Total connected: ${connectedCount}, Total users: ${userCount}`)
   }, 30000)
 })
