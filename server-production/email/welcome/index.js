@@ -20,8 +20,6 @@ var subMessage = 'This experiment begins and ends with you - here\'s how it work
 
 var directions = ['You can login at glare.fm anytime, but to listen to music, you\'ll have to get access from someone who’s already unlocked it.', 'In order to unlock glare.fm, someone who already has access must share it with you IN PERSON.', 'Once activated you\'ll have four songs to listen to, and you can unlock two more each time you share it with someone else.', 'You\'ll also be able to follow the album as it travels across the globe, and track your personal influence on its spread.'];
 
-var closingContent = 'We\'re so excited to share this music with you and are even more excited to have you share it with each other. Because, in the end, none of this would be possible without you.';
-
 var email = _react2.default.createElement(
   _reactHtmlEmail.Email,
   { title: 'Welcome to glare.fm', headCSS: css },
@@ -81,7 +79,13 @@ var email = _react2.default.createElement(
         _react2.default.createElement(
           'div',
           null,
-          closingContent
+          'Developing ',
+          _react2.default.createElement(
+            _reactHtmlEmail.A,
+            { href: 'glare.fm' },
+            'glare.fm'
+          ),
+          ' has been a brand new experience for us -- and it\'s working because you all are finding somebody who has it, and going out into the real world to get it. It\'s exciting to share the music with you, but even more so to watch you share it with each other!'
         ),
         _react2.default.createElement(_reactHtmlEmail.Image, { Image: true, 'data-mc-bar': 'bar', 'data-mc-baz': 'baz', alt: 'react', src: 'https://glare.fm/img/the-m-machine-signature.png', width: 150, height: 77 })
       )
