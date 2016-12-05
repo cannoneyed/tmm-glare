@@ -13,7 +13,7 @@ const client = new postmark.Client(config.postmark.id)
 client.sendEmail({
   From: 'm@glare.fm',
   To: 'andrew.coenen@gmail.com',
-  Subject: 'Welcome to glare.fm',
+  Subject: Math.random() + 'Welcome to glare.fm',
   HtmlBody: html,
 }, (err, result) => {
   console.log('🍕', err, result)

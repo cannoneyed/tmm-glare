@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Email, Item, Span } from 'react-html-email'
+import { Box, Email, Item, Span, Image } from 'react-html-email'
 
 const css = `
 @media only screen and (max-device-width: 480px) {
@@ -24,7 +24,7 @@ const email = (
   <Email title="Welcome to glare.fm" headCSS={css}>
     <Item>
       <Span>
-        <h3>Welcome to glare<span>.</span>fm</h3>
+        <h2>Welcome to glare<span>.</span>fm</h2>
       </Span>
     </Item>
     <Item>
@@ -40,7 +40,7 @@ const email = (
             </ul>
           </div>
           <div>{closingContent}</div>
-          <Image Image data-mc-bar="bar" data-mc-baz="baz" alt="react" src="https://glare.fm/img/the-m-machine-signature.png" width={400} height={207} />
+          <Image Image data-mc-bar="bar" data-mc-baz="baz" alt="react" src="https://glare.fm/img/the-m-machine-signature.png" width={250} height={129} />
         </Item>
       </Box>
     </Item>
