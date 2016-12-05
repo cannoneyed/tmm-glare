@@ -112,7 +112,7 @@ class Menu extends Component {
           <RippleButton
             className="sidebar-menu-item"
             {...leaderboardButtonHandler}>
-            Leaderboard
+            Influence
             <Icon type={'list'} />
           </RippleButton>
         : null }
