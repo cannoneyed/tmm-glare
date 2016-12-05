@@ -9,6 +9,7 @@ var firebase = _require.firebase;
 
 var setConnection = require('../actions/set-connection');
 var processUserGraph = require('../actions/process-user-graph');
+var sendWelcomeEmail = require('../actions/send-welcome-email');
 
 var db = firebase.database();
 
@@ -30,6 +31,11 @@ module.exports = function () {
     if (type === 'USER_GRAPH') {
       logger.info('processing user graph...');
       return processUserGraph({ data: data, resolve: resolve, reject: reject });
+    }
+
+    if (type === 'NEW_USER') {
+      logger.info('sending new user email...');
+      return sendWelcomeEmail({ data: data, resolve: resolve, reject: reject });
     }
   });
 
