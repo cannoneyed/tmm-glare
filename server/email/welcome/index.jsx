@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Email, Item, Span, Image } from 'react-html-email'
+import { Box, Email, Item, Span, Image, A } from 'react-html-email'
 
 const css = `
 @media only screen and (max-device-width: 480px) {
@@ -17,8 +17,6 @@ const directions = [
   'Once activated you\'ll have four songs to listen to, and you can unlock two more each time you share it with someone else.',
   'You\'ll also be able to follow the album as it travels across the globe, and track your personal influence on its spread.',
 ]
-
-const closingContent = 'We\'re so excited to share this music with you and are even more excited to have you share it with each other. Because, in the end, none of this would be possible without you.'
 
 const email = (
   <Email title="Welcome to glare.fm" headCSS={css}>
@@ -39,7 +37,9 @@ const email = (
               )))}
             </ul>
           </div>
-          <div>{closingContent}</div>
+          <div>
+            Developing <A href="glare.fm">glare.fm</A> has been a brand new experience for us -- and it's working because you all are finding somebody who has it, and going out into the real world to get it. It's exciting to share the music with you, but even more so to watch you share it with each other!
+          </div>
           <Image Image data-mc-bar="bar" data-mc-baz="baz" alt="react" src="https://glare.fm/img/the-m-machine-signature.png" width={150} height={77} />
         </Item>
       </Box>

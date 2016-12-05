@@ -12,7 +12,7 @@ const client = new postmark.Client(config.postmark.id)
 
 client.sendEmail({
   From: 'm@glare.fm',
-  To: 'mail@the-m-machine.com',
+  To: 'bswardlick@gmail.com',
   Subject: 'Welcome to glare.fm',
   HtmlBody: html,
 }, (err, result) => {
