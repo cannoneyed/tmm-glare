@@ -18,7 +18,7 @@ var welcomeMessage = 'When we finished writing our new album, Glare, we knew we 
 
 var subMessage = 'This experiment begins and ends with you - here\'s how it works:';
 
-var directions = ['You can login at glare.fm at anytime, but to listen to music, you\'ll have to find someone that\'s already unlocked it.', 'Unlocking requires being physically near someone with an activated glare.fm account so its necessary to allow geolocation.', 'Once activated you’ll have four songs to hear, and you can unlock two more each time you share it with someone else.', 'You\'ll also be able to follow where on earth the albums traveled, and track your personal influence on its spread.'];
+var directions = ['You can login at glare.fm anytime, but to listen to music, you\'ll have to get access from someone who’s already unlocked it.', 'In order to unlock glare.fm, someone who already has access must share it with you IN PERSON.', 'Once activated you\'ll have four songs to listen to, and you can unlock two more each time you share it with someone else.', 'You\'ll also be able to follow the album as it travels across the globe, and track your personal influence on its spread.'];
 
 var closingContent = 'We\'re so excited to share this music with you and are even more excited to have you share it with each other. Because, in the end, none of this would be possible without you.';
 
