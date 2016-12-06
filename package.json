@@ -80,7 +80,7 @@
     "dotenv": "^2.0.0",
     "express": "~4.13.4",
     "firebase": "^3.0.3",
-    "firebase-queue": "^1.5.0",
+    "firebase-queue": "^1.6.0",
     "forever": "^0.15.2",
     "geofire": "^4.1.1",
     "graphlib": "^2.1.1",
