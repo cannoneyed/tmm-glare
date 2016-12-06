@@ -37,3 +37,4 @@ __MACOSX/
 Thumbs.db
 
 *.key
+db.json
