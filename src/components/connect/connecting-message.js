@@ -57,12 +57,12 @@ class ConnectingMessage extends Component {
 
     if (hasAccess) {
       message = beacons.length ?
-        'People to give the album to' :
-        'Finding people to give to...'
+        ['People to give the album to'] :
+        ['Finding people to give to...']
     } else {
       message = beacons.length ?
-        'People to connect with' :
-        'Finding people to get the album from...'
+        ['People to connect with'] :
+        ['Waiting for someone to give you access...']
     }
 
     const learnMoreNotificationContent = (
@@ -89,7 +89,9 @@ class ConnectingMessage extends Component {
 
     return (
       <div className="connect-message" onClick={onClick}>
-          { message }
+          { message.map((line, index) => (
+            <div key={index}>{ line }</div>
+          )) }
           { learnMore ?
             <div className="connect-learn-more">Learn More</div> :
             null
