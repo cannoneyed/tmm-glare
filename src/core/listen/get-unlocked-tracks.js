@@ -2,7 +2,7 @@ import map from 'lodash.map'
 import range from 'lodash.range'
 
 const nTracks = 12
-const unlockedIndexes = [1, 2, 5, 7]
+const unlockedIndexes = [1, 2, 6, 8]
 
 export default function getUnlockedTracks(user) {
   const { connections, from } = user
