@@ -7,7 +7,6 @@ import querystring from 'querystring'
 import { firebase } from '../../firebase'
 import graphData from '../../graph/data'
 import processMap from '../process-map'
-import users from '../../store/users'
 
 const db = firebase.database().ref()
 
