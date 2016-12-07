@@ -1,14 +1,11 @@
 import ReactHTMLEmail from 'react-html-email'
-ReactHTMLEmail.injectReactEmailAttributes()
-
-import postmark from 'postmark'
 import logger from 'winston'
 import P from 'bluebird'
-import config from 'config'
 import email from '../../email/welcome'
 
 const html = ReactHTMLEmail.renderEmail(email)
-const client = new postmark.Client(config.postmark.id)
+
+import client from '../../email/client'
 
 module.exports = ({ data, resolve, reject }) => {
   const { email } = data

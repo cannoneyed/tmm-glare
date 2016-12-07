@@ -1,12 +1,13 @@
-const _ = require('lodash')
-const logger = require('winston')
-const P = require('bluebird')
-const config = require('config')
-const fetch = require('node-fetch')
-const querystring = require('querystring')
-const { firebase } = require('../../firebase')
-const graphData = require('../../graph/data')
-const processMap = require('../process-map')
+import _ from 'lodash'
+import logger from 'winston'
+import P from 'bluebird'
+import config from 'config'
+import fetch from 'node-fetch'
+import querystring from 'querystring'
+import { firebase } from '../../firebase'
+import graphData from '../../graph/data'
+import processMap from '../process-map'
+import users from '../../store/users'
 
 const db = firebase.database().ref()
 
