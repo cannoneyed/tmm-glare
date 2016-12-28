@@ -208,6 +208,8 @@ if (ENV_PRODUCTION) {
     new CopyWebpackPlugin([{
       from: 'src/img',
       to: 'img',
+    }, {
+      from: 'src/privacy',
     }])
   )
 }
