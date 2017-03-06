@@ -22,12 +22,14 @@ $ npm start
 
 ```
 
-Learn
+glare.fm is built with
 -----
 
 - [React](https://facebook.github.io/react/docs/getting-started.html)
 - [Redux](http://redux.js.org/index.html)
 - [Firebase](https://www.firebase.com/docs/web/guide/)
+- [three.js](https://threejs.org/)
+- [d3.js](https://d3js.org/)
 
 Commands
 --------
