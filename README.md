@@ -1,6 +1,10 @@
 # The M Machine | Glare
+The prerelease app for The M Machine's Glare album.
 Built with React, Redux, and Firebase.<br/>
-Based on fanatastic work by [r-park](https://github.com/r-park/todo-react-redux)
+
+<video src="./glare_interaction_basic.webm" width="50%" autoplay loop class="glare-thumbnail"></video>
+
+<video src="./glare_fm_share_mechanic.webm" width="50%" autoplay loop class="glare-thumbnail"></video>
 
 Quick Start
 -----------
