@@ -3,9 +3,7 @@ The prerelease app for The M Machine's Glare album.
 Built with React, Redux, and Firebase.<br/>
 
 
-<video src="https://raw.githubusercontent.com/cannoneyed/tmm-glare/master/glare_interaction_basic.webm" width="50%" autoplay loop class="glare-thumbnail"></video>
-
-<video src="https://raw.githubusercontent.com/cannoneyed/tmm-glare/master/glare_fm_share_mechanic.webm" width="50%" autoplay loop class="glare-thumbnail"></video>
+![](/screenshots/glare-home.jpg)
 
 Quick Start
 -----------
@@ -46,3 +44,12 @@ Commands
 |`npm run dev`|Same as `npm start`|
 |`npm run lint`|Lint `.js` files|
 |`npm run server`|Start express server @ `localhost:3000` to serve built artifacts from `./target` (must run `npm run build` first)|
+
+Screenshots
+-----------
+
+![](/screenshots/glare-network.jpg)<br/><br/>
+![](/screenshots/glare-instructions.jpg)<br/><br/>
+![](/screenshots/glare-menu.jpg)<br/><br/>
+![](/screenshots/glare-player.jpg)<br/><br/>
+![](/screenshots/glare-share.jpg)<br/><br/>
